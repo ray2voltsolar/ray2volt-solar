@@ -2,6 +2,14 @@
 <html lang="en">
 
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17074938818"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-17074938818');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
@@ -64,7 +72,7 @@
     <!-- Contact Section -->
     <section class="section">
         <div class="container">
-            <div class="contact-grid">
+            <div class="contact-grid reveal">
                 <!-- Contact Information -->
                 <div>
                     <h2>Contact Information</h2>
@@ -204,12 +212,12 @@
     <!-- Quick Links CTA -->
     <section class="section">
         <div class="container">
-            <div class="section-header">
+            <div class="section-header reveal">
                 <h2>Quick Actions</h2>
                 <p>Not sure where to start? Here are some helpful links.</p>
             </div>
 
-            <div class="grid grid-3">
+            <div class="grid grid-3 reveal-stagger">
                 <a href="residential.html" class="card service-card" style="text-decoration: none;">
                     <div class="card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
@@ -329,6 +337,14 @@
             </div>
         </div>
     </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" aria-label="Scroll to top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
 
     <script src="script.js"></script>
 </body>

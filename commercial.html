@@ -1,7 +1,15 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17074938818"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-17074938818');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
@@ -64,7 +72,7 @@
     <!-- Why Commercial Solar -->
     <section class="section">
         <div class="container">
-            <div class="about-intro">
+            <div class="about-intro reveal">
                 <div>
                     <h2>Power Your Business Growth</h2>
                     <p class="lead">Electricity is one of the biggest operating expenses for businesses. Solar energy
@@ -99,12 +107,12 @@
     <!-- CAPEX vs OPEX -->
     <section class="section bg-light">
         <div class="container">
-            <div class="section-header">
+            <div class="section-header reveal">
                 <h2>Flexible Ownership Models</h2>
                 <p>Choose the model that works best for your business.</p>
             </div>
 
-            <div class="grid grid-2" style="gap: 3rem;">
+            <div class="grid grid-2 reveal-stagger" style="gap: 3rem;">
                 <!-- CAPEX Model -->
                 <div class="card" style="padding: 2.5rem;">
                     <div class="card-icon"
@@ -200,7 +208,7 @@
                                 stroke-linejoin="round">
                                 <polyline points="20 6 9 17 4 12" />
                             </svg>
-                            <p>No maintenance hassles – we handle it</p>
+                            <p>No maintenance hassles â€“ we handle it</p>
                         </li>
                         <li class="benefit-item">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -223,12 +231,12 @@
     <!-- Industries We Serve -->
     <section class="section">
         <div class="container">
-            <div class="section-header">
+            <div class="section-header reveal">
                 <h2>Industries We Serve</h2>
                 <p>Our C&I solar solutions are tailored for various business sectors.</p>
             </div>
 
-            <div class="grid grid-4">
+            <div class="grid grid-4 reveal-stagger">
                 <div class="card service-card">
                     <div class="card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
@@ -342,12 +350,12 @@
     <!-- Process -->
     <section class="section bg-gradient">
         <div class="container">
-            <div class="section-header">
+            <div class="section-header reveal">
                 <h2>Our Simple Process</h2>
                 <p>From consultation to commissioning, we handle everything.</p>
             </div>
 
-            <div class="grid grid-4">
+            <div class="grid grid-4 reveal-stagger">
                 <div class="card service-card">
                     <div
                         style="width: 48px; height: 48px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-family: var(--font-heading); font-weight: 700; font-size: 1.25rem;">
@@ -384,7 +392,7 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="cta">
+    <section class="cta reveal reveal-scale">
         <div class="container">
             <h2>Request a Free Site Visit</h2>
             <p>Let our experts assess your facility and provide a customized solar solution with detailed cost-benefit
@@ -475,6 +483,14 @@
             </div>
         </div>
     </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" aria-label="Scroll to top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
 
     <script src="script.js"></script>
 </body>

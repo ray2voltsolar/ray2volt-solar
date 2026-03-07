@@ -2,6 +2,14 @@
 <html lang="en">
 
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17074938818"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-17074938818');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
@@ -108,7 +116,7 @@
     <!-- Who We Are Section -->
     <section class="section">
         <div class="container">
-            <div class="about-intro">
+            <div class="about-intro reveal">
                 <div>
                     <h2>Who We Are</h2>
                     <p class="lead">Ray2Volt Solar Pvt Ltd is a trusted solar energy company serving customers across
@@ -132,15 +140,15 @@
     <!-- Services Section -->
     <section class="section services" id="services">
         <div class="container">
-            <div class="section-header">
+            <div class="section-header reveal">
                 <h2>Our Services</h2>
                 <p>Comprehensive solar solutions tailored for every need – from homes to large commercial facilities.
                 </p>
             </div>
 
-            <div class="grid grid-3">
+            <div class="grid grid-3 reveal-stagger">
                 <!-- Residential -->
-                <div class="card service-card">
+                <div class="card service-card reveal">
                     <div class="card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -162,7 +170,7 @@
                 </div>
 
                 <!-- Commercial & Industrial -->
-                <div class="card service-card">
+                <div class="card service-card reveal">
                     <div class="card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -186,7 +194,7 @@
                 </div>
 
                 <!-- RESCO Model -->
-                <div class="card service-card">
+                <div class="card service-card reveal">
                     <div class="card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -213,13 +221,13 @@
     <!-- Why Choose Us Section -->
     <section class="section why-choose-us">
         <div class="container">
-            <div class="section-header">
+            <div class="section-header reveal">
                 <h2>Why Choose Ray2Volt?</h2>
                 <p>We're not just another solar company. We're your local partners in the clean energy journey.</p>
             </div>
 
-            <div class="grid grid-4">
-                <div class="card feature-card">
+            <div class="grid grid-4 reveal-stagger">
+                <div class="card feature-card reveal">
                     <div class="card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -233,7 +241,7 @@
                     </div>
                 </div>
 
-                <div class="card feature-card">
+                <div class="card feature-card reveal">
                     <div class="card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -241,12 +249,12 @@
                         </svg>
                     </div>
                     <div>
-                        <h4>Fast Installation</h4>
-                        <p>Quick turnaround from consultation to fully operational system.</p>
+                        <h4>Quick Installations</h4>
+                        <p>Quick turnaround from installation to fully operational system.</p>
                     </div>
                 </div>
 
-                <div class="card feature-card">
+                <div class="card feature-card reveal">
                     <div class="card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -259,7 +267,7 @@
                     </div>
                 </div>
 
-                <div class="card feature-card">
+                <div class="card feature-card reveal">
                     <div class="card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -277,7 +285,7 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="cta">
+    <section class="cta reveal reveal-scale">
         <div class="container">
             <h2>Ready to Go Solar?</h2>
             <p>Get a free consultation and personalized quote for your home or business. No obligations, just honest
@@ -366,6 +374,14 @@
             </div>
         </div>
     </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" aria-label="Scroll to top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
 
     <script src="script.js"></script>
 </body>

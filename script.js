@@ -1,9 +1,12 @@
 /* ==========================================================================
-   Ray2Volt Solar - JavaScript
+   Ray2Volt Solar - JavaScript (Enhanced)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Mobile Menu Toggle
+
+    // ──────────────────────────────────────────────────────────
+    // 1. Mobile Menu Toggle
+    // ──────────────────────────────────────────────────────────
     const menuToggle = document.querySelector('.menu-toggle');
     const navMenu = document.querySelector('.nav-menu');
 
@@ -23,7 +26,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Header Scroll Effect
+    // ──────────────────────────────────────────────────────────
+    // 2. Header Scroll Effect (with shrink)
+    // ──────────────────────────────────────────────────────────
     const header = document.querySelector('.header');
 
     if (header) {
@@ -36,7 +41,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Smooth Scroll for Anchor Links
+    // ──────────────────────────────────────────────────────────
+    // 3. Smooth Scroll for Anchor Links
+    // ──────────────────────────────────────────────────────────
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const targetId = this.getAttribute('href');
@@ -56,18 +63,22 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Active Navigation Link
+    // ──────────────────────────────────────────────────────────
+    // 4. Active Navigation Link
+    // ──────────────────────────────────────────────────────────
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-    const navLinks = document.querySelectorAll('.nav-link');
+    const allNavLinks = document.querySelectorAll('.nav-link');
 
-    navLinks.forEach(link => {
+    allNavLinks.forEach(link => {
         const href = link.getAttribute('href');
         if (href === currentPage || (currentPage === '' && href === 'index.html')) {
             link.classList.add('active');
         }
     });
 
-    // Form Validation
+    // ──────────────────────────────────────────────────────────
+    // 5. Form Validation
+    // ──────────────────────────────────────────────────────────
     const contactForm = document.getElementById('contact-form');
 
     if (contactForm) {
@@ -77,7 +88,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const message = document.getElementById('message');
             let isValid = true;
 
-            // Simple validation
             if (name && name.value.trim() === '') {
                 isValid = false;
                 showError(name, 'Please enter your name');
@@ -141,22 +151,139 @@ document.addEventListener('DOMContentLoaded', function () {
         return phoneRegex.test(phone);
     }
 
-    // Animation on Scroll (Simple IntersectionObserver)
-    const animateElements = document.querySelectorAll('.animate-on-scroll');
+    // ──────────────────────────────────────────────────────────
+    // 6. Scroll Reveal Animations
+    // ──────────────────────────────────────────────────────────
+    const revealElements = document.querySelectorAll('.reveal');
 
-    if (animateElements.length > 0 && 'IntersectionObserver' in window) {
-        const observer = new IntersectionObserver((entries) => {
+    if (revealElements.length > 0 && 'IntersectionObserver' in window) {
+        const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-fadeInUp');
-                    observer.unobserve(entry.target);
+                    entry.target.classList.add('revealed');
+                    revealObserver.unobserve(entry.target);
                 }
             });
         }, {
             threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+            rootMargin: '0px 0px -60px 0px'
         });
 
-        animateElements.forEach(el => observer.observe(el));
+        revealElements.forEach(el => revealObserver.observe(el));
     }
+
+    // ──────────────────────────────────────────────────────────
+    // 7. Animated Counter for Hero Stats
+    // ──────────────────────────────────────────────────────────
+    function animateCounter(el, target, suffix = '') {
+        const duration = 2000;
+        const start = 0;
+        const startTime = performance.now();
+
+        function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+
+            // Ease out cubic
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = Math.round(start + (target - eased * (start - target)));
+
+            el.textContent = current + suffix;
+
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            }
+        }
+
+        requestAnimationFrame(update);
+    }
+
+    const heroStats = document.querySelectorAll('.hero-stat h3');
+    if (heroStats.length > 0 && 'IntersectionObserver' in window) {
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const text = el.textContent.trim();
+
+                    // Parse the number and suffix from text like "500+", "5 MW+", "100%"
+                    const match = text.match(/^([\d,]+)\s*(.*)/);
+                    if (match) {
+                        const num = parseInt(match[1].replace(/,/g, ''));
+                        const suffix = match[2] || '';
+                        animateCounter(el, num, suffix);
+                    }
+
+                    statsObserver.unobserve(el);
+                }
+            });
+        }, {
+            threshold: 0.5
+        });
+
+        heroStats.forEach(stat => statsObserver.observe(stat));
+    }
+
+    // ──────────────────────────────────────────────────────────
+    // 8. Scroll to Top Button
+    // ──────────────────────────────────────────────────────────
+    const scrollToTopBtn = document.querySelector('.scroll-to-top');
+
+    if (scrollToTopBtn) {
+        window.addEventListener('scroll', function () {
+            if (window.scrollY > 400) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollToTopBtn.addEventListener('click', function () {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+
+    // ──────────────────────────────────────────────────────────
+    // 9. Subtle Parallax on Hero Decorations
+    // ──────────────────────────────────────────────────────────
+    const hero = document.querySelector('.hero');
+    if (hero) {
+        window.addEventListener('scroll', function () {
+            const scrolled = window.scrollY;
+            if (scrolled < window.innerHeight) {
+                const heroImage = hero.querySelector('.hero-image');
+                if (heroImage) {
+                    heroImage.style.transform = `translateY(${scrolled * 0.06}px)`;
+                }
+            }
+        }, { passive: true });
+    }
+
+    // ──────────────────────────────────────────────────────────
+    // 10. Card Tilt Micro-interaction (Desktop only)
+    // ──────────────────────────────────────────────────────────
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', function (e) {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -3;
+                const rotateY = ((x - centerX) / centerX) * 3;
+
+                card.style.transform = `translateY(-6px) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+
+            card.addEventListener('mouseleave', function () {
+                card.style.transform = '';
+            });
+        });
+    }
+
 });

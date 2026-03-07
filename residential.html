@@ -2,6 +2,14 @@
 <html lang="en">
 
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17074938818"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-17074938818');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
@@ -65,14 +73,14 @@
     <!-- System Types -->
     <section class="section">
         <div class="container">
-            <div class="section-header">
+            <div class="section-header reveal">
                 <h2>Choose Your System Type</h2>
                 <p>We offer two main types of solar systems to match your needs and budget.</p>
             </div>
 
             <div class="grid grid-2" style="gap: 3rem;">
                 <!-- On-Grid System -->
-                <div class="card" style="padding: 2.5rem;">
+                <div class="card reveal" style="padding: 2.5rem;">
                     <div class="card-icon"
                         style="background: linear-gradient(135deg, var(--primary) 0%, var(--cyan) 100%);">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
@@ -133,7 +141,7 @@
                 </div>
 
                 <!-- Hybrid System -->
-                <div class="card" style="padding: 2.5rem;">
+                <div class="card reveal" style="padding: 2.5rem;">
                     <div class="card-icon"
                         style="background: linear-gradient(135deg, var(--secondary-gold) 0%, var(--secondary-dark) 100%);">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
@@ -197,8 +205,8 @@
                 <p>Here's why thousands of homeowners are making the switch to solar energy.</p>
             </div>
 
-            <div class="grid grid-3">
-                <div class="card service-card">
+            <div class="grid grid-3 reveal-stagger">
+                <div class="card service-card reveal">
                     <div class="card-icon"
                         style="background: linear-gradient(135deg, var(--success-light) 0%, var(--success) 100%);">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
@@ -211,7 +219,7 @@
                     <p>Reduce your electricity bills by 70-90%. Solar systems pay for themselves within 4-5 years.</p>
                 </div>
 
-                <div class="card service-card">
+                <div class="card service-card reveal">
                     <div class="card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -223,7 +231,7 @@
                         hassles.</p>
                 </div>
 
-                <div class="card service-card">
+                <div class="card service-card reveal">
                     <div class="card-icon" style="background: linear-gradient(135deg, #81D4FA 0%, #29B6F6 100%);">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -241,7 +249,7 @@
     <!-- PM Surya Ghar Subsidy -->
     <section class="section" id="subsidy">
         <div class="container">
-            <div class="about-intro">
+            <div class="about-intro reveal">
                 <div>
                     <div class="hero-badge" style="margin-bottom: 1rem;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -297,7 +305,7 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="cta">
+    <section class="cta reveal reveal-scale">
         <div class="container">
             <h2>Get Your Free Quote Today</h2>
             <p>Our experts will visit your home, assess your rooftop, and provide a customized solar solution with
@@ -393,6 +401,14 @@
             </div>
         </div>
     </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" aria-label="Scroll to top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
 
     <script src="script.js"></script>
 </body>

@@ -1,7 +1,15 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17074938818"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-17074938818');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
@@ -64,12 +72,13 @@
     <!-- Mission & Vision -->
     <section class="section">
         <div class="container">
-            <div class="about-intro">
+            <div class="about-intro reveal">
                 <div>
                     <h2>Our Mission</h2>
                     <p class="lead">To accelerate the adoption of solar energy in India by making it accessible,
                         affordable, and hassle-free for every household and business.</p>
-                    <p>At Ray2Volt Solar, we believe that clean energy is not just for the privileged few – it's a right
+                    <p>At Ray2Volt Solar, we believe that clean energy is not just for the privileged few â€“ it's a
+                        right
                         for everyone. Our mission drives us to work tirelessly, bringing world-class solar technology to
                         homes and businesses across India.</p>
 
@@ -89,13 +98,13 @@
     <!-- Company Values -->
     <section class="section bg-light">
         <div class="container">
-            <div class="section-header">
+            <div class="section-header reveal">
                 <h2>Our Core Values</h2>
                 <p>The principles that guide everything we do at Ray2Volt Solar.</p>
             </div>
 
-            <div class="grid grid-3">
-                <div class="card service-card">
+            <div class="grid grid-3 reveal-stagger">
+                <div class="card service-card reveal">
                     <div class="card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -107,7 +116,7 @@
                         transparent pricing, no hidden costs.</p>
                 </div>
 
-                <div class="card service-card">
+                <div class="card service-card reveal">
                     <div class="card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -122,7 +131,7 @@
                         their solar installation.</p>
                 </div>
 
-                <div class="card service-card">
+                <div class="card service-card reveal">
                     <div class="card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -140,13 +149,13 @@
         <!-- Location Focus -->
         <section class="section bg-gradient">
             <div class="container">
-                <div class="about-intro">
+                <div class="about-intro reveal">
                     <div>
                         <h2>Proudly Local</h2>
                         <p class="lead">We understand the unique needs of our customers.
                         </p>
                         <p>Being a local company means we're always accessible. When you need support, you don't have to
-                            call a distant call center – you reach real people who know your area and care about your
+                            call a distant call center â€“ you reach real people who know your area and care about your
                             experience.</p>
                         <ul class="benefits-list mt-3">
                             <li class="benefit-item">
@@ -155,7 +164,7 @@
                                     stroke-linejoin="round">
                                     <polyline points="20 6 9 17 4 12" />
                                 </svg>
-                                <p><strong>Quick Response Time</strong> – We can be at your doorstep within hours, not
+                                <p><strong>Quick Response Time</strong> â€“ We can be at your doorstep within hours, not
                                     days.
                                 </p>
                             </li>
@@ -165,7 +174,7 @@
                                     stroke-linejoin="round">
                                     <polyline points="20 6 9 17 4 12" />
                                 </svg>
-                                <p><strong>Local Knowledge</strong> – We understand local grid conditions, weather
+                                <p><strong>Local Knowledge</strong> â€“ We understand local grid conditions, weather
                                     patterns,
                                     and regulations.</p>
                             </li>
@@ -175,7 +184,7 @@
                                     stroke-linejoin="round">
                                     <polyline points="20 6 9 17 4 12" />
                                 </svg>
-                                <p><strong>Community Commitment</strong> – Your success is our success. We're invested
+                                <p><strong>Community Commitment</strong> â€“ Your success is our success. We're invested
                                     in
                                     our community's future.</p>
                             </li>
@@ -190,7 +199,7 @@
         </section>
 
         <!-- CTA Section -->
-        <section class="cta">
+        <section class="cta reveal reveal-scale">
             <div class="container">
                 <h2>Ready to Start Your Solar Journey?</h2>
                 <p>Let's discuss how solar energy can benefit your home or business. Our team is ready to help.</p>
@@ -275,6 +284,14 @@
                 </div>
             </div>
         </footer>
+
+        <!-- Scroll to Top Button -->
+        <button class="scroll-to-top" aria-label="Scroll to top">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="18 15 12 9 6 15"></polyline>
+            </svg>
+        </button>
 
         <script src="script.js"></script>
 </body>
