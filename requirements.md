@@ -56,7 +56,7 @@
 ## 3. Functional Features (Simplified)
 
 ### 1. Lead Forms (Email Only)
-* **Mechanism:** When a user fills out the contact form, the website simply sends an email to `ray2voltsolar@gmail.com`
+* **Mechanism:** When a user fills out the contact form, the website simply sends an email to `sales@ray2voltsolar.com`
 * **No Database/CRM:** No backend lead management system required.
 
 ---
