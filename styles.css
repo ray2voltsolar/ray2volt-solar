@@ -105,24 +105,36 @@ body {
     font-size: 1rem;
     line-height: 1.6;
     color: var(--white);
-    /* Lighter slate blue background with grid lines */
-    background-color: #0F172A;
+    /* Deep slate background with base glow */
+    background-color: #0A0F1D;
     background-image:
-        /* Vertical grid lines */
-        repeating-linear-gradient(90deg,
-            transparent,
-            transparent 79px,
-            rgba(56, 189, 248, 0.07) 79px,
-            rgba(56, 189, 248, 0.07) 80px),
-        /* Horizontal grid lines */
-        repeating-linear-gradient(0deg,
-            transparent,
-            transparent 79px,
-            rgba(56, 189, 248, 0.07) 79px,
-            rgba(56, 189, 248, 0.07) 80px);
-    background-size: 80px 80px;
+        /* Subtle deep glow from top center */
+        radial-gradient(ellipse at 50% 0%, rgba(3, 169, 244, 0.12) 0%, transparent 70%);
     background-attachment: fixed;
     overflow-x: hidden;
+}
+
+/* Converging Perspective Grid Overlay */
+body::after {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200vh;
+    background-image:
+        /* Intersecting grid lines */
+        linear-gradient(rgba(56, 189, 248, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56, 189, 248, 0.15) 1px, transparent 1px);
+    background-size: 80px 80px;
+    background-position: center center;
+    /* 3D tilt transformation to create converging lines */
+    transform: perspective(1000px) rotateX(65deg) translateY(-20%);
+    pointer-events: none;
+    z-index: 0;
+    /* Fade out the grid smoothly into the background edges */
+    -webkit-mask-image: radial-gradient(circle at center, black 0%, transparent 60%);
+    mask-image: radial-gradient(circle at center, black 0%, transparent 60%);
 }
 
 /* Animated aurora gradient overlay */
