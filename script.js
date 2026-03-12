@@ -80,41 +80,43 @@ document.addEventListener('DOMContentLoaded', function () {
     // 5. Form Validation
     // ──────────────────────────────────────────────────────────
     const contactForm = document.getElementById('contact-form');
+    const quoteForm = document.getElementById('quote-form');
+
+    function validateForm(formElements, e) {
+        let isValid = true;
+
+        formElements.forEach(({ element, validate, errorMessage }) => {
+            if (element) {
+                if (!validate(element.value)) {
+                    isValid = false;
+                    showError(element, errorMessage);
+                } else {
+                    clearError(element);
+                }
+            }
+        });
+
+        if (!isValid && e) {
+            e.preventDefault();
+        }
+    }
 
     if (contactForm) {
         contactForm.addEventListener('submit', function (e) {
-            const name = document.getElementById('name');
-            const phone = document.getElementById('phone');
-            const message = document.getElementById('message');
-            let isValid = true;
+            validateForm([
+                { element: document.getElementById('name'), validate: val => val.trim() !== '', errorMessage: 'Please enter your name' },
+                { element: document.getElementById('phone'), validate: val => isValidPhone(val), errorMessage: 'Please enter a valid phone number' },
+                { element: document.getElementById('message'), validate: val => val.trim() !== '', errorMessage: 'Please enter your message' }
+            ], e);
+        });
+    }
 
-            if (name && name.value.trim() === '') {
-                isValid = false;
-                showError(name, 'Please enter your name');
-            } else if (name) {
-                clearError(name);
-            }
-
-            if (phone && phone.value.trim() === '') {
-                isValid = false;
-                showError(phone, 'Please enter your phone number');
-            } else if (phone && !isValidPhone(phone.value)) {
-                isValid = false;
-                showError(phone, 'Please enter a valid phone number');
-            } else if (phone) {
-                clearError(phone);
-            }
-
-            if (message && message.value.trim() === '') {
-                isValid = false;
-                showError(message, 'Please enter your message');
-            } else if (message) {
-                clearError(message);
-            }
-
-            if (!isValid) {
-                e.preventDefault();
-            }
+    if (quoteForm) {
+        quoteForm.addEventListener('submit', function (e) {
+            validateForm([
+                { element: document.getElementById('name'), validate: val => val.trim() !== '', errorMessage: 'Please enter your name' },
+                { element: document.getElementById('phone'), validate: val => isValidPhone(val), errorMessage: 'Please enter a valid phone number' }
+            ], e);
         });
     }
 

@@ -19,7 +19,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
         content="Get a free solar quote from Ray2Volt Solar. Fill out our simple form with your details and we'll get back to you with a customized solar solution.">
-    <title>Get Quote Now | Ray2Volt Solar</title>
+    <title>Get Quote | Ray2Volt Solar</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,6 +31,109 @@
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
     <meta property="og:site_name" content="Ray2Volt Solar">
+
+    <style>
+        .simple-quote-section {
+            min-height: calc(100vh - 90px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            margin-top: 90px; /* Offset for header */
+        }
+
+        @media (max-width: 768px) {
+            .simple-quote-section {
+                align-items: flex-start;
+                margin-top: 70px;
+                padding-top: 1rem;
+            }
+        }
+
+        .quote-container {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .step-label {
+            display: block;
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 1.25rem;
+            text-align: center;
+            font-family: var(--font-heading);
+        }
+
+        /* Segmented Control / Selector - Dark Mode Adapted */
+        .type-selector {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            padding: 0.375rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .type-option {
+            flex: 1;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .type-option input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .type-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.875rem 1rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+        }
+
+        .type-option input:checked + .type-btn {
+            background: linear-gradient(135deg, var(--secondary-gold) 0%, var(--secondary-dark) 100%);
+            color: var(--gray-900);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Subtle Animations */
+        .animate-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -52,7 +155,6 @@
                 <li><a href="commercial.html" class="nav-link">Commercial</a></li>
                 <li><a href="investor.html" class="nav-link">Investors</a></li>
                 <li><a href="contact.html" class="nav-link">Contact</a></li>
-                <li><a href="get-quote.html" class="nav-link active" style="display:none;">Get Quote</a></li>
             </ul>
 
             <button class="menu-toggle" aria-label="Toggle menu">
@@ -63,190 +165,56 @@
         </nav>
     </header>
 
-    <!-- Page Header -->
-    <section class="page-header">
-        <div class="container">
-            <div class="breadcrumb">
-                <a href="index.html">Home</a>
-                <span>/</span>
-                <span>Get Quote</span>
-            </div>
-            <h1>Get Quote Now</h1>
-            <p>Fill out the details below and we'll provide a customized solar quote for your requirements.</p>
-        </div>
-    </section>
+    <!-- Simplified Form Section -->
+    <section class="simple-quote-section">
+        <div class="quote-container card">
+            <form id="quote-form" action="https://formsubmit.co/sales@ray2voltsolar.com" method="POST">
+                <input type="hidden" name="_subject" value="New Quote Request - Ray2Volt Solar">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_autoresponse"
+                    value="Thank you for requesting a quote from Ray2Volt Solar! Our team will review your details and get back to you with a customized solution soon.">
 
-    <!-- Get Quote Section -->
-    <section class="section">
-        <div class="container" style="max-width: 800px;">
-            <div class="card" style="padding: 2.5rem;">
-                <h3 style="margin-bottom: 1.5rem; text-align: center;">Request a Custom Solar Quote</h3>
+                <!-- 1. What do you need solar for -->
+                <div class="form-step animate-up">
+                    <label class="step-label">What do you need solar for?</label>
+                    <div class="type-selector">
+                        <label class="type-option">
+                            <input type="radio" name="property_type" value="residential" required checked>
+                            <span class="type-btn">Residential</span>
+                        </label>
+                        <label class="type-option">
+                            <input type="radio" name="property_type" value="commercial" required>
+                            <span class="type-btn">Commercial</span>
+                        </label>
+                    </div>
+                </div>
 
-                <form id="quote-form" action="https://formsubmit.co/sales@ray2voltsolar.com" method="POST" class="form">
-                    <!-- FormSubmit setup fields -->
-                    <input type="hidden" name="_subject" value="New Quote Request - Ray2Volt Solar">
-                    <input type="hidden" name="_template" value="table">
-                    <input type="hidden" name="_autoresponse"
-                        value="Thank you for requesting a quote from Ray2Volt Solar! Our team will review your details and get back to you with a customized solution soon.">
-
-                    <div class="grid grid-2" style="gap: 1.5rem; margin-bottom: 1.5rem;">
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label for="name">Your Name *</label>
-                            <input type="text" id="name" name="name" class="form-control"
-                                placeholder="Enter your full name" required>
-                        </div>
-
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label for="phone">Phone Number *</label>
-                            <input type="tel" id="phone" name="phone" class="form-control" placeholder="+91 9666068140"
-                                required>
-                        </div>
+                <div class="form-inputs">
+                    <!-- 2. Your Name -->
+                    <div class="form-group animate-up delay-1">
+                        <label for="name">Your Name *</label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Enter your full name" required>
                     </div>
 
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" class="form-control"
-                            placeholder="your.email@example.com">
+                    <!-- 3. Mobile Number -->
+                    <div class="form-group animate-up delay-2">
+                        <label for="phone">Mobile Number *</label>
+                        <input type="tel" id="phone" name="phone" class="form-control" placeholder="+91 9666068140" required>
                     </div>
+                </div>
 
-                    <div class="grid grid-2" style="gap: 1.5rem; margin-bottom: 1.5rem;">
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label for="property_type">Property Type *</label>
-                            <select id="property_type" name="property_type" class="form-control" required>
-                                <option value="">Select an option</option>
-                                <option value="residential">Residential Home</option>
-                                <option value="commercial">Commercial Building</option>
-                                <option value="industrial">Industrial Facility</option>
-                                <option value="institutional">Institutional/School</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label for="monthly_bill">Average Monthly Bill (₹) *</label>
-                            <input type="text" id="monthly_bill" name="monthly_bill" class="form-control"
-                                placeholder="e.g. 5000" required>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-2" style="gap: 1.5rem; margin-bottom: 1.5rem;">
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label for="roof_area">Available Roof Area (sq. ft.)</label>
-                            <input type="text" id="roof_area" name="roof_area" class="form-control"
-                                placeholder="e.g. 1000">
-                        </div>
-
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label for="location">City / Location *</label>
-                            <input type="text" id="location" name="location" class="form-control"
-                                placeholder="Enter your city" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="message">Additional Details / Requirements</label>
-                        <textarea id="message" name="message" class="form-control" rows="4"
-                            placeholder="Please tell us about any specific requirements or questions you have."></textarea>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 1rem;">
-                        Get My Free Quote
+                <!-- Submit Button -->
+                <div class="animate-up delay-3">
+                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                        Get Free Quote
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px;">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
                     </button>
-
-                    <p class="text-center text-muted mt-3" style="font-size: 0.875rem;">
-                        We typically respond within 24 hours. Your information is secure with us.
-                    </p>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="index.html" class="logo">
-                        <div class="logo-text">
-                            Ray2Volt Solar
-                            <span>Pvt Ltd</span>
-                        </div>
-                    </a>
-                    <p>Powering homes and businesses with clean, affordable solar energy across India.</p>
-                    <div class="footer-social">
-                        <a href="#" aria-label="Facebook">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                fill="currentColor">
-                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-                            </svg>
-                        </a>
-                        <a href="#" aria-label="Instagram">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-                            </svg>
-                        </a>
-                        <a href="#" aria-label="LinkedIn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                fill="currentColor">
-                                <path
-                                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-                                <rect x="2" y="9" width="4" height="12" />
-                                <circle cx="4" cy="4" r="2" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="residential.html">Residential Solar</a></li>
-                        <li><a href="commercial.html">Commercial Solar</a></li>
-                        <li><a href="investor.html">Investor Opportunities</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Services</h4>
-                    <ul>
-                        <li><a href="residential.html">Home Solar Systems</a></li>
-                        <li><a href="commercial.html">C&I Solar</a></li>
-                        <li><a href="investor.html">RESCO Model</a></li>
-                        <li><a href="residential.html#subsidy">PM Surya Ghar Subsidy</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Contact</h4>
-                    <ul>
-                        <li>1-278, J.K.Nagar, Revenue Ward No-1, Pichatur road, Srikalahasti, Tirupati Dist, 517644,
-                            Andhra Pradesh.</li>
-                        <li><a href="tel:+919666068140">+91 9666068140</a></li>
-                        <li><a href="mailto:sales@ray2voltsolar.com">sales@ray2voltsolar.com</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <p>&copy; 2024 Ray2Volt Solar Pvt Ltd. All rights reserved.</p>
-                <p>CIN: U40100AP2024PTC123456</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Scroll to Top Button -->
-    <button class="scroll-to-top" aria-label="Scroll to top">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="18 15 12 9 6 15"></polyline>
-        </svg>
-    </button>
 
     <script src="script.js"></script>
 </body>
