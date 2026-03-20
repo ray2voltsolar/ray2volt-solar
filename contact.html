@@ -4,16 +4,31 @@
 <head>
     <link rel="icon" type="image/png" href="R2V Shock symbol.png">
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17074938818"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18014889887"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-        gtag('config', 'AW-17074938818');
+
+        gtag('config', 'AW-18014889887');
     </script>
-    <!-- Event snippet for Contact conversion page -->
+    <!-- Event snippet for Request quote conversion page
+    In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
     <script>
-        gtag('event', 'conversion', { 'send_to': 'AW-17074938818/DhqnCMrUu8YaEMLH-80_' });
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-18014889887/qXFqCMnQrIgcEJ_PlY5D',
+          'value': 1.0,
+          'currency': 'INR',
+          'event_callback': callback
+      });
+      return false;
+    }
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -151,7 +166,7 @@
 
                     <!-- WhatsApp Button -->
                     <a href="https://wa.me/919666068140?text=Hi%20Ray2Volt%2C%20I%27m%20interested%20in%20solar%20installation."
-                        class="whatsapp-btn mt-4" target="_blank">
+                        class="whatsapp-btn mt-4" target="_blank" onclick="gtag_report_conversion()">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="currentColor">
                             <path
@@ -208,7 +223,7 @@
                                     placeholder="Tell us about your requirements..." required></textarea>
                             </div>
 
-                            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;" onclick="gtag_report_conversion()">
                                 Send Message
                             </button>
 

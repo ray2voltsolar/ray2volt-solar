@@ -4,16 +4,31 @@
 <head>
     <link rel="icon" type="image/png" href="R2V Shock symbol.png">
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17074938818"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18014889887"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-        gtag('config', 'AW-17074938818');
+
+        gtag('config', 'AW-18014889887');
     </script>
-    <!-- Event snippet for Contact conversion page -->
+    <!-- Event snippet for Request quote conversion page
+    In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
     <script>
-        gtag('event', 'conversion', { 'send_to': 'AW-17074938818/DhqnCMrUu8YaEMLH-80_' });
+        function gtag_report_conversion(url) {
+            var callback = function () {
+                if (typeof (url) != 'undefined') {
+                    window.location = url;
+                }
+            };
+            gtag('event', 'conversion', {
+                'send_to': 'AW-18014889887/qXFqCMnQrIgcEJ_PlY5D',
+                'value': 1.0,
+                'currency': 'INR',
+                'event_callback': callback
+            });
+            return false;
+        }
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,7 +54,8 @@
             align-items: center;
             justify-content: center;
             padding: 2rem 1rem;
-            margin-top: 90px; /* Offset for header */
+            margin-top: 90px;
+            /* Offset for header */
         }
 
         @media (max-width: 768px) {
@@ -103,7 +119,7 @@
             user-select: none;
         }
 
-        .type-option input:checked + .type-btn {
+        .type-option input:checked+.type-btn {
             background: linear-gradient(135deg, var(--secondary-gold) 0%, var(--secondary-dark) 100%);
             color: var(--gray-900);
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
@@ -123,9 +139,17 @@
             animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
+        .delay-1 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.3s;
+        }
 
         @keyframes fadeInUp {
             to {
@@ -193,21 +217,25 @@
                     <!-- 2. Your Name -->
                     <div class="form-group animate-up delay-1">
                         <label for="name">Your Name *</label>
-                        <input type="text" id="name" name="name" class="form-control" placeholder="Enter your full name" required>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Enter your full name"
+                            required>
                     </div>
 
                     <!-- 3. Mobile Number -->
                     <div class="form-group animate-up delay-2">
                         <label for="phone">Mobile Number *</label>
-                        <input type="tel" id="phone" name="phone" class="form-control" placeholder="+91 9666068140" required>
+                        <input type="tel" id="phone" name="phone" class="form-control" placeholder="+91 9666068140"
+                            required>
                     </div>
                 </div>
 
                 <!-- Submit Button -->
                 <div class="animate-up delay-3">
-                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;"
+                        onclick="gtag_report_conversion()">
                         Get Free Quote
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2" style="width: 20px; height: 20px;">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                         </svg>
                     </button>
