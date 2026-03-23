@@ -15,20 +15,20 @@
     <!-- Event snippet for Request quote conversion page
     In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
     <script>
-    function gtag_report_conversion(url) {
-      var callback = function () {
-        if (typeof(url) != 'undefined') {
-          window.location = url;
+        function gtag_report_conversion(url) {
+            var callback = function () {
+                if (typeof (url) != 'undefined') {
+                    window.location = url;
+                }
+            };
+            gtag('event', 'conversion', {
+                'send_to': 'AW-18014889887/qXFqCMnQrIgcEJ_PlY5D',
+                'value': 1.0,
+                'currency': 'INR',
+                'event_callback': callback
+            });
+            return false;
         }
-      };
-      gtag('event', 'conversion', {
-          'send_to': 'AW-18014889887/qXFqCMnQrIgcEJ_PlY5D',
-          'value': 1.0,
-          'currency': 'INR',
-          'event_callback': callback
-      });
-      return false;
-    }
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -223,7 +223,8 @@
                                     placeholder="Tell us about your requirements..." required></textarea>
                             </div>
 
-                            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;" onclick="gtag_report_conversion()">
+                            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;"
+                                onclick="gtag_report_conversion()">
                                 Send Message
                             </button>
 
