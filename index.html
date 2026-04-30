@@ -4,8 +4,8 @@
 <head>
     <link rel="icon" type="image/png" href="R2V Shock symbol.png">
     <!-- Google tag (gtag.js) -->
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18014889887"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18014889887">
+    </script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
@@ -56,7 +56,15 @@
             <ul class="nav-menu">
                 <li><a href="index.html" class="nav-link active">Home</a></li>
                 <li><a href="about.html" class="nav-link">About Us</a></li>
-                <li><a href="residential.html" class="nav-link">Residential</a></li>
+                <li class="dropdown">
+                    <a href="residential.html" class="nav-link" style="display: flex; align-items: center; gap: 4px;">Residential 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="residential-ongrid.html">On-Grid Solutions</a></li>
+                        <li><a href="residential-hybrid.html">Hybrid Solutions</a></li>
+                    </ul>
+                </li>
                 <li><a href="commercial.html" class="nav-link">Commercial</a></li>
                 <li><a href="investor.html" class="nav-link">Investors</a></li>
                 <li><a href="contact.html" class="nav-link">Contact</a></li>

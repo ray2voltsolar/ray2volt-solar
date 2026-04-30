@@ -3,6 +3,15 @@
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', function () {
+    // Dynamically set the _next form redirect URL to the thank-you page
+    const nextUrlInputs = document.querySelectorAll('.next-url-input');
+    if (nextUrlInputs.length > 0) {
+        const basePath = window.location.href.substring(0, window.location.href.lastIndexOf('/'));
+        const thankYouUrl = basePath + '/thank-you.html';
+        nextUrlInputs.forEach(input => {
+            input.value = thankYouUrl;
+        });
+    }
 
     // ──────────────────────────────────────────────────────────
     // 1. Mobile Menu Toggle
@@ -16,12 +25,27 @@ document.addEventListener('DOMContentLoaded', function () {
             navMenu.classList.toggle('active');
         });
 
-        // Close menu when clicking a link
+        // Close menu when clicking a link (except dropdown toggle)
         const navLinks = navMenu.querySelectorAll('.nav-link');
         navLinks.forEach(link => {
-            link.addEventListener('click', () => {
+            link.addEventListener('click', (e) => {
+                if (link.parentElement.classList.contains('dropdown') && window.innerWidth <= 768) {
+                    return; // Handled by dropdown logic
+                }
                 menuToggle.classList.remove('active');
                 navMenu.classList.remove('active');
+            });
+        });
+
+        // Dropdown toggle on mobile
+        const dropdowns = document.querySelectorAll('.dropdown');
+        dropdowns.forEach(dropdown => {
+            const toggle = dropdown.querySelector('a');
+            toggle.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    dropdown.classList.toggle('active');
+                }
             });
         });
     }
