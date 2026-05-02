@@ -11,23 +11,21 @@
         gtag('js', new Date());
         gtag('config', 'AW-18014889887');
     </script>
-    <!-- Event snippet for Request quote conversion page
+    <!-- Event snippet for Website Lead conversion page
     In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
     <script>
-        function gtag_report_conversion(url) {
-            var callback = function () {
-                if (typeof (url) != 'undefined') {
-                    window.location = url;
-                }
-            };
-            gtag('event', 'conversion', {
-                'send_to': 'AW-18014889887/qXFqCMnQrIgcEJ_PlY5D',
-                'value': 1.0,
-                'currency': 'INR',
-                'event_callback': callback
-            });
-            return false;
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
         }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-18014889887/9NtXCImroaYcEJ_PlY5D',
+          'event_callback': callback
+      });
+      return false;
+    }
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -204,7 +202,7 @@
                 <input type="hidden" name="_template" value="table">
                 <input type="hidden" name="_autoresponse"
                     value="Thank you for requesting a quote from Ray2Volt Solar! Our team will review your details and get back to you with a customized solution soon.">
-                <input type="hidden" name="_next" class="next-url-input">
+                <!-- <input type="hidden" name="_next" class="next-url-input"> -->
 
                 <!-- 1. What do you need solar for -->
                 <div class="form-step animate-up">
@@ -239,7 +237,7 @@
 
                 <!-- Submit Button -->
                 <div class="animate-up delay-3">
-                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;" onclick="gtag_report_conversion()">
                         Get Free Quote
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                             stroke-width="2" style="width: 20px; height: 20px;">

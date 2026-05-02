@@ -4,14 +4,15 @@
 
 document.addEventListener('DOMContentLoaded', function () {
     // Dynamically set the _next form redirect URL to the thank-you page
-    const nextUrlInputs = document.querySelectorAll('.next-url-input');
-    if (nextUrlInputs.length > 0) {
-        const basePath = window.location.href.substring(0, window.location.href.lastIndexOf('/'));
-        const thankYouUrl = basePath + '/thank-you.html';
-        nextUrlInputs.forEach(input => {
-            input.value = thankYouUrl;
-        });
-    }
+    // (Removed as per request to stop redirecting to thank-you.html)
+    // const nextUrlInputs = document.querySelectorAll('.next-url-input');
+    // if (nextUrlInputs.length > 0) {
+    //     const basePath = window.location.href.substring(0, window.location.href.lastIndexOf('/'));
+    //     const thankYouUrl = basePath + '/thank-you.html';
+    //     nextUrlInputs.forEach(input => {
+    //         input.value = thankYouUrl;
+    //     });
+    // }
 
     // ──────────────────────────────────────────────────────────
     // 1. Mobile Menu Toggle
