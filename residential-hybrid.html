@@ -28,6 +28,22 @@
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
     <meta property="og:site_name" content="Ray2Volt Solar">
+    <!-- Event snippet for Website Lead conversion page
+    In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+    <script>
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-18014889887/9NtXCImroaYcEJ_PlY5D',
+          'event_callback': callback
+      });
+      return false;
+    }
+    </script>
 </head>
 
 <body>
@@ -269,7 +285,7 @@
                 detailed cost-benefit analysis.</p>
             <div class="flex-center gap-3">
                 <a href="contact.html" class="btn btn-white btn-lg">Request Site Visit</a>
-                <a href="https://wa.me/919666068140" class="whatsapp-btn btn-lg" target="_blank" onclick="gtag('event', 'conversion', {'send_to': 'AW-18014889887/9NtXCImroaYcEJ_PlY5D'});">
+                <a href="https://wa.me/919666068140" class="whatsapp-btn btn-lg" onclick="return gtag_report_conversion('https://wa.me/919666068140');">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="currentColor">
                         <path
