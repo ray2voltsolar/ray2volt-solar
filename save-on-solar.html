@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" type="image/png" href="R2V Shock symbol.png">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18014889887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-18014889887');
+    </script>
+    <script>
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') { window.location = url; }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-18014889887/9NtXCImroaYcEJ_PlY5D',
+          'event_callback': callback
+      });
+      return false;
+    }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Claim ₹78,000 PM Surya Ghar subsidy + ₹24,000 Ray2Volt summer sale discount on solar installation. Limited time offer!">
+    <title>Claim Subsidy & Discount | Ray2Volt Solar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <meta property="og:site_name" content="Ray2Volt Solar">
+
+    <style>
+        /* ── Confetti Canvas ── */
+        #confetti-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* ── Page Layout ── */
+        .claim-section {
+            min-height: calc(100vh - 90px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            margin-top: 90px;
+        }
+        @media (max-width: 768px) {
+            .claim-section {
+                align-items: flex-start;
+                margin-top: 70px;
+                padding-top: 1rem;
+            }
+        }
+
+        .claim-container {
+            width: 100%;
+            max-width: 520px;
+        }
+
+        /* ── Savings Banner ── */
+        .savings-banner {
+            background: linear-gradient(135deg, rgba(255, 179, 0, 0.15) 0%, rgba(255, 152, 0, 0.08) 100%);
+            border: 1px solid rgba(255, 179, 0, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .savings-banner::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 200%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 179, 0, 0.1), transparent);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(50%); }
+        }
+        .savings-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #FF6B6B 0%, #EE5A24 100%);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            margin-bottom: 0.75rem;
+            animation: pulse-badge 2s ease-in-out infinite;
+        }
+        @keyframes pulse-badge {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .savings-amount {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--secondary-gold) 0%, #FF8F00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.25rem;
+            line-height: 1.2;
+        }
+        .savings-breakdown {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+        .savings-breakdown strong {
+            color: var(--secondary-gold);
+        }
+
+        /* ── Form Styles (matching get-quote) ── */
+        .step-label {
+            display: block;
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 1.25rem;
+            text-align: center;
+            font-family: var(--font-heading);
+        }
+        .type-selector {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            padding: 0.375rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+        .type-option {
+            flex: 1;
+            position: relative;
+            cursor: pointer;
+        }
+        .type-option input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0; width: 0;
+        }
+        .type-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.875rem 1rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+        }
+        .type-option input:checked + .type-btn {
+            background: linear-gradient(135deg, var(--secondary-gold) 0%, var(--secondary-dark) 100%);
+            color: var(--gray-900);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+        .form-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Animations */
+        .animate-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        @media (max-width: 480px) {
+            .form-row { grid-template-columns: 1fr; }
+            .savings-amount { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="index.html" class="logo">
+                <img src="images/logo.png" alt="Ray2Volt Solar Logo" onerror="this.style.display='none'">
+                <div class="logo-text">Ray2Volt Solar <span>Pvt Ltd</span></div>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About Us</a></li>
+                <li class="dropdown">
+                    <a href="residential.html" class="nav-link" style="display: flex; align-items: center; gap: 4px;">Residential
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="residential-ongrid.html">On-Grid Solutions</a></li>
+                        <li><a href="residential-hybrid.html">Hybrid Solutions</a></li>
+                    </ul>
+                </li>
+                <li><a href="commercial.html" class="nav-link">Commercial</a></li>
+                <li><a href="investor.html" class="nav-link">Investors</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="menu-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+        </nav>
+    </header>
+
+    <!-- Claim Form Section -->
+    <section class="claim-section">
+        <div class="claim-container">
+
+            <!-- Savings Banner -->
+            <div class="savings-banner animate-up">
+                <div class="savings-badge">🔥 Limited Time Offer</div>
+                <div class="savings-amount">Save ₹1,02,000</div>
+                <div class="savings-breakdown">
+                    <strong>₹78,000</strong> PM Surya Ghar Subsidy +<br>
+                    <strong>₹24,000</strong> Ray2Volt Special Summer Sale Discount
+                </div>
+            </div>
+
+            <!-- Form Card -->
+            <div class="card" style="padding: 2rem;">
+                <form id="quote-form" action="https://formsubmit.co/sales@ray2voltsolar.com" method="POST">
+                    <input type="hidden" name="_subject" value="🔥 Subsidy + Discount Claim - Ray2Volt Solar">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_autoresponse" value="Thank you for claiming your subsidy & summer sale discount! Our team will contact you within 24 hours to guide you through the process.">
+
+                    <!-- Property Type -->
+                    <div class="form-step animate-up delay-1">
+                        <label class="step-label">Claim Your Subsidy & Discount</label>
+                        <div class="type-selector">
+                            <label class="type-option">
+                                <input type="radio" name="property_type" value="residential" required checked>
+                                <span class="type-btn">Residential</span>
+                            </label>
+                            <label class="type-option">
+                                <input type="radio" name="property_type" value="commercial" required>
+                                <span class="type-btn">Commercial</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-inputs">
+                        <!-- Name -->
+                        <div class="form-group animate-up delay-1">
+                            <label for="name">Your Name *</label>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="Enter your full name" required>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="form-group animate-up delay-2">
+                            <label for="phone">Mobile Number *</label>
+                            <input type="tel" id="phone" name="phone" class="form-control" placeholder="+91 9666068140" required>
+                        </div>
+
+                        <!-- City & Bill Range Row -->
+                        <div class="form-row animate-up delay-3">
+                            <div class="form-group">
+                                <label for="city">City *</label>
+                                <input type="text" id="city" name="city" class="form-control" placeholder="e.g. Tirupati" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="bill">Monthly Electricity Bill *</label>
+                                <select id="bill" name="electricity_bill" class="form-control" required>
+                                    <option value="" disabled selected>Select range</option>
+                                    <option value="Below ₹1,000">Below ₹1,000</option>
+                                    <option value="₹1,000 - ₹2,000">₹1,000 - ₹2,000</option>
+                                    <option value="₹2,000 - ₹4,000">₹2,000 - ₹4,000</option>
+                                    <option value="₹4,000 - ₹6,000">₹4,000 - ₹6,000</option>
+                                    <option value="₹6,000 - ₹10,000">₹6,000 - ₹10,000</option>
+                                    <option value="₹10,000 - ₹20,000">₹10,000 - ₹20,000</option>
+                                    <option value="Above ₹20,000">Above ₹20,000</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="animate-up delay-4">
+                        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;" onclick="gtag_report_conversion()">
+                            Claim Subsidy & Discount
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px;">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+
+    <!-- Confetti Script -->
+    <script>
+    (function() {
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const colors = ['#FFB300', '#FF8F00', '#FFD54F', '#FF6B6B', '#EE5A24', '#38BDF8', '#10B981', '#fff'];
+        const particles = [];
+        const PARTICLE_COUNT = 150;
+        let animFrame;
+        let startTime = Date.now();
+        const DURATION = 4000; // confetti lasts 4 seconds
+
+        function random(min, max) { return Math.random() * (max - min) + min; }
+
+        function createParticle() {
+            return {
+                x: random(0, canvas.width),
+                y: random(-canvas.height, -10),
+                w: random(6, 12),
+                h: random(4, 8),
+                color: colors[Math.floor(Math.random() * colors.length)],
+                rotation: random(0, 360),
+                rotationSpeed: random(-6, 6),
+                velocityX: random(-2, 2),
+                velocityY: random(2, 6),
+                opacity: 1,
+                gravity: random(0.02, 0.06),
+                wobble: random(0, Math.PI * 2),
+                wobbleSpeed: random(0.02, 0.06)
+            };
+        }
+
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+            particles.push(createParticle());
+        }
+
+        function draw() {
+            const elapsed = Date.now() - startTime;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (elapsed > DURATION) {
+                // Fade out remaining
+                let allGone = true;
+                particles.forEach(p => {
+                    p.opacity -= 0.02;
+                    if (p.opacity > 0) allGone = false;
+                });
+                if (allGone) {
+                    canvas.remove();
+                    return;
+                }
+            }
+
+            particles.forEach(p => {
+                p.velocityY += p.gravity;
+                p.x += p.velocityX + Math.sin(p.wobble) * 0.5;
+                p.y += p.velocityY;
+                p.rotation += p.rotationSpeed;
+                p.wobble += p.wobbleSpeed;
+
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate((p.rotation * Math.PI) / 180);
+                ctx.globalAlpha = Math.max(0, p.opacity);
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+                ctx.restore();
+            });
+
+            animFrame = requestAnimationFrame(draw);
+        }
+
+        draw();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    })();
+    </script>
+</body>
+</html>
