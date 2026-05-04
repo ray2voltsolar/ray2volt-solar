@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Ease out cubic
             const eased = 1 - Math.pow(1 - progress, 3);
-            const current = Math.round(start + (target - eased * (start - target)));
+            const current = Math.round(eased * target);
 
             el.textContent = current + suffix;
 

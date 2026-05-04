@@ -535,6 +535,13 @@ p:last-child {
     .dropdown.active .dropdown-menu {
         display: block;
     }
+    /* Hide the default → arrow on dropdown links and push the SVG chevron to the right */
+    .dropdown > .nav-link::after {
+        display: none !important;
+    }
+    .dropdown > .nav-link svg {
+        margin-left: auto;
+    }
 }
 
 .menu-toggle {
