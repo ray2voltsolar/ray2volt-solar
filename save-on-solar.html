@@ -45,103 +45,217 @@
         /* ── Page Layout ── */
         .claim-section {
             min-height: calc(100vh - 90px);
+            padding: 4rem 1rem;
+            margin-top: 90px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 2rem 1rem;
-            margin-top: 90px;
+            background: radial-gradient(circle at top right, rgba(255, 179, 0, 0.05), transparent 50%),
+                        radial-gradient(circle at bottom left, rgba(14, 165, 233, 0.05), transparent 50%);
         }
-        @media (max-width: 768px) {
+
+        .claim-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        @media (max-width: 992px) {
+            .claim-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
             .claim-section {
-                align-items: flex-start;
                 margin-top: 70px;
-                padding-top: 1rem;
+                padding-top: 2rem;
             }
         }
 
-        .claim-container {
-            width: 100%;
-            max-width: 520px;
+        /* ── Left Side: Offer Details ── */
+        .offer-content {
+            padding-right: 2rem;
         }
 
-        /* ── Savings Banner ── */
-        .savings-banner {
-            background: linear-gradient(135deg, rgba(255, 179, 0, 0.15) 0%, rgba(255, 152, 0, 0.08) 100%);
-            border: 1px solid rgba(255, 179, 0, 0.3);
-            border-radius: 16px;
-            padding: 1.5rem;
-            text-align: center;
-            margin-bottom: 2rem;
-            position: relative;
-            overflow: hidden;
+        @media (max-width: 992px) {
+            .offer-content {
+                padding-right: 0;
+                text-align: left;
+            }
         }
-        .savings-banner::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 200%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 179, 0, 0.1), transparent);
-            animation: shimmer 3s ease-in-out infinite;
-        }
-        @keyframes shimmer {
-            0% { transform: translateX(-50%); }
-            100% { transform: translateX(50%); }
-        }
-        .savings-badge {
+
+        .offer-badge {
             display: inline-block;
-            background: linear-gradient(135deg, #FF6B6B 0%, #EE5A24 100%);
-            color: white;
-            font-size: 0.75rem;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2) 0%, rgba(238, 90, 36, 0.2) 100%);
+            border: 1px solid rgba(255, 107, 107, 0.5);
+            color: #FF6B6B;
+            font-size: 0.85rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 0.25rem 0.75rem;
+            letter-spacing: 1.5px;
+            padding: 0.4rem 1rem;
             border-radius: 50px;
-            margin-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
             animation: pulse-badge 2s ease-in-out infinite;
         }
+
         @keyframes pulse-badge {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 15px 0 rgba(255, 107, 107, 0); }
         }
-        .savings-amount {
+
+        .offer-title {
             font-family: var(--font-heading);
-            font-size: 2rem;
+            font-size: 3.5rem;
             font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+        }
+
+        .offer-title span {
             background: linear-gradient(135deg, var(--secondary-gold) 0%, #FF8F00 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 0.25rem;
-            line-height: 1.2;
-        }
-        .savings-breakdown {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.6;
-        }
-        .savings-breakdown strong {
-            color: var(--secondary-gold);
         }
 
-        /* ── Form Styles (matching get-quote) ── */
-        .step-label {
-            display: block;
-            font-size: 1.125rem;
-            font-weight: 700;
-            color: var(--white);
-            margin-bottom: 1.25rem;
-            text-align: center;
-            font-family: var(--font-heading);
+        .offer-subtitle {
+            font-size: 1.15rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+            line-height: 1.6;
         }
+
+        .value-stack {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 2.5rem;
+        }
+
+        .value-stack li {
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .value-stack li svg {
+            color: var(--success);
+            margin-right: 1rem;
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.5));
+        }
+
+        @media (max-width: 992px) {
+            .offer-title { font-size: 2.2rem; }
+            .value-stack li { justify-content: flex-start; }
+            .value-stack li svg { margin-right: 1rem; }
+        }
+
+        .trust-box {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            width: fit-content;
+        }
+
+        @media (max-width: 992px) {
+            .trust-box { margin: 0; }
+        }
+
+        .trust-avatars {
+            display: flex;
+            align-items: center;
+        }
+
+        .trust-avatars img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--gray-900);
+            margin-left: -15px;
+            object-fit: cover;
+        }
+        .trust-avatars img:first-child { margin-left: 0; }
+
+        .trust-text {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: left;
+        }
+        .trust-text strong {
+            color: var(--secondary-gold);
+            display: block;
+        }
+
+        /* ── Right Side: Form Card ── */
+        .form-wrapper {
+            position: relative;
+        }
+
+        .form-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -20px; right: -20px; bottom: -20px; left: -20px;
+            background: linear-gradient(135deg, rgba(255, 179, 0, 0.2) 0%, rgba(14, 165, 233, 0.1) 100%);
+            border-radius: 30px;
+            z-index: -1;
+            filter: blur(20px);
+        }
+
+        .claim-form-card {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255, 179, 0, 0.2);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(20px);
+        }
+
+        @media (max-width: 480px) {
+            .offer-title { font-size: 1.8rem; }
+            .offer-subtitle { font-size: 1rem; }
+            .value-stack li { font-size: 1rem; }
+            .offer-badge { font-size: 0.75rem; padding: 0.3rem 0.8rem; }
+            .claim-form-card { padding: 1.5rem 1.25rem; }
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        /* Form Inputs */
         .type-selector {
             display: flex;
             gap: 0.5rem;
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(56, 189, 248, 0.2);
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 0.375rem;
             border-radius: 12px;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
         .type-option {
             flex: 1;
@@ -158,39 +272,58 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 0.875rem 1rem;
+            padding: 0.75rem 1rem;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: rgba(255, 255, 255, 0.7);
             border-radius: 8px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             user-select: none;
         }
         .type-option input:checked + .type-btn {
             background: linear-gradient(135deg, var(--secondary-gold) 0%, var(--secondary-dark) 100%);
             color: var(--gray-900);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-        }
-        .form-inputs {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
+            box-shadow: 0 4px 10px rgba(255, 179, 0, 0.3);
         }
 
-        /* Animations */
-        .animate-up {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        .form-group {
+            margin-bottom: 1.25rem;
         }
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-        .delay-4 { animation-delay: 0.4s; }
-        .delay-5 { animation-delay: 0.5s; }
-        @keyframes fadeInUp {
-            to { opacity: 1; transform: translateY(0); }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            padding: 0.875rem 1rem;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary-gold);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(255, 179, 0, 0.1);
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+        
+        select.form-control option {
+            background-color: var(--gray-900);
+            color: var(--white);
         }
 
         .form-row {
@@ -198,9 +331,49 @@
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
         }
+        
         @media (max-width: 480px) {
             .form-row { grid-template-columns: 1fr; }
-            .savings-amount { font-size: 1.6rem; }
+        }
+
+        .btn-glow {
+            width: 100%;
+            background: linear-gradient(135deg, var(--secondary-gold) 0%, #FF8F00 100%);
+            color: var(--gray-900);
+            border: none;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 179, 0, 0.3);
+            margin-top: 1rem;
+        }
+
+        .btn-glow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 179, 0, 0.5);
+        }
+
+        /* Animations */
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-30px);
+            animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(30px);
+            animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: 0.2s;
+        }
+        @keyframes slideIn {
+            to { opacity: 1; transform: translateX(0); }
         }
     </style>
 </head>
@@ -236,30 +409,64 @@
         </nav>
     </header>
 
-    <!-- Claim Form Section -->
+    <!-- Main Section -->
     <section class="claim-section">
-        <div class="claim-container">
+        <div class="claim-grid">
+            
+            <!-- Left Side: Offer Details -->
+            <div class="offer-content reveal-left">
+                <div class="offer-badge">🔥 Summer Special Offer</div>
+                <h1 class="offer-title">Save <span>₹1,02,000</span> On Your Solar System</h1>
+                <p class="offer-subtitle">Take control of your electricity bills today. Claim your government subsidy and exclusive Ray2Volt discount before the offer expires.</p>
+                
+                <ul class="value-stack">
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <strong>₹78,000</strong>&nbsp;PM Surya Ghar Subsidy
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <strong>₹24,000</strong>&nbsp;Ray2Volt Special Discount
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Free Site Survey & Power Audit
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        25-Year Tier-1 Panel Warranty
+                    </li>
+                </ul>
 
-            <!-- Savings Banner -->
-            <div class="savings-banner animate-up">
-                <div class="savings-badge">🔥 Limited Time Offer</div>
-                <div class="savings-amount">Save ₹1,02,000</div>
-                <div class="savings-breakdown">
-                    <strong>₹78,000</strong> PM Surya Ghar Subsidy +<br>
-                    <strong>₹24,000</strong> Ray2Volt Special Summer Sale Discount
+                <div class="trust-box">
+                    <div class="trust-avatars">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop" alt="User" onerror="this.style.display='none'">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop" alt="User" onerror="this.style.display='none'">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" alt="User" onerror="this.style.display='none'">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="User" onerror="this.style.display='none'">
+                    </div>
+                    <div class="trust-text">
+                        <strong>1,000+ Happy Customers</strong>
+                        Join the clean energy revolution.
+                    </div>
                 </div>
             </div>
 
-            <!-- Form Card -->
-            <div class="card" style="padding: 2rem;">
-                <form id="quote-form" action="https://formsubmit.co/sales@ray2voltsolar.com" method="POST">
-                    <input type="hidden" name="_subject" value="🔥 Subsidy + Discount Claim - Ray2Volt Solar">
-                    <input type="hidden" name="_template" value="table">
-                    <input type="hidden" name="_autoresponse" value="Thank you for claiming your subsidy & summer sale discount! Our team will contact you within 24 hours to guide you through the process.">
+            <!-- Right Side: Form Card -->
+            <div class="form-wrapper reveal-right">
+                <div class="claim-form-card">
+                    <div class="form-header">
+                        <h3>Check Your Eligibility</h3>
+                        <p>Takes less than 60 seconds</p>
+                    </div>
 
-                    <!-- Property Type -->
-                    <div class="form-step animate-up delay-1">
-                        <label class="step-label">Claim Your Subsidy & Discount</label>
+                    <form id="quote-form" action="https://formsubmit.co/sales@ray2voltsolar.com" method="POST">
+                        <input type="hidden" name="_subject" value="🔥 Subsidy + Discount Claim - Ray2Volt Solar">
+                        <input type="hidden" name="_template" value="table">
+                        <input type="hidden" name="_autoresponse" value="Thank you for claiming your subsidy & summer sale discount! Our team will contact you within 24 hours to guide you through the process.">
+                        <input type="hidden" name="_next" value="https://ray2voltsolar.com/thank-you.html">
+
+                        <!-- Property Type -->
                         <div class="type-selector">
                             <label class="type-option">
                                 <input type="radio" name="property_type" value="residential" required checked>
@@ -270,29 +477,27 @@
                                 <span class="type-btn">Commercial</span>
                             </label>
                         </div>
-                    </div>
 
-                    <div class="form-inputs">
                         <!-- Name -->
-                        <div class="form-group animate-up delay-1">
-                            <label for="name">Your Name *</label>
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
                             <input type="text" id="name" name="name" class="form-control" placeholder="Enter your full name" required>
                         </div>
 
                         <!-- Phone -->
-                        <div class="form-group animate-up delay-2">
-                            <label for="phone">Mobile Number *</label>
-                            <input type="tel" id="phone" name="phone" class="form-control" placeholder="+91 9666068140" required>
+                        <div class="form-group">
+                            <label for="phone">Mobile Number</label>
+                            <input type="tel" id="phone" name="phone" class="form-control" placeholder="+91 90000 00000" required>
                         </div>
 
                         <!-- City & Bill Range Row -->
-                        <div class="form-row animate-up delay-3">
+                        <div class="form-row">
                             <div class="form-group">
-                                <label for="city">City *</label>
+                                <label for="city">City</label>
                                 <input type="text" id="city" name="city" class="form-control" placeholder="e.g. Tirupati" required>
                             </div>
                             <div class="form-group">
-                                <label for="bill">Monthly Electricity Bill *</label>
+                                <label for="bill">Avg. Monthly Bill</label>
                                 <select id="bill" name="electricity_bill" class="form-control" required>
                                     <option value="" disabled selected>Select range</option>
                                     <option value="Below ₹1,000">Below ₹1,000</option>
@@ -305,19 +510,18 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Submit -->
-                    <div class="animate-up delay-4">
-                        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;" onclick="gtag_report_conversion()">
-                            Claim Subsidy & Discount
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px;">
+                        <!-- Submit -->
+                        <button type="submit" class="btn-glow" onclick="gtag_report_conversion()">
+                            Claim My Offer Now
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width: 20px; height: 20px;">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                             </svg>
                         </button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
+
         </div>
     </section>
 
@@ -336,7 +540,7 @@
         const PARTICLE_COUNT = 150;
         let animFrame;
         let startTime = Date.now();
-        const DURATION = 4000; // confetti lasts 4 seconds
+        const DURATION = 4000;
 
         function random(min, max) { return Math.random() * (max - min) + min; }
 
@@ -367,7 +571,6 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             if (elapsed > DURATION) {
-                // Fade out remaining
                 let allGone = true;
                 particles.forEach(p => {
                     p.opacity -= 0.02;
