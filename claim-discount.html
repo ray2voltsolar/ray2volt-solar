@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" type="image/png" href="R2V Shock symbol.png">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18014889887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-18014889887');
+    </script>
+    <script>
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') { window.location = url; }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-18014889887/9NtXCImroaYcEJ_PlY5D',
+          'event_callback': callback
+      });
+      return false;
+    }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Get ₹24,000 exclusive summer discount + ₹78,000 government subsidy on your solar installation. Save ₹1,02,000 with Ray2Volt Solar today!">
+    <title>Claim Solar Discount | Ray2Volt Solar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700;800&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <meta property="og:site_name" content="Ray2Volt Solar">
+
+    <style>
+        /* ── Confetti Canvas ── */
+        #confetti-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* ── Page Layout ── */
+        .claim-section {
+            min-height: calc(100vh - 90px);
+            padding: 4rem 1rem;
+            margin-top: 90px;
+            display: flex;
+            align-items: center;
+            background: radial-gradient(circle at top right, rgba(255, 179, 0, 0.05), transparent 50%),
+                        radial-gradient(circle at bottom left, rgba(14, 165, 233, 0.05), transparent 50%);
+        }
+
+        .claim-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        @media (max-width: 992px) {
+            .claim-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .claim-section {
+                margin-top: 70px;
+                padding-top: 2rem;
+            }
+        }
+
+        /* ── Left Side: Offer Details ── */
+        .offer-content {
+            padding-right: 2rem;
+        }
+
+        @media (max-width: 992px) {
+            .offer-content {
+                padding-right: 0;
+                text-align: left;
+            }
+        }
+
+        .offer-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2) 0%, rgba(238, 90, 36, 0.2) 100%);
+            border: 1px solid rgba(255, 107, 107, 0.5);
+            color: #FF6B6B;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+            animation: pulse-badge 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-badge {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 15px 0 rgba(255, 107, 107, 0); }
+        }
+
+        .offer-title {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+        }
+
+        .offer-title span {
+            background: linear-gradient(135deg, var(--secondary-gold) 0%, #FF8F00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .offer-subtitle {
+            font-size: 1.15rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .value-stack {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 2.5rem;
+        }
+
+        .value-stack li {
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .value-stack li svg {
+            color: var(--success);
+            margin-right: 1rem;
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.5));
+        }
+
+        @media (max-width: 992px) {
+            .offer-title { font-size: 2.2rem; }
+            .value-stack li { justify-content: flex-start; }
+            .value-stack li svg { margin-right: 1rem; }
+        }
+
+        .trust-box {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            width: fit-content;
+        }
+
+        @media (max-width: 992px) {
+            .trust-box { margin: 0; }
+        }
+
+        .trust-avatars {
+            display: flex;
+            align-items: center;
+        }
+
+        .trust-avatars img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--gray-900);
+            margin-left: -15px;
+            object-fit: cover;
+        }
+        .trust-avatars img:first-child { margin-left: 0; }
+
+        .trust-text {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: left;
+        }
+        .trust-text strong {
+            color: var(--secondary-gold);
+            display: block;
+        }
+
+        /* ── Right Side: Form Card ── */
+        .form-wrapper {
+            position: relative;
+        }
+
+        .form-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -20px; right: -20px; bottom: -20px; left: -20px;
+            background: linear-gradient(135deg, rgba(255, 179, 0, 0.2) 0%, rgba(14, 165, 233, 0.1) 100%);
+            border-radius: 30px;
+            z-index: -1;
+            filter: blur(20px);
+        }
+
+        .claim-form-card {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255, 179, 0, 0.2);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(20px);
+        }
+
+        @media (max-width: 480px) {
+            .offer-title { font-size: 1.8rem; }
+            .offer-subtitle { font-size: 1rem; }
+            .value-stack li { font-size: 1rem; }
+            .offer-badge { font-size: 0.75rem; padding: 0.3rem 0.8rem; }
+            .claim-form-card { padding: 1.5rem 1.25rem; }
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        /* Form Inputs */
+        .type-selector {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.375rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+        .type-option {
+            flex: 1;
+            position: relative;
+            cursor: pointer;
+        }
+        .type-option input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0; width: 0;
+        }
+        .type-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+        .type-option input:checked + .type-btn {
+            background: linear-gradient(135deg, var(--secondary-gold) 0%, var(--secondary-dark) 100%);
+            color: var(--gray-900);
+            box-shadow: 0 4px 10px rgba(255, 179, 0, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            padding: 0.875rem 1rem;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary-gold);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(255, 179, 0, 0.1);
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+        
+        select.form-control option {
+            background-color: var(--gray-900);
+            color: var(--white);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        @media (max-width: 480px) {
+            .form-row { grid-template-columns: 1fr; }
+        }
+
+        .btn-glow {
+            width: 100%;
+            background: linear-gradient(135deg, var(--secondary-gold) 0%, #FF8F00 100%);
+            color: var(--gray-900);
+            border: none;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 179, 0, 0.3);
+            margin-top: 1rem;
+        }
+
+        .btn-glow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 179, 0, 0.5);
+        }
+
+        /* Animations */
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-30px);
+            animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(30px);
+            animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: 0.2s;
+        }
+        @keyframes slideIn {
+            to { opacity: 1; transform: translateX(0); }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="index.html" class="logo">
+                <img src="images/logo.png" alt="Ray2Volt Solar Logo" onerror="this.style.display='none'">
+                <div class="logo-text">Ray2Volt Solar <span>Pvt Ltd</span></div>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About Us</a></li>
+                <li class="dropdown">
+                    <a href="residential.html" class="nav-link" style="display: flex; align-items: center; gap: 4px;">Residential
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="residential-ongrid.html">On-Grid Solutions</a></li>
+                        <li><a href="residential-hybrid.html">Hybrid Solutions</a></li>
+                    </ul>
+                </li>
+                <li><a href="commercial.html" class="nav-link">Commercial</a></li>
+                <li><a href="investor.html" class="nav-link">Investors</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="menu-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+        </nav>
+    </header>
+
+    <!-- Main Section -->
+    <section class="claim-section">
+        <div class="claim-grid">
+            
+            <!-- Left Side: Offer Details -->
+            <div class="offer-content reveal-left">
+                <div class="offer-badge">🔥 Summer Special Offer</div>
+                <h1 class="offer-title">Save <span>₹1,02,000</span> On Your Solar System</h1>
+                <p class="offer-subtitle">Take control of your electricity bills today. Claim your government subsidy and exclusive Ray2Volt discount before the offer expires.</p>
+                
+                <ul class="value-stack">
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <strong>₹78,000</strong>&nbsp;PM Surya Ghar Subsidy
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <strong>₹24,000</strong>&nbsp;Ray2Volt Special Discount
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Free Site Survey & Power Audit
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        25-Year Tier-1 Panel Warranty
+                    </li>
+                </ul>
+
+                <div class="trust-box">
+                    <div class="trust-avatars">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop" alt="User" onerror="this.style.display='none'">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop" alt="User" onerror="this.style.display='none'">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" alt="User" onerror="this.style.display='none'">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="User" onerror="this.style.display='none'">
+                    </div>
+                    <div class="trust-text">
+                        <strong>1,000+ Happy Customers</strong>
+                        Join the clean energy revolution.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Form Card -->
+            <div class="form-wrapper reveal-right">
+                <div class="claim-form-card">
+                    <div class="form-header">
+                        <h3>Check Your Eligibility</h3>
+                        <p>Takes less than 60 seconds</p>
+                    </div>
+
+                    <form id="quote-form" action="https://formsubmit.co/sales@ray2voltsolar.com" method="POST">
+                        <input type="hidden" name="_subject" value="🏷️ Discount Claim Lead - Ray2Volt Solar">
+                        <input type="hidden" name="_template" value="table">
+                        <input type="hidden" name="_autoresponse" value="Thank you for claiming your subsidy & summer sale discount! Our team will contact you within 24 hours to guide you through the process.">
+                        <input type="hidden" name="_next" value="https://ray2voltsolar.com/thank-you.html">
+
+                        <!-- Property Type -->
+                        <div class="type-selector">
+                            <label class="type-option">
+                                <input type="radio" name="property_type" value="residential" required checked>
+                                <span class="type-btn">Residential</span>
+                            </label>
+                            <label class="type-option">
+                                <input type="radio" name="property_type" value="commercial" required>
+                                <span class="type-btn">Commercial</span>
+                            </label>
+                        </div>
+
+                        <!-- Name -->
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="Enter your full name" required>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="form-group">
+                            <label for="phone">Mobile Number</label>
+                            <input type="tel" id="phone" name="phone" class="form-control" placeholder="+91 90000 00000" required>
+                        </div>
+
+                        <!-- City & Bill Range Row -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" id="city" name="city" class="form-control" placeholder="e.g. Tirupati" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="bill">Avg. Monthly Bill</label>
+                                <select id="bill" name="electricity_bill" class="form-control" required>
+                                    <option value="" disabled selected>Select range</option>
+                                    <option value="Below ₹1,000">Below ₹1,000</option>
+                                    <option value="₹1,000 - ₹2,000">₹1,000 - ₹2,000</option>
+                                    <option value="₹2,000 - ₹4,000">₹2,000 - ₹4,000</option>
+                                    <option value="₹4,000 - ₹6,000">₹4,000 - ₹6,000</option>
+                                    <option value="₹6,000 - ₹10,000">₹6,000 - ₹10,000</option>
+                                    <option value="₹10,000 - ₹20,000">₹10,000 - ₹20,000</option>
+                                    <option value="Above ₹20,000">Above ₹20,000</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Submit -->
+                        <button type="submit" class="btn-glow" onclick="gtag_report_conversion()">
+                            Claim My Offer Now
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width: 20px; height: 20px;">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+
+    <!-- Confetti Script -->
+    <script>
+    (function() {
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const colors = ['#FFB300', '#FF8F00', '#FFD54F', '#FF6B6B', '#EE5A24', '#38BDF8', '#10B981', '#fff'];
+        const particles = [];
+        const PARTICLE_COUNT = 150;
+        let animFrame;
+        let startTime = Date.now();
+        const DURATION = 4000;
+
+        function random(min, max) { return Math.random() * (max - min) + min; }
+
+        function createParticle() {
+            return {
+                x: random(0, canvas.width),
+                y: random(-canvas.height, -10),
+                w: random(6, 12),
+                h: random(4, 8),
+                color: colors[Math.floor(Math.random() * colors.length)],
+                rotation: random(0, 360),
+                rotationSpeed: random(-6, 6),
+                velocityX: random(-2, 2),
+                velocityY: random(2, 6),
+                opacity: 1,
+                gravity: random(0.02, 0.06),
+                wobble: random(0, Math.PI * 2),
+                wobbleSpeed: random(0.02, 0.06)
+            };
+        }
+
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+            particles.push(createParticle());
+        }
+
+        function draw() {
+            const elapsed = Date.now() - startTime;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (elapsed > DURATION) {
+                let allGone = true;
+                particles.forEach(p => {
+                    p.opacity -= 0.02;
+                    if (p.opacity > 0) allGone = false;
+                });
+                if (allGone) {
+                    canvas.remove();
+                    return;
+                }
+            }
+
+            particles.forEach(p => {
+                p.velocityY += p.gravity;
+                p.x += p.velocityX + Math.sin(p.wobble) * 0.5;
+                p.y += p.velocityY;
+                p.rotation += p.rotationSpeed;
+                p.wobble += p.wobbleSpeed;
+
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate((p.rotation * Math.PI) / 180);
+                ctx.globalAlpha = Math.max(0, p.opacity);
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+                ctx.restore();
+            });
+
+            animFrame = requestAnimationFrame(draw);
+        }
+
+        draw();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    })();
+    </script>
+</body>
+</html>
