@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function () {
         setSubmitting(submitButton, true, 'Submitting...');
 
         const formData = new FormData(form);
-        formData.set('Page_URL', window.location.href);
+        formData.set('Page URL', window.location.href);
         const payload = Object.fromEntries(formData.entries());
 
         fetch('https://api.web3forms.com/submit', {
