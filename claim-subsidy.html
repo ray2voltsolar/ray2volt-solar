@@ -460,12 +460,13 @@
                         <p>Takes less than 60 seconds</p>
                     </div>
 
-                    <form id="quote-form" action="https://formsubmit.co/sales@ray2voltsolar.com" method="POST">
+                    <form id="quote-form" action="https://api.web3forms.com/submit" method="POST">
+                        <input type="hidden" name="access_key" value="b3d2b2c1-4237-4de1-8879-9048dfa1beb8">
+                        <input type="hidden" name="subject" value="📋 Solar Subsidy Claim - Ray2Volt Solar">
+                        <input type="hidden" name="from_name" value="Ray2Volt Solar Website">
+                        <input type="hidden" name="redirect" value="https://ray2voltsolar.com/thank-you.html">
                         <input type="hidden" name="Source_Site" value="Claim Subsidy">
-                        <input type="hidden" name="_subject" value="📋 Solar Subsidy Claim - Ray2Volt Solar">
-                        <input type="hidden" name="_template" value="table">
-                        <input type="hidden" name="_autoresponse" value="Thank you for claiming your subsidy & summer sale discount! Our team will contact you within 24 hours to guide you through the process.">
-                        <input type="hidden" name="_next" value="https://ray2voltsolar.com/thank-you.html">
+                        <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
 
                         <!-- Property Type -->
                         <div class="type-selector">
@@ -513,7 +514,7 @@
                         </div>
 
                         <!-- Submit -->
-                        <button type="submit" class="btn-glow" onclick="gtag_report_conversion()">
+                        <button type="submit" class="btn-glow">
                             Claim My Offer Now
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width: 20px; height: 20px;">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />

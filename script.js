@@ -124,24 +124,34 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!isValid && e) {
             e.preventDefault();
         }
+
+        return isValid;
     }
 
     if (contactForm) {
         contactForm.addEventListener('submit', function (e) {
-            validateForm([
+            const isValid = validateForm([
                 { element: document.getElementById('name'), validate: val => val.trim() !== '', errorMessage: 'Please enter your name' },
                 { element: document.getElementById('phone'), validate: val => isValidPhone(val), errorMessage: 'Please enter a valid phone number' },
                 { element: document.getElementById('message'), validate: val => val.trim() !== '', errorMessage: 'Please enter your message' }
             ], e);
+
+            if (isValid) {
+                submitLeadForm(e, contactForm);
+            }
         });
     }
 
     if (quoteForm) {
         quoteForm.addEventListener('submit', function (e) {
-            validateForm([
+            const isValid = validateForm([
                 { element: document.getElementById('name'), validate: val => val.trim() !== '', errorMessage: 'Please enter your name' },
                 { element: document.getElementById('phone'), validate: val => isValidPhone(val), errorMessage: 'Please enter a valid phone number' }
             ], e);
+
+            if (isValid) {
+                submitLeadForm(e, quoteForm);
+            }
         });
     }
 
@@ -176,6 +186,78 @@ document.addEventListener('DOMContentLoaded', function () {
     function isValidPhone(phone) {
         const phoneRegex = /^[\d\s\-\+\(\)]{10,}$/;
         return phoneRegex.test(phone);
+    }
+
+    function submitLeadForm(e, form) {
+        if (!form || !form.action.includes('web3forms.com')) return;
+
+        e.preventDefault();
+
+        const submitButton = form.querySelector('[type="submit"]');
+        const originalButtonHtml = submitButton ? submitButton.innerHTML : '';
+
+        setFormStatus(form, 'Submitting your details...', 'info');
+        setSubmitting(submitButton, true, 'Submitting...');
+
+        const formData = new FormData(form);
+        formData.set('Page_URL', window.location.href);
+        const payload = Object.fromEntries(formData.entries());
+
+        fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            body: JSON.stringify(payload),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+            .then(response => response.json()
+                .catch(() => ({ success: response.ok, message: response.statusText })))
+            .then(data => {
+                if (!data.success) {
+                    throw new Error(data.message || 'Form submission was not accepted.');
+                }
+
+                const redirectInput = form.querySelector('input[name="redirect"]');
+                window.location.href = redirectInput ? redirectInput.value : getThankYouUrl();
+            })
+            .catch(() => {
+                setSubmitting(submitButton, false, originalButtonHtml);
+                setFormStatus(
+                    form,
+                    'We could not submit this form right now. Please WhatsApp us at +91 9666068140, or email sales@ray2voltsolar.com directly.',
+                    'error'
+                );
+            });
+    }
+
+    function getThankYouUrl() {
+        const basePath = window.location.href.substring(0, window.location.href.lastIndexOf('/'));
+        return basePath + '/thank-you.html';
+    }
+
+    function setSubmitting(button, isSubmitting, label) {
+        if (!button) return;
+        button.disabled = isSubmitting;
+        button.setAttribute('aria-busy', isSubmitting ? 'true' : 'false');
+        button.innerHTML = label;
+    }
+
+    function setFormStatus(form, message, type) {
+        let status = form.querySelector('.form-submit-status');
+
+        if (!status) {
+            status = document.createElement('p');
+            status.className = 'form-submit-status';
+            status.setAttribute('role', 'status');
+            status.style.marginTop = '1rem';
+            status.style.fontSize = '0.9rem';
+            status.style.textAlign = 'center';
+            form.appendChild(status);
+        }
+
+        status.textContent = message;
+        status.style.color = type === 'error' ? '#F44336' : '#10B981';
     }
 
     // ──────────────────────────────────────────────────────────

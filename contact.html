@@ -187,15 +187,15 @@
                     <div class="card" style="padding: 2.5rem;">
                         <h3 style="margin-bottom: 1.5rem;">Send Us a Message</h3>
 
-                        <form id="contact-form" action="https://formsubmit.co/sales@ray2voltsolar.com" method="POST"
+                        <form id="contact-form" action="https://api.web3forms.com/submit" method="POST"
                             class="form">
-                            <!-- FormSubmit setup fields -->
+                            <!-- Web3Forms setup fields -->
+                            <input type="hidden" name="access_key" value="b3d2b2c1-4237-4de1-8879-9048dfa1beb8">
+                            <input type="hidden" name="subject" value="New Website Inquiry - Ray2Volt Solar">
+                            <input type="hidden" name="from_name" value="Ray2Volt Solar Website">
+                            <input type="hidden" name="redirect" value="https://ray2voltsolar.com/thank-you.html">
                             <input type="hidden" name="Source_Site" value="Contact Us">
-                            <input type="hidden" name="_subject" value="New Website Inquiry - Ray2Volt Solar">
-                            <input type="hidden" name="_template" value="table">
-                            <input type="hidden" name="_autoresponse"
-                                value="Thank you for reaching out to Ray2Volt Solar! We have received your message and our team will get back to you within 24 hours. Have a great day!">
-                            <!-- <input type="hidden" name="_next" class="next-url-input"> -->
+                            <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
                             <div class="form-group">
                                 <label for="name">Your Name *</label>
                                 <input type="text" id="name" name="name" class="form-control"
@@ -231,7 +231,7 @@
                                     placeholder="Tell us about your requirements..." required></textarea>
                             </div>
 
-                            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;" onclick="gtag_report_conversion()">
+                            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
                                 Send Message
                             </button>
 
