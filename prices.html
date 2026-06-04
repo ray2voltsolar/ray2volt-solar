@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" type="image/png" href="R2V Shock symbol.png">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18014889887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-18014889887');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Ray2Volt Solar pricing for On-Grid and Hybrid solar packages. Residential and commercial solar system prices with PM Surya Ghar subsidy details. Transparent pricing, no hidden costs.">
+    <meta name="keywords"
+        content="solar panel prices, solar system cost India, on-grid solar price, hybrid solar price, residential solar cost, commercial solar cost, PM Surya Ghar subsidy, Ray2Volt Solar">
+    <title>Solar Prices & Packages | Ray2Volt Solar</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700;800&family=Nunito+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <meta property="og:site_name" content="Ray2Volt Solar">
+    <meta property="og:title" content="Solar Prices & Packages | Ray2Volt Solar">
+    <meta property="og:description"
+        content="Transparent pricing for On-Grid and Hybrid solar packages. Residential and commercial solar system prices with PM Surya Ghar subsidy details.">
+    <meta property="og:type" content="website">
+
+    <style>
+        /* ===== Pricing Page Specific Styles ===== */
+
+        /* Tab Navigation */
+        .pricing-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .pricing-tab {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.75rem;
+            font-family: var(--font-heading);
+            font-size: 0.9375rem;
+            font-weight: 600;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+            color: rgba(255, 255, 255, 0.7);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-tab:hover {
+            border-color: rgba(56, 189, 248, 0.4);
+            color: var(--white);
+            background: rgba(15, 23, 42, 0.85);
+            transform: translateY(-2px);
+        }
+
+        .pricing-tab.active {
+            background: linear-gradient(135deg, var(--secondary-gold) 0%, #FFD54F 50%, var(--secondary-dark) 100%);
+            background-size: 200% 200%;
+            animation: btnShimmer 3s ease infinite;
+            color: var(--gray-900);
+            border-color: transparent;
+            box-shadow: 0 4px 24px rgba(255, 179, 0, 0.4);
+        }
+
+        .pricing-tab svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Pricing Section Container */
+        .pricing-section {
+            display: none;
+            animation: priceFadeIn 0.5s ease forwards;
+        }
+
+        .pricing-section.active {
+            display: block;
+        }
+
+        @keyframes priceFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Subsection Header */
+        .pricing-subsection {
+            margin-bottom: 3rem;
+        }
+
+        .pricing-subsection:last-child {
+            margin-bottom: 0;
+        }
+
+        .pricing-subsection-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.1);
+        }
+
+        .pricing-subsection-header .subsection-icon {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-md);
+            flex-shrink: 0;
+        }
+
+        .pricing-subsection-header .subsection-icon.residential {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(52, 211, 153, 0.1));
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #34D399;
+        }
+
+        .pricing-subsection-header .subsection-icon.commercial {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(14, 165, 233, 0.1));
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: #38BDF8;
+        }
+
+        .pricing-subsection-header .subsection-icon svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .pricing-subsection-header h3 {
+            margin-bottom: 0;
+            font-size: 1.25rem;
+        }
+
+        .pricing-subsection-header h3 span {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.5);
+            display: block;
+            margin-top: 0.15rem;
+        }
+
+        /* Badge on subsection header */
+        .subsidy-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.3rem 0.75rem;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: var(--radius-full);
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #34D399;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .no-subsidy-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.3rem 0.75rem;
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: var(--radius-full);
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #38BDF8;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        /* Pricing Table Wrapper */
+        .pricing-table-wrapper {
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 40px rgba(56, 189, 248, 0.05);
+            margin-bottom: 1rem;
+        }
+
+        /* Pricing Table */
+        .price-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .price-table thead {
+            background: linear-gradient(90deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+            border-bottom: 2px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .price-table th {
+            padding: 0.75rem 1.25rem;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: rgba(255, 255, 255, 0.9);
+            white-space: nowrap;
+        }
+
+        .price-table th.highlight-col {
+            color: var(--secondary-gold);
+        }
+
+        .price-table th.subsidy-col {
+            color: #34D399;
+        }
+
+        .price-table td {
+            padding: 0.75rem 1.25rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.85);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.2s ease;
+        }
+
+        .price-table tbody tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .price-table tbody tr:hover {
+            background: rgba(56, 189, 248, 0.08);
+            transform: scale(1.002);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 10;
+            position: relative;
+        }
+
+        .price-table tbody tr:hover td {
+            color: var(--white);
+            border-bottom-color: transparent;
+        }
+
+        .price-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Capacity Cell */
+        .capacity-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .capacity-cell .cap-value {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--white);
+        }
+
+        /* Price Cell  */
+        .price-cell {
+            font-family: var(--font-heading);
+            font-size: 0.95rem !important;
+            font-weight: 800 !important;
+            color: var(--secondary-gold) !important;
+            white-space: nowrap;
+        }
+
+        /* Subsidy Cell */
+        .subsidy-cell {
+            font-family: var(--font-heading);
+            color: #34D399 !important;
+            font-weight: 700 !important;
+            white-space: nowrap;
+            font-size: 0.95rem !important;
+        }
+
+        /* Units Cell */
+        .units-cell {
+            color: rgba(255, 255, 255, 0.7) !important;
+            font-size: 0.85rem !important;
+            font-weight: 600 !important;
+        }
+
+        /* Popular row highlight */
+        .price-table tbody tr.popular-row {
+            background: linear-gradient(90deg, rgba(255, 179, 0, 0.1) 0%, transparent 100%);
+            border-left: 4px solid var(--secondary-gold);
+        }
+
+        .price-table tbody tr.popular-row:hover {
+            background: linear-gradient(90deg, rgba(255, 179, 0, 0.15) 0%, rgba(56, 189, 248, 0.08) 100%);
+        }
+
+        .price-table tbody tr.popular-row td:first-child .capacity-cell::after {
+            content: '★ POPULAR';
+            display: inline-flex;
+            align-items: center;
+            color: var(--gray-900);
+            background: var(--secondary-gold);
+            padding: 0.15rem 0.4rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            margin-left: 0.5rem;
+        }
+        /* Pricing Note */
+        .pricing-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-top: 1.25rem;
+            padding: 1rem 1.25rem;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(56, 189, 248, 0.1);
+            border-radius: var(--radius-md);
+            font-size: 0.8125rem;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.6;
+        }
+
+        .pricing-note svg {
+            width: 18px;
+            height: 18px;
+            color: var(--secondary-gold);
+            flex-shrink: 0;
+            margin-top: 0.1rem;
+        }
+
+        .pricing-note p {
+            margin: 0;
+            font-size: 0.8125rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Key Features Cards */
+        .pricing-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+
+        .pricing-feature-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.25rem 1.5rem;
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(56, 189, 248, 0.1);
+            border-radius: var(--radius-lg);
+            transition: all 0.3s ease;
+        }
+
+        .pricing-feature-card:hover {
+            border-color: rgba(16, 185, 129, 0.3);
+            background: rgba(15, 23, 42, 0.75);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .pricing-feature-card .pf-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(52, 211, 153, 0.08));
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-radius: var(--radius);
+            color: #34D399;
+            flex-shrink: 0;
+        }
+
+        .pricing-feature-card .pf-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .pricing-feature-card h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 0.15rem;
+            color: var(--white);
+        }
+
+        .pricing-feature-card p {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* Divider */
+        .pricing-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.15), rgba(255, 179, 0, 0.15), transparent);
+            margin: 3rem 0;
+        }
+
+        /* Responsive Table */
+        @media (max-width: 768px) {
+            .pricing-table-wrapper {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .price-table {
+                min-width: 560px;
+            }
+
+            .price-table th,
+            .price-table td {
+                padding: 0.875rem 1rem;
+                font-size: 0.8125rem;
+            }
+
+            .pricing-subsection-header {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+
+            .pricing-tab {
+                padding: 0.75rem 1.25rem;
+                font-size: 0.8125rem;
+            }
+
+            .pricing-features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .pricing-tabs {
+                gap: 0.4rem;
+            }
+
+            .pricing-tab {
+                padding: 0.65rem 1rem;
+                font-size: 0.75rem;
+                width: calc(50% - 0.2rem);
+                justify-content: center;
+            }
+
+            .price-table {
+                min-width: 500px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header / Navigation -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="index.html" class="logo">
+                <img src="images/logo.png" alt="Ray2Volt Solar Logo" onerror="this.style.display='none'">
+                <div class="logo-text">
+                    Ray2Volt Solar
+                    <span>Pvt Ltd</span>
+                </div>
+            </a>
+
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About Us</a></li>
+                <li class="dropdown">
+                    <a href="residential.html" class="nav-link" style="display: flex; align-items: center; gap: 4px;">Residential 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="residential-ongrid.html">On-Grid Solutions</a></li>
+                        <li><a href="residential-hybrid.html">Hybrid Solutions</a></li>
+                    </ul>
+                </li>
+                <li><a href="commercial.html" class="nav-link">Commercial</a></li>
+                <li><a href="investor.html" class="nav-link">Investors</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <span>/</span>
+                <span>Prices</span>
+            </div>
+            <h1>Solar Packages & <span>Prices</span></h1>
+            <p>Transparent pricing with no hidden costs. Choose the perfect solar system for your home or business.</p>
+        </div>
+    </section>
+
+    <!-- Pricing Content -->
+    <section class="section">
+        <div class="container">
+            <!-- Tab Navigation -->
+            <div class="pricing-tabs" id="pricingTabs">
+                <button class="pricing-tab active" data-tab="ongrid" id="tab-ongrid">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                    On-Grid Solar
+                </button>
+                <button class="pricing-tab" data-tab="hybrid" id="tab-hybrid">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="1" y="6" width="18" height="12" rx="2" ry="2"/><line x1="23" y1="13" x2="23" y2="11"/>
+                    </svg>
+                    Hybrid Solar
+                </button>
+            </div>
+
+            <!-- ========================================= -->
+            <!-- ON-GRID SOLAR SECTION -->
+            <!-- ========================================= -->
+            <div class="pricing-section active" id="section-ongrid">
+
+                <!-- Residential On-Grid -->
+                <div class="pricing-subsection">
+                    <div class="pricing-subsection-header">
+                        <div class="subsection-icon residential">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+                            </svg>
+                        </div>
+                        <h3>Residential On-Grid Packages <span>Includes DCR Solar Panels</span></h3>
+                        <span class="subsidy-badge">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            PMSGY Subsidy Eligible
+                        </span>
+                    </div>
+
+                    <div class="pricing-table-wrapper">
+                        <table class="price-table" id="table-res-ongrid">
+                            <thead>
+                                <tr>
+                                    <th>Capacity</th>
+                                    <th class="highlight-col">Our Price (₹)</th>
+                                    <th class="subsidy-col">PMSGY Subsidy (₹)</th>
+                                    <th>Avg Units / Month</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">2 kWp</span></div></td>
+                                    <td class="price-cell">₹1,73,600</td>
+                                    <td class="subsidy-cell">₹60,000</td>
+                                    <td class="units-cell">240 kWh</td>
+                                </tr>
+                                <tr class="popular-row">
+                                    <td><div class="capacity-cell"><span class="cap-value">3 kWp</span></div></td>
+                                    <td class="price-cell">₹2,26,400</td>
+                                    <td class="subsidy-cell">₹78,000</td>
+                                    <td class="units-cell">360 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">4 kWp</span></div></td>
+                                    <td class="price-cell">₹2,82,200</td>
+                                    <td class="subsidy-cell">₹78,000</td>
+                                    <td class="units-cell">480 kWh</td>
+                                </tr>
+                                <tr class="popular-row">
+                                    <td><div class="capacity-cell"><span class="cap-value">5 kWp</span></div></td>
+                                    <td class="price-cell">₹3,42,000</td>
+                                    <td class="subsidy-cell">₹78,000</td>
+                                    <td class="units-cell">600 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">6 kWp</span></div></td>
+                                    <td class="price-cell">₹4,20,800</td>
+                                    <td class="subsidy-cell">₹78,000</td>
+                                    <td class="units-cell">720 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">7 kWp</span></div></td>
+                                    <td class="price-cell">₹4,75,600</td>
+                                    <td class="subsidy-cell">₹78,000</td>
+                                    <td class="units-cell">840 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">8 kWp</span></div></td>
+                                    <td class="price-cell">₹5,12,400</td>
+                                    <td class="subsidy-cell">₹78,000</td>
+                                    <td class="units-cell">960 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">9 kWp</span></div></td>
+                                    <td class="price-cell">₹5,63,200</td>
+                                    <td class="subsidy-cell">₹78,000</td>
+                                    <td class="units-cell">1,080 kWh</td>
+                                </tr>
+                                <tr class="popular-row">
+                                    <td><div class="capacity-cell"><span class="cap-value">10 kWp</span></div></td>
+                                    <td class="price-cell">₹6,16,000</td>
+                                    <td class="subsidy-cell">₹78,000</td>
+                                    <td class="units-cell">1,200 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">12 kWp</span></div></td>
+                                    <td class="price-cell">₹7,17,600</td>
+                                    <td class="subsidy-cell">₹78,000</td>
+                                    <td class="units-cell">1,440 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">15 kWp</span></div></td>
+                                    <td class="price-cell">₹8,82,000</td>
+                                    <td class="subsidy-cell">₹78,000</td>
+                                    <td class="units-cell">1,800 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">18 kWp</span></div></td>
+                                    <td class="price-cell">₹10,49,400</td>
+                                    <td class="subsidy-cell">₹78,000</td>
+                                    <td class="units-cell">2,160 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">20 kWp</span></div></td>
+                                    <td class="price-cell">₹11,56,000</td>
+                                    <td class="subsidy-cell">₹78,000</td>
+                                    <td class="units-cell">2,400 kWh</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="pricing-divider"></div>
+
+                <!-- Commercial On-Grid -->
+                <div class="pricing-subsection">
+                    <div class="pricing-subsection-header">
+                        <div class="subsection-icon commercial">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="12" y2="18"/>
+                            </svg>
+                        </div>
+                        <h3>Commercial On-Grid Packages <span>Includes NDCR Solar Panels</span></h3>
+                        <span class="no-subsidy-badge">No Subsidies</span>
+                    </div>
+
+                    <div class="pricing-table-wrapper">
+                        <table class="price-table" id="table-com-ongrid">
+                            <thead>
+                                <tr>
+                                    <th>Capacity</th>
+                                    <th class="highlight-col">Our Price (₹)</th>
+                                    <th>Price / Watt (₹)</th>
+                                    <th>Avg Units / Month</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">2 kWp</span></div></td>
+                                    <td class="price-cell">₹1,21,600</td>
+                                    <td>₹60.80</td>
+                                    <td class="units-cell">240 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">3 kWp</span></div></td>
+                                    <td class="price-cell">₹1,73,400</td>
+                                    <td>₹57.80</td>
+                                    <td class="units-cell">360 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">4 kWp</span></div></td>
+                                    <td class="price-cell">₹2,31,200</td>
+                                    <td>₹57.80</td>
+                                    <td class="units-cell">480 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">5 kWp</span></div></td>
+                                    <td class="price-cell">₹2,89,000</td>
+                                    <td>₹57.80</td>
+                                    <td class="units-cell">600 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">6 kWp</span></div></td>
+                                    <td class="price-cell">₹3,58,800</td>
+                                    <td>₹59.80</td>
+                                    <td class="units-cell">720 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">7 kWp</span></div></td>
+                                    <td class="price-cell">₹4,25,600</td>
+                                    <td>₹60.80</td>
+                                    <td class="units-cell">840 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">8 kWp</span></div></td>
+                                    <td class="price-cell">₹4,54,400</td>
+                                    <td>₹56.80</td>
+                                    <td class="units-cell">960 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">9 kWp</span></div></td>
+                                    <td class="price-cell">₹4,75,200</td>
+                                    <td>₹52.80</td>
+                                    <td class="units-cell">1,080 kWh</td>
+                                </tr>
+                                <tr class="popular-row">
+                                    <td><div class="capacity-cell"><span class="cap-value">10 kWp</span></div></td>
+                                    <td class="price-cell">₹5,13,000</td>
+                                    <td>₹51.30</td>
+                                    <td class="units-cell">1,200 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">12 kWp</span></div></td>
+                                    <td class="price-cell">₹5,97,600</td>
+                                    <td>₹49.80</td>
+                                    <td class="units-cell">1,440 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">15 kWp</span></div></td>
+                                    <td class="price-cell">₹7,32,000</td>
+                                    <td>₹48.80</td>
+                                    <td class="units-cell">1,800 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">18 kWp</span></div></td>
+                                    <td class="price-cell">₹8,69,400</td>
+                                    <td>₹48.30</td>
+                                    <td class="units-cell">2,160 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">20 kWp</span></div></td>
+                                    <td class="price-cell">₹9,56,000</td>
+                                    <td>₹47.80</td>
+                                    <td class="units-cell">2,400 kWh</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================= -->
+            <!-- HYBRID SOLAR SECTION -->
+            <!-- ========================================= -->
+            <div class="pricing-section" id="section-hybrid">
+
+                <!-- Residential Hybrid -->
+                <div class="pricing-subsection">
+                    <div class="pricing-subsection-header">
+                        <div class="subsection-icon residential">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+                            </svg>
+                        </div>
+                        <h3>Residential Hybrid Packages <span>Includes DCR Solar Panels</span></h3>
+                        <span class="subsidy-badge">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            PMSGY Subsidy Eligible
+                        </span>
+                    </div>
+
+                    <div class="pricing-table-wrapper">
+                        <table class="price-table" id="table-res-hybrid">
+                            <thead>
+                                <tr>
+                                    <th>Solar Capacity</th>
+                                    <th class="highlight-col">Our Price (₹)</th>
+                                    <th class="subsidy-col">PMSGY Subsidy (₹)</th>
+                                    <th>Avg Units / Month</th>
+                                    <th>Battery Capacity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="popular-row">
+                                    <td><div class="capacity-cell"><span class="cap-value">3 kWp</span></div></td>
+                                    <td class="price-cell">₹4,34,000</td>
+                                    <td class="subsidy-cell">₹78,000</td>
+                                    <td class="units-cell">360 kWh</td>
+                                    <td>5.12 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">4 kWp</span></div></td>
+                                    <td class="price-cell">₹5,07,800</td>
+                                    <td class="subsidy-cell">₹78,000</td>
+                                    <td class="units-cell">480 kWh</td>
+                                    <td>5.12 kWh</td>
+                                </tr>
+                                <tr class="popular-row">
+                                    <td><div class="capacity-cell"><span class="cap-value">5 kWp</span></div></td>
+                                    <td class="price-cell">₹5,85,600</td>
+                                    <td class="subsidy-cell">₹78,000</td>
+                                    <td class="units-cell">600 kWh</td>
+                                    <td>5.12 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">6 kWp</span></div></td>
+                                    <td class="price-cell">₹6,82,400</td>
+                                    <td class="subsidy-cell">₹78,000</td>
+                                    <td class="units-cell">720 kWh</td>
+                                    <td>5.12 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">7 kWp</span></div></td>
+                                    <td class="price-cell">₹7,55,200</td>
+                                    <td class="subsidy-cell">₹78,000</td>
+                                    <td class="units-cell">840 kWh</td>
+                                    <td>5.12 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">8 kWp</span></div></td>
+                                    <td class="price-cell">₹9,63,600</td>
+                                    <td class="subsidy-cell">₹78,000</td>
+                                    <td class="units-cell">960 kWh</td>
+                                    <td>10.24 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">9 kWp</span></div></td>
+                                    <td class="price-cell">₹10,32,400</td>
+                                    <td class="subsidy-cell">₹78,000</td>
+                                    <td class="units-cell">1,080 kWh</td>
+                                    <td>10.24 kWh</td>
+                                </tr>
+                                <tr class="popular-row">
+                                    <td><div class="capacity-cell"><span class="cap-value">10 kWp</span></div></td>
+                                    <td class="price-cell">₹11,03,200</td>
+                                    <td class="subsidy-cell">₹78,000</td>
+                                    <td class="units-cell">1,200 kWh</td>
+                                    <td>10.24 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">12 kWp</span></div></td>
+                                    <td class="price-cell">₹12,86,700</td>
+                                    <td class="subsidy-cell">₹78,000</td>
+                                    <td class="units-cell">1,440 kWh</td>
+                                    <td>11.77 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">15 kWp</span></div></td>
+                                    <td class="price-cell">₹16,34,100</td>
+                                    <td class="subsidy-cell">₹78,000</td>
+                                    <td class="units-cell">1,800 kWh</td>
+                                    <td>16.07 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">18 kWp</span></div></td>
+                                    <td class="price-cell">₹18,55,500</td>
+                                    <td class="subsidy-cell">₹78,000</td>
+                                    <td class="units-cell">2,160 kWh</td>
+                                    <td>16.07 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">20 kWp</span></div></td>
+                                    <td class="price-cell">₹19,98,100</td>
+                                    <td class="subsidy-cell">₹78,000</td>
+                                    <td class="units-cell">2,400 kWh</td>
+                                    <td>16.07 kWh</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="pricing-divider"></div>
+
+                <!-- Commercial Hybrid -->
+                <div class="pricing-subsection">
+                    <div class="pricing-subsection-header">
+                        <div class="subsection-icon commercial">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="12" y2="18"/>
+                            </svg>
+                        </div>
+                        <h3>Commercial Hybrid Packages <span>Includes NDCR Solar Panels</span></h3>
+                        <span class="no-subsidy-badge">No Subsidies</span>
+                    </div>
+
+                    <div class="pricing-table-wrapper">
+                        <table class="price-table" id="table-com-hybrid">
+                            <thead>
+                                <tr>
+                                    <th>Capacity</th>
+                                    <th class="highlight-col">Our Price (₹)</th>
+                                    <th>Battery Specs (Deye)</th>
+                                    <th>Battery Capacity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="popular-row">
+                                    <td><div class="capacity-cell"><span class="cap-value">3 kWp</span></div></td>
+                                    <td class="price-cell">₹3,81,000</td>
+                                    <td>LV, 100Ah, 51.2V (SE‑F5)</td>
+                                    <td>5.12 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">4 kWp</span></div></td>
+                                    <td class="price-cell">₹4,56,800</td>
+                                    <td>LV, 100Ah, 51.2V (SE‑F5)</td>
+                                    <td>5.12 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">5 kWp</span></div></td>
+                                    <td class="price-cell">₹5,32,600</td>
+                                    <td>LV, 100Ah, 51.2V (SE‑F5)</td>
+                                    <td>5.12 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">6 kWp</span></div></td>
+                                    <td class="price-cell">₹6,20,400</td>
+                                    <td>LV, 100Ah, 51.2V (SE‑F5)</td>
+                                    <td>5.12 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">7 kWp</span></div></td>
+                                    <td class="price-cell">₹7,05,200</td>
+                                    <td>LV, 100Ah, 51.2V (SE‑F5)</td>
+                                    <td>5.12 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">8 kWp</span></div></td>
+                                    <td class="price-cell">₹9,51,500</td>
+                                    <td>LV, 230Ah, 51.2V (SE‑F12)</td>
+                                    <td>11.77 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">9 kWp</span></div></td>
+                                    <td class="price-cell">₹9,90,300</td>
+                                    <td>LV, 230Ah, 51.2V (SE‑F12)</td>
+                                    <td>11.77 kWh</td>
+                                </tr>
+                                <tr class="popular-row">
+                                    <td><div class="capacity-cell"><span class="cap-value">10 kWp</span></div></td>
+                                    <td class="price-cell">₹10,46,100</td>
+                                    <td>LV, 230Ah, 51.2V (SE‑F12)</td>
+                                    <td>11.77 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">12 kWp</span></div></td>
+                                    <td class="price-cell">₹11,66,700</td>
+                                    <td>LV, 230Ah, 51.2V (SE‑F12)</td>
+                                    <td>11.77 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">15 kWp</span></div></td>
+                                    <td class="price-cell">₹14,84,100</td>
+                                    <td>LV, 314Ah, 51.2V (SE‑F16)</td>
+                                    <td>16.07 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">18 kWp</span></div></td>
+                                    <td class="price-cell">₹16,75,500</td>
+                                    <td>LV, 314Ah, 51.2V (SE‑F16)</td>
+                                    <td>16.07 kWh</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="capacity-cell"><span class="cap-value">20 kWp</span></div></td>
+                                    <td class="price-cell">₹17,98,100</td>
+                                    <td>LV, 314Ah, 51.2V (SE‑F16)</td>
+                                    <td>16.07 kWh</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pricing-note">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+                        </svg>
+                        <p><strong>Note:</strong> Above pricing covers Deye Low Voltage series only. Custom quotes for High Voltage (HV) inverters and battery storage systems are available upon request.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Features -->
+            <div class="pricing-features">
+                <div class="pricing-feature-card">
+                    <div class="pf-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4>25-Year Warranty</h4>
+                        <p>Tier-1 panels & certified inverters</p>
+                    </div>
+                </div>
+                <div class="pricing-feature-card">
+                    <div class="pf-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4>Quick Installation</h4>
+                        <p>Professional setup in 3-5 days</p>
+                    </div>
+                </div>
+                <div class="pricing-feature-card">
+                    <div class="pf-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4>Subsidy Assistance</h4>
+                        <p>Complete PMSGY documentation help</p>
+                    </div>
+                </div>
+                <div class="pricing-feature-card">
+                    <div class="pf-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4>No Hidden Costs</h4>
+                        <p>All-inclusive transparent pricing</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta reveal reveal-scale">
+        <div class="container">
+            <h2>Need a Custom Quote?</h2>
+            <p>Every rooftop is unique. Get a personalized quote tailored to your specific energy needs and roof specifications.</p>
+            <div class="flex-center gap-3">
+                <a href="contact.html" class="btn btn-white btn-lg">Get Free Quote</a>
+                <a href="https://wa.me/919666068140" class="whatsapp-btn btn-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="currentColor">
+                        <path
+                            d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                    </svg>
+                    Chat on WhatsApp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo" style="margin-bottom: 1rem;">
+                        <img src="images/logo.png" alt="Ray2Volt Solar" style="height: 50px;">
+                    </a>
+                    <h4 style="color: var(--white); margin-bottom: 0.5rem;">Ray2Volt Solar Pvt Ltd</h4>
+                    <p>Powering homes and businesses with clean, affordable solar energy across India.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="currentColor">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                            </svg>
+                        </a>
+                        <a href="#" aria-label="Instagram">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                            </svg>
+                        </a>
+                        <a href="#" aria-label="LinkedIn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="currentColor">
+                                <path
+                                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                                <rect x="2" y="9" width="4" height="12" />
+                                <circle cx="4" cy="4" r="2" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="residential.html">Residential Solar</a></li>
+                        <li><a href="commercial.html">Commercial Solar</a></li>
+                        <li><a href="investor.html">Investor Opportunities</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="residential.html">Home Solar Systems</a></li>
+                        <li><a href="commercial.html">C&I Solar</a></li>
+                        <li><a href="investor.html">RESCO Model</a></li>
+                        <li><a href="residential.html#subsidy">PM Surya Ghar Subsidy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li>1-278, J.K.Nagar, Revenue Ward No-1, Pichatur road, Srikalahasti, Tirupati Dist, 517644,
+                            Andhra Pradesh.</li>
+                        <li><a href="tel:+919666068140">+91 9666068140</a></li>
+                        <li><a href="mailto:sales@ray2voltsolar.com">sales@ray2voltsolar.com</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Ray2Volt Solar Pvt Ltd. All rights reserved.</p>
+                <p>CIN: U40100AP2024PTC123456</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" aria-label="Scroll to top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <script src="script.js"></script>
+    <script>
+        // Pricing Tabs
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabs = document.querySelectorAll('.pricing-tab');
+            const sections = document.querySelectorAll('.pricing-section');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function () {
+                    const target = this.dataset.tab;
+
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Update active section
+                    sections.forEach(s => {
+                        s.classList.remove('active');
+                        s.style.animation = 'none';
+                    });
+
+                    const targetSection = document.getElementById('section-' + target);
+                    // Force reflow to restart animation
+                    void targetSection.offsetWidth;
+                    targetSection.style.animation = '';
+                    targetSection.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
