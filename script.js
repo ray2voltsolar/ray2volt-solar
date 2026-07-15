@@ -491,7 +491,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 fill: #fff;
             }
             .wa-modal-header h3 {
-                font-family: 'Google Sans', sans-serif;
+                font-family: 'Google Sans Flex', sans-serif;
                 font-size: 1.35rem;
                 font-weight: 700;
                 color: #fff;
@@ -526,7 +526,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 border: 1px solid rgba(255, 255, 255, 0.12);
                 border-radius: 12px;
                 color: #fff;
-                font-family: 'Nunito Sans', sans-serif;
+                font-family: 'Open Sans', sans-serif;
                 font-size: 0.95rem;
                 transition: all 0.25s ease;
                 outline: none;
@@ -601,7 +601,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .wa-modal-submit {
                 width: 100%;
                 padding: 0.9rem;
-                font-family: 'Google Sans', sans-serif;
+                font-family: 'Google Sans Flex', sans-serif;
                 font-size: 1rem;
                 font-weight: 700;
                 color: #fff;

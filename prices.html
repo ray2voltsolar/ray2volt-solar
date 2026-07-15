@@ -23,7 +23,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700;800&family=Nunito+Sans:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
         rel="stylesheet">
 
     <!-- Styles -->
@@ -35,42 +35,45 @@
     <meta property="og:type" content="website">
 
     <style>
-        /* ===== Pricing Page Specific Styles ===== */
+        /* ===== Premium Pricing Page Specific Styles ===== */
 
-        /* Tab Navigation */
+        /* Tab Navigation (Segmented Control) */
         .pricing-tabs {
             display: flex;
             justify-content: center;
+            width: fit-content;
+            margin: 0 auto 4rem auto;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 100px;
+            padding: 0.5rem;
             gap: 0.5rem;
-            margin-bottom: 3rem;
-            flex-wrap: wrap;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 2px 10px rgba(0,0,0,0.3);
         }
 
         .pricing-tab {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.875rem 1.75rem;
+            gap: 0.75rem;
+            padding: 0.875rem 2.25rem;
             font-family: var(--font-heading);
-            font-size: 0.9375rem;
+            font-size: 1rem;
             font-weight: 600;
-            border-radius: var(--radius-full);
+            border-radius: 100px;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(56, 189, 248, 0.15);
-            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: transparent;
+            border: 1px solid transparent;
+            color: rgba(255, 255, 255, 0.6);
             position: relative;
-            overflow: hidden;
+            z-index: 1;
         }
 
-        .pricing-tab:hover {
-            border-color: rgba(56, 189, 248, 0.4);
+        .pricing-tab:hover:not(.active) {
             color: var(--white);
-            background: rgba(15, 23, 42, 0.85);
-            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .pricing-tab.active {
@@ -78,19 +81,24 @@
             background-size: 200% 200%;
             animation: btnShimmer 3s ease infinite;
             color: var(--gray-900);
-            border-color: transparent;
-            box-shadow: 0 4px 24px rgba(255, 179, 0, 0.4);
+            box-shadow: 0 4px 20px rgba(255, 179, 0, 0.4);
+            transform: scale(1.02);
         }
 
         .pricing-tab svg {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .pricing-tab.active svg {
+            transform: scale(1.1);
         }
 
         /* Pricing Section Container */
         .pricing-section {
             display: none;
-            animation: priceFadeIn 0.5s ease forwards;
+            animation: priceFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .pricing-section.active {
@@ -100,380 +108,390 @@
         @keyframes priceFadeIn {
             from {
                 opacity: 0;
-                transform: translateY(16px);
+                transform: translateY(24px) scale(0.98);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
         }
 
         /* Subsection Header */
         .pricing-subsection {
-            margin-bottom: 3rem;
-        }
-
-        .pricing-subsection:last-child {
-            margin-bottom: 0;
+            margin-bottom: 4rem;
         }
 
         .pricing-subsection-header {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+            gap: 1.25rem;
+            margin-bottom: 2rem;
             padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(56, 189, 248, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .pricing-subsection-header .subsection-icon {
-            width: 44px;
-            height: 44px;
+            width: 54px;
+            height: 54px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: var(--radius-md);
+            border-radius: 16px;
             flex-shrink: 0;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        
+        .pricing-subsection-header .subsection-icon::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 18px;
+            z-index: -1;
+            filter: blur(8px);
+            opacity: 0.5;
         }
 
         .pricing-subsection-header .subsection-icon.residential {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(52, 211, 153, 0.1));
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(52, 211, 153, 0.05));
+            border: 1px solid rgba(16, 185, 129, 0.4);
             color: #34D399;
+        }
+        .pricing-subsection-header .subsection-icon.residential::after {
+            background: #34D399;
         }
 
         .pricing-subsection-header .subsection-icon.commercial {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(14, 165, 233, 0.1));
-            border: 1px solid rgba(56, 189, 248, 0.3);
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(14, 165, 233, 0.05));
+            border: 1px solid rgba(56, 189, 248, 0.4);
             color: #38BDF8;
+        }
+        .pricing-subsection-header .subsection-icon.commercial::after {
+            background: #38BDF8;
         }
 
         .pricing-subsection-header .subsection-icon svg {
-            width: 22px;
-            height: 22px;
+            width: 28px;
+            height: 28px;
         }
 
         .pricing-subsection-header h3 {
             margin-bottom: 0;
-            font-size: 1.25rem;
+            font-size: 1.5rem;
+            letter-spacing: -0.01em;
         }
 
         .pricing-subsection-header h3 span {
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             font-weight: 500;
             color: rgba(255, 255, 255, 0.5);
             display: block;
-            margin-top: 0.15rem;
+            margin-top: 0.25rem;
+            font-family: var(--font-body);
         }
 
-        /* Badge on subsection header */
-        .subsidy-badge {
+        /* Badges */
+        .subsidy-badge, .no-subsidy-badge {
             display: inline-flex;
             align-items: center;
-            gap: 0.35rem;
-            padding: 0.3rem 0.75rem;
-            background: rgba(16, 185, 129, 0.15);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: var(--radius-full);
-            font-size: 0.7rem;
+            gap: 0.4rem;
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
             font-weight: 700;
-            color: #34D399;
-            letter-spacing: 0.03em;
+            letter-spacing: 0.05em;
             text-transform: uppercase;
             white-space: nowrap;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .subsidy-badge {
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #34D399;
         }
 
         .no-subsidy-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            padding: 0.3rem 0.75rem;
-            background: rgba(56, 189, 248, 0.1);
-            border: 1px solid rgba(56, 189, 248, 0.25);
-            border-radius: var(--radius-full);
-            font-size: 0.7rem;
-            font-weight: 700;
+            background: linear-gradient(90deg, rgba(56, 189, 248, 0.1), rgba(56, 189, 248, 0.05));
+            border: 1px solid rgba(56, 189, 248, 0.3);
             color: #38BDF8;
-            letter-spacing: 0.03em;
-            text-transform: uppercase;
-            white-space: nowrap;
         }
 
-        /* Pricing Table Wrapper */
+        /* Pricing Table Styling (Card Rows) */
         .pricing-table-wrapper {
-            border-radius: var(--radius-xl);
-            overflow: hidden;
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 40px rgba(56, 189, 248, 0.05);
-            margin-bottom: 1rem;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 1rem;
         }
 
-        /* Pricing Table */
         .price-table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0 0.75rem;
             text-align: left;
+            min-width: 800px;
         }
 
-        .price-table thead {
-            background: linear-gradient(90deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
-            border-bottom: 2px solid rgba(56, 189, 248, 0.3);
-        }
-
-        .price-table th {
-            padding: 0.75rem 1.25rem;
+        .price-table thead th {
+            padding: 0 1.5rem 0.5rem 1.5rem;
             font-family: var(--font-heading);
             font-weight: 700;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: rgba(255, 255, 255, 0.9);
-            white-space: nowrap;
+            letter-spacing: 0.1em;
+            color: rgba(255, 255, 255, 0.4);
+            border: none;
+            background: transparent;
         }
 
-        .price-table th.highlight-col {
-            color: var(--secondary-gold);
+        .price-table tbody tr {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
         }
-
-        .price-table th.subsidy-col {
-            color: #34D399;
+        
+        .price-table tbody tr::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            pointer-events: none;
+            transition: all 0.3s ease;
         }
 
         .price-table td {
-            padding: 0.75rem 1.25rem;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.85);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            transition: all 0.2s ease;
+            padding: 1.25rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            border: none;
+            vertical-align: middle;
+            position: relative;
+            z-index: 2;
         }
 
-        .price-table tbody tr:nth-child(even) {
-            background: rgba(255, 255, 255, 0.02);
+        /* Border radius for first and last cells in each row to create a pill/card effect */
+        .price-table tbody tr td:first-child {
+            border-top-left-radius: 12px;
+            border-bottom-left-radius: 12px;
+        }
+        
+        .price-table tbody tr td:last-child {
+            border-top-right-radius: 12px;
+            border-bottom-right-radius: 12px;
         }
 
         .price-table tbody tr:hover {
-            background: rgba(56, 189, 248, 0.08);
-            transform: scale(1.002);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-3px) scale(1.01);
+            background: rgba(30, 41, 59, 0.8);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2), 0 0 20px rgba(56, 189, 248, 0.05);
             z-index: 10;
-            position: relative;
+        }
+        
+        .price-table tbody tr:hover::after {
+            border-color: rgba(56, 189, 248, 0.3);
         }
 
-        .price-table tbody tr:hover td {
-            color: var(--white);
-            border-bottom-color: transparent;
-        }
 
-        .price-table tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        /* Capacity Cell */
+        /* Cell Specifics */
         .capacity-cell {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
         }
 
         .capacity-cell .cap-value {
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 800;
             color: var(--white);
+            font-family: var(--font-heading);
         }
 
-        /* Price Cell  */
         .price-cell {
             font-family: var(--font-heading);
-            font-size: 0.95rem !important;
+            font-size: 1.1rem !important;
             font-weight: 800 !important;
             color: var(--secondary-gold) !important;
             white-space: nowrap;
         }
 
-        /* Subsidy Cell */
         .subsidy-cell {
             font-family: var(--font-heading);
             color: #34D399 !important;
             font-weight: 700 !important;
             white-space: nowrap;
-            font-size: 0.95rem !important;
+            font-size: 1.05rem !important;
         }
 
-        /* Units Cell */
         .units-cell {
             color: rgba(255, 255, 255, 0.7) !important;
-            font-size: 0.85rem !important;
+            font-size: 0.95rem !important;
             font-weight: 600 !important;
         }
 
-        /* Popular row highlight */
-        .price-table tbody tr.popular-row {
-            background: linear-gradient(90deg, rgba(255, 179, 0, 0.1) 0%, transparent 100%);
-            border-left: 4px solid var(--secondary-gold);
-        }
-
-        .price-table tbody tr.popular-row:hover {
-            background: linear-gradient(90deg, rgba(255, 179, 0, 0.15) 0%, rgba(56, 189, 248, 0.08) 100%);
-        }
-
-        .price-table tbody tr.popular-row td:first-child .capacity-cell::after {
-            content: '★ POPULAR';
-            display: inline-flex;
-            align-items: center;
-            color: var(--gray-900);
-            background: var(--secondary-gold);
-            padding: 0.15rem 0.4rem;
-            border-radius: var(--radius-sm);
-            font-size: 0.65rem;
-            font-weight: 800;
-            letter-spacing: 0.05em;
-            margin-left: 0.5rem;
-        }
         /* Pricing Note */
         .pricing-note {
             display: flex;
             align-items: flex-start;
-            gap: 0.75rem;
-            margin-top: 1.25rem;
-            padding: 1rem 1.25rem;
-            background: rgba(15, 23, 42, 0.5);
-            border: 1px solid rgba(56, 189, 248, 0.1);
-            border-radius: var(--radius-md);
-            font-size: 0.8125rem;
-            color: rgba(255, 255, 255, 0.6);
-            line-height: 1.6;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding: 1.25rem 1.5rem;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.6), rgba(30, 41, 59, 0.4));
+            border: 1px solid rgba(56, 189, 248, 0.15);
+            border-radius: var(--radius-lg);
+            border-left: 4px solid var(--secondary-gold);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
         }
 
         .pricing-note svg {
-            width: 18px;
-            height: 18px;
+            width: 22px;
+            height: 22px;
             color: var(--secondary-gold);
             flex-shrink: 0;
-            margin-top: 0.1rem;
         }
 
         .pricing-note p {
             margin: 0;
-            font-size: 0.8125rem;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        /* Key Features Cards */
-        .pricing-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1rem;
-            margin-top: 3rem;
-        }
-
-        .pricing-feature-card {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1.25rem 1.5rem;
-            background: rgba(15, 23, 42, 0.5);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(56, 189, 248, 0.1);
-            border-radius: var(--radius-lg);
-            transition: all 0.3s ease;
-        }
-
-        .pricing-feature-card:hover {
-            border-color: rgba(16, 185, 129, 0.3);
-            background: rgba(15, 23, 42, 0.75);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-        }
-
-        .pricing-feature-card .pf-icon {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(52, 211, 153, 0.08));
-            border: 1px solid rgba(16, 185, 129, 0.25);
-            border-radius: var(--radius);
-            color: #34D399;
-            flex-shrink: 0;
-        }
-
-        .pricing-feature-card .pf-icon svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        .pricing-feature-card h4 {
             font-size: 0.9rem;
-            font-weight: 700;
-            margin-bottom: 0.15rem;
-            color: var(--white);
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
         }
-
-        .pricing-feature-card p {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.5);
-            margin: 0;
-            line-height: 1.4;
+        
+        .pricing-note p strong {
+            color: var(--white);
         }
 
         /* Divider */
         .pricing-divider {
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.15), rgba(255, 179, 0, 0.15), transparent);
-            margin: 3rem 0;
+            background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.2), rgba(255, 179, 0, 0.2), transparent);
+            margin: 4rem 0;
+            position: relative;
+        }
+        
+        .pricing-divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: var(--secondary-gold);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--secondary-gold);
         }
 
-        /* Responsive Table */
+        /* Key Features Cards */
+        .pricing-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .pricing-feature-card {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            padding: 1.5rem;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-xl);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pricing-feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 100% 0%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .pricing-feature-card:hover {
+            border-color: rgba(16, 185, 129, 0.4);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(16, 185, 129, 0.1);
+        }
+        
+        .pricing-feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .pricing-feature-card .pf-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(52, 211, 153, 0.05));
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 14px;
+            color: #34D399;
+            flex-shrink: 0;
+            transition: transform 0.4s ease;
+        }
+        
+        .pricing-feature-card:hover .pf-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .pricing-feature-card .pf-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .pricing-feature-card h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: var(--white);
+            position: relative;
+            z-index: 1;
+        }
+
+        .pricing-feature-card p {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin: 0;
+            line-height: 1.5;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .pricing-table-wrapper {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            .price-table {
-                min-width: 560px;
-            }
-
-            .price-table th,
-            .price-table td {
-                padding: 0.875rem 1rem;
-                font-size: 0.8125rem;
-            }
-
-            .pricing-subsection-header {
-                flex-wrap: wrap;
-                gap: 0.5rem;
-            }
-
-            .pricing-tab {
-                padding: 0.75rem 1.25rem;
-                font-size: 0.8125rem;
-            }
-
-            .pricing-features {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 480px) {
             .pricing-tabs {
-                gap: 0.4rem;
+                flex-direction: column;
+                width: 100%;
+                border-radius: 20px;
+                padding: 0.5rem;
             }
-
             .pricing-tab {
-                padding: 0.65rem 1rem;
-                font-size: 0.75rem;
-                width: calc(50% - 0.2rem);
+                width: 100%;
                 justify-content: center;
+                border-radius: 16px;
             }
-
-            .price-table {
-                min-width: 500px;
+            .pricing-subsection-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            .pricing-subsection-header h3 span {
+                display: block;
+                margin-top: 0.5rem;
             }
         }
     </style>
@@ -585,7 +603,7 @@
                                     <td class="subsidy-cell">₹60,000</td>
                                     <td class="units-cell">240 kWh</td>
                                 </tr>
-                                <tr class="popular-row">
+                                <tr>
                                     <td><div class="capacity-cell"><span class="cap-value">3 kWp</span></div></td>
                                     <td class="price-cell">₹2,26,400</td>
                                     <td class="subsidy-cell">₹78,000</td>
@@ -597,7 +615,7 @@
                                     <td class="subsidy-cell">₹78,000</td>
                                     <td class="units-cell">480 kWh</td>
                                 </tr>
-                                <tr class="popular-row">
+                                <tr>
                                     <td><div class="capacity-cell"><span class="cap-value">5 kWp</span></div></td>
                                     <td class="price-cell">₹3,42,000</td>
                                     <td class="subsidy-cell">₹78,000</td>
@@ -627,7 +645,7 @@
                                     <td class="subsidy-cell">₹78,000</td>
                                     <td class="units-cell">1,080 kWh</td>
                                 </tr>
-                                <tr class="popular-row">
+                                <tr>
                                     <td><div class="capacity-cell"><span class="cap-value">10 kWp</span></div></td>
                                     <td class="price-cell">₹6,16,000</td>
                                     <td class="subsidy-cell">₹78,000</td>
@@ -735,7 +753,7 @@
                                     <td>₹52.80</td>
                                     <td class="units-cell">1,080 kWh</td>
                                 </tr>
-                                <tr class="popular-row">
+                                <tr>
                                     <td><div class="capacity-cell"><span class="cap-value">10 kWp</span></div></td>
                                     <td class="price-cell">₹5,13,000</td>
                                     <td>₹51.30</td>
@@ -803,7 +821,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="popular-row">
+                                <tr>
                                     <td><div class="capacity-cell"><span class="cap-value">3 kWp</span></div></td>
                                     <td class="price-cell">₹4,34,000</td>
                                     <td class="subsidy-cell">₹78,000</td>
@@ -817,7 +835,7 @@
                                     <td class="units-cell">480 kWh</td>
                                     <td>5.12 kWh</td>
                                 </tr>
-                                <tr class="popular-row">
+                                <tr>
                                     <td><div class="capacity-cell"><span class="cap-value">5 kWp</span></div></td>
                                     <td class="price-cell">₹5,85,600</td>
                                     <td class="subsidy-cell">₹78,000</td>
@@ -852,7 +870,7 @@
                                     <td class="units-cell">1,080 kWh</td>
                                     <td>10.24 kWh</td>
                                 </tr>
-                                <tr class="popular-row">
+                                <tr>
                                     <td><div class="capacity-cell"><span class="cap-value">10 kWp</span></div></td>
                                     <td class="price-cell">₹11,03,200</td>
                                     <td class="subsidy-cell">₹78,000</td>
@@ -917,7 +935,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="popular-row">
+                                <tr>
                                     <td><div class="capacity-cell"><span class="cap-value">3 kWp</span></div></td>
                                     <td class="price-cell">₹3,81,000</td>
                                     <td>LV, 100Ah, 51.2V (SE‑F5)</td>
@@ -959,7 +977,7 @@
                                     <td>LV, 230Ah, 51.2V (SE‑F12)</td>
                                     <td>11.77 kWh</td>
                                 </tr>
-                                <tr class="popular-row">
+                                <tr>
                                     <td><div class="capacity-cell"><span class="cap-value">10 kWp</span></div></td>
                                     <td class="price-cell">₹10,46,100</td>
                                     <td>LV, 230Ah, 51.2V (SE‑F12)</td>
