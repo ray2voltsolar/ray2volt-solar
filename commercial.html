@@ -22,7 +22,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..1000&family=Assistant:wght@200..800&display=swap"
         rel="stylesheet">
 
     <!-- Styles -->
@@ -46,7 +46,7 @@
                 <li><a href="index.html" class="nav-link">Home</a></li>
                 <li><a href="about.html" class="nav-link">About Us</a></li>
                 <li class="dropdown">
-                    <a href="residential.html" class="nav-link" style="display: flex; align-items: center; gap: 4px;">Residential 
+                    <a href="residential.html" class="nav-link" style="display: flex; align-items: center; gap: 4px;">Residential
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </a>
                     <ul class="dropdown-menu">
@@ -67,16 +67,59 @@
         </nav>
     </header>
 
-    <!-- Page Header -->
-    <section class="page-header">
+    <!-- Hero Section -->
+    <section class="hero">
         <div class="container">
-            <div class="breadcrumb">
-                <a href="index.html">Home</a>
-                <span>/</span>
-                <span>Commercial & Industrial</span>
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="hero-badge">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
+                            <line x1="8" y1="6" x2="16" y2="6" />
+                            <line x1="8" y1="10" x2="16" y2="10" />
+                            <line x1="8" y1="14" x2="16" y2="14" />
+                            <line x1="8" y1="18" x2="12" y2="18" />
+                        </svg>
+                        Commercial & Industrial Solar
+                    </div>
+
+                    <h1 style="font-size: clamp(1.75rem, 1.1rem + 2.2vw, 2.9rem);">Cut Your Business Power Costs with <span>Ray2Volt Solar</span></h1>
+
+                    <p class="lead">Electricity is one of the biggest operating expenses for any business. Turn your
+                        rooftop into a money-saving asset with a solar plant designed around your load, your roof, and
+                        your budget.</p>
+
+                    <div class="hero-buttons">
+                        <a href="contact.html" class="btn btn-primary btn-lg">Get Free Site Visit</a>
+                        <a href="tel:+919666068140" class="btn btn-outline btn-lg">Call Us Now</a>
+                    </div>
+
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <h3>80%</h3>
+                            <p>Bill Reduction</p>
+                        </div>
+                        <div class="hero-stat">
+                            <h3>3-4 Yrs</h3>
+                            <p>Payback Period</p>
+                        </div>
+                        <div class="hero-stat">
+                            <h3>25 Yrs</h3>
+                            <p>Panel Warranty</p>
+                        </div>
+                        <div class="hero-stat">
+                            <h3>30 Yrs</h3>
+                            <p>Performance Warranty</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-image">
+                    <img src="images/commercial-solar.png" alt="Commercial rooftop solar installation"
+                        onerror="this.src='https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=600&fit=crop'">
+                </div>
             </div>
-            <h1>Solar for Business</h1>
-            <p>Slash your electricity costs and boost your bottom line with commercial solar solutions.</p>
         </div>
     </section>
 
@@ -86,15 +129,15 @@
             <div class="about-intro reveal">
                 <div>
                     <h2>Power Your Business Growth</h2>
-                    <p class="lead">Electricity is one of the biggest operating expenses for businesses. Solar energy
-                        can reduce this cost by up to 80%.</p>
+                    <p class="lead">Solar can reduce your electricity cost by up to 80% - savings that flow straight to
+                        your bottom line.</p>
 
-                    <p>Whether you run a factory, warehouse, hotel, hospital, or office building, solar power can
-                        dramatically cut your electricity bills while demonstrating your commitment to sustainability.
-                    </p>
+                    <p>Whether you run a factory, warehouse, hotel, hospital, or office building, a well-designed solar
+                        plant dramatically cuts your energy bills while demonstrating your commitment to
+                        sustainability.</p>
 
-                    <p>With commercial solar, your rooftop becomes a money-generating asset. Instead of paying
-                        ever-increasing electricity bills, you generate your own power and save from day one.</p>
+                    <p>Instead of paying ever-increasing tariffs, you generate your own power at a fixed, predictable
+                        cost - and start saving from day one.</p>
 
                     <div class="grid grid-2 mt-4" style="gap: 1.5rem;">
                         <div class="card" style="padding: 1.5rem; text-align: center;">
@@ -108,8 +151,8 @@
                     </div>
                 </div>
                 <div>
-                    <img src="images/commercial-solar.png" alt="Commercial Solar Installation"
-                        onerror="this.src='https://images.unsplash.com/photo-1559302504-64aae6ca6b6d?w=600&h=400&fit=crop'">
+                    <img src="https://images.unsplash.com/photo-1559302504-64aae6ca6b6d?w=600&h=400&fit=crop"
+                        alt="Commercial Solar Installation">
                 </div>
             </div>
         </div>
@@ -244,116 +287,145 @@
         <div class="container">
             <div class="section-header reveal">
                 <h2>Industries We Serve</h2>
-                <p>Our C&I solar solutions are tailored for various business sectors.</p>
+                <p>Every industry has a different load profile. Explore how solar works for yours.</p>
             </div>
 
             <div class="grid grid-4 reveal-stagger">
-                <div class="card service-card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M18 10h-4V4H2v16h20V10h-4z" />
-                            <path d="M14 10V4l4 4" />
-                        </svg>
+                <a href="industry-manufacturing.html" class="card industry-card reveal">
+                    <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&h=400&fit=crop"
+                        alt="Manufacturing plant">
+                    <div class="industry-card-body">
+                        <h3>Manufacturing</h3>
+                        <p>Factories, production units, and heavy industry running high daytime loads.</p>
+                        <span class="card-link">Learn More
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                        </span>
                     </div>
-                    <h3>Manufacturing</h3>
-                    <p>Factories, production units, warehouses</p>
-                </div>
+                </a>
 
-                <div class="card service-card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path
-                                d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5m-4 0h4" />
-                        </svg>
+                <a href="industry-hotels.html" class="card industry-card reveal">
+                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop"
+                        alt="Hotel and resort">
+                    <div class="industry-card-body">
+                        <h3>Hotels & Resorts</h3>
+                        <p>Hospitality, restaurants, and lodging with round-the-clock energy demand.</p>
+                        <span class="card-link">Learn More
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                        </span>
                     </div>
-                    <h3>Hotels & Resorts</h3>
-                    <p>Hospitality, restaurants, lodging</p>
-                </div>
+                </a>
 
-                <div class="card service-card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M3 21h18" />
-                            <path d="M3 7v1a3 3 0 0 0 6 0V7m0 1a3 3 0 0 0 6 0V7m0 1a3 3 0 0 0 6 0V7H3l2-4h14l2 4" />
-                            <path d="M5 21V10.85" />
-                            <path d="M19 21V10.85" />
-                            <path d="M9 21v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4" />
-                        </svg>
+                <a href="industry-retail.html" class="card industry-card reveal">
+                    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=400&fit=crop"
+                        alt="Retail store">
+                    <div class="industry-card-body">
+                        <h3>Retail & Malls</h3>
+                        <p>Shopping centres and supermarkets with long daytime operating hours.</p>
+                        <span class="card-link">Learn More
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                        </span>
                     </div>
-                    <h3>Retail & Malls</h3>
-                    <p>Shopping centers, supermarkets</p>
-                </div>
+                </a>
 
-                <div class="card service-card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                        </svg>
+                <a href="industry-healthcare.html" class="card industry-card reveal">
+                    <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=600&h=400&fit=crop"
+                        alt="Hospital building">
+                    <div class="industry-card-body">
+                        <h3>Healthcare</h3>
+                        <p>Hospitals, clinics, and diagnostic centres that can never lose power.</p>
+                        <span class="card-link">Learn More
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                        </span>
                     </div>
-                    <h3>Healthcare</h3>
-                    <p>Hospitals, clinics, medical facilities</p>
-                </div>
+                </a>
 
-                <div class="card service-card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-                        </svg>
+                <a href="industry-education.html" class="card industry-card reveal">
+                    <img src="https://images.unsplash.com/photo-1562774053-701939374585?w=600&h=400&fit=crop"
+                        alt="University campus">
+                    <div class="industry-card-body">
+                        <h3>Educational</h3>
+                        <p>Schools, colleges, and universities with large rooftops and daytime usage.</p>
+                        <span class="card-link">Learn More
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                        </span>
                     </div>
-                    <h3>Educational</h3>
-                    <p>Schools, colleges, universities</p>
-                </div>
+                </a>
 
-                <div class="card service-card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
-                            <line x1="8" y1="6" x2="16" y2="6" />
-                            <line x1="8" y1="10" x2="16" y2="10" />
-                            <line x1="8" y1="14" x2="16" y2="14" />
-                            <line x1="8" y1="18" x2="12" y2="18" />
-                        </svg>
+                <a href="industry-offices.html" class="card industry-card reveal">
+                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop"
+                        alt="Corporate office buildings">
+                    <div class="industry-card-body">
+                        <h3>Corporate Offices</h3>
+                        <p>IT parks and business centres targeting green certifications and lower OPEX.</p>
+                        <span class="card-link">Learn More
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                        </span>
                     </div>
-                    <h3>Corporate Offices</h3>
-                    <p>IT parks, business centers</p>
-                </div>
+                </a>
 
-                <div class="card service-card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="3" />
-                            <path
-                                d="M12 16.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 1 1 12 7.5a4.5 4.5 0 1 1 4.5 4.5 4.5 4.5 0 1 1-4.5 4.5" />
-                            <path d="M12 7.5V9" />
-                            <path d="M7.5 12H9" />
-                            <path d="M16.5 12H15" />
-                            <path d="M12 16.5V15" />
-                        </svg>
+                <a href="industry-cold-storage.html" class="card industry-card reveal">
+                    <img src="https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=600&h=400&fit=crop"
+                        alt="Cold storage facility">
+                    <div class="industry-card-body">
+                        <h3>Cold Storage</h3>
+                        <p>Refrigeration and food processing where power is the #1 operating cost.</p>
+                        <span class="card-link">Learn More
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                        </span>
                     </div>
-                    <h3>Cold Storage</h3>
-                    <p>Refrigeration, food processing</p>
-                </div>
+                </a>
 
-                <div class="card service-card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polygon points="12 2 2 7 12 12 22 7 12 2" />
-                            <polyline points="2 17 12 22 22 17" />
-                            <polyline points="2 12 12 17 22 12" />
-                        </svg>
+                <a href="industry-warehousing.html" class="card industry-card reveal">
+                    <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?w=600&h=400&fit=crop"
+                        alt="Warehouse interior">
+                    <div class="industry-card-body">
+                        <h3>Warehousing</h3>
+                        <p>Logistics hubs and distribution centres with huge unused roof area.</p>
+                        <span class="card-link">Learn More
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                        </span>
                     </div>
-                    <h3>Warehousing</h3>
-                    <p>Logistics, distribution centers</p>
-                </div>
+                </a>
             </div>
         </div>
     </section>
@@ -491,7 +563,6 @@
 
             <div class="footer-bottom">
                 <p>&copy; 2024 Ray2Volt Solar Pvt Ltd. All rights reserved.</p>
-                <p>CIN: U40100AP2024PTC123456</p>
             </div>
         </div>
     </footer>

@@ -52,19 +52,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ──────────────────────────────────────────────────────────
-    // 2. Header Scroll Effect (with shrink)
+    // 2. Header reference (fixed bar, no scroll effects)
     // ──────────────────────────────────────────────────────────
     const header = document.querySelector('.header');
-
-    if (header) {
-        window.addEventListener('scroll', function () {
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-    }
 
     // ──────────────────────────────────────────────────────────
     // 3. Smooth Scroll for Anchor Links
@@ -526,7 +516,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 border: 1px solid rgba(255, 255, 255, 0.12);
                 border-radius: 12px;
                 color: #fff;
-                font-family: 'Open Sans', sans-serif;
+                font-family: 'Assistant', sans-serif;
                 font-size: 0.95rem;
                 transition: all 0.25s ease;
                 outline: none;
