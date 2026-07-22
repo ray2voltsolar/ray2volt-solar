@@ -1499,6 +1499,227 @@ textarea.form-control {
     resize: vertical;
 }
 
+/* Commercial and industrial campaign lead capture */
+.ci-lead-card {
+    width: 100%;
+    max-width: 640px;
+    margin-left: auto;
+    padding: 1.5rem;
+    background: rgba(15, 23, 42, 0.92);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    text-align: left;
+}
+
+.ci-lead-card-header {
+    margin-bottom: 1.25rem;
+}
+
+.ci-lead-card-header h2 {
+    color: var(--white);
+    font-size: clamp(1.35rem, 1.1rem + 0.7vw, 1.75rem);
+    margin-bottom: 0.5rem;
+}
+
+.ci-lead-card-header > p:last-child {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.ci-eyebrow {
+    color: #34D399;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 0.35rem;
+}
+
+.ci-lead-form {
+    gap: 1rem;
+}
+
+.ci-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+}
+
+.ci-lead-card .form-group {
+    gap: 0.35rem;
+}
+
+.ci-lead-card .form-group label {
+    font-size: 0.78rem;
+}
+
+.ci-lead-card .form-control {
+    width: 100%;
+    padding: 0.7rem 0.75rem;
+    font-size: 0.9rem;
+}
+
+.ci-submit {
+    width: 100%;
+    justify-content: center;
+}
+
+.ci-form-note {
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.72rem;
+    line-height: 1.45;
+    margin: 0;
+    text-align: center;
+}
+
+.ci-direct-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.ci-direct-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 0.65rem 0.75rem;
+    color: var(--white);
+    font-size: 0.82rem;
+    font-weight: 700;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    border-radius: var(--radius);
+    text-align: center;
+}
+
+.ci-direct-link:hover {
+    color: var(--white);
+    border-color: #38BDF8;
+    background: rgba(56, 189, 248, 0.1);
+}
+
+.ci-whatsapp-link {
+    border-color: rgba(37, 211, 102, 0.55);
+    background: rgba(37, 211, 102, 0.1);
+}
+
+.ci-whatsapp-link:hover {
+    border-color: #25D366;
+    background: rgba(37, 211, 102, 0.2);
+}
+
+.ci-service-area {
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 0.8rem;
+    margin: 1rem 0 0;
+}
+
+.ci-page-header-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(520px, 1.15fr);
+    gap: 3rem;
+    align-items: center;
+    text-align: left;
+}
+
+.ci-page-header-grid .breadcrumb {
+    justify-content: flex-start;
+}
+
+.ci-page-header-grid .ci-header-copy > p {
+    margin: 0;
+    max-width: 640px;
+}
+
+.ci-header-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.ci-qualification-note {
+    margin-top: 1rem;
+    padding: 0.85rem 1rem;
+    color: rgba(255, 255, 255, 0.68);
+    font-size: 0.82rem;
+    line-height: 1.5;
+    border-left: 3px solid #10B981;
+    background: rgba(16, 185, 129, 0.08);
+    border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+@media (max-width: 1100px) {
+    .ci-page-header-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .ci-page-header-grid .ci-header-copy {
+        text-align: center;
+    }
+
+    .ci-page-header-grid .breadcrumb,
+    .ci-header-actions {
+        justify-content: center;
+    }
+
+    .ci-page-header-grid .ci-header-copy > p,
+    .ci-lead-card {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media (max-width: 576px) {
+    .ci-lead-card {
+        padding: 1.1rem;
+        border-radius: var(--radius-lg);
+    }
+
+    .ci-form-grid,
+    .ci-direct-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .ci-lead-card-header h2 {
+        font-size: 1.35rem;
+    }
+
+    .ci-page-header-grid .ci-header-copy {
+        text-align: left;
+    }
+
+    .ci-page-header-grid .breadcrumb,
+    .ci-header-actions {
+        justify-content: flex-start;
+    }
+
+    .ci-campaign-hero .hero-stats {
+        display: none;
+    }
+
+    .ci-campaign-hero .hero-buttons {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ci-campaign-hero .hero-buttons .btn:first-child {
+        grid-column: 1 / -1;
+    }
+
+    .ci-campaign-hero .hero-buttons .btn {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+}
+
 /* WhatsApp Button */
 .whatsapp-btn {
     display: inline-flex;

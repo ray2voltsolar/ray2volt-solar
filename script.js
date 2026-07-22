@@ -92,7 +92,146 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // ──────────────────────────────────────────────────────────
-    // 5. Form Validation
+    // 5. Commercial and industrial lead forms
+    const ciLeadFormHosts = document.querySelectorAll('[data-ci-lead-form]');
+
+    ciLeadFormHosts.forEach((host, index) => {
+        const source = host.dataset.source || 'Commercial Solar Page';
+        const selectedBusinessType = host.dataset.businessType || '';
+        const formId = `ci-lead-form-${index + 1}`;
+        const businessTypes = [
+            { key: 'manufacturing', label: 'Manufacturing / Factory' },
+            { key: 'hospitality', label: 'Hotel / Resort' },
+            { key: 'retail', label: 'Retail / Mall' },
+            { key: 'healthcare', label: 'Hospital / Healthcare' },
+            { key: 'education', label: 'School / College' },
+            { key: 'offices', label: 'Office / IT Park' },
+            { key: 'cold-storage', label: 'Cold Storage / Food Processing' },
+            { key: 'warehousing', label: 'Warehouse / Logistics' },
+            { key: 'other', label: 'Other Business' }
+        ];
+        const businessOptions = businessTypes.map(type =>
+            `<option value="${type.label}"${type.key === selectedBusinessType ? ' selected' : ''}>${type.label}</option>`
+        ).join('');
+
+        host.innerHTML = `
+            <div class="ci-lead-card">
+                <div class="ci-lead-card-header">
+                    <p class="ci-eyebrow">Free C&amp;I power audit</p>
+                    <h2>Get a site-based solar proposal</h2>
+                    <p>Share a few facility details. We will review your bill, daytime load and rooftop before estimating system size, cost and indicative savings.</p>
+                </div>
+                <form id="${formId}" class="form ci-lead-form" action="https://api.web3forms.com/submit" method="POST">
+                    <input type="hidden" name="access_key" value="b3d2b2c1-4237-4de1-8879-9048dfa1beb8">
+                    <input type="hidden" name="subject" value="New C&amp;I Power Audit Request - ${source}">
+                    <input type="hidden" name="from_name" value="Ray2Volt Solar Website">
+                    <input type="hidden" name="redirect" value="https://ray2voltsolar.com/thank-you.html">
+                    <input type="hidden" name="Source Page" value="${source}">
+                    <input type="hidden" name="Campaign" value="C&amp;I On-Grid Search 001">
+                    <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off">
+                    <div class="ci-form-grid">
+                        <div class="form-group">
+                            <label for="${formId}-name">Name *</label>
+                            <input type="text" id="${formId}-name" name="Name" class="form-control" autocomplete="name" placeholder="Your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="${formId}-phone">Phone *</label>
+                            <input type="tel" id="${formId}-phone" name="Phone Number" class="form-control" autocomplete="tel" inputmode="tel" placeholder="10-digit mobile number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="${formId}-business">Business type *</label>
+                            <select id="${formId}-business" name="Business Type" class="form-control" required>
+                                <option value="">Select business type</option>
+                                ${businessOptions}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="${formId}-bill">Monthly electricity bill *</label>
+                            <select id="${formId}-bill" name="Monthly Electricity Bill" class="form-control" required>
+                                <option value="">Select bill range</option>
+                                <option value="Below ₹50,000">Below ₹50,000</option>
+                                <option value="₹50,000 - ₹1 lakh">₹50,000 - ₹1 lakh</option>
+                                <option value="₹1 lakh - ₹3 lakh">₹1 lakh - ₹3 lakh</option>
+                                <option value="₹3 lakh - ₹10 lakh">₹3 lakh - ₹10 lakh</option>
+                                <option value="Above ₹10 lakh">Above ₹10 lakh</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="${formId}-location">Facility location *</label>
+                            <input type="text" id="${formId}-location" name="Location" class="form-control" autocomplete="address-level2" placeholder="City or town" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="${formId}-site">Rooftop / site status *</label>
+                            <select id="${formId}-site" name="Rooftop or Site Status" class="form-control" required>
+                                <option value="">Select site status</option>
+                                <option value="Owned rooftop">Owned rooftop</option>
+                                <option value="Leased rooftop with owner approval">Leased roof; approval available</option>
+                                <option value="Ground or alternate site">Ground / alternate site</option>
+                                <option value="Needs site assessment">Need Ray2Volt to assess</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary ci-submit">Request Free Assessment</button>
+                    <p class="ci-form-note">No obligation. Savings, payback, approvals and warranties depend on the selected system, tariff, load, roof and site conditions. Standard on-grid solar does not provide outage backup.</p>
+                </form>
+                <div class="ci-direct-actions" aria-label="Direct contact options">
+                    <a href="tel:+919666068140" class="ci-direct-link" data-lead-channel="phone">Call +91 96660 68140</a>
+                    <a href="https://wa.me/919666068140?text=Hi%20Ray2Volt%2C%20I%20would%20like%20a%20free%20commercial%20power%20audit." class="ci-direct-link ci-whatsapp-link" data-lead-channel="whatsapp">WhatsApp us</a>
+                </div>
+            </div>`;
+    });
+
+    const trackingParams = new URLSearchParams(window.location.search);
+    const trackedFields = {
+        utm_source: 'UTM Source',
+        utm_medium: 'UTM Medium',
+        utm_campaign: 'UTM Campaign',
+        utm_term: 'UTM Term',
+        utm_content: 'UTM Content',
+        gclid: 'GCLID'
+    };
+
+    document.querySelectorAll('.ci-lead-form').forEach(form => {
+        Object.entries(trackedFields).forEach(([parameter, fieldName]) => {
+            const value = trackingParams.get(parameter);
+            if (!value) return;
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = fieldName;
+            input.value = value;
+            form.appendChild(input);
+        });
+
+        form.addEventListener('submit', function (e) {
+            const requiredFields = Array.from(form.querySelectorAll('[required]')).map(element => ({
+                element,
+                validate: value => element.type === 'tel' ? isValidPhone(value) : value.trim() !== '',
+                errorMessage: element.type === 'tel' ? 'Please enter a valid phone number' : 'Please complete this field'
+            }));
+            const isValid = validateForm(requiredFields, e);
+
+            if (isValid) {
+                submitLeadForm(e, form);
+            }
+        });
+    });
+
+    function trackLeadEvent(eventName, eventLabel) {
+        if (typeof window.gtag === 'function') {
+            window.gtag('event', eventName, {
+                event_category: 'lead',
+                event_label: eventLabel
+            });
+        }
+    }
+
+    document.addEventListener('click', function (e) {
+        const link = e.target.closest('[data-lead-channel]');
+        if (!link) return;
+        trackLeadEvent(`${link.dataset.leadChannel}_click`, window.location.pathname);
+    });
+
+    // 6. Form Validation
     // ──────────────────────────────────────────────────────────
     const contactForm = document.getElementById('contact-form');
     const quoteForm = document.getElementById('quote-form');
@@ -206,6 +345,10 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(data => {
                 if (!data.success) {
                     throw new Error(data.message || 'Form submission was not accepted.');
+                }
+
+                if (form.classList.contains('ci-lead-form')) {
+                    trackLeadEvent('ci_lead_form_success', form.querySelector('[name="Source Page"]')?.value || 'C&I page');
                 }
 
                 const redirectInput = form.querySelector('input[name="redirect"]');
@@ -792,6 +935,8 @@ I'm interested in solar installation. Here are my details:
 Please share more information. Thank you!`;
 
             const waUrl = `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(message)}`;
+
+            trackLeadEvent('whatsapp_lead_send', window.location.pathname);
 
             closeModal();
             resetForm();
