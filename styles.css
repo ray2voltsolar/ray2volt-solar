@@ -263,7 +263,7 @@ p:last-child {
 }
 
 .lead {
-    font-size: 1.125rem;
+    font-size: 1rem;
     font-weight: 500;
     line-height: 1.8;
     color: rgba(255, 255, 255, 0.95);
@@ -1394,7 +1394,7 @@ p:last-child {
 
 .cta p {
     color: rgba(255, 255, 255, 0.9);
-    font-size: 1.125rem;
+    font-size: 1rem;
     max-width: 600px;
     margin: 0 auto 2rem;
 }
@@ -1701,7 +1701,7 @@ textarea.form-control {
 }
 
 .page-header p {
-    font-size: 1.125rem;
+    font-size: 1rem;
     color: rgba(255, 255, 255, 0.7);
     max-width: 600px;
     margin: 0 auto;
