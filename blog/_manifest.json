@@ -1,0 +1,375 @@
+{
+  "_note": "Canonical manifest for the Ray2Volt Solar blog. Every post page, the blog.html index, and all hero images are generated from this list. When adding a future post, append an entry here first. imagePrompt is the full, verbatim prompt used to generate that post's photorealistic hero image.",
+  "categories": [
+    "Solar Basics",
+    "Subsidy & Policy",
+    "Technology",
+    "Business & Industry",
+    "Savings & ROI",
+    "Local Guides"
+  ],
+  "posts": [
+    {
+      "slug": "how-rooftop-solar-works",
+      "title": "How Rooftop Solar Works: A Complete Beginner's Guide for Indian Homes",
+      "shortTitle": "How Rooftop Solar Works",
+      "category": "Solar Basics",
+      "date": "2026-04-06",
+      "readTime": 9,
+      "excerpt": "From sunlight hitting the panel to units spinning off your electricity bill — the whole rooftop solar chain explained in plain English, with no engineering jargon.",
+      "keywords": "how solar panels work, rooftop solar India, solar system components, solar for home, solar inverter, net meter",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A neat rooftop solar array on the flat concrete terrace of an ordinary modern two-storey home, seen from a slightly elevated three-quarter angle in clear mid-morning light, with a plain low-rise suburban skyline behind and a simple parapet wall and water tank in frame. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "on-grid-vs-off-grid-vs-hybrid-solar",
+        "solar-panel-types-explained",
+        "how-to-size-a-solar-system"
+      ],
+      "imageScene": "A neat rooftop solar array on the flat concrete terrace of an ordinary modern two-storey home, seen from a slightly elevated three-quarter angle in clear mid-morning light, with a plain low-rise suburban skyline behind and a simple parapet wall and water tank in frame."
+    },
+    {
+      "slug": "on-grid-vs-off-grid-vs-hybrid-solar",
+      "title": "On-Grid vs Off-Grid vs Hybrid Solar: Which System Is Right for You?",
+      "shortTitle": "On-Grid vs Off-Grid vs Hybrid",
+      "category": "Solar Basics",
+      "date": "2026-04-14",
+      "readTime": 10,
+      "excerpt": "The three system types, what each one costs, what each one does during a power cut, and a decision table that tells you which one actually fits your home or business.",
+      "keywords": "on-grid vs off-grid solar, hybrid solar system India, solar battery backup, which solar system to choose",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. An elevated view across the flat concrete rooftop terraces of three neighbouring townhouses in a dense warm-climate urban neighbourhood, each terrace carrying a solar array of a different size and layout, low parapet walls and plain water tanks between them. Absolutely no North American or European suburban styling, no manicured lawns, no palm-lined streets, no pitched shingle roofs, no coastline, no sea, no mountains. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "how-rooftop-solar-works",
+        "solar-battery-storage-worth-it",
+        "what-is-a-solar-inverter"
+      ],
+      "imageScene": "An elevated view across the flat concrete rooftop terraces of three neighbouring townhouses in a dense warm-climate urban neighbourhood, each terrace carrying a solar array of a different size and layout, low parapet walls and plain water tanks between them."
+    },
+    {
+      "slug": "how-to-size-a-solar-system",
+      "title": "How to Size a Solar System for Your Home: kW, Units, and Roof Space",
+      "shortTitle": "How to Size a Solar System",
+      "category": "Solar Basics",
+      "date": "2026-04-22",
+      "readTime": 8,
+      "excerpt": "Work out the right kW rating from your own electricity bill, check whether your roof can physically take it, and avoid the two sizing mistakes that cost people money.",
+      "keywords": "solar system size calculator, how many kW solar for home, solar roof space required, units per kW solar India",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A straight top-down drone view of a large flat concrete rooftop where a solar array covers roughly half the available area, the remaining clean empty roof space clearly visible beside it, sharp midday shadows. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "how-rooftop-solar-works",
+        "read-your-electricity-bill",
+        "rooftop-solar-roi-payback"
+      ],
+      "imageScene": "A straight top-down drone view of a large flat concrete rooftop where a solar array covers roughly half the available area, the remaining clean empty roof space clearly visible beside it, sharp midday shadows."
+    },
+    {
+      "slug": "net-metering-andhra-pradesh",
+      "title": "Net Metering in Andhra Pradesh: How Your Meter Runs Backwards",
+      "shortTitle": "Net Metering in Andhra Pradesh",
+      "category": "Subsidy & Policy",
+      "date": "2026-04-30",
+      "readTime": 8,
+      "excerpt": "What net metering actually is, how export credits are settled with your DISCOM, the paperwork involved, and why the meter approval step decides your commissioning date.",
+      "keywords": "net metering Andhra Pradesh, APSPDCL net meter, solar export credit, net metering application India",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A close-up of a plain unbranded electricity meter box mounted on the exterior render wall of a home, with a neat service cable running down beside it, a rooftop solar array softly out of focus in the background, warm sunlight. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "how-rooftop-solar-works",
+        "pm-surya-ghar-subsidy-guide",
+        "solar-in-tirupati-guide"
+      ],
+      "imageScene": "A close-up of a plain unbranded electricity meter box mounted on the exterior render wall of a home, with a neat service cable running down beside it, a rooftop solar array softly out of focus in the background, warm sunlight."
+    },
+    {
+      "slug": "solar-panel-types-explained",
+      "title": "Solar Panel Types Explained: Mono PERC, TOPCon, and Bifacial",
+      "shortTitle": "Solar Panel Types Explained",
+      "category": "Technology",
+      "date": "2026-05-08",
+      "readTime": 9,
+      "excerpt": "Cell technology, efficiency, degradation, and heat behaviour compared — plus which panel type is genuinely worth paying more for on an Indian rooftop.",
+      "keywords": "mono PERC vs TOPCon, bifacial solar panels India, solar panel efficiency, best solar panel type",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. An extreme close-up macro of the surface of three different solar modules laid side by side, raking low light revealing the distinct cell patterns, busbars and glass texture of each, shallow depth of field. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "what-is-a-solar-inverter",
+        "dcr-vs-non-dcr-almm",
+        "solar-panel-warranties-decoded"
+      ],
+      "imageScene": "An extreme close-up macro of the surface of three different solar modules laid side by side, raking low light revealing the distinct cell patterns, busbars and glass texture of each, shallow depth of field."
+    },
+    {
+      "slug": "what-is-a-solar-inverter",
+      "title": "What Is a Solar Inverter? String, Micro, and Hybrid Inverters Compared",
+      "shortTitle": "What Is a Solar Inverter?",
+      "category": "Technology",
+      "date": "2026-05-16",
+      "readTime": 8,
+      "excerpt": "The inverter is the brain of your solar plant and the part most likely to need replacing. Here is how the three types differ and how to size and pick one.",
+      "keywords": "solar inverter types, string vs microinverter, hybrid inverter India, inverter sizing DC AC ratio",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A wall-mounted solar inverter and adjacent electrical distribution enclosure in a clean plant room, tidy conduit runs entering from above, photographed straight on in soft even daylight from a nearby window, plain light wall behind. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "solar-panel-types-explained",
+        "on-grid-vs-off-grid-vs-hybrid-solar",
+        "solar-battery-storage-worth-it"
+      ],
+      "imageScene": "A wall-mounted solar inverter and adjacent electrical distribution enclosure in a clean plant room, tidy conduit runs entering from above, photographed straight on in soft even daylight from a nearby window, plain light wall behind."
+    },
+    {
+      "slug": "solar-panel-maintenance-guide",
+      "title": "Solar Panel Maintenance: A Practical Cleaning and Upkeep Guide for India",
+      "shortTitle": "Solar Panel Maintenance",
+      "category": "Solar Basics",
+      "date": "2026-05-24",
+      "readTime": 7,
+      "excerpt": "Dust, bird droppings, and monsoon shading quietly eat 5–20% of your generation. A realistic cleaning schedule, safety rules, and the annual checks that actually matter.",
+      "keywords": "solar panel cleaning, solar maintenance India, soiling loss solar, solar panel care monsoon",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A maintenance technician seen from behind at a distance, in plain workwear and gloves, cleaning a rooftop solar array with a soft brush and squeegee in early morning light, one half of the array visibly clean and the other still dusty. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "solar-panel-warranties-decoded",
+        "how-rooftop-solar-works",
+        "rooftop-solar-roi-payback"
+      ],
+      "imageScene": "A maintenance technician seen from behind at a distance, in plain workwear and gloves, cleaning a rooftop solar array with a soft brush and squeegee in early morning light, one half of the array visibly clean and the other still dusty."
+    },
+    {
+      "slug": "solar-panel-warranties-decoded",
+      "title": "Solar Warranties Decoded: Product, Performance, and Workmanship Cover",
+      "shortTitle": "Solar Warranties Decoded",
+      "category": "Solar Basics",
+      "date": "2026-06-01",
+      "readTime": 8,
+      "excerpt": "A 30-year number on a brochure means very little on its own. Here is what each warranty layer really covers, who honours it, and the clauses that void your claim.",
+      "keywords": "solar panel warranty India, performance warranty vs product warranty, solar installation workmanship warranty",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A tight close-up of the underside of a rooftop solar module showing its junction box, cabling and aluminium frame clamped to a galvanised mounting rail, hard directional sunlight, sky visible beyond the array edge. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "solar-panel-maintenance-guide",
+        "solar-panel-types-explained",
+        "how-to-choose-a-solar-installer"
+      ],
+      "imageScene": "A tight close-up of the underside of a rooftop solar module showing its junction box, cabling and aluminium frame clamped to a galvanised mounting rail, hard directional sunlight, sky visible beyond the array edge."
+    },
+    {
+      "slug": "pm-surya-ghar-subsidy-guide",
+      "title": "PM Surya Ghar Muft Bijli Yojana: Complete Subsidy Guide for 2026",
+      "shortTitle": "PM Surya Ghar Subsidy Guide",
+      "category": "Subsidy & Policy",
+      "date": "2026-06-09",
+      "readTime": 11,
+      "excerpt": "Slab-wise subsidy amounts, who is eligible, what DCR panels have to do with it, and why the scheme's March 2027 deadline should shape when you decide.",
+      "keywords": "PM Surya Ghar subsidy, Muft Bijli Yojana 2026, rooftop solar subsidy India, 78000 solar subsidy eligibility",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A wide daylight view along a row of modest, closely spaced two-storey suburban homes, several of which carry rooftop solar arrays on their flat terraces, clear bright sky above. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "how-to-apply-pm-surya-ghar",
+        "solar-loans-in-india",
+        "net-metering-andhra-pradesh"
+      ],
+      "imageScene": "A wide daylight view along a row of modest, closely spaced two-storey suburban homes, several of which carry rooftop solar arrays on their flat terraces, clear bright sky above."
+    },
+    {
+      "slug": "how-to-apply-pm-surya-ghar",
+      "title": "How to Apply for the PM Surya Ghar Subsidy: Step-by-Step Walkthrough",
+      "shortTitle": "How to Apply for PM Surya Ghar",
+      "category": "Subsidy & Policy",
+      "date": "2026-06-17",
+      "readTime": 9,
+      "excerpt": "Registration, vendor selection, feasibility approval, installation, net meter, inspection, and subsidy credit — the full portal journey with the documents needed at each stage.",
+      "keywords": "pmsuryaghar gov in apply, how to apply solar subsidy, PM Surya Ghar application steps, solar subsidy documents",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A pair of hands typing on a laptop at a plain desk beside a window, the laptop screen completely blank and blurred, warm daylight falling across the desk, a rooftop solar array visible softly out of focus through the window. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "pm-surya-ghar-subsidy-guide",
+        "net-metering-andhra-pradesh",
+        "solar-loans-in-india"
+      ],
+      "imageScene": "A pair of hands typing on a laptop at a plain desk beside a window, the laptop screen completely blank and blurred, warm daylight falling across the desk, a rooftop solar array visible softly out of focus through the window."
+    },
+    {
+      "slug": "solar-loans-in-india",
+      "title": "Solar Loans in India: Financing a Rooftop System Without Big Upfront Cash",
+      "shortTitle": "Solar Loans in India",
+      "category": "Savings & ROI",
+      "date": "2026-06-25",
+      "readTime": 8,
+      "excerpt": "How solar loans work, typical tenures and rates, the EMI-versus-bill-savings test, and the documents banks ask for when the subsidy is part of the picture.",
+      "keywords": "solar loan India, rooftop solar finance, solar EMI, solar loan interest rate, collateral free solar loan",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. The front elevation of an ordinary modern flat-roofed two-storey family home on a narrow urban street, a solar array visible on its roof terrace above the parapet, photographed in warm late-afternoon light from across the road, plain boundary wall and metal gate, a scooter parked outside. Absolutely no North American or European suburban styling, no manicured lawns, no palm-lined streets, no pitched shingle roofs, no coastline, no sea, no mountains. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "pm-surya-ghar-subsidy-guide",
+        "rooftop-solar-roi-payback",
+        "capex-vs-opex-resco-solar"
+      ],
+      "imageScene": "The front elevation of an ordinary modern flat-roofed two-storey family home on a narrow urban street, a solar array visible on its roof terrace above the parapet, photographed in warm late-afternoon light from across the road, plain boundary wall and metal gate, a scooter parked outside."
+    },
+    {
+      "slug": "dcr-vs-non-dcr-almm",
+      "title": "DCR vs Non-DCR Panels and ALMM: What the 2026 List-II Shift Means",
+      "shortTitle": "DCR vs Non-DCR and ALMM",
+      "category": "Subsidy & Policy",
+      "date": "2026-07-03",
+      "readTime": 9,
+      "excerpt": "ALMM List-I and List-II, why domestic content rules now reach commercial projects, and what the DCR cost premium does to a C&I quotation in 2026.",
+      "keywords": "ALMM List-II 2026, DCR vs non DCR solar panels, ALMM compliance India, domestic content requirement solar",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. Rows of brand-new solar modules standing upright in shipping racks inside a clean, brightly lit warehouse staging area, shallow depth of field down the row, neutral concrete floor. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "solar-panel-types-explained",
+        "commercial-solar-for-factories",
+        "capex-vs-opex-resco-solar"
+      ],
+      "imageScene": "Rows of brand-new solar modules standing upright in shipping racks inside a clean, brightly lit warehouse staging area, shallow depth of field down the row, neutral concrete floor."
+    },
+    {
+      "slug": "capex-vs-opex-resco-solar",
+      "title": "CAPEX vs OPEX (RESCO) Solar: Which Model Fits Your Business?",
+      "shortTitle": "CAPEX vs OPEX (RESCO)",
+      "category": "Business & Industry",
+      "date": "2026-07-11",
+      "readTime": 10,
+      "excerpt": "Own the asset or just buy the power? A side-by-side of capital outlay, tariff structure, balance-sheet treatment, O&M responsibility, and end-of-term ownership.",
+      "keywords": "CAPEX vs OPEX solar, RESCO model India, solar PPA commercial, zero investment solar for business",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A commercial rooftop solar array on a modern low-rise office block, photographed from an adjacent building at a downward three-quarter angle, the glass office facade and car park visible below, clear bright sky. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "accelerated-depreciation-solar",
+        "commercial-solar-for-factories",
+        "solar-loans-in-india"
+      ],
+      "imageScene": "A commercial rooftop solar array on a modern low-rise office block, photographed from an adjacent building at a downward three-quarter angle, the glass office facade and car park visible below, clear bright sky."
+    },
+    {
+      "slug": "accelerated-depreciation-solar",
+      "title": "Accelerated Depreciation on Solar: The 40% Tax Benefit Explained",
+      "shortTitle": "Accelerated Depreciation on Solar",
+      "category": "Business & Industry",
+      "date": "2026-07-19",
+      "readTime": 8,
+      "excerpt": "How accelerated depreciation shortens the effective payback for a profit-making business, with a worked example and the conditions that decide whether you qualify.",
+      "keywords": "accelerated depreciation solar India, 40 percent depreciation solar, solar tax benefit business, section 32 solar",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. The exterior of a modern low-rise commercial office building with a visible rooftop solar array along its roofline, photographed from ground level at a three-quarter angle in clean midday light, plain landscaping in the foreground. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "capex-vs-opex-resco-solar",
+        "commercial-solar-for-factories",
+        "read-your-electricity-bill"
+      ],
+      "imageScene": "The exterior of a modern low-rise commercial office building with a visible rooftop solar array along its roofline, photographed from ground level at a three-quarter angle in clean midday light, plain landscaping in the foreground."
+    },
+    {
+      "slug": "commercial-solar-for-factories",
+      "title": "Solar for Factories: Cutting Manufacturing Power Costs in India",
+      "shortTitle": "Solar for Factories",
+      "category": "Business & Industry",
+      "date": "2026-07-27",
+      "readTime": 9,
+      "excerpt": "Why a single-shift factory is close to the perfect solar customer — daytime load matching, demand charges, shed roof structures, and what a realistic plant sizing looks like.",
+      "keywords": "solar for factory India, industrial rooftop solar, manufacturing power cost reduction, C&I solar plant",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A wide aerial three-quarter view of a large industrial shed with its entire long roof covered in neat rows of solar modules, loading bays and a couple of plain trucks below, flat industrial estate around it, clear sky. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "capex-vs-opex-resco-solar",
+        "accelerated-depreciation-solar",
+        "solar-carports-ev-charging"
+      ],
+      "imageScene": "A wide aerial three-quarter view of a large industrial shed with its entire long roof covered in neat rows of solar modules, loading bays and a couple of plain trucks below, flat industrial estate around it, clear sky."
+    },
+    {
+      "slug": "read-your-electricity-bill",
+      "title": "How to Read a Commercial Electricity Bill and Find Your Solar Savings",
+      "shortTitle": "Reading Your Electricity Bill",
+      "category": "Savings & ROI",
+      "date": "2026-08-02",
+      "readTime": 8,
+      "excerpt": "Sanctioned load, contract demand, energy charges, demand charges, power factor penalties — line by line, and exactly which of them solar can and cannot reduce.",
+      "keywords": "read electricity bill India, demand charges vs energy charges, HT LT tariff, commercial electricity bill solar savings",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A close-up of a large unbranded commercial electrical distribution and metering panel with rows of breakers and neatly bundled cabling, its door open, photographed straight on in even indoor light, plain wall behind. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "rooftop-solar-roi-payback",
+        "how-to-size-a-solar-system",
+        "commercial-solar-for-factories"
+      ],
+      "imageScene": "A close-up of a large unbranded commercial electrical distribution and metering panel with rows of breakers and neatly bundled cabling, its door open, photographed straight on in even indoor light, plain wall behind."
+    },
+    {
+      "slug": "solar-battery-storage-worth-it",
+      "title": "Solar Plus Battery Storage in 2026: Is a Hybrid System Worth It Yet?",
+      "shortTitle": "Is Battery Storage Worth It?",
+      "category": "Technology",
+      "date": "2026-08-08",
+      "readTime": 9,
+      "excerpt": "Lithium prices have fallen but batteries still change the maths. When backup genuinely pays for itself, how to size a battery bank, and when to skip it entirely.",
+      "keywords": "solar battery storage India, lithium vs lead acid solar, hybrid solar cost, solar backup power home",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A sleek wall-mounted home battery unit installed beside a solar inverter in a clean, plain utility room, neat conduit between them, soft daylight from a side window, uncluttered light-grey wall. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "on-grid-vs-off-grid-vs-hybrid-solar",
+        "what-is-a-solar-inverter",
+        "how-rooftop-solar-works"
+      ],
+      "imageScene": "A sleek wall-mounted home battery unit installed beside a solar inverter in a clean, plain utility room, neat conduit between them, soft daylight from a side window, uncluttered light-grey wall."
+    },
+    {
+      "slug": "solar-carports-ev-charging",
+      "title": "Solar Carports and EV Charging: Powering Your Fleet From the Roof",
+      "shortTitle": "Solar Carports and EV Charging",
+      "category": "Technology",
+      "date": "2026-08-14",
+      "readTime": 8,
+      "excerpt": "Parking areas are unused generation space. How solar carports work structurally, what they cost versus a rooftop plant, and how they pair with EV charging loads.",
+      "keywords": "solar carport India, solar EV charging, solar parking structure, fleet charging solar",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A modern solar carport canopy covering a row of parked cars in a commercial car park, solar modules overhead catching bright sunlight, an unbranded electric vehicle charging bollard in the foreground. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "commercial-solar-for-factories",
+        "capex-vs-opex-resco-solar",
+        "solar-battery-storage-worth-it"
+      ],
+      "imageScene": "A modern solar carport canopy covering a row of parked cars in a commercial car park, solar modules overhead catching bright sunlight, an unbranded electric vehicle charging bollard in the foreground."
+    },
+    {
+      "slug": "rooftop-solar-roi-payback",
+      "title": "Rooftop Solar ROI: How Long Until Your System Actually Pays for Itself?",
+      "shortTitle": "Rooftop Solar ROI and Payback",
+      "category": "Savings & ROI",
+      "date": "2026-08-20",
+      "readTime": 10,
+      "excerpt": "A transparent payback calculation for a typical Indian home and a typical business — including the assumptions most savings claims quietly hide from you.",
+      "keywords": "solar payback period India, rooftop solar ROI, solar return on investment, is solar worth it India",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A clean top-down flat-lay on a light wooden desk: a plain calculator with a completely blank display, a pen, a closed blank notebook, and a small solar cell sample, soft even daylight, generous empty desk space around them. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "read-your-electricity-bill",
+        "solar-loans-in-india",
+        "how-to-size-a-solar-system"
+      ],
+      "imageScene": "A clean top-down flat-lay on a light wooden desk: a plain calculator with a completely blank display, a pen, a closed blank notebook, and a small solar cell sample, soft even daylight, generous empty desk space around them."
+    },
+    {
+      "slug": "how-to-choose-a-solar-installer",
+      "title": "How to Choose a Solar Installer in India: 12 Questions Before You Sign",
+      "shortTitle": "Choosing a Solar Installer",
+      "category": "Solar Basics",
+      "date": "2026-08-24",
+      "readTime": 9,
+      "excerpt": "The cheapest quote is almost never the cheapest system. The questions, documents, and red flags that separate a serious installer from a cut-price one.",
+      "keywords": "how to choose solar installer, solar company checklist India, solar quote comparison, solar installer red flags",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. Two people seen from the shoulders down, one in workwear and one in plain business clothes, standing on a flat rooftop beside a solar array and looking together at a blank unmarked technical drawing held between them, bright daylight. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "solar-panel-warranties-decoded",
+        "solar-in-tirupati-guide",
+        "how-to-size-a-solar-system"
+      ],
+      "imageScene": "Two people seen from the shoulders down, one in workwear and one in plain business clothes, standing on a flat rooftop beside a solar array and looking together at a blank unmarked technical drawing held between them, bright daylight."
+    },
+    {
+      "slug": "solar-in-tirupati-guide",
+      "title": "Going Solar in Tirupati and Srikalahasti: A Local Homeowner's Guide",
+      "shortTitle": "Going Solar in Tirupati",
+      "category": "Local Guides",
+      "date": "2026-08-26",
+      "readTime": 9,
+      "excerpt": "Local irradiance, APSPDCL paperwork, monsoon and dust realities, typical system sizes in the district, and what a Tirupati rooftop actually generates through the year.",
+      "keywords": "solar in Tirupati, rooftop solar Srikalahasti, solar company Tirupati, APSPDCL net metering, solar Andhra Pradesh",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A wide elevated view across a low-rise inland town of flat-roofed buildings under a bright clear sky, several rooftops carrying solar arrays, low rocky hills far away on the horizon in soft haze, warm late-morning light. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "net-metering-andhra-pradesh",
+        "pm-surya-ghar-subsidy-guide",
+        "how-to-choose-a-solar-installer"
+      ],
+      "imageScene": "A wide elevated view across a low-rise inland town of flat-roofed buildings under a bright clear sky, several rooftops carrying solar arrays, low rocky hills far away on the horizon in soft haze, warm late-morning light."
+    }
+  ],
+  "imageStyle": {
+    "_note": "Shared house style for hero images. Wrap every scene as prefix + scene + suffix and pass it verbatim to the image generator.",
+    "prefix": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. ",
+    "suffix": " Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised."
+  }
+}

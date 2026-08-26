@@ -1,0 +1,1252 @@
+/* ==========================================================================
+   Ray2Volt Solar — Blog Stylesheet
+   Light Theme | Loads AFTER styles.css and overrides the dark site shell.
+   The header (white glass) is inherited unchanged; the footer is re-skinned
+   light so the blog reads as one continuous light document.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Light theme reset — kill the dark shell + perspective grid
+   -------------------------------------------------------------------------- */
+body.blog {
+    background-color: #FFFFFF;
+    background-image: none;
+    color: var(--text-primary);
+
+    /* Local tokens: one place to tune the whole reading experience */
+    --ink: #1B2735;
+    /* headings */
+    --ink-body: #384657;
+    /* running text */
+    --ink-soft: #64748B;
+    /* captions, meta */
+    --rule: #E6EBF1;
+    /* hairlines */
+    --surface: #F7FAFC;
+    /* tinted panels */
+    --brand-tint: #F1F8FE;
+    --brand-line: rgba(3, 169, 244, 0.22);
+    --footer-ink: #4A5A6E;
+    --footer-ink-soft: #5B6B7E;
+}
+
+/* Remove the aurora overlay and the converging perspective grid entirely */
+body.blog::before,
+body.blog::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* Single-class specificity on purpose: these are defaults that any component
+   rule further down this file is meant to be able to override. */
+.blog h1,
+.blog h2,
+.blog h3,
+.blog h4,
+.blog h5,
+.blog h6 {
+    color: var(--ink);
+    text-shadow: none;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+}
+
+.blog p {
+    color: var(--ink-body);
+    font-weight: 400;
+}
+
+/* Page shell: clear the fixed header, and give the footer room to breathe */
+.blog-main {
+    padding-top: 104px;
+    padding-bottom: 6rem;
+}
+
+@media (max-width: 768px) {
+    .blog-main {
+        padding-top: 88px;
+        padding-bottom: 4rem;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   2. Breadcrumbs
+   -------------------------------------------------------------------------- */
+.breadcrumbs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: var(--ink-soft);
+    margin-bottom: 1.75rem;
+}
+
+.breadcrumbs a {
+    color: var(--ink-soft);
+    font-weight: 500;
+}
+
+.breadcrumbs a:hover {
+    color: var(--primary-dark);
+}
+
+.breadcrumbs span[aria-current] {
+    color: var(--ink);
+    font-weight: 600;
+}
+
+.breadcrumbs .sep {
+    color: var(--gray-400);
+}
+
+/* --------------------------------------------------------------------------
+   3. Category pills
+   -------------------------------------------------------------------------- */
+.category-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--radius-full);
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    background: rgba(3, 169, 244, 0.1);
+    color: var(--primary-dark);
+    border: 1px solid rgba(3, 169, 244, 0.2);
+    white-space: nowrap;
+}
+
+.category-pill[data-cat="Subsidy & Policy"] {
+    background: rgba(255, 179, 0, 0.12);
+    color: #B27500;
+    border-color: rgba(255, 179, 0, 0.28);
+}
+
+.category-pill[data-cat="Business & Industry"] {
+    background: rgba(0, 188, 212, 0.1);
+    color: #00798A;
+    border-color: rgba(0, 188, 212, 0.22);
+}
+
+.category-pill[data-cat="Technology"] {
+    background: rgba(99, 102, 241, 0.1);
+    color: #4338CA;
+    border-color: rgba(99, 102, 241, 0.22);
+}
+
+.category-pill[data-cat="Savings & ROI"] {
+    background: rgba(76, 175, 80, 0.12);
+    color: #2E7D32;
+    border-color: rgba(76, 175, 80, 0.24);
+}
+
+.category-pill[data-cat="Local Guides"] {
+    background: rgba(244, 114, 182, 0.1);
+    color: #BE185D;
+    border-color: rgba(244, 114, 182, 0.22);
+}
+
+/* --------------------------------------------------------------------------
+   4. Blog index — masthead
+   -------------------------------------------------------------------------- */
+.blog-hero {
+    position: relative;
+    isolation: isolate;
+    text-align: center;
+    padding: 3.25rem 1rem 2.75rem;
+    margin-bottom: 2.25rem;
+}
+
+/* Soft brand glow instead of a hard pastel panel */
+.blog-hero::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: 50%;
+    top: -30px;
+    transform: translateX(-50%);
+    width: min(1100px, 120%);
+    height: 320px;
+    background: radial-gradient(ellipse 55% 100% at 50% 0%, rgba(3, 169, 244, 0.13) 0%, rgba(0, 188, 212, 0.06) 45%, transparent 72%);
+    pointer-events: none;
+}
+
+.blog-hero-eyebrow {
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--primary-dark);
+    margin-bottom: 1rem;
+}
+
+.blog-hero h1 {
+    font-size: clamp(2.125rem, 1.5rem + 2.4vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    max-width: 18ch;
+    margin: 0 auto 0.9rem;
+}
+
+.blog-hero p {
+    max-width: 40rem;
+    margin: 0 auto;
+    font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+    line-height: 1.65;
+    color: var(--ink-soft);
+}
+
+@media (max-width: 640px) {
+    .blog-hero {
+        padding: 2.25rem 0 2rem;
+    }
+
+    .blog-hero h1 {
+        max-width: none;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   5. Blog index — filters
+   -------------------------------------------------------------------------- */
+.blog-filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    padding-bottom: 2.25rem;
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--rule);
+}
+
+.blog-filter {
+    padding: 0.45rem 1.1rem;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--gray-300);
+    background: var(--white);
+    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.blog-filter:hover {
+    border-color: var(--primary);
+    color: var(--primary-dark);
+}
+
+.blog-filter.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--white);
+    box-shadow: 0 4px 12px -4px rgba(3, 169, 244, 0.55);
+}
+
+/* --------------------------------------------------------------------------
+   6. Blog index — post cards
+   -------------------------------------------------------------------------- */
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.75rem;
+}
+
+@media (max-width: 700px) {
+    .blog-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.blog-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.blog-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(3, 169, 244, 0.35);
+}
+
+.blog-card.is-hidden {
+    display: none;
+}
+
+.blog-card-media {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--gray-100);
+}
+
+.blog-card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.blog-card:hover .blog-card-media img {
+    transform: scale(1.04);
+}
+
+.blog-card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 1.35rem 1.4rem 1.5rem;
+    gap: 0.65rem;
+}
+
+.blog-card-body h2,
+.blog-card-body h3 {
+    font-size: 1.1875rem;
+    line-height: 1.35;
+    margin: 0;
+    color: var(--ink);
+}
+
+.blog-card-body p {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    margin: 0;
+    color: var(--text-muted);
+}
+
+.blog-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 0.85rem;
+    font-size: 0.8125rem;
+    color: var(--text-light);
+}
+
+.blog-card-meta .dot {
+    color: var(--gray-400);
+}
+
+.blog-card .card-link {
+    color: var(--primary-dark);
+    font-weight: 700;
+}
+
+/* Featured (first) card spans the full row on large screens */
+.blog-card.featured {
+    grid-column: 1 / -1;
+    flex-direction: row;
+}
+
+.blog-card.featured .blog-card-media {
+    flex: 0 0 46%;
+    aspect-ratio: auto;
+}
+
+.blog-card.featured .blog-card-body {
+    padding: 2rem 2.25rem;
+    justify-content: center;
+}
+
+.blog-card.featured .blog-card-body h2 {
+    font-size: 1.625rem;
+}
+
+.blog-card.featured .blog-card-body p {
+    font-size: 1rem;
+}
+
+@media (max-width: 860px) {
+    .blog-card.featured {
+        flex-direction: column;
+    }
+
+    .blog-card.featured .blog-card-media {
+        flex: none;
+        aspect-ratio: 16 / 9;
+    }
+
+    .blog-card.featured .blog-card-body {
+        padding: 1.35rem 1.4rem 1.5rem;
+    }
+
+    .blog-card.featured .blog-card-body h2 {
+        font-size: 1.25rem;
+    }
+}
+
+.blog-empty,
+.blog-empty p {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--ink-soft);
+}
+
+.blog-empty p {
+    padding: 0;
+}
+
+/* --------------------------------------------------------------------------
+   7. Post layout
+   -------------------------------------------------------------------------- */
+:root {
+    --post-shell: 1060px;
+}
+
+.post-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 292px;
+    gap: 4rem;
+    align-items: start;
+    max-width: var(--post-shell);
+    margin: 0 auto;
+}
+
+@media (max-width: 1024px) {
+    .post-shell {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 2.5rem;
+    }
+}
+
+.post-header {
+    max-width: var(--post-shell);
+    margin: 0 auto 2.25rem;
+}
+
+.post-header h1 {
+    font-size: clamp(2rem, 1.45rem + 2.1vw, 2.875rem);
+    line-height: 1.13;
+    letter-spacing: -0.028em;
+    max-width: 20ch;
+    margin-bottom: 1rem;
+    text-wrap: balance;
+}
+
+.post-header .post-standfirst {
+    font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.1875rem);
+    line-height: 1.62;
+    color: var(--ink-soft);
+    font-weight: 400;
+    max-width: 42rem;
+    margin-bottom: 0;
+}
+
+.post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 1.15rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+}
+
+.post-meta .dot {
+    color: var(--gray-400);
+}
+
+.post-hero {
+    max-width: var(--post-shell);
+    margin: 0 auto 3rem;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--rule);
+    box-shadow: 0 12px 32px -18px rgba(15, 23, 42, 0.35);
+}
+
+.post-hero img {
+    width: 100%;
+    aspect-ratio: 16 / 7;
+    object-fit: cover;
+}
+
+.post-hero figcaption {
+    padding: 0.75rem 1.15rem;
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    background: var(--surface);
+    border-top: 1px solid var(--rule);
+}
+
+/* --------------------------------------------------------------------------
+   8. Post body typography
+   -------------------------------------------------------------------------- */
+.post-body {
+    max-width: none;
+    font-size: clamp(1.0625rem, 1.02rem + 0.2vw, 1.1875rem);
+    line-height: 1.75;
+    color: var(--ink-body);
+}
+
+/* Running text is capped at a comfortable measure (~68 characters); wide
+   blocks below are allowed to break out to the full column. */
+.post-body> * {
+    max-width: 41rem;
+}
+
+.post-body> .table-wrap,
+.post-body> figure {
+    max-width: min(100%, 46rem);
+}
+
+/* Default vertical rhythm; block components below override with more air */
+.post-body> * + * {
+    margin-top: 1.45rem;
+}
+
+.post-body h2 {
+    font-size: clamp(1.5rem, 1.28rem + 0.85vw, 1.875rem);
+    line-height: 1.25;
+    letter-spacing: -0.022em;
+    color: var(--ink);
+    margin-top: 3.25rem;
+    margin-bottom: 0.85rem;
+    scroll-margin-top: 120px;
+    text-wrap: balance;
+}
+
+.post-body h3 {
+    font-size: clamp(1.1875rem, 1.11rem + 0.3vw, 1.3125rem);
+    line-height: 1.35;
+    letter-spacing: -0.012em;
+    color: var(--ink);
+    margin-top: 2.25rem;
+    margin-bottom: 0.5rem;
+    scroll-margin-top: 120px;
+}
+
+/* A heading immediately after another heading should not double up the gap */
+.post-body h2 + h3 {
+    margin-top: 1.25rem;
+}
+
+.post-body p {
+    font-size: inherit;
+    line-height: inherit;
+    font-weight: 400;
+    color: var(--ink-body);
+    margin-bottom: 0;
+    text-wrap: pretty;
+}
+
+/* #0277BD rather than --primary-dark: 4.85:1 on white, so inline links clear
+   AA at body size instead of relying on the underline alone. */
+.post-body a {
+    color: #0277BD;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    text-decoration-color: rgba(2, 119, 189, 0.4);
+    transition: color var(--transition), text-decoration-color var(--transition);
+}
+
+.post-body a:hover {
+    color: #01579B;
+    text-decoration-color: currentColor;
+}
+
+.post-body strong {
+    color: var(--ink);
+    font-weight: 700;
+}
+
+.post-body ul,
+.post-body ol {
+    padding-left: 1.4rem;
+    color: var(--ink-body);
+}
+
+.post-body ul {
+    list-style: disc;
+}
+
+.post-body ol {
+    list-style: decimal;
+}
+
+.post-body li {
+    font-size: inherit;
+    line-height: 1.72;
+    font-weight: 400;
+    margin-bottom: 0.55rem;
+    padding-left: 0.15rem;
+}
+
+.post-body li:last-child {
+    margin-bottom: 0;
+}
+
+.post-body li::marker {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.post-body li> ul,
+.post-body li> ol {
+    margin-top: 0.55rem;
+}
+
+.post-body figure {
+    margin-top: 2.25rem;
+}
+
+.post-body figure img {
+    width: 100%;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--rule);
+}
+
+.post-body figcaption {
+    margin-top: 0.6rem;
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    text-align: center;
+}
+
+.post-body blockquote {
+    margin-top: 2.25rem;
+    border-left: 3px solid var(--secondary-gold);
+    padding: 0.2rem 0 0.2rem 1.35rem;
+    font-size: 1.1875rem;
+    line-height: 1.65;
+    color: var(--ink);
+    font-style: italic;
+}
+
+.post-body hr {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 3rem 0;
+}
+
+/* --------------------------------------------------------------------------
+   9. Post body components — tables, callouts, key takeaways, FAQ
+   -------------------------------------------------------------------------- */
+.post-body> .table-wrap,
+.post-body> .callout,
+.post-body> .key-takeaways,
+.post-body> .faq-list {
+    margin-top: 2.25rem;
+}
+
+.table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-md);
+    background: var(--white);
+    -webkit-overflow-scrolling: touch;
+}
+
+.post-body table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9063rem;
+    line-height: 1.6;
+    /* Wide enough to stay readable, narrow enough that desktop never
+       side-scrolls; below this the .table-wrap scrolls instead. */
+    min-width: 30rem;
+}
+
+.post-body thead th {
+    background: var(--surface);
+    color: var(--ink);
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 0.8rem 0.85rem;
+    border-bottom: 1px solid var(--rule);
+    white-space: normal;
+}
+
+.post-body tbody td {
+    padding: 0.85rem 0.85rem;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink-body);
+    vertical-align: top;
+}
+
+.post-body tbody td:first-child {
+    color: var(--ink);
+    font-weight: 600;
+}
+
+.post-body tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.post-body tbody tr:nth-child(even) {
+    background: #FBFDFE;
+}
+
+/* Callouts — tinted panel with a solid accent edge */
+.callout {
+    display: flex;
+    gap: 0.9rem;
+    padding: 1.15rem 1.35rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--brand-line);
+    border-left: 3px solid var(--primary);
+    background: var(--brand-tint);
+}
+
+.callout svg {
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+    color: var(--primary-dark);
+}
+
+.callout p {
+    margin-bottom: 0;
+    font-size: 0.9688rem;
+    line-height: 1.68;
+    color: var(--ink-body);
+}
+
+.callout p + p {
+    margin-top: 0.65rem;
+}
+
+.callout strong {
+    color: var(--ink);
+}
+
+.callout--warning {
+    border-color: rgba(217, 119, 6, 0.25);
+    border-left-color: #D97706;
+    background: #FFFBEB;
+}
+
+.callout--warning svg {
+    color: #B45309;
+}
+
+.callout--success {
+    border-color: rgba(22, 163, 74, 0.25);
+    border-left-color: #16A34A;
+    background: #F2FBF4;
+}
+
+.callout--success svg {
+    color: #15803D;
+}
+
+/* Key takeaways */
+.key-takeaways {
+    background: var(--brand-tint);
+    border: 1px solid var(--brand-line);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem 1.75rem;
+}
+
+.key-takeaways h2 {
+    font-family: var(--font-heading);
+    font-size: 0.75rem !important;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--primary-dark) !important;
+    margin: 0 0 0.9rem !important;
+    scroll-margin-top: 0;
+}
+
+.key-takeaways ul {
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
+.key-takeaways li {
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+}
+
+.key-takeaways li:last-child {
+    margin-bottom: 0;
+}
+
+/* FAQ */
+.faq-list {
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--white);
+}
+
+.faq-item {
+    border-bottom: 1px solid var(--rule);
+}
+
+.faq-item:last-child {
+    border-bottom: none;
+}
+
+.faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 1.05rem 3rem 1.05rem 1.35rem;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.0313rem;
+    line-height: 1.45;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    position: relative;
+    transition: background var(--transition);
+}
+
+.faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq-item summary:hover {
+    background: var(--surface);
+}
+
+.faq-item[open] summary {
+    color: var(--primary-dark);
+}
+
+.faq-item summary::after {
+    content: '';
+    position: absolute;
+    right: 1.35rem;
+    top: 50%;
+    width: 9px;
+    height: 9px;
+    border-right: 2px solid var(--primary);
+    border-bottom: 2px solid var(--primary);
+    transform: translateY(-70%) rotate(45deg);
+    transition: transform var(--transition);
+}
+
+.faq-item[open] summary::after {
+    transform: translateY(-25%) rotate(225deg);
+}
+
+.faq-item .faq-answer {
+    padding: 0 1.35rem 1.25rem;
+}
+
+.faq-item .faq-answer p {
+    font-size: 0.9688rem;
+    line-height: 1.7;
+    margin-bottom: 0.75rem;
+}
+
+.faq-item .faq-answer p:last-child {
+    margin-bottom: 0;
+}
+
+/* --------------------------------------------------------------------------
+   10. Sidebar — table of contents + CTA
+   -------------------------------------------------------------------------- */
+.post-sidebar {
+    position: sticky;
+    top: 104px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* Below the two-column breakpoint the sidebar sits above the article so the
+   contents list is still a jump menu rather than a footnote. The gradient CTA
+   is dropped there — .post-cta at the end of the article already covers it. */
+@media (max-width: 1024px) {
+    .post-sidebar {
+        position: static;
+        order: -1;
+        max-width: 41rem;
+    }
+
+    .sidebar-cta {
+        display: none;
+    }
+}
+
+.toc {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-md);
+    padding: 1.25rem 1.35rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.toc h2 {
+    font-family: var(--font-heading);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.13em;
+    color: var(--ink-soft);
+    margin-bottom: 0.9rem;
+}
+
+.toc ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-left: 2px solid var(--rule);
+}
+
+.toc li {
+    margin-bottom: 0.15rem;
+}
+
+.toc li:last-child {
+    margin-bottom: 0;
+}
+
+.toc a {
+    display: block;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    font-weight: 500;
+    padding: 0.35rem 0 0.35rem 0.85rem;
+    margin-left: -2px;
+    border-left: 2px solid transparent;
+    transition: color var(--transition), border-color var(--transition);
+}
+
+.toc a:hover {
+    color: var(--primary-dark);
+    border-left-color: var(--gray-300);
+}
+
+.toc a.active {
+    color: var(--primary-dark);
+    border-left-color: var(--primary);
+    font-weight: 700;
+}
+
+.sidebar-cta {
+    background: linear-gradient(150deg, #0288D1 0%, #00ACC1 100%);
+    border-radius: var(--radius-md);
+    padding: 1.6rem 1.45rem;
+    color: var(--white);
+    box-shadow: 0 14px 30px -18px rgba(2, 136, 209, 0.9);
+}
+
+body.blog .sidebar-cta h2,
+body.blog .sidebar-cta h3 {
+    color: var(--white);
+    font-size: 1.125rem;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+}
+
+body.blog .sidebar-cta p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9063rem;
+    line-height: 1.6;
+    margin-bottom: 1.15rem;
+}
+
+.sidebar-cta .btn {
+    width: 100%;
+    justify-content: center;
+}
+
+/* --------------------------------------------------------------------------
+   11. Author box, post CTA, related posts
+   -------------------------------------------------------------------------- */
+.author-box {
+    display: flex;
+    gap: 1.1rem;
+    align-items: flex-start;
+    margin-top: 3.5rem;
+    padding: 1.4rem 1.6rem;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-md);
+    max-width: 41rem;
+}
+
+.author-box img {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-full);
+    object-fit: contain;
+    background: var(--white);
+    border: 1px solid var(--rule);
+    padding: 6px;
+    flex-shrink: 0;
+}
+
+.author-box h2 {
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+    scroll-margin-top: 0;
+}
+
+.author-box p {
+    font-size: 0.9063rem;
+    line-height: 1.65;
+    margin-bottom: 0;
+    color: var(--ink-soft);
+}
+
+/* Closing CTA — dark slate so the article ends on a deliberate full stop */
+.post-cta {
+    position: relative;
+    overflow: hidden;
+    max-width: 41rem;
+    margin-top: 2.5rem;
+    background: linear-gradient(140deg, #10203A 0%, #17324F 55%, #0F2A43 100%);
+    border: none;
+    border-radius: var(--radius-lg);
+    padding: 2.5rem 2rem;
+    text-align: center;
+}
+
+.post-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 120% at 50% 0%, rgba(3, 169, 244, 0.28) 0%, transparent 65%);
+    pointer-events: none;
+}
+
+.post-cta> * {
+    position: relative;
+}
+
+body.blog .post-cta h2 {
+    color: var(--white);
+    font-size: clamp(1.3125rem, 1.2rem + 0.5vw, 1.5rem);
+    line-height: 1.25;
+    margin-bottom: 0.6rem;
+    scroll-margin-top: 0;
+}
+
+body.blog .post-cta p {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 1rem;
+    line-height: 1.65;
+    max-width: 32rem;
+    margin: 0 auto 1.5rem;
+}
+
+.post-cta-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+}
+
+.related-posts {
+    max-width: var(--post-shell);
+    margin: 4.5rem auto 0;
+    border-top: 1px solid var(--rule);
+    padding-top: 2.75rem;
+}
+
+.related-posts> h2 {
+    font-size: clamp(1.25rem, 1.15rem + 0.4vw, 1.4375rem);
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+}
+
+.related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+}
+
+.related-card {
+    display: block;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.related-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(3, 169, 244, 0.35);
+}
+
+.related-card img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
+.related-card-body {
+    padding: 1rem 1.1rem 1.2rem;
+}
+
+.related-card-body h3 {
+    font-size: 1rem;
+    line-height: 1.4;
+    margin-bottom: 0.35rem;
+    color: var(--ink);
+}
+
+.related-card-body p {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--primary-dark);
+    margin-bottom: 0;
+}
+
+@media (max-width: 640px) {
+    .post-cta {
+        padding: 2rem 1.35rem;
+    }
+
+    .key-takeaways {
+        padding: 1.25rem 1.35rem;
+    }
+
+    .author-box {
+        flex-direction: column;
+        gap: 0.9rem;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   12. Footer — light re-skin for the blog
+   The dark site footer is replaced with a light band so a white article does
+   not end in an abrupt black slab. Structure and markup stay identical.
+   -------------------------------------------------------------------------- */
+body.blog .footer {
+    background: linear-gradient(180deg, #FBFCFE 0%, var(--surface) 30%, #EAF0F6 100%);
+    color: var(--ink-body);
+    padding: 4rem 0 1.75rem;
+    border-top: 1px solid var(--rule);
+}
+
+/* Static brand rule instead of the animated rainbow bar */
+body.blog .footer::before {
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary) 0%, var(--cyan) 45%, var(--secondary-gold) 100%);
+    background-size: 100% 100%;
+    animation: none;
+    opacity: 0.9;
+}
+
+body.blog .footer-grid {
+    gap: 2.5rem 3rem;
+    margin-bottom: 2.5rem;
+}
+
+body.blog .footer-brand .logo img {
+    height: 46px;
+}
+
+body.blog .footer-brand h4 {
+    color: var(--ink) !important;
+    font-size: 1.0625rem;
+    letter-spacing: -0.015em;
+    margin-bottom: 0.45rem !important;
+}
+
+body.blog .footer-brand p {
+    color: var(--footer-ink);
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    max-width: 26rem;
+    margin-bottom: 1.35rem;
+}
+
+body.blog .footer-social {
+    gap: 0.6rem;
+}
+
+body.blog .footer-social a {
+    width: 38px;
+    height: 38px;
+    background: var(--white);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius);
+    color: var(--footer-ink);
+    transition: all var(--transition);
+}
+
+body.blog .footer-social a:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px -6px rgba(3, 169, 244, 0.8);
+}
+
+body.blog .footer-col h4 {
+    color: var(--ink);
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.11em;
+    margin-bottom: 1.1rem;
+}
+
+body.blog .footer-col ul {
+    gap: 0.6rem;
+}
+
+body.blog .footer-col li {
+    font-size: 0.9063rem;
+    line-height: 1.6;
+    color: var(--footer-ink);
+}
+
+body.blog .footer-col a {
+    color: var(--footer-ink);
+    font-size: 0.9063rem;
+    transition: color var(--transition);
+}
+
+body.blog .footer-col a:hover {
+    color: var(--primary-dark);
+}
+
+body.blog .footer-bottom {
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--rule);
+}
+
+body.blog .footer-bottom p {
+    color: var(--footer-ink-soft);
+    font-size: 0.8125rem;
+}
+
+@media (max-width: 768px) {
+    body.blog .footer {
+        padding: 3rem 0 1.5rem;
+    }
+
+    body.blog .footer-brand p {
+        max-width: none;
+    }
+}

@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Ad landing pages — kept out of organic search
+Disallow: /claim-discount.html
+Disallow: /claim-subsidy.html
+Disallow: /save-on-solar.html
+Disallow: /thank-you.html
+
+Sitemap: https://ray2voltsolar.com/sitemap.xml
