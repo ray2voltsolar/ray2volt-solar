@@ -205,11 +205,11 @@ For commercial customers, a good lead should also have:
 
 **Core positioning message:**
 
-Ray2Volt should position itself as a trusted local solar partner for Tirupati District, with 600+ installations in the district and a practical end-to-end customer journey: free power audit, correct system sizing, transparent package pricing, subsidy and collateral-free loan guidance, tier-1 brands, professional installation, and local after-sales support.
+Ray2Volt should position itself as a trusted local solar partner for Tirupati District, with 1,000+ installations across Andhra Pradesh and a practical end-to-end customer journey: free power audit, correct system sizing, transparent package pricing, subsidy and collateral-free loan guidance, tier-1 brands, professional installation, and local after-sales support.
 
 **Differentiation points:**
 
-- Local solar partner with 600+ installations in Tirupati District.
+- Local solar partner with 1,000+ installations across Andhra Pradesh.
 - Future-ready systems with easy upgrade paths to battery backup and hybrid systems.
 - Helps customers protect themselves against policy changes, subsidy timelines, and unstable grids.
 - Collateral-free loan support available where eligible.

@@ -305,7 +305,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     const el = entry.target;
                     const text = el.textContent.trim();
 
-                    // Parse the number and suffix from text like "500+", "5 MW+", "100%"
+                    // Parse the number and suffix from text like "1,000+", "5 MW+", "100%"
                     const match = text.match(/^([\d,]+)\s*(.*)/);
                     if (match) {
                         const num = parseInt(match[1].replace(/,/g, ''));
