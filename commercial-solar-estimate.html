@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" type="image/png" href="R2V Shock symbol.png">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18014889887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-18014889887');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Get a free commercial solar assessment, ROI estimate and indicative quote from Ray2Volt Solar for businesses in Tirupati, Chittoor, Nellore and Kadapa.">
+    <title>Free Commercial Solar Estimate | Ray2Volt Solar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..1000&family=Assistant:wght@200..800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <meta property="og:site_name" content="Ray2Volt Solar">
+
+    <style>
+        .ci-estimate-page {
+            padding-top: 88px;
+        }
+
+        .ci-estimate-hero {
+            padding: 4.5rem 0 3rem;
+        }
+
+        .ci-estimate-hero-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .ci-estimate-hero h1 {
+            font-size: clamp(2.2rem, 5vw, 4rem);
+            max-width: 850px;
+        }
+
+        .ci-estimate-hero h1 span {
+            color: var(--primary-light);
+        }
+
+        .ci-estimate-hero .lead {
+            max-width: 760px;
+        }
+
+        .ci-proof-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin: 1.5rem 0 2rem;
+        }
+
+        .ci-proof-item {
+            padding: 0.6rem 0.85rem;
+            border: 1px solid rgba(79, 195, 247, 0.35);
+            border-radius: var(--radius-full);
+            background: rgba(3, 169, 244, 0.08);
+            color: var(--white);
+            font-weight: 700;
+        }
+
+        .ci-hero-image {
+            position: relative;
+        }
+
+        .ci-hero-image img {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .ci-savings-note {
+            margin-top: 0.85rem;
+            color: var(--text-light);
+            font-size: 0.92rem;
+        }
+
+        .ci-value-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .ci-value-item {
+            padding: 1.35rem;
+            border-top: 2px solid var(--primary);
+            background: rgba(15, 23, 42, 0.72);
+            border-radius: var(--radius-md);
+        }
+
+        .ci-value-item h3 {
+            font-size: 1.05rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .ci-value-item p {
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        .ci-industries {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .ci-industry {
+            padding: 0.7rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: var(--radius-full);
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .ci-form-section {
+            scroll-margin-top: 100px;
+        }
+
+        .ci-form-shell {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: clamp(1.25rem, 4vw, 2.5rem);
+        }
+
+        .ci-progress {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            counter-reset: ci-step;
+        }
+
+        .ci-progress li {
+            counter-increment: ci-step;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: var(--text-light);
+            font-weight: 700;
+            font-size: 0.92rem;
+        }
+
+        .ci-progress li::before {
+            content: counter(ci-step);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            flex: 0 0 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: 50%;
+        }
+
+        .ci-progress li.is-active,
+        .ci-progress li.is-complete {
+            color: var(--white);
+        }
+
+        .ci-progress li.is-active::before,
+        .ci-progress li.is-complete::before {
+            color: var(--gray-900);
+            background: var(--secondary-gold);
+            border-color: var(--secondary-gold);
+        }
+
+        .ci-form-step[hidden] {
+            display: none;
+        }
+
+        .ci-step-heading {
+            margin-bottom: 1.5rem;
+        }
+
+        .ci-step-heading p {
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        .ci-form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.25rem;
+        }
+
+        .ci-form-grid .ci-full {
+            grid-column: 1 / -1;
+        }
+
+        .ci-checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.75rem;
+        }
+
+        .ci-check-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+            padding: 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: var(--radius);
+            color: var(--white);
+            background: rgba(15, 23, 42, 0.5);
+            cursor: pointer;
+        }
+
+        .ci-check-option input {
+            margin-top: 0.3rem;
+            accent-color: var(--secondary-gold);
+        }
+
+        .ci-form-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .ci-form-actions .btn:last-child {
+            margin-left: auto;
+        }
+
+        .ci-form-actions [hidden] {
+            display: none !important;
+        }
+
+        .ci-form-message {
+            min-height: 1.5rem;
+            margin-top: 1rem;
+            color: var(--error);
+            font-weight: 700;
+        }
+
+        .ci-privacy-note,
+        .ci-estimate-disclaimer {
+            color: var(--text-light);
+            font-size: 0.92rem;
+        }
+
+        .ci-privacy-note a {
+            color: var(--primary-light);
+            text-decoration: underline;
+        }
+
+        .ci-honeypot {
+            position: absolute;
+            left: -10000px;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+
+        .ci-final-note {
+            max-width: 860px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        @media (max-width: 900px) {
+            .ci-estimate-hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ci-value-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .ci-hero-image {
+                max-width: 640px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .ci-estimate-page {
+                padding-top: 72px;
+            }
+
+            .ci-estimate-hero {
+                padding-top: 2.25rem;
+            }
+
+            .ci-value-grid,
+            .ci-form-grid,
+            .ci-checkbox-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ci-form-grid .ci-full {
+                grid-column: auto;
+            }
+
+            .ci-progress li {
+                align-items: center;
+                flex-direction: column;
+                text-align: center;
+                font-size: 0.8rem;
+            }
+
+            .ci-form-actions {
+                flex-direction: column-reverse;
+            }
+
+            .ci-form-actions .btn,
+            .ci-form-actions .btn:last-child {
+                width: 100%;
+                margin-left: 0;
+            }
+
+            .ci-estimate-page + .footer + .sticky-contact,
+            .sticky-contact {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <a href="index.html" class="logo">
+                <img src="images/logo.png" alt="Ray2Volt Solar Logo" onerror="this.style.display='none'">
+                <div class="logo-text">Ray2Volt Solar<span>Private Limited</span></div>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About Us</a></li>
+                <li><a href="residential.html" class="nav-link">Residential</a></li>
+                <li><a href="commercial.html" class="nav-link active">Commercial</a></li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
+                <li><a href="investor.html" class="nav-link">Investors</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="menu-toggle" type="button" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="ci-estimate-page">
+        <section class="ci-estimate-hero">
+            <div class="container ci-estimate-hero-grid">
+                <div>
+                    <div class="hero-badge">Commercial &amp; Industrial Solar</div>
+                    <h1>Get a Free Commercial Solar <span>Estimate &amp; ROI Assessment</span></h1>
+                    <p class="lead">See your indicative system capacity, project cost, expected savings and payback
+                        before a technical site visit.</p>
+                    <div class="ci-proof-row" aria-label="Ray2Volt campaign highlights">
+                        <span class="ci-proof-item">1,000+ installations across Andhra Pradesh</span>
+                        <span class="ci-proof-item">Financing guidance available</span>
+                        <span class="ci-proof-item">CAPEX &amp; RESCO options</span>
+                    </div>
+                    <div class="hero-buttons">
+                        <a href="#ci-lead-form" class="btn btn-primary btn-lg">Get Free Solar Estimate</a>
+                        <a href="tel:+919666068140" class="btn btn-outline btn-lg">Call +91 96660 68140</a>
+                    </div>
+                    <p class="ci-savings-note">Businesses may reduce eligible electricity bills by up to 80%.
+                        Actual savings depend on consumption, tariff, site conditions and system design.</p>
+                </div>
+                <div class="ci-hero-image">
+                    <img src="images/blog/commercial-solar-for-factories.jpg"
+                        alt="Commercial rooftop solar installation for a business">
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>What Your Free Assessment Covers</h2>
+                </div>
+                <div class="ci-value-grid">
+                    <article class="ci-value-item">
+                        <h3>System Capacity</h3>
+                        <p>Indicative kWp range based on your bill and available roof.</p>
+                    </article>
+                    <article class="ci-value-item">
+                        <h3>Project Cost</h3>
+                        <p>Indicative investment range before technical verification.</p>
+                    </article>
+                    <article class="ci-value-item">
+                        <h3>Savings &amp; Payback</h3>
+                        <p>Estimated bill reduction, annual savings and payback direction.</p>
+                    </article>
+                    <article class="ci-value-item">
+                        <h3>Funding Direction</h3>
+                        <p>CAPEX, finance or RESCO suitability for your business.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Built for High-Consumption Businesses</h2>
+                    <p>We prioritize facilities with strong daytime electricity use and suitable project potential.</p>
+                </div>
+                <div class="ci-industries" aria-label="Priority industries">
+                    <span class="ci-industry">Factories &amp; Manufacturing</span>
+                    <span class="ci-industry">Hospitals</span>
+                    <span class="ci-industry">Hotels &amp; Function Halls</span>
+                    <span class="ci-industry">Schools &amp; Colleges</span>
+                    <span class="ci-industry">Warehouses</span>
+                    <span class="ci-industry">Cold Storage</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section ci-form-section" id="ci-lead-form">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Get Your Free Solar Estimate</h2>
+                    <p>Complete three short steps. No electricity-bill upload or OTP required.</p>
+                </div>
+
+                <div class="card ci-form-shell">
+                    <ol class="ci-progress" aria-label="Form progress">
+                        <li class="is-active" data-progress-step="1" aria-current="step">Business</li>
+                        <li data-progress-step="2">Electricity &amp; Site</li>
+                        <li data-progress-step="3">Requirement &amp; Contact</li>
+                    </ol>
+
+                    <form id="ci-estimate-form" action="https://api.web3forms.com/submit" method="POST" novalidate>
+                        <input type="hidden" name="access_key" value="b3d2b2c1-4237-4de1-8879-9048dfa1beb8">
+                        <input type="hidden" name="subject" value="New C&amp;I Solar Estimate Request - Ray2Volt Solar">
+                        <input type="hidden" name="from_name" value="Ray2Volt Solar Website">
+                        <input type="hidden" name="redirect" value="https://ray2voltsolar.com/thank-you.html">
+                        <input type="hidden" name="Source Page" value="PMax C&amp;I Solar Estimate">
+                        <input type="hidden" name="utm_source" id="utm-source">
+                        <input type="hidden" name="utm_medium" id="utm-medium">
+                        <input type="hidden" name="utm_campaign" id="utm-campaign">
+                        <input type="hidden" name="utm_content" id="utm-content">
+                        <input type="hidden" name="gclid" id="gclid">
+                        <input type="hidden" name="Landing Page URL" id="landing-page-url">
+                        <div class="ci-honeypot" aria-hidden="true">
+                            <label for="botcheck">Leave this field empty</label>
+                            <input type="checkbox" id="botcheck" name="botcheck" tabindex="-1" autocomplete="off">
+                        </div>
+
+                        <section class="ci-form-step" data-form-step="1" aria-labelledby="step-1-title">
+                            <div class="ci-step-heading">
+                                <h3 id="step-1-title" tabindex="-1">Business and location</h3>
+                                <p>Tell us where the proposed solar project will be located.</p>
+                            </div>
+                            <div class="ci-form-grid">
+                                <div class="form-group">
+                                    <label for="business-name">Business name *</label>
+                                    <input class="form-control" type="text" id="business-name" name="Business Name"
+                                        autocomplete="organization" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="business-type">Business type / industry *</label>
+                                    <select class="form-control" id="business-type" name="Business Type" required>
+                                        <option value="">Select industry</option>
+                                        <option>Factory / Manufacturing</option>
+                                        <option>Hospital / Healthcare</option>
+                                        <option>Hotel / Resort</option>
+                                        <option>Function Hall</option>
+                                        <option>School / College</option>
+                                        <option>Warehouse / Logistics</option>
+                                        <option>Cold Storage / Food Processing</option>
+                                        <option>Retail / Shopping Complex</option>
+                                        <option>Office / Commercial Building</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contact-name">Your name *</label>
+                                    <input class="form-control" type="text" id="contact-name" name="Contact Name"
+                                        autocomplete="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="business-role">Your role in the business *</label>
+                                    <select class="form-control" id="business-role" name="Business Role" required>
+                                        <option value="">Select role</option>
+                                        <option>Owner / Promoter</option>
+                                        <option>Director / Partner</option>
+                                        <option>Finance / Accounts</option>
+                                        <option>Operations / Plant Head</option>
+                                        <option>Facility / Maintenance</option>
+                                        <option>Authorized Representative</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="district">District *</label>
+                                    <select class="form-control" id="district" name="District" required>
+                                        <option value="">Select district</option>
+                                        <option>Tirupati</option>
+                                        <option>Chittoor</option>
+                                        <option>Nellore</option>
+                                        <option>Kadapa</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="locality">Town / locality *</label>
+                                    <input class="form-control" type="text" id="locality" name="Town or Locality"
+                                        autocomplete="address-level2" required>
+                                </div>
+                                <div class="form-group ci-full">
+                                    <label for="pin-code">PIN code *</label>
+                                    <input class="form-control" type="text" id="pin-code" name="PIN Code"
+                                        inputmode="numeric" autocomplete="postal-code" pattern="[1-9][0-9]{5}"
+                                        maxlength="6" placeholder="6-digit PIN code" required>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="ci-form-step" data-form-step="2" aria-labelledby="step-2-title" hidden>
+                            <div class="ci-step-heading">
+                                <h3 id="step-2-title" tabindex="-1">Electricity use and site</h3>
+                                <p>Ranges are enough. You do not need to upload an electricity bill.</p>
+                            </div>
+                            <div class="ci-form-grid">
+                                <div class="form-group">
+                                    <label for="bill-band">Average monthly electricity bill *</label>
+                                    <select class="form-control" id="bill-band" name="Monthly Bill Band" required>
+                                        <option value="">Select bill range</option>
+                                        <option>Under ₹25,000</option>
+                                        <option>₹25,000–₹50,000</option>
+                                        <option>₹50,000–₹1 lakh</option>
+                                        <option>₹1–₹2 lakh</option>
+                                        <option>₹2–₹5 lakh</option>
+                                        <option>₹5 lakh+</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="daytime-use">Daytime electricity use *</label>
+                                    <select class="form-control" id="daytime-use" name="Daytime Electricity Use" required>
+                                        <option value="">Select usage level</option>
+                                        <option>High</option>
+                                        <option>Moderate</option>
+                                        <option>Low</option>
+                                        <option>Not sure</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="roof-control">Roof availability / permission *</label>
+                                    <select class="form-control" id="roof-control" name="Roof Availability" required>
+                                        <option value="">Select roof status</option>
+                                        <option>Business owns the roof</option>
+                                        <option>Authorized to use the roof</option>
+                                        <option>Rented; permission available</option>
+                                        <option>Rented; permission required</option>
+                                        <option>Ground space available</option>
+                                        <option>Not sure</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="roof-space">Available roof space *</label>
+                                    <select class="form-control" id="roof-space" name="Available Roof Space" required>
+                                        <option value="">Select approximate area</option>
+                                        <option>Under 3,000 sq ft</option>
+                                        <option>3,000–5,000 sq ft</option>
+                                        <option>5,000–10,000 sq ft</option>
+                                        <option>10,000–25,000 sq ft</option>
+                                        <option>25,000+ sq ft</option>
+                                        <option>Not sure</option>
+                                    </select>
+                                </div>
+                                <div class="form-group ci-full">
+                                    <label for="roof-type">Roof type *</label>
+                                    <select class="form-control" id="roof-type" name="Roof Type" required>
+                                        <option value="">Select roof type</option>
+                                        <option>RCC / Concrete</option>
+                                        <option>Metal / Tin Shed</option>
+                                        <option>Mixed Roof</option>
+                                        <option>Open Ground</option>
+                                        <option>Other</option>
+                                        <option>Not sure</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="ci-form-step" data-form-step="3" aria-labelledby="step-3-title" hidden>
+                            <div class="ci-step-heading">
+                                <h3 id="step-3-title" tabindex="-1">Requirement, readiness and contact</h3>
+                                <p>Choose everything you need from Ray2Volt.</p>
+                            </div>
+                            <div class="ci-form-grid">
+                                <fieldset class="form-group ci-full" id="requirements-fieldset">
+                                    <legend>What are you looking for? *</legend>
+                                    <div class="ci-checkbox-grid">
+                                        <label class="ci-check-option"><input type="checkbox" name="Requirement[]"
+                                                value="Indicative quote">Indicative quote</label>
+                                        <label class="ci-check-option"><input type="checkbox" name="Requirement[]"
+                                                value="Site assessment">Site assessment</label>
+                                        <label class="ci-check-option"><input type="checkbox" name="Requirement[]"
+                                                value="ROI / savings audit">ROI / savings audit</label>
+                                        <label class="ci-check-option"><input type="checkbox" name="Requirement[]"
+                                                value="Understand commercial solar">Understand how commercial solar works</label>
+                                        <label class="ci-check-option"><input type="checkbox" name="Requirement[]"
+                                                value="Financing">Financing</label>
+                                        <label class="ci-check-option"><input type="checkbox" name="Requirement[]"
+                                                value="CAPEX / RESCO guidance">CAPEX / RESCO guidance</label>
+                                        <label class="ci-check-option"><input type="checkbox" name="Requirement[]"
+                                                value="Expansion">Existing-system expansion</label>
+                                        <label class="ci-check-option"><input type="checkbox" name="Requirement[]"
+                                                value="Net-metering support">Net-metering support</label>
+                                        <label class="ci-check-option"><input type="checkbox" name="Requirement[]"
+                                                value="Other">Other</label>
+                                    </div>
+                                </fieldset>
+                                <div class="form-group">
+                                    <label for="readiness">How ready are you to install solar? *</label>
+                                    <select class="form-control" id="readiness" name="Readiness Timeline" required>
+                                        <option value="">Select timeline</option>
+                                        <option>0–30 days</option>
+                                        <option>1–3 months</option>
+                                        <option>3–6 months</option>
+                                        <option>Exploring</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="funding">Preferred funding direction *</label>
+                                    <select class="form-control" id="funding" name="Funding Direction" required>
+                                        <option value="">Select funding direction</option>
+                                        <option>CAPEX</option>
+                                        <option>Finance</option>
+                                        <option>RESCO</option>
+                                        <option>Need guidance</option>
+                                    </select>
+                                </div>
+                                <div class="form-group ci-full">
+                                    <label for="mobile-number">Mobile number *</label>
+                                    <input class="form-control" type="tel" id="mobile-number" name="Mobile Number"
+                                        inputmode="tel" autocomplete="tel" pattern="(?:\+91(?:\s|-)?)?[6-9][0-9]{9}"
+                                        placeholder="10-digit Indian mobile number" required>
+                                </div>
+                                <p class="ci-privacy-note ci-full">By submitting this enquiry, you allow Ray2Volt Solar
+                                    to contact you about this commercial solar requirement. See our <a
+                                        href="privacy-policy.html" target="_blank" rel="noopener">privacy policy</a>.</p>
+                            </div>
+                        </section>
+
+                        <p class="ci-form-message" id="ci-form-message" role="alert" aria-live="polite"></p>
+
+                        <div class="ci-form-actions">
+                            <button class="btn btn-outline" type="button" id="ci-back" hidden>Back</button>
+                            <button class="btn btn-primary" type="button" id="ci-next">Continue</button>
+                            <button class="btn btn-primary" type="submit" id="ci-submit" hidden>Get Free Solar Estimate</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container ci-final-note">
+                <h2>Indicative First. Site-Verified Final.</h2>
+                <p class="ci-estimate-disclaimer">The free estimate provides a preliminary capacity, cost, savings and
+                    funding direction based on the information submitted. Final system design, savings projection and
+                    quotation follow roof, electrical and technical verification.</p>
+                <a href="tel:+919666068140" class="btn btn-outline mt-4">Talk to a Commercial Solar Expert</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <img src="images/logo.png" alt="Ray2Volt Solar Logo" onerror="this.style.display='none'">
+                        <div class="logo-text">Ray2Volt Solar<span>Private Limited</span></div>
+                    </a>
+                    <p>Commercial and industrial solar assessment, engineering and project support.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Commercial Solar</h4>
+                    <ul>
+                        <li><a href="commercial.html">C&amp;I Solar Overview</a></li>
+                        <li><a href="blog/capex-vs-opex-resco-solar.html">CAPEX vs RESCO</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="tel:+919666068140">+91 9666068140</a></li>
+                        <li><a href="mailto:sales@ray2voltsolar.com">sales@ray2voltsolar.com</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ray2Volt Solar Private Limited. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="sticky-contact">
+        <a href="tel:+919666068140" class="sticky-contact-btn sticky-call" aria-label="Call Ray2Volt Solar">Call</a>
+        <a href="https://wa.me/919666068140" class="sticky-contact-btn sticky-whatsapp"
+            aria-label="Chat with Ray2Volt Solar on WhatsApp">WA</a>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        (function () {
+            const form = document.getElementById('ci-estimate-form');
+            if (!form) return;
+
+            const steps = Array.from(form.querySelectorAll('[data-form-step]'));
+            const progressItems = Array.from(document.querySelectorAll('[data-progress-step]'));
+            const backButton = document.getElementById('ci-back');
+            const nextButton = document.getElementById('ci-next');
+            const submitButton = document.getElementById('ci-submit');
+            const message = document.getElementById('ci-form-message');
+            const requirementInputs = Array.from(form.querySelectorAll('input[name="Requirement[]"]'));
+            const startedAt = Date.now();
+            let currentStep = 0;
+            let isSubmitting = false;
+
+            const trackingFields = {
+                utm_source: 'utm-source',
+                utm_medium: 'utm-medium',
+                utm_campaign: 'utm-campaign',
+                utm_content: 'utm-content',
+                gclid: 'gclid'
+            };
+            const params = new URLSearchParams(window.location.search);
+            Object.entries(trackingFields).forEach(([parameter, id]) => {
+                const field = document.getElementById(id);
+                if (field) field.value = params.get(parameter) || '';
+            });
+            document.getElementById('landing-page-url').value = window.location.href;
+
+            function showStep(index) {
+                currentStep = index;
+                steps.forEach((step, stepIndex) => {
+                    step.hidden = stepIndex !== index;
+                });
+                progressItems.forEach((item, stepIndex) => {
+                    item.classList.toggle('is-active', stepIndex === index);
+                    item.classList.toggle('is-complete', stepIndex < index);
+                    if (stepIndex === index) item.setAttribute('aria-current', 'step');
+                    else item.removeAttribute('aria-current');
+                });
+                backButton.hidden = index === 0;
+                nextButton.hidden = index === steps.length - 1;
+                submitButton.hidden = index !== steps.length - 1;
+                message.textContent = '';
+                const heading = steps[index].querySelector('h3');
+                if (heading && index > 0) heading.focus({ preventScroll: true });
+            }
+
+            function validateStep(index) {
+                const controls = Array.from(steps[index].querySelectorAll('input, select, textarea'));
+                for (const control of controls) {
+                    if (!control.checkValidity()) {
+                        control.reportValidity();
+                        return false;
+                    }
+                }
+
+                if (index === 2 && !requirementInputs.some(input => input.checked)) {
+                    message.textContent = 'Select at least one requirement before submitting.';
+                    requirementInputs[0].focus();
+                    return false;
+                }
+                message.textContent = '';
+                return true;
+            }
+
+            nextButton.addEventListener('click', function () {
+                if (!validateStep(currentStep)) return;
+                showStep(Math.min(currentStep + 1, steps.length - 1));
+                document.getElementById('ci-lead-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+
+            backButton.addEventListener('click', function () {
+                showStep(Math.max(currentStep - 1, 0));
+                document.getElementById('ci-lead-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+
+            requirementInputs.forEach(input => {
+                input.addEventListener('change', function () {
+                    if (requirementInputs.some(item => item.checked)) message.textContent = '';
+                });
+            });
+
+            form.addEventListener('submit', function (event) {
+                if (!validateStep(2)) {
+                    event.preventDefault();
+                    return;
+                }
+                if (document.getElementById('botcheck').checked) {
+                    event.preventDefault();
+                    message.textContent = 'We could not submit this enquiry. Please call us for assistance.';
+                    return;
+                }
+                if (Date.now() - startedAt < 4000) {
+                    event.preventDefault();
+                    message.textContent = 'Please review your details, then submit again.';
+                    return;
+                }
+                if (isSubmitting) {
+                    event.preventDefault();
+                    return;
+                }
+                isSubmitting = true;
+                submitButton.disabled = true;
+                submitButton.textContent = 'Submitting...';
+            });
+
+            showStep(0);
+        })();
+    </script>
+</body>
+
+</html>
