@@ -9,7 +9,6 @@
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'AW-18014889887');
-        gtag('event', 'conversion', { 'send_to': 'AW-18014889887/9NtXCImroaYcEJ_PlY5D' });
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -140,14 +139,33 @@
     <script src="script.js"></script>
     <script>
         (function () {
-            const readiness = sessionStorage.getItem('ciLeadReadiness') || '';
-            const requirements = (sessionStorage.getItem('ciLeadRequirements') || '').split('|');
+            let readiness = '';
+            let requirements = [];
+            try {
+                readiness = sessionStorage.getItem('ciLeadReadiness') || '';
+                requirements = (sessionStorage.getItem('ciLeadRequirements') || '').split('|');
+                const submissionPending = sessionStorage.getItem('ciLeadSubmissionPending') === 'true';
+                const transactionId = sessionStorage.getItem('ciLeadTransactionId') || '';
+                const conversionKey = transactionId ? `ciLeadConversionFired:${transactionId}` : '';
+                const alreadyFired = conversionKey && sessionStorage.getItem(conversionKey) === 'true';
+
+                if (submissionPending && transactionId && !alreadyFired) {
+                    gtag('event', 'conversion', {
+                        send_to: 'AW-18014889887/9NtXCImroaYcEJ_PlY5D',
+                        transaction_id: transactionId
+                    });
+                    sessionStorage.setItem(conversionKey, 'true');
+                }
+                sessionStorage.removeItem('ciLeadSubmissionPending');
+            } catch (error) {
+                // Confirmation content remains available when storage is unavailable.
+            }
             const title = document.getElementById('confirmation-title');
             const intro = document.getElementById('confirmation-intro');
             const nextStep = document.getElementById('confirmation-next-step');
 
             if (readiness === '0–30 days' || readiness === '1–3 months') {
-                title.textContent = 'Your project is ready for priority review';
+                title.textContent = 'Your project request is under review';
                 nextStep.textContent = 'Our team will call to confirm your bill range, roof details and site-assessment schedule.';
             } else if (readiness === '3–6 months' || readiness === '6–12 months') {
                 title.textContent = 'Your solar project plan is underway';
@@ -162,15 +180,6 @@
                 nextStep.textContent += ' We will also discuss CAPEX, finance and RESCO suitability.';
             }
 
-            const menuToggle = document.querySelector('.menu-toggle');
-            const navigation = document.getElementById('primary-navigation');
-            if (menuToggle && navigation) {
-                menuToggle.addEventListener('click', function () {
-                    window.setTimeout(function () {
-                        menuToggle.setAttribute('aria-expanded', navigation.classList.contains('active') ? 'true' : 'false');
-                    }, 0);
-                });
-            }
         })();
     </script>
 </body>

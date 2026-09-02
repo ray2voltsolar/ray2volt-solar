@@ -535,8 +535,8 @@
                                         <option>Under ₹25,000</option>
                                         <option>₹25,000–₹50,000</option>
                                         <option>₹50,001–₹1 lakh</option>
-                                        <option>₹1–₹2 lakh</option>
-                                        <option>₹2–₹5 lakh</option>
+                                        <option>₹1,00,001–₹2 lakh</option>
+                                        <option>₹2,00,001–₹5 lakh</option>
                                         <option>Above ₹5 lakh</option>
                                     </select>
                                 </div>
@@ -844,29 +844,23 @@
                     return;
                 }
                 isSubmitting = true;
-                sessionStorage.setItem('ciLeadReadiness', document.getElementById('readiness').value);
-                sessionStorage.setItem('ciLeadRequirements', requirementInputs
-                    .filter(input => input.checked)
-                    .map(input => input.value)
-                    .join('|'));
+                try {
+                    const transactionId = window.crypto && window.crypto.randomUUID
+                        ? window.crypto.randomUUID()
+                        : `ci-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+                    sessionStorage.setItem('ciLeadReadiness', document.getElementById('readiness').value);
+                    sessionStorage.setItem('ciLeadRequirements', requirementInputs
+                        .filter(input => input.checked)
+                        .map(input => input.value)
+                        .join('|'));
+                    sessionStorage.setItem('ciLeadSubmissionPending', 'true');
+                    sessionStorage.setItem('ciLeadTransactionId', transactionId);
+                } catch (error) {
+                    // The form remains usable when storage is unavailable.
+                }
                 submitButton.disabled = true;
                 submitButton.textContent = 'Submitting...';
             });
-
-            const menuToggle = document.querySelector('.menu-toggle');
-            const navigation = document.getElementById('primary-navigation');
-            if (menuToggle && navigation) {
-                menuToggle.addEventListener('click', function () {
-                    window.setTimeout(function () {
-                        menuToggle.setAttribute('aria-expanded', navigation.classList.contains('active') ? 'true' : 'false');
-                    }, 0);
-                });
-                navigation.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', function () {
-                        menuToggle.setAttribute('aria-expanded', 'false');
-                    });
-                });
-            }
 
             showStep(0);
         })();

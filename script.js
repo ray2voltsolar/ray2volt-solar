@@ -21,9 +21,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const navMenu = document.querySelector('.nav-menu');
 
     if (menuToggle && navMenu) {
+        const setMenuState = function (isOpen) {
+            menuToggle.classList.toggle('active', isOpen);
+            navMenu.classList.toggle('active', isOpen);
+            menuToggle.setAttribute('aria-expanded', String(isOpen));
+        };
+
+        setMenuState(false);
         menuToggle.addEventListener('click', function () {
-            this.classList.toggle('active');
-            navMenu.classList.toggle('active');
+            setMenuState(!navMenu.classList.contains('active'));
         });
 
         // Close menu when clicking a link (except dropdown toggle)
@@ -33,8 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (link.parentElement.classList.contains('dropdown') && window.innerWidth <= 768) {
                     return; // Handled by dropdown logic
                 }
-                menuToggle.classList.remove('active');
-                navMenu.classList.remove('active');
+                setMenuState(false);
             });
         });
 
