@@ -334,7 +334,7 @@
                 <img src="images/logo.png" alt="Ray2Volt Solar Logo" onerror="this.style.display='none'">
                 <div class="logo-text">Ray2Volt Solar<span>Private Limited</span></div>
             </a>
-            <ul class="nav-menu">
+            <ul class="nav-menu" id="primary-navigation">
                 <li><a href="index.html" class="nav-link">Home</a></li>
                 <li><a href="about.html" class="nav-link">About Us</a></li>
                 <li><a href="residential.html" class="nav-link">Residential</a></li>
@@ -343,7 +343,8 @@
                 <li><a href="investor.html" class="nav-link">Investors</a></li>
                 <li><a href="contact.html" class="nav-link">Contact</a></li>
             </ul>
-            <button class="menu-toggle" type="button" aria-label="Toggle menu">
+            <button class="menu-toggle" type="button" aria-label="Toggle menu" aria-controls="primary-navigation"
+                aria-expanded="false">
                 <span></span><span></span><span></span>
             </button>
         </nav>
@@ -437,7 +438,8 @@
                         <input type="hidden" name="access_key" value="b3d2b2c1-4237-4de1-8879-9048dfa1beb8">
                         <input type="hidden" name="subject" value="New C&amp;I Solar Estimate Request - Ray2Volt Solar">
                         <input type="hidden" name="from_name" value="Ray2Volt Solar Website">
-                        <input type="hidden" name="redirect" value="https://ray2voltsolar.com/thank-you.html">
+                        <input type="hidden" name="redirect"
+                            value="https://ray2voltsolar.com/commercial-solar-thank-you.html">
                         <input type="hidden" name="Source Page" value="PMax C&amp;I Solar Estimate">
                         <input type="hidden" name="utm_source" id="utm-source">
                         <input type="hidden" name="utm_medium" id="utm-medium">
@@ -491,7 +493,8 @@
                                         <option>Finance / Accounts</option>
                                         <option>Operations / Plant Head</option>
                                         <option>Facility / Maintenance</option>
-                                        <option>Authorized Representative</option>
+                                        <option>Administrator</option>
+                                        <option>Consultant / Authorized Evaluator</option>
                                         <option>Other</option>
                                     </select>
                                 </div>
@@ -531,10 +534,10 @@
                                         <option value="">Select bill range</option>
                                         <option>Under ₹25,000</option>
                                         <option>₹25,000–₹50,000</option>
-                                        <option>₹50,000–₹1 lakh</option>
+                                        <option>₹50,001–₹1 lakh</option>
                                         <option>₹1–₹2 lakh</option>
                                         <option>₹2–₹5 lakh</option>
-                                        <option>₹5 lakh+</option>
+                                        <option>Above ₹5 lakh</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -551,11 +554,10 @@
                                     <label for="roof-control">Roof availability / permission *</label>
                                     <select class="form-control" id="roof-control" name="Roof Availability" required>
                                         <option value="">Select roof status</option>
-                                        <option>Business owns the roof</option>
-                                        <option>Authorized to use the roof</option>
-                                        <option>Rented; permission available</option>
-                                        <option>Rented; permission required</option>
-                                        <option>Ground space available</option>
+                                        <option>Owned</option>
+                                        <option>Leased with permission</option>
+                                        <option>Permission pending</option>
+                                        <option>No suitable roof</option>
                                         <option>Not sure</option>
                                     </select>
                                 </div>
@@ -565,9 +567,10 @@
                                         <option value="">Select approximate area</option>
                                         <option>Under 3,000 sq ft</option>
                                         <option>3,000–5,000 sq ft</option>
-                                        <option>5,000–10,000 sq ft</option>
-                                        <option>10,000–25,000 sq ft</option>
-                                        <option>25,000+ sq ft</option>
+                                        <option>5,001–10,000 sq ft</option>
+                                        <option>10,001–25,000 sq ft</option>
+                                        <option>25,001–50,000 sq ft</option>
+                                        <option>Above 50,000 sq ft</option>
                                         <option>Not sure</option>
                                     </select>
                                 </div>
@@ -592,7 +595,8 @@
                                 <p>Choose everything you need from Ray2Volt.</p>
                             </div>
                             <div class="ci-form-grid">
-                                <fieldset class="form-group ci-full" id="requirements-fieldset">
+                                <fieldset class="form-group ci-full" id="requirements-fieldset"
+                                    aria-describedby="requirements-error">
                                     <legend>What are you looking for? *</legend>
                                     <div class="ci-checkbox-grid">
                                         <label class="ci-check-option"><input type="checkbox" name="Requirement[]"
@@ -614,6 +618,7 @@
                                         <label class="ci-check-option"><input type="checkbox" name="Requirement[]"
                                                 value="Other">Other</label>
                                     </div>
+                                    <p class="ci-form-message" id="requirements-error" aria-live="polite"></p>
                                 </fieldset>
                                 <div class="form-group">
                                     <label for="readiness">How ready are you to install solar? *</label>
@@ -622,17 +627,19 @@
                                         <option>0–30 days</option>
                                         <option>1–3 months</option>
                                         <option>3–6 months</option>
-                                        <option>Exploring</option>
+                                        <option>6–12 months</option>
+                                        <option>Exploring / no fixed timeline</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="funding">Preferred funding direction *</label>
                                     <select class="form-control" id="funding" name="Funding Direction" required>
                                         <option value="">Select funding direction</option>
-                                        <option>CAPEX</option>
-                                        <option>Finance</option>
-                                        <option>RESCO</option>
-                                        <option>Need guidance</option>
+                                        <option>Self-funded / CAPEX</option>
+                                        <option>Finance / Loan</option>
+                                        <option>RESCO / PPA</option>
+                                        <option>Comparing options</option>
+                                        <option>Not sure</option>
                                     </select>
                                 </div>
                                 <div class="form-group ci-full">
@@ -656,6 +663,11 @@
                         </div>
                     </form>
                 </div>
+                <noscript>
+                    <p class="ci-final-note">This three-step form requires JavaScript. Please call
+                        <a href="tel:+919666068140">+91 9666068140</a> or use the
+                        <a href="contact.html">contact page</a>.</p>
+                </noscript>
             </div>
         </section>
 
@@ -721,6 +733,8 @@
             const nextButton = document.getElementById('ci-next');
             const submitButton = document.getElementById('ci-submit');
             const message = document.getElementById('ci-form-message');
+            const requirementsFieldset = document.getElementById('requirements-fieldset');
+            const requirementsError = document.getElementById('requirements-error');
             const requirementInputs = Array.from(form.querySelectorAll('input[name="Requirement[]"]'));
             const startedAt = Date.now();
             let currentStep = 0;
@@ -769,10 +783,13 @@
                 }
 
                 if (index === 2 && !requirementInputs.some(input => input.checked)) {
-                    message.textContent = 'Select at least one requirement before submitting.';
+                    requirementsFieldset.setAttribute('aria-invalid', 'true');
+                    requirementsError.textContent = 'Select at least one requirement before submitting.';
                     requirementInputs[0].focus();
                     return false;
                 }
+                requirementsFieldset.removeAttribute('aria-invalid');
+                requirementsError.textContent = '';
                 message.textContent = '';
                 return true;
             }
@@ -790,15 +807,28 @@
 
             requirementInputs.forEach(input => {
                 input.addEventListener('change', function () {
-                    if (requirementInputs.some(item => item.checked)) message.textContent = '';
+                    if (requirementInputs.some(item => item.checked)) {
+                        requirementsFieldset.removeAttribute('aria-invalid');
+                        requirementsError.textContent = '';
+                    }
                 });
             });
 
             form.addEventListener('submit', function (event) {
-                if (!validateStep(2)) {
+                if (currentStep < steps.length - 1) {
                     event.preventDefault();
+                    if (validateStep(currentStep)) showStep(currentStep + 1);
                     return;
                 }
+                for (let index = 0; index < steps.length; index += 1) {
+                    if (!validateStep(index)) {
+                        event.preventDefault();
+                        showStep(index);
+                        validateStep(index);
+                        return;
+                    }
+                }
+                showStep(steps.length - 1);
                 if (document.getElementById('botcheck').checked) {
                     event.preventDefault();
                     message.textContent = 'We could not submit this enquiry. Please call us for assistance.';
@@ -814,9 +844,29 @@
                     return;
                 }
                 isSubmitting = true;
+                sessionStorage.setItem('ciLeadReadiness', document.getElementById('readiness').value);
+                sessionStorage.setItem('ciLeadRequirements', requirementInputs
+                    .filter(input => input.checked)
+                    .map(input => input.value)
+                    .join('|'));
                 submitButton.disabled = true;
                 submitButton.textContent = 'Submitting...';
             });
+
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navigation = document.getElementById('primary-navigation');
+            if (menuToggle && navigation) {
+                menuToggle.addEventListener('click', function () {
+                    window.setTimeout(function () {
+                        menuToggle.setAttribute('aria-expanded', navigation.classList.contains('active') ? 'true' : 'false');
+                    }, 0);
+                });
+                navigation.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', function () {
+                        menuToggle.setAttribute('aria-expanded', 'false');
+                    });
+                });
+            }
 
             showStep(0);
         })();
