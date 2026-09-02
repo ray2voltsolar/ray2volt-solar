@@ -24,48 +24,61 @@
     <meta property="og:site_name" content="Ray2Volt Solar">
 
     <style>
+        /* ------------------------------------------------------------------
+           C&I estimate landing page
+           Type scale, spacing and colours follow the styles.css design tokens.
+           ------------------------------------------------------------------ */
         .ci-estimate-page {
-            padding-top: 88px;
+            padding-top: 80px;
         }
 
+        /* Hero */
         .ci-estimate-hero {
-            padding: 4.5rem 0 3rem;
+            padding: 2.5rem 0 3rem;
         }
 
         .ci-estimate-hero-grid {
             display: grid;
-            grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+            grid-template-columns: 1fr 1fr;
             gap: 3rem;
             align-items: center;
         }
 
+        .ci-estimate-hero-text {
+            max-width: 600px;
+        }
+
         .ci-estimate-hero h1 {
-            font-size: clamp(2.2rem, 5vw, 4rem);
-            max-width: 850px;
+            margin-bottom: 1.25rem;
         }
 
         .ci-estimate-hero h1 span {
-            color: var(--primary-light);
+            background: linear-gradient(135deg, var(--secondary-gold) 0%, #FFD54F 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .ci-estimate-hero .lead {
-            max-width: 760px;
+            margin-bottom: 1.5rem;
+            color: rgba(255, 255, 255, 0.7);
         }
 
         .ci-proof-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.75rem;
-            margin: 1.5rem 0 2rem;
+            gap: 0.5rem;
+            margin-bottom: 1.75rem;
         }
 
         .ci-proof-item {
-            padding: 0.6rem 0.85rem;
-            border: 1px solid rgba(79, 195, 247, 0.35);
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(56, 189, 248, 0.3);
             border-radius: var(--radius-full);
-            background: rgba(3, 169, 244, 0.08);
-            color: var(--white);
-            font-weight: 700;
+            background: rgba(3, 169, 244, 0.1);
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.8125rem;
+            font-weight: 600;
         }
 
         .ci-hero-image {
@@ -77,91 +90,132 @@
             aspect-ratio: 4 / 3;
             object-fit: cover;
             border-radius: var(--radius-xl);
+            border: 2px solid rgba(14, 165, 233, 0.15);
             box-shadow: var(--shadow-xl);
         }
 
         .ci-savings-note {
-            margin-top: 0.85rem;
-            color: var(--text-light);
-            font-size: 0.92rem;
+            margin-top: 1.25rem;
+            max-width: 520px;
+            font-size: 0.8125rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.55);
         }
 
+        /* What the assessment covers */
         .ci-value-grid {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 1rem;
-        }
-
-        .ci-value-item {
-            padding: 1.35rem;
-            border-top: 2px solid var(--primary);
-            background: rgba(15, 23, 42, 0.72);
-            border-radius: var(--radius-md);
+            gap: 1.25rem;
         }
 
         .ci-value-item h3 {
-            font-size: 1.05rem;
-            margin-bottom: 0.4rem;
+            font-size: 1.125rem;
+            margin-bottom: 0.375rem;
         }
 
         .ci-value-item p {
-            color: var(--text-light);
             margin: 0;
         }
 
+        /* Priority industries */
         .ci-industries {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 0.75rem;
+            gap: 0.625rem;
         }
 
         .ci-industry {
-            padding: 0.7rem 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.16);
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(56, 189, 248, 0.2);
             border-radius: var(--radius-full);
-            color: var(--white);
-            background: rgba(255, 255, 255, 0.04);
+            background: rgba(15, 23, 42, 0.6);
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.8125rem;
+            font-weight: 600;
         }
 
+        /* Three-step form */
         .ci-form-section {
-            scroll-margin-top: 100px;
+            scroll-margin-top: 90px;
         }
 
         .ci-form-shell {
-            max-width: 900px;
+            max-width: 820px;
             margin: 0 auto;
-            padding: clamp(1.25rem, 4vw, 2.5rem);
+            padding: clamp(1.25rem, 3vw, 2.25rem);
+        }
+
+        /* The form is a container, not a clickable card - keep it still. */
+        .ci-form-shell:hover {
+            transform: none;
+            border-color: rgba(56, 189, 248, 0.12);
+            box-shadow: none;
+        }
+
+        .ci-form-shell:hover::before {
+            opacity: 0;
+        }
+
+        .ci-form-shell:hover::after {
+            background: rgba(15, 23, 42, 0.85);
         }
 
         .ci-progress {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 0.5rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.75rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.12);
             counter-reset: ci-step;
         }
 
         .ci-progress li {
-            counter-increment: ci-step;
+            position: relative;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 0.6rem;
-            color: var(--text-light);
-            font-weight: 700;
-            font-size: 0.92rem;
+            gap: 0.5rem;
+            padding: 0 0.25rem;
+            counter-increment: ci-step;
+            font-family: var(--font-heading);
+            font-size: 0.75rem;
+            font-weight: 600;
+            line-height: 1.35;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
         }
 
         .ci-progress li::before {
             content: counter(ci-step);
+            position: relative;
+            z-index: 1;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 2rem;
-            height: 2rem;
-            flex: 0 0 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.22);
+            width: 1.875rem;
+            height: 1.875rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 50%;
+            background: rgba(15, 23, 42, 0.95);
+            font-size: 0.8125rem;
+            font-weight: 700;
+            transition: all var(--transition);
+        }
+
+        .ci-progress li::after {
+            content: '';
+            position: absolute;
+            top: 0.875rem;
+            right: 50%;
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .ci-progress li:first-child::after {
+            display: none;
         }
 
         .ci-progress li.is-active,
@@ -174,6 +228,16 @@
             color: var(--gray-900);
             background: var(--secondary-gold);
             border-color: var(--secondary-gold);
+            box-shadow: 0 0 0 4px rgba(255, 179, 0, 0.15);
+        }
+
+        .ci-progress li.is-complete::before {
+            content: "\2713";
+        }
+
+        .ci-progress li.is-active::after,
+        .ci-progress li.is-complete::after {
+            background: var(--secondary-gold);
         }
 
         .ci-form-step[hidden] {
@@ -181,56 +245,122 @@
         }
 
         .ci-step-heading {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
 
-        .ci-step-heading p {
-            color: var(--text-light);
+        .ci-step-heading h3 {
+            font-size: 1.125rem;
+            margin-bottom: 0.25rem;
+            outline: none;
+        }
+
+        .ci-form-shell .ci-step-heading p {
             margin: 0;
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.6);
         }
 
         .ci-form-grid {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 1.25rem;
+            gap: 1.125rem 1.25rem;
         }
 
         .ci-form-grid .ci-full {
             grid-column: 1 / -1;
         }
 
-        .ci-checkbox-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 0.75rem;
-        }
-
-        .ci-check-option {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.65rem;
-            padding: 0.85rem;
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            border-radius: var(--radius);
-            color: var(--white);
-            background: rgba(15, 23, 42, 0.5);
+        .ci-form-shell select.form-control {
+            appearance: none;
+            -webkit-appearance: none;
+            padding-right: 2.5rem;
+            background-color: rgba(15, 23, 42, 0.8);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
             cursor: pointer;
         }
 
-        .ci-check-option input {
-            margin-top: 0.3rem;
+        .ci-form-shell select.form-control option {
+            background: #0F172A;
+            color: var(--white);
+        }
+
+        .ci-form-shell fieldset {
+            display: block;
+            border: 0;
+            padding: 0;
+            margin: 0;
+        }
+
+        .ci-form-shell legend {
+            display: block;
+            padding: 0;
+            margin-bottom: 0.625rem;
+            font-weight: 600;
+            font-size: 0.9375rem;
+            color: var(--white);
+        }
+
+        .ci-checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.625rem;
+        }
+
+        .ci-checkbox-grid .ci-check-option {
+            display: flex;
+            align-items: center;
+            gap: 0.625rem;
+            padding: 0.75rem 0.875rem;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: var(--radius);
+            background: rgba(15, 23, 42, 0.8);
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.875rem;
+            font-weight: 500;
+            line-height: 1.4;
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+
+        .ci-checkbox-grid .ci-check-option:hover {
+            border-color: rgba(56, 189, 248, 0.45);
+            background: rgba(15, 23, 42, 0.95);
+        }
+
+        .ci-checkbox-grid .ci-check-option:focus-within {
+            border-color: #10B981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+        }
+
+        .ci-checkbox-grid .ci-check-option input {
+            flex: 0 0 auto;
+            width: 1.0625rem;
+            height: 1.0625rem;
+            margin: 0;
             accent-color: var(--secondary-gold);
+            cursor: pointer;
+        }
+
+        .ci-checkbox-grid .ci-check-option:has(input:checked) {
+            border-color: var(--secondary-gold);
+            background: rgba(255, 179, 0, 0.1);
+            color: var(--white);
         }
 
         .ci-form-actions {
             display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-top: 2rem;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            margin-top: 1.75rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(56, 189, 248, 0.12);
         }
 
-        .ci-form-actions .btn:last-child {
-            margin-left: auto;
+        .ci-form-actions #ci-back {
+            margin-right: auto;
         }
 
         .ci-form-actions [hidden] {
@@ -238,16 +368,21 @@
         }
 
         .ci-form-message {
-            min-height: 1.5rem;
-            margin-top: 1rem;
-            color: var(--error);
-            font-weight: 700;
+            margin: 0.625rem 0 0;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #FCA5A5;
         }
 
-        .ci-privacy-note,
-        .ci-estimate-disclaimer {
-            color: var(--text-light);
-            font-size: 0.92rem;
+        .ci-form-message:empty {
+            display: none;
+        }
+
+        .ci-form-shell .ci-privacy-note {
+            margin: 0;
+            font-size: 0.8125rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.6);
         }
 
         .ci-privacy-note a {
@@ -264,32 +399,57 @@
         }
 
         .ci-final-note {
-            max-width: 860px;
+            max-width: 720px;
             margin: 0 auto;
             text-align: center;
         }
 
-        @media (max-width: 900px) {
+        .ci-final-note .ci-estimate-disclaimer {
+            font-size: 0.9375rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
             .ci-estimate-hero-grid {
                 grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .ci-estimate-hero-text {
+                max-width: 100%;
+            }
+
+            .ci-estimate-hero .hero-badge,
+            .ci-savings-note {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .ci-proof-row,
+            .ci-estimate-hero .hero-buttons {
+                justify-content: center;
+            }
+
+            .ci-hero-image {
+                max-width: 560px;
+                margin: 0 auto;
             }
 
             .ci-value-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
             }
-
-            .ci-hero-image {
-                max-width: 640px;
-            }
         }
 
         @media (max-width: 640px) {
             .ci-estimate-page {
-                padding-top: 72px;
+                padding-top: 70px;
             }
 
             .ci-estimate-hero {
-                padding-top: 2.25rem;
+                padding: 2rem 0 2.5rem;
             }
 
             .ci-value-grid,
@@ -303,25 +463,18 @@
             }
 
             .ci-progress li {
-                align-items: center;
-                flex-direction: column;
-                text-align: center;
-                font-size: 0.8rem;
+                font-size: 0.6875rem;
             }
 
             .ci-form-actions {
                 flex-direction: column-reverse;
+                align-items: stretch;
             }
 
             .ci-form-actions .btn,
-            .ci-form-actions .btn:last-child {
+            .ci-form-actions #ci-back {
                 width: 100%;
-                margin-left: 0;
-            }
-
-            .ci-estimate-page + .footer + .sticky-contact,
-            .sticky-contact {
-                display: none;
+                margin-right: 0;
             }
         }
     </style>
@@ -337,8 +490,31 @@
             <ul class="nav-menu" id="primary-navigation">
                 <li><a href="index.html" class="nav-link">Home</a></li>
                 <li><a href="about.html" class="nav-link">About Us</a></li>
-                <li><a href="residential.html" class="nav-link">Residential</a></li>
-                <li><a href="commercial.html" class="nav-link active">Commercial</a></li>
+                <li class="dropdown">
+                    <a href="residential.html" class="nav-link" style="display: flex; align-items: center; gap: 4px;">Residential
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="residential-ongrid.html">On-Grid Solutions</a></li>
+                        <li><a href="residential-hybrid.html">Hybrid Solutions</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="commercial.html" class="nav-link active" style="display: flex; align-items: center; gap: 4px;">Commercial
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="commercial.html">Commercial Solar Overview</a></li>
+                        <li><a href="industry-manufacturing.html">Manufacturing &amp; Factories</a></li>
+                        <li><a href="industry-hotels.html">Hotels &amp; Resorts</a></li>
+                        <li><a href="industry-retail.html">Retail &amp; Malls</a></li>
+                        <li><a href="industry-healthcare.html">Hospitals &amp; Healthcare</a></li>
+                        <li><a href="industry-education.html">Schools &amp; Colleges</a></li>
+                        <li><a href="industry-offices.html">Offices &amp; IT Parks</a></li>
+                        <li><a href="industry-cold-storage.html">Cold Storage &amp; Food Processing</a></li>
+                        <li><a href="industry-warehousing.html">Warehousing &amp; Logistics</a></li>
+                    </ul>
+                </li>
                 <li><a href="blog.html" class="nav-link">Blog</a></li>
                 <li><a href="investor.html" class="nav-link">Investors</a></li>
                 <li><a href="contact.html" class="nav-link">Contact</a></li>
@@ -353,8 +529,17 @@
     <main class="ci-estimate-page">
         <section class="ci-estimate-hero">
             <div class="container ci-estimate-hero-grid">
-                <div>
-                    <div class="hero-badge">Commercial &amp; Industrial Solar</div>
+                <div class="ci-estimate-hero-text">
+                    <div class="hero-badge">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
+                            <line x1="8" y1="6" x2="16" y2="6" />
+                            <line x1="8" y1="10" x2="16" y2="10" />
+                            <line x1="8" y1="14" x2="16" y2="14" />
+                        </svg>
+                        Commercial &amp; Industrial Solar
+                    </div>
                     <h1>Get a Free Commercial Solar <span>Estimate &amp; ROI Assessment</span></h1>
                     <p class="lead">See your indicative system capacity, project cost, expected savings and payback
                         before a technical site visit.</p>
@@ -383,19 +568,19 @@
                     <h2>What Your Free Assessment Covers</h2>
                 </div>
                 <div class="ci-value-grid">
-                    <article class="ci-value-item">
+                    <article class="card ci-value-item">
                         <h3>System Capacity</h3>
                         <p>Indicative kWp range based on your bill and available roof.</p>
                     </article>
-                    <article class="ci-value-item">
+                    <article class="card ci-value-item">
                         <h3>Project Cost</h3>
                         <p>Indicative investment range before technical verification.</p>
                     </article>
-                    <article class="ci-value-item">
+                    <article class="card ci-value-item">
                         <h3>Savings &amp; Payback</h3>
                         <p>Estimated bill reduction, annual savings and payback direction.</p>
                     </article>
-                    <article class="ci-value-item">
+                    <article class="card ci-value-item">
                         <h3>Funding Direction</h3>
                         <p>CAPEX, finance or RESCO suitability for your business.</p>
                     </article>
@@ -716,9 +901,16 @@
     </footer>
 
     <div class="sticky-contact">
-        <a href="tel:+919666068140" class="sticky-contact-btn sticky-call" aria-label="Call Ray2Volt Solar">Call</a>
-        <a href="https://wa.me/919666068140" class="sticky-contact-btn sticky-whatsapp"
-            aria-label="Chat with Ray2Volt Solar on WhatsApp">WA</a>
+        <a href="tel:+919666068140" class="sticky-contact-btn sticky-call" aria-label="Call Ray2Volt Solar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+            </svg>
+        </a>
+        <a href="https://wa.me/919666068140" class="sticky-contact-btn sticky-whatsapp" aria-label="Chat with Ray2Volt Solar on WhatsApp">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+            </svg>
+        </a>
     </div>
 
     <script src="script.js"></script>

@@ -21,47 +21,73 @@
         rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <style>
+        /* ------------------------------------------------------------------
+           C&I confirmation page
+           Type scale, spacing and colours follow the styles.css design tokens.
+           ------------------------------------------------------------------ */
         .ci-thank-you-section {
-            min-height: calc(100vh - 90px);
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 4rem 1rem;
-            margin-top: 90px;
+            min-height: calc(100vh - 260px);
+            padding: 4rem var(--container-padding);
+            margin-top: 80px;
         }
 
         .ci-thank-you-content {
             width: 100%;
-            max-width: 720px;
-            padding: clamp(1.5rem, 5vw, 3rem);
+            max-width: 640px;
+            margin: 0 auto;
+            padding: clamp(1.5rem, 4vw, 2.5rem);
             text-align: center;
+        }
+
+        /* A confirmation panel, not a clickable card - keep it still. */
+        .ci-thank-you-content:hover {
+            transform: none;
+            border-color: rgba(56, 189, 248, 0.12);
+            box-shadow: none;
+        }
+
+        .ci-thank-you-content:hover::before {
+            opacity: 0;
+        }
+
+        .ci-thank-you-content:hover::after {
+            background: rgba(15, 23, 42, 0.85);
         }
 
         .ci-success-mark {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 4.5rem;
-            height: 4.5rem;
-            margin-bottom: 1.5rem;
+            width: 3.25rem;
+            height: 3.25rem;
+            margin-bottom: 1.25rem;
             border-radius: 50%;
-            background: var(--success);
-            color: var(--white);
-            font-size: 2.25rem;
+            background: rgba(76, 175, 80, 0.15);
+            border: 1px solid rgba(76, 175, 80, 0.45);
+            box-shadow: 0 0 0 6px rgba(76, 175, 80, 0.08);
+            color: var(--success-light);
+            font-size: 1.5rem;
             font-weight: 800;
+            line-height: 1;
         }
 
         .ci-thank-you-content h1 {
-            font-size: clamp(2rem, 6vw, 3.25rem);
+            margin-bottom: 0.75rem;
         }
 
         .ci-thank-you-content .lead {
-            color: var(--text-light);
+            margin: 0;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
         }
 
         .ci-next-step {
-            margin: 2rem 0;
-            padding: 1.25rem;
+            margin: 1.75rem 0;
+            padding: 1rem 1.25rem;
+            border: 1px solid rgba(56, 189, 248, 0.2);
             border-left: 3px solid var(--primary);
             border-radius: var(--radius);
             background: rgba(3, 169, 244, 0.08);
@@ -69,27 +95,34 @@
         }
 
         .ci-next-step h2 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            margin-bottom: 0.375rem;
         }
 
-        .ci-next-step p {
+        .ci-thank-you-content .ci-next-step p {
             margin: 0;
-            color: var(--text-light);
+            font-size: 0.9375rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.75);
         }
 
         .ci-thank-you-actions {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 1rem;
+            gap: 0.75rem;
         }
 
         @media (max-width: 640px) {
             .ci-thank-you-section {
-                min-height: calc(100vh - 72px);
-                margin-top: 72px;
-                padding: 2rem 1rem;
+                min-height: 0;
+                margin-top: 70px;
+                padding: 2.5rem var(--container-padding);
+            }
+
+            .ci-thank-you-actions {
+                flex-direction: column;
+                align-items: stretch;
             }
 
             .ci-thank-you-actions .btn {
@@ -108,8 +141,34 @@
             </a>
             <ul class="nav-menu" id="primary-navigation">
                 <li><a href="index.html" class="nav-link">Home</a></li>
-                <li><a href="commercial.html" class="nav-link active">Commercial</a></li>
-                <li><a href="blog/capex-vs-opex-resco-solar.html" class="nav-link">CAPEX vs RESCO</a></li>
+                <li><a href="about.html" class="nav-link">About Us</a></li>
+                <li class="dropdown">
+                    <a href="residential.html" class="nav-link" style="display: flex; align-items: center; gap: 4px;">Residential
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="residential-ongrid.html">On-Grid Solutions</a></li>
+                        <li><a href="residential-hybrid.html">Hybrid Solutions</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="commercial.html" class="nav-link active" style="display: flex; align-items: center; gap: 4px;">Commercial
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="commercial.html">Commercial Solar Overview</a></li>
+                        <li><a href="industry-manufacturing.html">Manufacturing &amp; Factories</a></li>
+                        <li><a href="industry-hotels.html">Hotels &amp; Resorts</a></li>
+                        <li><a href="industry-retail.html">Retail &amp; Malls</a></li>
+                        <li><a href="industry-healthcare.html">Hospitals &amp; Healthcare</a></li>
+                        <li><a href="industry-education.html">Schools &amp; Colleges</a></li>
+                        <li><a href="industry-offices.html">Offices &amp; IT Parks</a></li>
+                        <li><a href="industry-cold-storage.html">Cold Storage &amp; Food Processing</a></li>
+                        <li><a href="industry-warehousing.html">Warehousing &amp; Logistics</a></li>
+                    </ul>
+                </li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
+                <li><a href="investor.html" class="nav-link">Investors</a></li>
                 <li><a href="contact.html" class="nav-link">Contact</a></li>
             </ul>
             <button class="menu-toggle" type="button" aria-label="Toggle menu" aria-controls="primary-navigation"
@@ -135,6 +194,39 @@
             </div>
         </div>
     </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <img src="images/logo.png" alt="Ray2Volt Solar Logo" onerror="this.style.display='none'">
+                        <div class="logo-text">Ray2Volt Solar<span>Private Limited</span></div>
+                    </a>
+                    <p>Commercial and industrial solar assessment, engineering and project support.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Commercial Solar</h4>
+                    <ul>
+                        <li><a href="commercial.html">C&amp;I Solar Overview</a></li>
+                        <li><a href="blog/capex-vs-opex-resco-solar.html">CAPEX vs RESCO</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="tel:+919666068140">+91 9666068140</a></li>
+                        <li><a href="mailto:sales@ray2voltsolar.com">sales@ray2voltsolar.com</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ray2Volt Solar Private Limited. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
     <script>
