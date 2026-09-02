@@ -972,25 +972,7 @@ p:last-child {
     font-weight: 500;
 }
 
-/* C&I campaign proof chips and claim qualifier — the chips are used on the
-   commercial-solar-estimate.html hero; the qualifier note on both C&I heroes */
-.ci-proof-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1.75rem;
-}
-
-.ci-proof-item {
-    padding: 0.5rem 1rem;
-    border: 1px solid rgba(56, 189, 248, 0.3);
-    border-radius: var(--radius-full);
-    background: rgba(3, 169, 244, 0.1);
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 0.8125rem;
-    font-weight: 600;
-}
-
+/* C&I claim qualifier note — used on both C&I heroes */
 .ci-savings-note {
     margin-top: 1.25rem;
     max-width: 520px;
@@ -1023,10 +1005,6 @@ p:last-child {
     .hero-badge {
         margin-left: auto;
         margin-right: auto;
-    }
-
-    .ci-proof-row {
-        justify-content: center;
     }
 
     .ci-savings-note {
