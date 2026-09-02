@@ -972,8 +972,8 @@ p:last-child {
     font-weight: 500;
 }
 
-/* C&I campaign proof chips and claim qualifier — used on the dark heroes of
-   commercial.html and commercial-solar-estimate.html */
+/* C&I campaign proof chips and claim qualifier — the chips are used on the
+   commercial-solar-estimate.html hero; the qualifier note on both C&I heroes */
 .ci-proof-row {
     display: flex;
     flex-wrap: wrap;
