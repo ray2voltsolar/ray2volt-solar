@@ -453,6 +453,10 @@ document.addEventListener('DOMContentLoaded', function () {
     if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
         const cards = document.querySelectorAll('.card');
         cards.forEach(card => {
+            // Cards that hold a form stay perfectly still - a shell that lifts and
+            // tilts under the pointer makes the fields inside it hard to aim at.
+            if (card.querySelector('form') || card.closest('form')) return;
+
             card.addEventListener('mousemove', function (e) {
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
@@ -465,9 +469,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 card.style.transform = `translateY(-6px) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
             });
 
-            card.addEventListener('mouseleave', function () {
+            const resetTilt = function () {
                 card.style.transform = '';
-            });
+            };
+
+            card.addEventListener('mouseleave', resetTilt);
+            // A right-click opens the context menu without firing mouseleave,
+            // which would otherwise leave the card frozen mid-tilt.
+            card.addEventListener('contextmenu', resetTilt);
         });
     }
 
@@ -694,7 +703,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 margin-top: 0.25rem;
             }
             .wa-modal-submit:hover {
-                transform: translateY(-2px);
                 box-shadow: 0 8px 30px rgba(37, 211, 102, 0.45);
             }
             .wa-modal-submit svg {

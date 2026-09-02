@@ -1152,6 +1152,28 @@ p:last-child {
     box-shadow: 0 6px 24px rgba(255, 179, 0, 0.45);
 }
 
+/* Form shells are containers, not clickable cards - they must never move under
+   the pointer. A lift on hover (or a transform left stuck by a right-click)
+   shifts every field and button just as the user aims at it. */
+.card.form-card,
+.card.form-card:hover,
+.card:has(form),
+.card:has(form):hover {
+    transform: none;
+}
+
+/* Same rule for anything inside a form: inputs, options and submit buttons
+   stay exactly where they are drawn. Colour and shadow feedback is kept. */
+form .btn:hover,
+form .btn:active,
+form .btn:focus,
+form button:hover,
+form button:active,
+form label:hover,
+form .form-control:hover {
+    transform: none;
+}
+
 .card-icon svg {
     width: 24px;
     height: 24px;
