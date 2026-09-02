@@ -2,6 +2,87 @@
    Ray2Volt Solar - JavaScript (Enhanced)
    ========================================================================== */
 
+// ──────────────────────────────────────────────────────────
+// 0. Campaign Parameter Capture & Forwarding
+//    Paid C&I traffic lands on commercial.html, but the qualification
+//    form lives on commercial-solar-estimate.html. Hold the ad parameters
+//    for the session and re-attach them to every link into that form so
+//    lead source survives the hop. Runs before DOMContentLoaded so pages
+//    reading window.ray2voltCampaign inline always see it.
+// ──────────────────────────────────────────────────────────
+(function () {
+    const CAMPAIGN_KEYS = [
+        'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term',
+        'gclid', 'gbraid', 'wbraid'
+    ];
+    const PARAMS_KEY = 'r2vCampaignParams';
+    const LANDING_KEY = 'r2vLandingPage';
+    const FORM_PATH = 'commercial-solar-estimate.html';
+
+    const readStore = function (key) {
+        try {
+            return sessionStorage.getItem(key);
+        } catch (error) {
+            return null; // Private browsing or storage disabled.
+        }
+    };
+
+    const writeStore = function (key, value) {
+        try {
+            sessionStorage.setItem(key, value);
+        } catch (error) {
+            // Tracking is best-effort; the pages stay fully usable without it.
+        }
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const arriving = {};
+    CAMPAIGN_KEYS.forEach(key => {
+        const value = urlParams.get(key);
+        if (value) arriving[key] = value;
+    });
+
+    // A fresh ad click always wins; otherwise reuse what this session arrived with.
+    const held = readStore(PARAMS_KEY);
+    let campaign = {};
+    if (Object.keys(arriving).length > 0) {
+        campaign = arriving;
+        const incoming = JSON.stringify(campaign);
+        // An identical set means this is our own rewrite carrying the parameters
+        // across the commercial.html -> form hop, not a new click, so the landing
+        // page on record must stay the page the ad click actually hit.
+        if (incoming !== held) {
+            writeStore(PARAMS_KEY, incoming);
+            writeStore(LANDING_KEY, window.location.href);
+        }
+    } else {
+        try {
+            campaign = JSON.parse(held || '{}');
+        } catch (error) {
+            campaign = {};
+        }
+    }
+    if (!readStore(LANDING_KEY)) writeStore(LANDING_KEY, window.location.href);
+
+    window.ray2voltCampaign = {
+        params: campaign,
+        landingPage: readStore(LANDING_KEY) || window.location.href
+    };
+
+    if (Object.keys(campaign).length === 0) return;
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll(`a[href*="${FORM_PATH}"]`).forEach(link => {
+            const target = new URL(link.getAttribute('href'), window.location.href);
+            if (target.origin !== window.location.origin) return;
+            Object.entries(campaign).forEach(([key, value]) => {
+                if (!target.searchParams.has(key)) target.searchParams.set(key, value);
+            });
+            link.href = target.href;
+        });
+    });
+})();
+
 document.addEventListener('DOMContentLoaded', function () {
     // Dynamically set the _next form redirect URL to the thank-you page
     // (Removed as per request to stop redirecting to thank-you.html)

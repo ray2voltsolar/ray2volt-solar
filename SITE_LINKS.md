@@ -21,6 +21,7 @@ A list of every page in this project with a short description. Paths are relativ
 
 - **[commercial.html](commercial.html)** — Commercial & Industrial solar hub with hero, CAPEX/OPEX models, and industries grid.
   The Commercial navigation item is now a dropdown listing all eight industry pages below.
+  Also the Final URL for the `PMax C&I 001` Google Ads campaign; its primary CTAs go to the C&I estimate form.
 
 - **[investor.html](investor.html)** — RESCO investment model page for people wanting to fund solar projects.
   Explains the returns model and links to downloadable investor material.
@@ -126,6 +127,12 @@ A list of every page in this project with a short description. Paths are relativ
 
 - **[get-quote.html](get-quote.html)** — Standalone quote-request form for prospective customers.
   Captures contact details and routes submissions through Web3Forms.
+
+- **[commercial-solar-estimate.html](commercial-solar-estimate.html)** — C&I qualification page for the `PMax C&I 001` campaign.
+  Holds the three-step lead form at the `#ci-lead-form` anchor, which every commercial CTA links to directly.
+
+- **[commercial-solar-thank-you.html](commercial-solar-thank-you.html)** — Confirmation page for the C&I estimate form.
+  Fires the gated, de-duplicated lead conversion and tailors its message to the stated readiness and requirements.
 
 - **[claim-subsidy.html](claim-subsidy.html)** — Ad landing page focused on the ₹78,000 PM Surya Ghar subsidy.
   Designed to drive subsidy-specific lead form submissions.

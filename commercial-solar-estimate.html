@@ -64,23 +64,6 @@
             color: rgba(255, 255, 255, 0.7);
         }
 
-        .ci-proof-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1.75rem;
-        }
-
-        .ci-proof-item {
-            padding: 0.5rem 1rem;
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            border-radius: var(--radius-full);
-            background: rgba(3, 169, 244, 0.1);
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 0.8125rem;
-            font-weight: 600;
-        }
-
         .ci-hero-image {
             position: relative;
         }
@@ -92,14 +75,6 @@
             border-radius: var(--radius-xl);
             border: 2px solid rgba(14, 165, 233, 0.15);
             box-shadow: var(--shadow-xl);
-        }
-
-        .ci-savings-note {
-            margin-top: 1.25rem;
-            max-width: 520px;
-            font-size: 0.8125rem;
-            line-height: 1.6;
-            color: rgba(255, 255, 255, 0.55);
         }
 
         /* What the assessment covers */
@@ -422,13 +397,11 @@
                 max-width: 100%;
             }
 
-            .ci-estimate-hero .hero-badge,
-            .ci-savings-note {
+            .ci-estimate-hero .hero-badge {
                 margin-left: auto;
                 margin-right: auto;
             }
 
-            .ci-proof-row,
             .ci-estimate-hero .hero-buttons {
                 justify-content: center;
             }
@@ -630,7 +603,10 @@
                         <input type="hidden" name="utm_medium" id="utm-medium">
                         <input type="hidden" name="utm_campaign" id="utm-campaign">
                         <input type="hidden" name="utm_content" id="utm-content">
+                        <input type="hidden" name="utm_term" id="utm-term">
                         <input type="hidden" name="gclid" id="gclid">
+                        <input type="hidden" name="gbraid" id="gbraid">
+                        <input type="hidden" name="wbraid" id="wbraid">
                         <input type="hidden" name="Landing Page URL" id="landing-page-url">
                         <div class="ci-honeypot" aria-hidden="true">
                             <label for="botcheck">Leave this field empty</label>
@@ -937,14 +913,20 @@
                 utm_medium: 'utm-medium',
                 utm_campaign: 'utm-campaign',
                 utm_content: 'utm-content',
-                gclid: 'gclid'
+                utm_term: 'utm-term',
+                gclid: 'gclid',
+                gbraid: 'gbraid',
+                wbraid: 'wbraid'
             };
+            // Visitors reach this form from commercial.html, so fall back to the
+            // parameters script.js held for the session when the hop dropped them.
+            const campaign = window.ray2voltCampaign || { params: {}, landingPage: window.location.href };
             const params = new URLSearchParams(window.location.search);
             Object.entries(trackingFields).forEach(([parameter, id]) => {
                 const field = document.getElementById(id);
-                if (field) field.value = params.get(parameter) || '';
+                if (field) field.value = params.get(parameter) || campaign.params[parameter] || '';
             });
-            document.getElementById('landing-page-url').value = window.location.href;
+            document.getElementById('landing-page-url').value = campaign.landingPage || window.location.href;
 
             function showStep(index) {
                 currentStep = index;
