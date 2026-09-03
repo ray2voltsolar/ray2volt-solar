@@ -365,6 +365,176 @@
         "how-to-choose-a-solar-installer"
       ],
       "imageScene": "A wide elevated view across a low-rise inland town of flat-roofed buildings under a bright clear sky, several rooftops carrying solar arrays, low rocky hills far away on the horizon in soft haze, warm late-morning light."
+    },
+    {
+      "slug": "solar-for-cold-storage-case-study",
+      "title": "Solar for Cold Storage in India: 150 kWp Case Study, Sizing & Payback",
+      "shortTitle": "Solar for Cold Storage Case Study",
+      "category": "Business & Industry",
+      "date": "2026-08-28",
+      "readTime": 10,
+      "excerpt": "Refrigeration compressors run continuously in intense daytime heat. Here is how a 150 kWp commercial solar plant slashes HT industrial tariffs and diesel run-hours at an agro cold storage facility in Andhra Pradesh.",
+      "keywords": "solar for cold storage India, cold storage power bill reduction, 150 kW solar plant cost, cold chain solar case study, industrial solar Andhra Pradesh",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. An aerial three-quarter view of a modern industrial cold storage warehouse building with neat rows of commercial solar panels across its insulated roof, refrigerated trucks parked at loading docks below, flat inland industrial landscape, bright clear morning sky. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "commercial-solar-for-factories",
+        "accelerated-depreciation-solar",
+        "capex-vs-opex-resco-solar"
+      ],
+      "imageScene": "An aerial three-quarter view of a modern industrial cold storage warehouse building with neat rows of commercial solar panels across its insulated roof, refrigerated trucks parked at loading docks below, flat inland industrial landscape, bright clear morning sky."
+    },
+    {
+      "slug": "top-solar-inverter-brands-india",
+      "title": "Top Solar Inverter Brands in India (2026): Deye, Sungrow, Growatt & Polycab",
+      "shortTitle": "Top Solar Inverter Brands",
+      "category": "Technology",
+      "date": "2026-08-29",
+      "readTime": 11,
+      "excerpt": "An honest, engineering-level comparison of the leading on-grid and hybrid string inverters in the Indian market — efficiency, MPPT flexibility, local service networks, and real failure rates.",
+      "keywords": "best solar inverter brands India 2026, Deye vs Sungrow, Growatt vs Polycab, commercial string inverters, hybrid solar inverter India",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A clean electrical equipment room in a commercial building with several modern wall-mounted string inverters side by side, tidy aluminium conduit and safety switch disconnects, bright natural daylight from side ventilation louvers, plain neutral walls. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "what-is-a-solar-inverter",
+        "solar-battery-storage-worth-it",
+        "solar-panel-types-explained"
+      ],
+      "imageScene": "A clean electrical equipment room in a commercial building with several modern wall-mounted string inverters side by side, tidy aluminium conduit and safety switch disconnects, bright natural daylight from side ventilation louvers, plain neutral walls."
+    },
+    {
+      "slug": "solar-for-rice-mills-case-study",
+      "title": "Solar for Rice Mills in India: 200 kWp Case Study, Heavy Motor Loads & ROI",
+      "shortTitle": "Solar for Rice Mills Case Study",
+      "category": "Business & Industry",
+      "date": "2026-08-30",
+      "readTime": 10,
+      "excerpt": "Modern parboiled and raw rice mills run induction motors non-stop. Here is how a 200 kWp rooftop solar installation in Srikalahasti handles inductive spikes, dust, and cuts HT power bills by ₹25 Lakhs per year.",
+      "keywords": "solar for rice mill India, parboiled rice mill power cost, 200 kW industrial solar, rice mill solar case study Andhra Pradesh, APSPDCL HT tariff solar",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. An aerial three-quarter view of an agricultural rice processing mill complex with extensive solar panel arrays mounted across several long pitched metal shed roofs, grain silos and open drying yards visible below, flat rural farmland in the distance under a warm bright sky. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "commercial-solar-for-factories",
+        "read-your-electricity-bill",
+        "rooftop-solar-roi-payback"
+      ],
+      "imageScene": "An aerial three-quarter view of an agricultural rice processing mill complex with extensive solar panel arrays mounted across several long pitched metal shed roofs, grain silos and open drying yards visible below, flat rural farmland in the distance under a warm bright sky."
+    },
+    {
+      "slug": "tier-1-solar-panel-brands-india",
+      "title": "Tier-1 Solar Panel Brands in India (2026): Waaree, Adani, Tata & Premier",
+      "shortTitle": "Tier-1 Solar Panel Brands",
+      "category": "Technology",
+      "date": "2026-08-31",
+      "readTime": 11,
+      "excerpt": "BloombergNEF tiering, ALMM List-I and List-II compliance, Mono PERC versus N-type TOPCon, and real-world temperature degradation compared across India's top solar module manufacturers.",
+      "keywords": "Tier-1 solar panels India 2026, Waaree vs Adani solar, Tata Power Solar vs Premier Energies, TOPCon vs Mono PERC, ALMM List-II DCR panels",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A clean industrial testing and assembly facility with several high-efficiency monocrystalline solar panels displayed on testing benches, showing dark textured silicon solar cells, silver busbars, and heavy aluminium frames under bright balanced studio lighting, soft neutral background. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "solar-panel-types-explained",
+        "dcr-vs-non-dcr-almm",
+        "solar-panel-warranties-decoded"
+      ],
+      "imageScene": "A clean industrial testing and assembly facility with several high-efficiency monocrystalline solar panels displayed on testing benches, showing dark textured silicon solar cells, silver busbars, and heavy aluminium frames under bright balanced studio lighting, soft neutral background."
+    },
+    {
+      "slug": "solar-for-hospitals-case-study",
+      "title": "Solar for Hospitals in India: 80 kWp Hybrid Case Study & Power Reliability",
+      "shortTitle": "Solar for Hospitals Case Study",
+      "category": "Business & Industry",
+      "date": "2026-09-01",
+      "readTime": 10,
+      "excerpt": "Healthcare facilities cannot tolerate a single flicker in ICUs or surgical theatres. Here is how an 80 kWp hybrid solar + lithium battery plant in Tirupati cuts commercial tariffs and displaces costly diesel generators.",
+      "keywords": "solar for hospitals India, healthcare solar case study, hospital hybrid solar battery, commercial solar Tirupati, diesel generator fuel savings solar",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. An elevated view of a contemporary multi-storey hospital and healthcare facility with an extensive rooftop solar installation across flat concrete roofs, hospital ambulance bay and visitor parking visible below, bright morning sun. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "on-grid-vs-off-grid-vs-hybrid-solar",
+        "solar-battery-storage-worth-it",
+        "read-your-electricity-bill"
+      ],
+      "imageScene": "An elevated view of a contemporary multi-storey hospital and healthcare facility with an extensive rooftop solar installation across flat concrete roofs, hospital ambulance bay and visitor parking visible below, bright morning sun."
+    },
+    {
+      "slug": "solar-for-schools-colleges-case-study",
+      "title": "Solar for Schools & Colleges in India: 120 kWp Educational Campus Case Study",
+      "shortTitle": "Solar for Schools & Colleges Case Study",
+      "category": "Savings & ROI",
+      "date": "2026-09-01",
+      "readTime": 9,
+      "excerpt": "Educational institutions have vast unshaded classroom roofs and operate strictly during peak solar hours. Here is how a 120 kWp campus solar plant saves ₹14 Lakhs annually for a college trust in Andhra Pradesh.",
+      "keywords": "solar for schools colleges India, campus rooftop solar, educational institution solar case study, college solar power savings, institutional net metering",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. An elevated view of an educational college campus with several multi-storey academic buildings carrying neat rooftop solar arrays on their flat concrete roofs, a sports ground and tree-lined pathways visible below, clear afternoon sunlight. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "capex-vs-opex-resco-solar",
+        "how-to-size-a-solar-system",
+        "rooftop-solar-roi-payback"
+      ],
+      "imageScene": "An elevated view of an educational college campus with several multi-storey academic buildings carrying neat rooftop solar arrays on their flat concrete roofs, a sports ground and tree-lined pathways visible below, clear afternoon sunlight."
+    },
+    {
+      "slug": "solar-for-hotels-resorts-case-study",
+      "title": "Solar for Hotels & Resorts in India: 60 kWp Case Study & Energy Cost Optimization",
+      "shortTitle": "Solar for Hotels & Resorts Case Study",
+      "category": "Business & Industry",
+      "date": "2026-09-02",
+      "readTime": 9,
+      "excerpt": "Hospitality businesses face high commercial power tariffs driven by 24/7 HVAC, water chilling, and banquet loads. Here is how a 60 kWp rooftop solar plant saves ₹7.8 Lakhs annually for a business hotel in Tirupati.",
+      "keywords": "solar for hotels India, resort solar case study, hotel rooftop solar Tirupati, banquet hall solar system, commercial hospitality power savings",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. An elevated view of a contemporary business hotel and event venue building with a neat solar canopy structure installed on its rooftop terrace, vehicle drop-off porch and garden driveway visible below, bright late morning sunlight. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "solar-carports-ev-charging",
+        "commercial-solar-for-factories",
+        "accelerated-depreciation-solar"
+      ],
+      "imageScene": "An elevated view of a contemporary business hotel and event venue building with a neat solar canopy structure installed on its rooftop terrace, vehicle drop-off porch and garden driveway visible below, bright late morning sunlight."
+    },
+    {
+      "slug": "solar-for-warehouses-logistics-case-study",
+      "title": "Solar for Warehouses & Logistics Hubs: 300 kWp Case Study & Roof Monetization",
+      "shortTitle": "Solar for Warehouses Case Study",
+      "category": "Business & Industry",
+      "date": "2026-09-02",
+      "readTime": 10,
+      "excerpt": "Logistics hubs have vast metal roofs but low internal electrical demand. Here is how a 300 kWp installation in Sri City turns empty warehouse tin into a revenue-generating solar power station.",
+      "keywords": "solar for warehouses India, logistics park rooftop solar, 300 kW solar case study Sri City, warehouse roof monetization, industrial standing seam solar",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A wide aerial three-quarter view of an expansive commercial logistics distribution center with an extensive rooftop solar panel installation spanning the metal standing-seam roof, truck delivery bays and parking area below, sunny midday lighting. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "commercial-solar-for-factories",
+        "solar-carports-ev-charging",
+        "capex-vs-opex-resco-solar"
+      ],
+      "imageScene": "A wide aerial three-quarter view of an expansive commercial logistics distribution center with an extensive rooftop solar panel installation spanning the metal standing-seam roof, truck delivery bays and parking area below, sunny midday lighting."
+    },
+    {
+      "slug": "solar-for-petrol-pumps-case-study",
+      "title": "Solar for Petrol Pumps in India: 20 kWp Hybrid Case Study & PESO Safety",
+      "shortTitle": "Solar for Petrol Pumps Case Study",
+      "category": "Savings & ROI",
+      "date": "2026-09-03",
+      "readTime": 9,
+      "excerpt": "Fuel retail outlets face frequent highway power cuts, noisy diesel generator running costs, and strict PESO hazardous zone mandates. Here is how a 20 kWp hybrid solar solution solves all three.",
+      "keywords": "solar for petrol pump India, fuel retail solar hybrid, petrol pump solar battery backup, PESO solar guidelines, petrol pump electricity bill reduction",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A highway commercial petrol filling station and fuel retail outlet with solar panels mounted neatly across the top of the wide metal canopy roof over the fuel pump bays, tarmac driveways, clear morning daylight, quiet suburban roadside setting. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "on-grid-vs-off-grid-vs-hybrid-solar",
+        "solar-battery-storage-worth-it",
+        "solar-carports-ev-charging"
+      ],
+      "imageScene": "A highway commercial petrol filling station and fuel retail outlet with solar panels mounted neatly across the top of the wide metal canopy roof over the fuel pump bays, tarmac driveways, clear morning daylight, quiet suburban roadside setting."
+    },
+    {
+      "slug": "solar-for-textile-spinning-mills-case-study",
+      "title": "Solar for Textile & Spinning Mills: 400 kWp Case Study & Harmonics Management",
+      "shortTitle": "Solar for Textile Mills Case Study",
+      "category": "Business & Industry",
+      "date": "2026-09-03",
+      "readTime": 10,
+      "excerpt": "Cotton yarn spinning mills consume continuous round-the-clock power where energy represents up to 40% of manufacturing costs. Here is how a 400 kWp industrial solar installation in Andhra Pradesh slashes HT demand and energy charges.",
+      "keywords": "solar for textile mill India, spinning mill solar plant, 400 kW rooftop solar case study, textile power cost reduction, industrial solar harmonics",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. An aerial three-quarter view of a massive modern textile yarn spinning and weaving mill complex with thousands of solar panels neatly mounted across north-light and flat industrial roofs, transformer yard and utility substation visible in the perimeter, sunny clear sky, flat inland industrial corridor. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "commercial-solar-for-factories",
+        "accelerated-depreciation-solar",
+        "read-your-electricity-bill"
+      ],
+      "imageScene": "An aerial three-quarter view of a massive modern textile yarn spinning and weaving mill complex with thousands of solar panels neatly mounted across north-light and flat industrial roofs, transformer yard and utility substation visible in the perimeter, sunny clear sky, flat inland industrial corridor."
     }
   ],
   "imageStyle": {

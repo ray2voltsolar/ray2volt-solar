@@ -8,9 +8,21 @@
     </url>
     <url>
         <loc>https://ray2voltsolar.com/blog.html</loc>
-        <lastmod>2026-08-26</lastmod>
+        <lastmod>2026-09-03</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://ray2voltsolar.com/commercial-solar-estimate.html</loc>
+        <lastmod>2026-09-02</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ray2voltsolar.com/commercial-solar-thank-you.html</loc>
+        <lastmod>2026-09-02</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
     </url>
     <url>
         <loc>https://ray2voltsolar.com/commercial.html</loc>
@@ -19,74 +31,68 @@
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://ray2voltsolar.com/commercial-solar-estimate.html</loc>
-        <lastmod>2026-09-02</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
         <loc>https://ray2voltsolar.com/contact.html</loc>
-        <lastmod>2026-08-26</lastmod>
+        <lastmod>2026-09-02</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
         <loc>https://ray2voltsolar.com/get-quote.html</loc>
-        <lastmod>2026-08-26</lastmod>
+        <lastmod>2026-09-02</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
         <loc>https://ray2voltsolar.com/</loc>
-        <lastmod>2026-08-26</lastmod>
+        <lastmod>2026-09-02</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
         <loc>https://ray2voltsolar.com/industry-cold-storage.html</loc>
-        <lastmod>2026-08-26</lastmod>
+        <lastmod>2026-09-02</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
         <loc>https://ray2voltsolar.com/industry-education.html</loc>
-        <lastmod>2026-08-26</lastmod>
+        <lastmod>2026-09-02</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
         <loc>https://ray2voltsolar.com/industry-healthcare.html</loc>
-        <lastmod>2026-08-26</lastmod>
+        <lastmod>2026-09-02</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
         <loc>https://ray2voltsolar.com/industry-hotels.html</loc>
-        <lastmod>2026-08-26</lastmod>
+        <lastmod>2026-09-02</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
         <loc>https://ray2voltsolar.com/industry-manufacturing.html</loc>
-        <lastmod>2026-08-26</lastmod>
+        <lastmod>2026-09-02</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
         <loc>https://ray2voltsolar.com/industry-offices.html</loc>
-        <lastmod>2026-08-26</lastmod>
+        <lastmod>2026-09-02</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
         <loc>https://ray2voltsolar.com/industry-retail.html</loc>
-        <lastmod>2026-08-26</lastmod>
+        <lastmod>2026-09-02</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
         <loc>https://ray2voltsolar.com/industry-warehousing.html</loc>
-        <lastmod>2026-08-26</lastmod>
+        <lastmod>2026-09-02</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
@@ -122,9 +128,69 @@
     </url>
     <url>
         <loc>https://ray2voltsolar.com/solar-in-tirupati.html</loc>
-        <lastmod>2026-08-26</lastmod>
+        <lastmod>2026-09-02</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://ray2voltsolar.com/blog/solar-for-petrol-pumps-case-study.html</loc>
+        <lastmod>2026-09-03</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ray2voltsolar.com/blog/solar-for-textile-spinning-mills-case-study.html</loc>
+        <lastmod>2026-09-03</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ray2voltsolar.com/blog/solar-for-hotels-resorts-case-study.html</loc>
+        <lastmod>2026-09-02</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ray2voltsolar.com/blog/solar-for-warehouses-logistics-case-study.html</loc>
+        <lastmod>2026-09-02</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ray2voltsolar.com/blog/solar-for-hospitals-case-study.html</loc>
+        <lastmod>2026-09-01</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ray2voltsolar.com/blog/solar-for-schools-colleges-case-study.html</loc>
+        <lastmod>2026-09-01</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ray2voltsolar.com/blog/tier-1-solar-panel-brands-india.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ray2voltsolar.com/blog/solar-for-rice-mills-case-study.html</loc>
+        <lastmod>2026-08-30</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ray2voltsolar.com/blog/top-solar-inverter-brands-india.html</loc>
+        <lastmod>2026-08-29</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ray2voltsolar.com/blog/solar-for-cold-storage-case-study.html</loc>
+        <lastmod>2026-08-28</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.7</priority>
     </url>
     <url>
         <loc>https://ray2voltsolar.com/blog/solar-in-tirupati-guide.html</loc>
