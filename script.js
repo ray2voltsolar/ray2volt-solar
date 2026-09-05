@@ -485,6 +485,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // ──────────────────────────────────────────────────────────
     (function initWhatsAppModal() {
         const WA_PHONE = '919666068140';
+        // Google Ads conversion for WhatsApp enquiries.
+        // Swap this for a dedicated 'WhatsApp Lead' conversion label when one is
+        // created in Google Ads, so it can be valued separately from form leads.
+        const WA_CONVERSION_SEND_TO = 'AW-18014889887/9NtXCImroaYcEJ_PlY5D';
 
         // ── Inject CSS ──
         const style = document.createElement('style');
@@ -711,6 +715,108 @@ document.addEventListener('DOMContentLoaded', function () {
                 fill: #fff;
             }
 
+            /* Step machinery */
+            .wa-step[hidden] {
+                display: none;
+            }
+            .wa-progress {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+                margin-bottom: 1.25rem;
+                padding-bottom: 1.1rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+                counter-reset: wa-step;
+                list-style: none;
+                padding-left: 0;
+            }
+            .wa-progress li {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.4rem;
+                counter-increment: wa-step;
+                font-size: 0.7rem;
+                font-weight: 600;
+                letter-spacing: 0.02em;
+                text-align: center;
+                color: rgba(255, 255, 255, 0.45);
+                transition: color 0.25s ease;
+            }
+            .wa-progress li::before {
+                content: counter(wa-step);
+                position: relative;
+                z-index: 1;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 1.75rem;
+                height: 1.75rem;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 50%;
+                background: #0f172a;
+                font-size: 0.78rem;
+                font-weight: 700;
+                transition: all 0.25s ease;
+            }
+            .wa-progress li::after {
+                content: '';
+                position: absolute;
+                top: 0.8125rem;
+                right: 50%;
+                width: 100%;
+                height: 2px;
+                background: rgba(255, 255, 255, 0.12);
+            }
+            .wa-progress li:first-child::after {
+                display: none;
+            }
+            .wa-progress li.is-active,
+            .wa-progress li.is-complete {
+                color: #fff;
+            }
+            .wa-progress li.is-active::before,
+            .wa-progress li.is-complete::before {
+                color: #06301c;
+                background: #25D366;
+                border-color: #25D366;
+                box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.16);
+            }
+            .wa-progress li.is-complete::before {
+                content: "✓";
+            }
+            .wa-progress li.is-complete::after {
+                background: #25D366;
+            }
+
+            /* Step navigation */
+            .wa-modal-nav {
+                display: flex;
+                gap: 0.6rem;
+                margin-top: 0.25rem;
+            }
+            .wa-modal-back {
+                flex: 0 0 auto;
+                padding: 0.9rem 1.1rem;
+                font-family: 'Google Sans Flex', sans-serif;
+                font-size: 0.95rem;
+                font-weight: 600;
+                color: rgba(255, 255, 255, 0.7);
+                background: rgba(255, 255, 255, 0.06);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 12px;
+                cursor: pointer;
+                transition: all 0.25s ease;
+            }
+            .wa-modal-back:hover {
+                color: #fff;
+                background: rgba(255, 255, 255, 0.1);
+            }
+            .wa-modal-nav .wa-modal-submit {
+                margin-top: 0;
+            }
+
             /* Responsive */
             @media (max-width: 480px) {
                 .wa-modal {
@@ -738,52 +844,87 @@ document.addEventListener('DOMContentLoaded', function () {
                     <p>Fill in your details so we can help you better</p>
                 </div>
 
+                <ol class="wa-progress" id="wa-progress">
+                    <li class="is-active">Your property</li>
+                    <li>Your details</li>
+                </ol>
+
                 <form class="wa-modal-form" id="wa-modal-form" novalidate>
-                    <div class="wa-modal-field" id="wa-field-name">
-                        <label for="wa-name">Full Name *</label>
-                        <input type="text" id="wa-name" placeholder="Enter your full name" autocomplete="name" />
-                        <div class="wa-error-msg">Please enter your name</div>
+                    <!-- ── Step 1: property ── -->
+                    <div class="wa-step" id="wa-step-1">
+                        <div class="wa-modal-field" id="wa-field-type">
+                            <label>Building Type *</label>
+                            <div class="wa-type-row">
+                                <label class="wa-type-option">
+                                    <input type="radio" name="wa-property" value="Residential" checked />
+                                    <span class="wa-type-label">🏠 Residential</span>
+                                </label>
+                                <label class="wa-type-option">
+                                    <input type="radio" name="wa-property" value="Commercial" />
+                                    <span class="wa-type-label">🏢 Commercial</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="wa-modal-field" id="wa-field-bill">
+                            <label for="wa-bill">Approx. Monthly Electricity Bill *</label>
+                            <select id="wa-bill">
+                                <option value="" disabled selected>Select bill range</option>
+                                <option value="Less than ₹500">Less than ₹500</option>
+                                <option value="₹500 - ₹1,000">₹500 - ₹1,000</option>
+                                <option value="₹1,000 - ₹2,000">₹1,000 - ₹2,000</option>
+                                <option value="₹2,000 - ₹4,000">₹2,000 - ₹4,000</option>
+                                <option value="₹4,000+">₹4,000+</option>
+                            </select>
+                            <div class="wa-error-msg">Please select your bill range</div>
+                        </div>
+
+                        <div class="wa-modal-field" id="wa-field-roof">
+                            <label for="wa-roof">Available Roof Area (sq ft) *</label>
+                            <input type="text" id="wa-roof" placeholder="e.g. 800" inputmode="numeric" />
+                            <div class="wa-error-msg">Please enter your approximate roof area</div>
+                        </div>
+
+                        <button type="button" class="wa-modal-submit" id="wa-next">
+                            Continue
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                        </button>
                     </div>
 
-                    <div class="wa-modal-field" id="wa-field-type">
-                        <label>Property Type *</label>
-                        <div class="wa-type-row">
-                            <label class="wa-type-option">
-                                <input type="radio" name="wa-property" value="Residential" checked />
-                                <span class="wa-type-label">🏠 Residential</span>
-                            </label>
-                            <label class="wa-type-option">
-                                <input type="radio" name="wa-property" value="Commercial" />
-                                <span class="wa-type-label">🏢 Commercial</span>
-                            </label>
+                    <!-- ── Step 2: contact ── -->
+                    <div class="wa-step" id="wa-step-2" hidden>
+                        <div class="wa-modal-field" id="wa-field-name">
+                            <label for="wa-name">Full Name *</label>
+                            <input type="text" id="wa-name" placeholder="Enter your full name" autocomplete="name" />
+                            <div class="wa-error-msg">Please enter your name</div>
+                        </div>
+
+                        <div class="wa-modal-field" id="wa-field-phone">
+                            <label for="wa-phone">Phone Number *</label>
+                            <input type="tel" id="wa-phone" placeholder="+91 90000 00000" autocomplete="tel" inputmode="tel" />
+                            <div class="wa-error-msg">Please enter a valid phone number</div>
+                        </div>
+
+                        <div class="wa-modal-field" id="wa-field-location">
+                            <label for="wa-location">Location / City *</label>
+                            <input type="text" id="wa-location" placeholder="e.g. Tirupati" autocomplete="address-level2" />
+                            <div class="wa-error-msg">Please enter your location</div>
+                        </div>
+
+                        <div class="wa-modal-field" id="wa-field-email">
+                            <label for="wa-email">Email ID *</label>
+                            <input type="email" id="wa-email" placeholder="you@example.com" autocomplete="email" inputmode="email" />
+                            <div class="wa-error-msg">Please enter a valid email address</div>
+                        </div>
+
+                        <div class="wa-modal-nav">
+                            <button type="button" class="wa-modal-back" id="wa-back">Back</button>
+                            <button type="submit" class="wa-modal-submit">
+                                <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                                Send via WhatsApp
+                            </button>
                         </div>
                     </div>
-
-                    <div class="wa-modal-field" id="wa-field-bill">
-                        <label for="wa-bill">Monthly Electricity Bill *</label>
-                        <select id="wa-bill">
-                            <option value="" disabled selected>Select bill range</option>
-                            <option value="Below ₹1,000">Below ₹1,000</option>
-                            <option value="₹1,000 - ₹2,000">₹1,000 - ₹2,000</option>
-                            <option value="₹2,000 - ₹4,000">₹2,000 - ₹4,000</option>
-                            <option value="₹4,000 - ₹6,000">₹4,000 - ₹6,000</option>
-                            <option value="₹6,000 - ₹10,000">₹6,000 - ₹10,000</option>
-                            <option value="₹10,000 - ₹20,000">₹10,000 - ₹20,000</option>
-                            <option value="Above ₹20,000">Above ₹20,000</option>
-                        </select>
-                        <div class="wa-error-msg">Please select your bill range</div>
-                    </div>
-
-                    <div class="wa-modal-field" id="wa-field-location">
-                        <label for="wa-location">Location / City *</label>
-                        <input type="text" id="wa-location" placeholder="e.g. Tirupati" autocomplete="address-level2" />
-                        <div class="wa-error-msg">Please enter your location</div>
-                    </div>
-
-                    <button type="submit" class="wa-modal-submit">
-                        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                        Send via WhatsApp
-                    </button>
                 </form>
             </div>
         `;
@@ -797,8 +938,12 @@ document.addEventListener('DOMContentLoaded', function () {
         function openModal() {
             modalOverlay.classList.add('active');
             document.body.style.overflow = 'hidden';
-            // Focus the first input after animation
-            setTimeout(() => { document.getElementById('wa-name').focus(); }, 350);
+            // Focus the first field of the visible step after animation
+            setTimeout(() => {
+                const panel = modalOverlay.querySelector('.wa-step:not([hidden])');
+                const field = panel && panel.querySelector('input:not([type="radio"]), select');
+                if (field) field.focus();
+            }, 350);
         }
 
         function closeModal() {
@@ -809,6 +954,7 @@ document.addEventListener('DOMContentLoaded', function () {
         function resetForm() {
             modalForm.reset();
             modalForm.querySelectorAll('.wa-modal-field').forEach(f => f.classList.remove('wa-error'));
+            showStep(0);
         }
 
         // ── Close triggers ──
@@ -831,59 +977,104 @@ document.addEventListener('DOMContentLoaded', function () {
             openModal();
         });
 
-        // ── Form submit → build WhatsApp message ──
+        // ── Step navigation ──
+        const stepPanels  = [document.getElementById('wa-step-1'), document.getElementById('wa-step-2')];
+        const progressLis = Array.from(document.getElementById('wa-progress').children);
+        let currentStep = 0;
+
+        function showStep(index) {
+            currentStep = Math.max(0, Math.min(index, stepPanels.length - 1));
+            stepPanels.forEach((panel, i) => { panel.hidden = i !== currentStep; });
+            progressLis.forEach((li, i) => {
+                li.classList.toggle('is-active', i === currentStep);
+                li.classList.toggle('is-complete', i < currentStep);
+            });
+            const firstField = stepPanels[currentStep].querySelector('input:not([type="radio"]), select');
+            if (firstField) setTimeout(() => firstField.focus(), 120);
+        }
+
+        function markError(fieldId, hasError) {
+            document.getElementById(fieldId).classList.toggle('wa-error', hasError);
+            return !hasError;
+        }
+
+        function validateStep1() {
+            const bill = document.getElementById('wa-bill').value;
+            const roof = document.getElementById('wa-roof').value.trim();
+            let ok = markError('wa-field-bill', !bill);
+            ok = markError('wa-field-roof', !roof) && ok;
+            return ok;
+        }
+
+        function validateStep2() {
+            const name     = document.getElementById('wa-name').value.trim();
+            const phone    = document.getElementById('wa-phone').value.trim();
+            const location = document.getElementById('wa-location').value.trim();
+            const email    = document.getElementById('wa-email').value.trim();
+            let ok = markError('wa-field-name', !name);
+            ok = markError('wa-field-phone', !/^[\d\s\-\+\(\)]{10,}$/.test(phone)) && ok;
+            ok = markError('wa-field-location', !location) && ok;
+            ok = markError('wa-field-email', !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) && ok;
+            return ok;
+        }
+
+        document.getElementById('wa-next').addEventListener('click', function () {
+            if (validateStep1()) showStep(1);
+        });
+
+        document.getElementById('wa-back').addEventListener('click', function () {
+            showStep(0);
+        });
+
+        // ── Form submit → report conversion, then build WhatsApp message ──
         modalForm.addEventListener('submit', function (e) {
             e.preventDefault();
 
-            const nameEl     = document.getElementById('wa-name');
-            const billEl     = document.getElementById('wa-bill');
-            const locationEl = document.getElementById('wa-location');
-            const typeEl     = document.querySelector('input[name="wa-property"]:checked');
+            if (!validateStep1()) { showStep(0); return; }
+            if (!validateStep2()) return;
 
-            let valid = true;
-
-            // Validate name
-            if (!nameEl.value.trim()) {
-                document.getElementById('wa-field-name').classList.add('wa-error');
-                valid = false;
-            } else {
-                document.getElementById('wa-field-name').classList.remove('wa-error');
-            }
-
-            // Validate bill
-            if (!billEl.value) {
-                document.getElementById('wa-field-bill').classList.add('wa-error');
-                valid = false;
-            } else {
-                document.getElementById('wa-field-bill').classList.remove('wa-error');
-            }
-
-            // Validate location
-            if (!locationEl.value.trim()) {
-                document.getElementById('wa-field-location').classList.add('wa-error');
-                valid = false;
-            } else {
-                document.getElementById('wa-field-location').classList.remove('wa-error');
-            }
-
-            if (!valid) return;
-
-            // Build message
-            const name     = nameEl.value.trim();
+            const typeEl   = document.querySelector('input[name="wa-property"]:checked');
             const type     = typeEl ? typeEl.value : 'Residential';
-            const bill     = billEl.value;
-            const location = locationEl.value.trim();
+            const bill     = document.getElementById('wa-bill').value;
+            const roof     = document.getElementById('wa-roof').value.trim();
+            const name     = document.getElementById('wa-name').value.trim();
+            const phone    = document.getElementById('wa-phone').value.trim();
+            const location = document.getElementById('wa-location').value.trim();
+            const email    = document.getElementById('wa-email').value.trim();
+
+            // Google Ads conversion — one per enquiry, deduped by transaction_id
+            try {
+                if (typeof gtag === 'function') {
+                    const transactionId = window.crypto && window.crypto.randomUUID
+                        ? window.crypto.randomUUID()
+                        : `wa-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+                    gtag('event', 'conversion', {
+                        send_to: WA_CONVERSION_SEND_TO,
+                        transaction_id: transactionId
+                    });
+                }
+            } catch (error) {
+                // Never let a tracking failure block the WhatsApp handoff.
+            }
 
             const message = `Hi Ray2Volt,
 
-I'm interested in solar installation. Here are my details:
+I'd like to know more about going solar. Here are my details:
 
+*MY PROPERTY*
+🏠 *Building Type:* ${type}
+💡 *Approx. Monthly Bill:* ${bill}
+📐 *Available Roof Area:* ${roof} sq ft
+
+*MY CONTACT DETAILS*
 👤 *Name:* ${name}
-🏠 *Property Type:* ${type}
-💡 *Monthly Bill:* ${bill}
+📞 *Phone:* ${phone}
 📍 *Location:* ${location}
+✉️ *Email:* ${email}
 
-Please share more information. Thank you!`;
+Please share a system recommendation, the subsidy I qualify for, and an approximate cost and payback for my property.
+
+Thank you!`;
 
             const waUrl = `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(message)}`;
 
@@ -895,15 +1086,20 @@ Please share more information. Thank you!`;
         });
 
         // Live clear errors on input
-        document.getElementById('wa-name').addEventListener('input', function () {
-            if (this.value.trim()) document.getElementById('wa-field-name').classList.remove('wa-error');
+        [
+            ['wa-bill',     'wa-field-bill',     'change'],
+            ['wa-roof',     'wa-field-roof',     'input'],
+            ['wa-name',     'wa-field-name',     'input'],
+            ['wa-phone',    'wa-field-phone',    'input'],
+            ['wa-location', 'wa-field-location', 'input'],
+            ['wa-email',    'wa-field-email',    'input']
+        ].forEach(([inputId, fieldId, evt]) => {
+            document.getElementById(inputId).addEventListener(evt, function () {
+                if (this.value.trim()) document.getElementById(fieldId).classList.remove('wa-error');
+            });
         });
-        document.getElementById('wa-bill').addEventListener('change', function () {
-            if (this.value) document.getElementById('wa-field-bill').classList.remove('wa-error');
-        });
-        document.getElementById('wa-location').addEventListener('input', function () {
-            if (this.value.trim()) document.getElementById('wa-field-location').classList.remove('wa-error');
-        });
+
+        showStep(0);
     })();
 
 });

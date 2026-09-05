@@ -359,6 +359,125 @@
             box-shadow: 0 8px 25px rgba(255, 179, 0, 0.5);
         }
 
+        /* Step machinery */
+        .claim-step[hidden] {
+            display: none;
+        }
+
+        .claim-progress {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            margin: 0 0 1.5rem;
+            padding: 0 0 1.25rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            counter-reset: claim-step;
+            list-style: none;
+        }
+
+        .claim-progress li {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            counter-increment: claim-step;
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.45);
+            transition: color 0.3s ease;
+        }
+
+        .claim-progress li::before {
+            content: counter(claim-step);
+            position: relative;
+            z-index: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.75rem;
+            height: 1.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            background: var(--gray-900, #0f172a);
+            font-size: 0.8rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .claim-progress li::after {
+            content: '';
+            position: absolute;
+            top: 0.8125rem;
+            right: 50%;
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .claim-progress li:first-child::after { display: none; }
+
+        .claim-progress li.is-active,
+        .claim-progress li.is-complete { color: #fff; }
+
+        .claim-progress li.is-active::before,
+        .claim-progress li.is-complete::before {
+            color: var(--gray-900, #0f172a);
+            background: var(--secondary-gold, #FFB300);
+            border-color: var(--secondary-gold, #FFB300);
+            box-shadow: 0 0 0 4px rgba(255, 179, 0, 0.15);
+        }
+
+        .claim-progress li.is-complete::before {
+            content: "✓";
+        }
+
+        .claim-progress li.is-complete::after {
+            background: var(--secondary-gold, #FFB300);
+        }
+
+        .form-group.has-error .form-control {
+            border-color: #F44336;
+            box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.12);
+        }
+
+        .form-group .field-error {
+            display: none;
+            margin-top: 0.35rem;
+            font-size: 0.75rem;
+            color: #F44336;
+        }
+
+        .form-group.has-error .field-error { display: block; }
+
+        .claim-nav {
+            display: flex;
+            gap: 0.6rem;
+            align-items: stretch;
+        }
+
+        .claim-nav .btn-glow { margin-top: 1rem; }
+
+        .btn-back {
+            flex: 0 0 auto;
+            margin-top: 1rem;
+            padding: 1rem 1.25rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.75);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-back:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
         /* Animations */
         .reveal-left {
             opacity: 0;
@@ -475,7 +594,12 @@
                         <p>Takes less than 60 seconds</p>
                     </div>
 
-                    <form id="quote-form" action="https://api.web3forms.com/submit" method="POST">
+                    <ol class="claim-progress" id="claim-progress">
+                        <li class="is-active">Your property</li>
+                        <li>Your details</li>
+                    </ol>
+
+                    <form id="quote-form" action="https://api.web3forms.com/submit" method="POST" novalidate>
                         <input type="hidden" name="access_key" value="b3d2b2c1-4237-4de1-8879-9048dfa1beb8">
                         <input type="hidden" name="subject" value="🔥 Subsidy + Discount Claim - Ray2Volt Solar">
                         <input type="hidden" name="from_name" value="Ray2Volt Solar Website">
@@ -483,58 +607,85 @@
                         <input type="hidden" name="Source Page" value="Save On Solar">
                         <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
 
-                        <!-- Property Type -->
-                        <div class="type-selector">
-                            <label class="type-option">
-                                <input type="radio" name="Property Type" value="Residential" required checked>
-                                <span class="type-btn">Residential</span>
-                            </label>
-                            <label class="type-option">
-                                <input type="radio" name="Property Type" value="Commercial" required>
-                                <span class="type-btn">Commercial</span>
-                            </label>
-                        </div>
-
-                        <!-- Name -->
-                        <div class="form-group">
-                            <label for="name">Your Name</label>
-                            <input type="text" id="name" name="Name" class="form-control" placeholder="Enter your full name" required>
-                        </div>
-
-                        <!-- Phone -->
-                        <div class="form-group">
-                            <label for="phone">Mobile Number</label>
-                            <input type="tel" id="phone" name="Phone Number" class="form-control" placeholder="+91 90000 00000" required>
-                        </div>
-
-                        <!-- City & Bill Range Row -->
-                        <div class="form-row">
+                        <!-- ── Step 1: property ── -->
+                        <div class="claim-step" id="claim-step-1">
+                            <!-- Building Type -->
                             <div class="form-group">
-                                <label for="city">City</label>
-                                <input type="text" id="city" name="City" class="form-control" placeholder="e.g. Tirupati" required>
+                                <label>Building Type</label>
+                                <div class="type-selector">
+                                    <label class="type-option">
+                                        <input type="radio" name="Building Type" value="Residential" required checked>
+                                        <span class="type-btn">Residential</span>
+                                    </label>
+                                    <label class="type-option">
+                                        <input type="radio" name="Building Type" value="Commercial" required>
+                                        <span class="type-btn">Commercial</span>
+                                    </label>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="bill">Avg. Monthly Bill</label>
+
+                            <!-- Bill Range -->
+                            <div class="form-group" id="group-bill">
+                                <label for="bill">Approx. Monthly Electricity Bill</label>
                                 <select id="bill" name="Monthly Electricity Bill" class="form-control" required>
                                     <option value="" disabled selected>Select range</option>
-                                    <option value="Below ₹1,000">Below ₹1,000</option>
+                                    <option value="Less than ₹500">Less than ₹500</option>
+                                    <option value="₹500 - ₹1,000">₹500 - ₹1,000</option>
                                     <option value="₹1,000 - ₹2,000">₹1,000 - ₹2,000</option>
                                     <option value="₹2,000 - ₹4,000">₹2,000 - ₹4,000</option>
-                                    <option value="₹4,000 - ₹6,000">₹4,000 - ₹6,000</option>
-                                    <option value="₹6,000 - ₹10,000">₹6,000 - ₹10,000</option>
-                                    <option value="₹10,000 - ₹20,000">₹10,000 - ₹20,000</option>
-                                    <option value="Above ₹20,000">Above ₹20,000</option>
+                                    <option value="₹4,000+">₹4,000+</option>
                                 </select>
+                                <span class="field-error">Please select your bill range</span>
                             </div>
+
+                            <!-- Roof Area -->
+                            <div class="form-group" id="group-roof">
+                                <label for="roof">Available Roof Area (sq ft)</label>
+                                <input type="text" id="roof" name="Roof Area (sq ft)" class="form-control" placeholder="e.g. 800" inputmode="numeric" required>
+                                <span class="field-error">Please enter your approximate roof area</span>
+                            </div>
+
+                            <button type="button" class="btn-glow" id="claim-next">
+                                Continue
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width: 20px; height: 20px;">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                </svg>
+                            </button>
                         </div>
 
-                        <!-- Submit -->
-                        <button type="submit" class="btn-glow">
-                            Claim My Offer Now
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width: 20px; height: 20px;">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </button>
+                        <!-- ── Step 2: contact ── -->
+                        <div class="claim-step" id="claim-step-2" hidden>
+                            <!-- Name -->
+                            <div class="form-group" id="group-name">
+                                <label for="name">Your Name</label>
+                                <input type="text" id="name" name="Name" class="form-control" placeholder="Enter your full name" required>
+                                <span class="field-error">Please enter your name</span>
+                            </div>
+
+                            <!-- Phone -->
+                            <div class="form-group" id="group-phone">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="Phone Number" class="form-control" placeholder="+91 90000 00000" required>
+                                <span class="field-error">Please enter a valid phone number</span>
+                            </div>
+
+                            <!-- Location -->
+                            <div class="form-group" id="group-location">
+                                <label for="city">Location</label>
+                                <input type="text" id="city" name="Location" class="form-control" placeholder="e.g. Tirupati" required>
+                                <span class="field-error">Please enter your location</span>
+                            </div>
+
+                            <div class="claim-nav">
+                                <button type="button" class="btn-back" id="claim-back">Back</button>
+                                <button type="submit" class="btn-glow">
+                                    Claim My Offer Now
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width: 20px; height: 20px;">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -544,17 +695,85 @@
 
     <!-- Sticky Contact Icons -->
     <div class="sticky-contact">
-        <a href="tel:+919666068140" class="sticky-contact-btn sticky-call" aria-label="Call Ray2Volt Solar">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-            </svg>
-        </a>
         <a href="https://wa.me/919666068140" class="sticky-contact-btn sticky-whatsapp" aria-label="Chat with Ray2Volt Solar on WhatsApp">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
             </svg>
         </a>
     </div>
+    <!-- Two-step lead form -->
+    <script>
+    (function () {
+        const form = document.getElementById('quote-form');
+        if (!form) return;
+
+        const panels     = [document.getElementById('claim-step-1'), document.getElementById('claim-step-2')];
+        const progressLis = Array.from(document.getElementById('claim-progress').children);
+        let currentStep = 0;
+
+        function showStep(index) {
+            currentStep = Math.max(0, Math.min(index, panels.length - 1));
+            panels.forEach((panel, i) => { panel.hidden = i !== currentStep; });
+            progressLis.forEach((li, i) => {
+                li.classList.toggle('is-active', i === currentStep);
+                li.classList.toggle('is-complete', i < currentStep);
+            });
+            const field = panels[currentStep].querySelector('.form-control');
+            if (field) setTimeout(() => field.focus(), 120);
+        }
+
+        function mark(groupId, hasError) {
+            document.getElementById(groupId).classList.toggle('has-error', hasError);
+            return !hasError;
+        }
+
+        function validateStep1() {
+            let ok = mark('group-bill', !document.getElementById('bill').value);
+            ok = mark('group-roof', !document.getElementById('roof').value.trim()) && ok;
+            return ok;
+        }
+
+        function validateStep2() {
+            let ok = mark('group-name', !document.getElementById('name').value.trim());
+            ok = mark('group-phone', !/^[\d\s\-\+\(\)]{10,}$/.test(document.getElementById('phone').value.trim())) && ok;
+            ok = mark('group-location', !document.getElementById('city').value.trim()) && ok;
+            return ok;
+        }
+
+        document.getElementById('claim-next').addEventListener('click', function () {
+            if (validateStep1()) showStep(1);
+        });
+
+        document.getElementById('claim-back').addEventListener('click', function () {
+            showStep(0);
+        });
+
+        // Runs before the shared handler in script.js, so a failed step blocks submission.
+        form.addEventListener('submit', function (e) {
+            if (!validateStep1()) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                showStep(0);
+                return;
+            }
+            if (!validateStep2()) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+            }
+        });
+
+        // Clear errors as the visitor corrects them
+        [['bill', 'group-bill', 'change'], ['roof', 'group-roof', 'input'],
+         ['name', 'group-name', 'input'], ['phone', 'group-phone', 'input'],
+         ['city', 'group-location', 'input']].forEach(function (entry) {
+            document.getElementById(entry[0]).addEventListener(entry[2], function () {
+                if (this.value.trim()) document.getElementById(entry[1]).classList.remove('has-error');
+            });
+        });
+
+        showStep(0);
+    })();
+    </script>
     <script src="script.js"></script>
 
     <!-- Confetti Script -->
