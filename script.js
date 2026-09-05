@@ -658,6 +658,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 position: relative;
                 cursor: pointer;
             }
+            /* The options are <label>s too, so the .wa-modal-field label rule
+               above hands them a bottom margin that reads as dead space.
+               Needs the parent class to outweigh that rule's specificity. */
+            .wa-modal-field .wa-type-option {
+                margin-bottom: 0;
+            }
             .wa-type-option input {
                 position: absolute;
                 opacity: 0;
@@ -716,6 +722,11 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             /* Step machinery */
+            .wa-step {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
             .wa-step[hidden] {
                 display: none;
             }

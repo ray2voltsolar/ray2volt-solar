@@ -286,6 +286,12 @@
             box-shadow: 0 4px 10px rgba(255, 179, 0, 0.3);
         }
 
+        /* The options are <label>s too, so `.form-group label` below hands them
+           a bottom margin that shows up as dead space inside the selector. */
+        .form-group .type-option {
+            margin-bottom: 0;
+        }
+
         .form-group {
             margin-bottom: 1.25rem;
         }
