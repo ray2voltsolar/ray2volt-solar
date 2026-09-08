@@ -7,4 +7,5 @@ Disallow: /claim-subsidy.html
 Disallow: /save-on-solar.html
 Disallow: /thank-you.html
 
+# LLM-readable site index: https://ray2voltsolar.com/llms.txt
 Sitemap: https://ray2voltsolar.com/sitemap.xml
