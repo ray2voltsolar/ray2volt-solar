@@ -1,0 +1,31 @@
+.careers-intro { padding-bottom: 1rem; }
+.career-roles { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1.5rem; }
+.career-roles .card { padding:1.8rem; }
+.career-roles h2 { font-size:1.5rem; margin:.6rem 0; }
+.role-location { font-weight:700; color:#16844e; }
+.careers-note { max-width:900px; margin:2rem auto 0; text-align:center; }
+.application-container { max-width:960px; }
+.application-card { padding:2.5rem; }
+.application-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.3rem 1.5rem; margin-top:1.5rem; }
+.application-grid .full { grid-column:1/-1; }
+.application-grid .form-group { margin:0; min-width:0; }
+.application-grid label,.choices legend { font-weight:600; }
+.application-grid input,.application-grid select,.application-grid textarea { scroll-margin-top:120px; }
+.application-grid input[type=checkbox] { width:18px; height:18px; flex-shrink:0; accent-color:#16844e; }
+.choices { border:1px solid #dbe4de; border-radius:12px; padding:1rem; min-width:0; }
+.choice-grid { display:flex; flex-wrap:wrap; gap:.7rem 1.5rem; }
+.choice-grid label,.consent>label { display:flex; gap:.6rem; align-items:flex-start; }
+.field-help { color:#526259; font-size:.9rem; margin:.4rem 0; }
+.field-error,#application-status[data-state=error] { color:#a12622; }
+#application-status { margin-top:1rem; }
+#application-success { padding:1.5rem; background:#eaf7ef; border-radius:12px; }
+#application { scroll-margin-top:95px; }
+[hidden] { display:none!important; }
+@media(max-width:767px) { .career-roles,.application-grid { grid-template-columns:1fr; } .application-card { padding:1.2rem; } .career-roles { gap:1rem; } .application-grid .full { grid-column:1; } #apply-submit { width:100%; } }
+/* Match the shared dark solar theme while keeping help and errors legible. */
+.role-location { color:#6ee7b7; }
+.field-help { color:#b7c5d5; }
+.choices { border-color:rgba(255,255,255,.2); }
+.field-error,#application-status[data-state=error] { color:#ffb4ab; }
+#application-success { background:#153c35; color:#f0fdf4; }
+#application-success h3 { color:#f0fdf4; }

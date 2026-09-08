@@ -513,7 +513,7 @@ p:last-child {
     padding-left: 1.75rem;
 }
 
-/* Compact the nav between tablet and small-desktop so 7 top-level items fit */
+/* Compact the nav between tablet and small-desktop so the top-level items fit */
 @media (max-width: 1180px) and (min-width: 769px) {
     .nav-menu {
         gap: 0.125rem;
@@ -2789,4 +2789,10 @@ textarea.form-control {
     .hero-stats {
         grid-template-columns: repeat(4, 1fr);
     }
+}
+/* Keep the Jobs link and existing navigation on one line above the mobile menu. */
+@media (min-width: 769px) and (max-width: 950px) {
+    .nav { padding: 0 1rem; }
+    .nav .logo img { height: 26px; }
+    .nav-link { padding: 0.5rem 0.4rem; font-size: 0.8rem; white-space: nowrap; }
 }
