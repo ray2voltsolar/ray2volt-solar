@@ -1,0 +1,14 @@
+{
+  "name": "Ray2Volt Solar Private Limited",
+  "short_name": "Ray2Volt Solar",
+  "description": "Rooftop solar EPC for homes, businesses and industry in Tirupati and across Andhra Pradesh.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#0F172A",
+  "theme_color": "#03A9F4",
+  "icons": [
+    { "src": "/favicon-32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/favicon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}
