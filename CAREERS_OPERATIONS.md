@@ -13,3 +13,10 @@
 - UTM parameters plus `gclid`, `gbraid`, `wbraid` and `fbclid` from the application-page URL are included in the email (each capped at 500 characters). Attribution is not carried across other pages or persisted in cookies. Use the careers URL directly in ads. The recorded page URL excludes the query string.
 - Seven focused checks run with `node --test tests/careers.test.cjs`. JavaScript syntax can be checked with `node --check careers.js`.
 - Manually verified desktop, tablet and 390px mobile layout, alternate WhatsApp visibility and mutually exclusive `None` experience selection. No automated live applicant submissions are part of tests.
+
+## Form presentation revision — 8 September 2026
+
+- Careers now uses the shared blog light theme with a short title/introduction and the application form immediately below it. Role cards and the marketing hero were removed.
+- Hiring links remain in footers and the About/Contact page content. Jobs links were removed from every navbar and the homepage hiring CTA was removed.
+- Approved form controls and submission JavaScript are unchanged. The seven focused tests and structural checks passed again. Desktop uses two form columns; mobile below 768px uses one.
+- The browser preview surface was unavailable during this revision (no available browser sessions), so a fresh visual screenshot check could not be performed. Earlier functional notification verification remains valid; no additional test email was sent.
