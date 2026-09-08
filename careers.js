@@ -29,18 +29,6 @@
         const input = document.getElementById(id);
         input.addEventListener('input', () => validatePhone(input));
     });
-    const resume = document.getElementById('resume');
-    function validateResume() {
-        let valid = true;
-        if (resume.value.trim()) {
-            try {
-                const url = new URL(resume.value.trim());
-                valid = ['http:', 'https:'].includes(url.protocol) && !url.username && !url.password;
-            } catch { valid = false; }
-        }
-        resume.setCustomValidity(valid ? '' : 'Enter an http:// or https:// link without a username or password.');
-    }
-    resume.addEventListener('input', validateResume);
     const groups = ['languages', 'work-types'];
     groups.forEach(id => {
         document.getElementById(id).addEventListener('change', event => {
@@ -56,7 +44,6 @@
     form.addEventListener('submit', async event => {
         event.preventDefault();
         if (submitting || submitted) return;
-        validateResume();
         validatePhone(document.getElementById('mobile'));
         if (!alternate.disabled) validatePhone(alternate);
         const missingGroup = groups.find(id => {

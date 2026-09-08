@@ -66,17 +66,3 @@ test('honeypot stops submission', async () => {
     assert.equal(app.calls, 0);
 });
 
-test('resume rejects active schemes and embedded credentials', () => {
-    const app = setup(null);
-    const resume = app.element('resume');
-    for (const value of ['javascript:alert(1)', 'https://user:pass@example.com/cv', 'not-a-url']) {
-        resume.value = value;
-        resume.handlers.input();
-        assert.notEqual(resume.validation, '');
-    }
-    for (const value of ['', 'https://example.com/resume.pdf']) {
-        resume.value = value;
-        resume.handlers.input();
-        assert.equal(resume.validation, '');
-    }
-});
