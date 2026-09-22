@@ -5,6 +5,7 @@ read from blog/_manifest.json so future posts only need a manifest entry.
 """
 import json
 import os
+import re
 from datetime import date
 
 BASE = "https://ray2voltsolar.com"
@@ -31,6 +32,14 @@ PRIORITY = {
 }
 DEFAULT = ("0.7", "monthly")
 
+NOINDEX = re.compile(r'<meta name="robots" content="[^"]*noindex', re.I)
+
+
+def is_noindex(path):
+    """Draft and thank-you pages carry noindex and stay out of the sitemap."""
+    with open(path, encoding="utf-8") as fh:
+        return bool(NOINDEX.search(fh.read()))
+
 today = date.today().isoformat()
 urls = []
 
@@ -40,12 +49,20 @@ def add(loc, lastmod, changefreq, priority):
 
 
 for name in sorted(os.listdir(".")):
-    if not name.endswith(".html") or name in EXCLUDE:
+    if not name.endswith(".html") or name in EXCLUDE or is_noindex(name):
         continue
     prio, freq = PRIORITY.get(name, DEFAULT)
     loc = BASE + "/" if name == "index.html" else f"{BASE}/{name}"
     lastmod = date.fromtimestamp(os.path.getmtime(name)).isoformat()
     add(loc, lastmod, freq, prio)
+
+# Generated project pages (scaffold): present only once real project data exists.
+if os.path.isdir("projects"):
+    for name in sorted(os.listdir("projects")):
+        path = f"projects/{name}"
+        if name.endswith(".html") and not is_noindex(path):
+            lastmod = date.fromtimestamp(os.path.getmtime(path)).isoformat()
+            add(f"{BASE}/{path}", lastmod, "yearly", "0.6")
 
 with open("blog/_manifest.json", encoding="utf-8") as fh:
     manifest = json.load(fh)
@@ -82,6 +99,7 @@ with open("robots.txt", "w", encoding="utf-8", newline="\n") as fh:
         "Disallow: /claim-subsidy.html\n"
         "Disallow: /save-on-solar.html\n"
         "Disallow: /thank-you.html\n\n"
+        f"# LLM-readable site index: {BASE}/llms.txt\n"
         f"Sitemap: {BASE}/sitemap.xml\n"
     )
 
