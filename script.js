@@ -2,6 +2,168 @@
    Ray2Volt Solar - JavaScript (Enhanced)
    ========================================================================== */
 
+// Decorative solar field. Independent of navigation, forms, and tracking.
+document.addEventListener('DOMContentLoaded', function initEnergyField() {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    canvas.className = 'energy-field';
+    canvas.setAttribute('aria-hidden', 'true');
+    document.body.prepend(canvas);
+
+    const toggle = document.createElement('button');
+    toggle.className = 'energy-motion-toggle';
+    toggle.type = 'button';
+    document.body.append(toggle);
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+    let width = 0;
+    let height = 0;
+    let columns = 22;
+    let rows = 18;
+    let frame = 0;
+    let lastTime = 0;
+    let elapsed = 0;
+    let paused = false;
+    const pointer = { x: 0, y: 0, targetX: 0, targetY: 0, strength: 0, active: false };
+    const isStill = () => paused || reducedMotion.matches;
+
+    function point(column, depth, time) {
+        const spread = 0.12 + depth * 1.5;
+        let x = width * 0.5 + (column / columns - 0.5) * width * spread;
+        let y = height * (0.07 + depth * depth * 1.12);
+        // Low-amplitude waves keep the field quiet behind the content.
+        y += Math.sin(column * 0.36 + depth * 6 - time * 0.38) * 6 * depth;
+        y += Math.cos(column * 0.18 - depth * 8 + time * 0.24) * 4 * depth;
+        x += Math.sin(depth * 5 + time * 0.2) * 4 * depth;
+        const dx = x - pointer.x;
+        const dy = y - pointer.y;
+        const influence = Math.exp(-(dx * dx + dy * dy) / 65000) * pointer.strength;
+        y -= influence * 4;
+        x += dx * influence * 0.006;
+        return { x, y };
+    }
+
+    function draw() {
+        // Run ambient movement at 12% of the original speed.
+        const time = elapsed / 1000 * 0.12;
+        ctx.clearRect(0, 0, width, height);
+
+        // A restrained pool of sunlight moves over the cool blue field.
+        const sunX = width * (0.76 + Math.sin(time * 0.12) * 0.07);
+        const sunY = height * 0.36;
+        const sunlight = ctx.createRadialGradient(sunX, sunY, 0, sunX, sunY, width * 0.48);
+        sunlight.addColorStop(0, 'rgba(255,179,0,0.055)');
+        sunlight.addColorStop(1, 'rgba(255,179,0,0)');
+        ctx.fillStyle = sunlight;
+        ctx.fillRect(0, 0, width, height);
+
+        if (pointer.strength > 0.01) {
+            const glow = ctx.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 260);
+            glow.addColorStop(0, `rgba(56,189,248,${0.045 * pointer.strength})`);
+            glow.addColorStop(1, 'rgba(56,189,248,0)');
+            ctx.fillStyle = glow;
+            ctx.fillRect(0, 0, width, height);
+        }
+
+        ctx.lineWidth = 0.8;
+        for (let column = 0; column <= columns; column++) {
+            const edgeFade = Math.sin(Math.PI * column / columns);
+            ctx.strokeStyle = `rgba(56,189,248,${0.045 + edgeFade * 0.095})`;
+            ctx.beginPath();
+            for (let row = 0; row <= rows; row++) {
+                const p = point(column, row / rows, time);
+                if (row === 0) ctx.moveTo(p.x, p.y);
+                else ctx.lineTo(p.x, p.y);
+            }
+            ctx.stroke();
+        }
+
+        const drift = (time * 0.035) % (1 / rows);
+        for (let row = 0; row <= rows; row++) {
+            const depth = row / rows + drift;
+            ctx.strokeStyle = `rgba(56,189,248,${0.025 + Math.sin(Math.min(depth, 1) * Math.PI) * 0.12})`;
+            ctx.beginPath();
+            for (let column = 0; column <= columns; column++) {
+                const p = point(column, depth, time);
+                if (column === 0) ctx.moveTo(p.x, p.y);
+                else ctx.lineTo(p.x, p.y);
+            }
+            ctx.stroke();
+        }
+
+    }
+
+    function animate(now) {
+        frame = 0;
+        if (document.hidden || isStill()) return;
+        if (!lastTime) lastTime = now;
+        const delta = now - lastTime;
+        if (delta >= 1000 / 30) {
+            elapsed += Math.min(delta, 70);
+            lastTime = now;
+            pointer.x += (pointer.targetX - pointer.x) * 0.05;
+            pointer.y += (pointer.targetY - pointer.y) * 0.05;
+            pointer.strength += ((pointer.active ? 1 : 0) - pointer.strength) * 0.04;
+            draw();
+        }
+        frame = requestAnimationFrame(animate);
+    }
+
+    function syncMotion() {
+        cancelAnimationFrame(frame);
+        frame = 0;
+        lastTime = 0;
+        document.body.classList.toggle('energy-field-paused', isStill());
+        const label = paused ? 'Resume background animation' : 'Pause background animation';
+        toggle.setAttribute('aria-label', label);
+        toggle.title = label;
+        toggle.innerHTML = paused
+            ? '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2l10 6-10 6z"/></svg>'
+            : '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2h3v12H4zm5 0h3v12H9z"/></svg>';
+        if (isStill()) {
+            pointer.strength = 0;
+            draw();
+        } else if (!document.hidden) {
+            frame = requestAnimationFrame(animate);
+        }
+    }
+
+    function resize() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        columns = width < 700 ? 12 : 22;
+        rows = width < 700 ? 12 : 18;
+        const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        canvas.width = Math.round(width * dpr);
+        canvas.height = Math.round(height * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        draw();
+    }
+
+    window.addEventListener('pointermove', event => {
+        if (!finePointer.matches || isStill() || event.pointerType === 'touch') return;
+        pointer.targetX = event.clientX;
+        pointer.targetY = event.clientY;
+        pointer.active = true;
+    }, { passive: true });
+    document.documentElement.addEventListener('pointerleave', () => { pointer.active = false; });
+    window.addEventListener('blur', () => { pointer.active = false; });
+    window.addEventListener('resize', resize, { passive: true });
+    document.addEventListener('visibilitychange', syncMotion);
+    reducedMotion.addEventListener('change', syncMotion);
+    toggle.addEventListener('click', () => {
+        paused = !paused;
+        syncMotion();
+    });
+
+    resize();
+    document.body.classList.add('energy-field-ready');
+    syncMotion();
+});
+
 // ──────────────────────────────────────────────────────────
 // 0. Campaign Parameter Capture & Forwarding
 //    Paid C&I traffic lands on commercial.html, but the qualification
@@ -83,6 +245,210 @@
     });
 })();
 
+// ──────────────────────────────────────────────────────────
+// 0b. Tracking config and events (C1)
+//     Every ID and label that the site's own scripts send is in CONFIG.
+//     The gtag snippet in each page's <head> loads the same Ads and GA4 tags.
+//
+//     - The Google Ads lead conversion fires only on the two campaign
+//       thank-you pages, and only for a form submitted in this session
+//       within the last 30 minutes, once per lead (transaction_id = lead ID).
+//       Direct visits and refreshes count nothing.
+//     - Secondary GA4 events: click_to_call, whatsapp_click, form_start
+//       (first interaction with each form) and generate_lead (with form_id).
+//     - Newer forms never redirect to the campaign thank-you pages. They send
+//       an Ads conversion only once their label below is filled in.
+// ──────────────────────────────────────────────────────────
+(function () {
+    const CONFIG = {
+        adsId: 'AW-18014889887',
+        // Existing "Website Lead" conversion. Keep exactly as it is.
+        leadConversion: 'AW-18014889887/9NtXCImroaYcEJ_PlY5D',
+        // The WhatsApp pop-up has always reported to the same label.
+        whatsappLeadConversion: 'AW-18014889887/9NtXCImroaYcEJ_PlY5D',
+        // GA4 property installed on every page (T1). '' switches the GA4 events off.
+        ga4Id: 'G-WZJ1CXHSG9',
+        // Google Ads labels for the newer forms. Empty on purpose: nothing goes to
+        // Google Ads for a form until its label is filled in, in the form
+        // 'AW-18014889887/AbCdEfGhIjKlMnOp'.
+        formConversions: {
+            'business-proposal': '',
+            'bill-upload': '',
+            'power-audit': '',
+            'tender-rfq': '',
+            'quote-check': '',
+            'service-request': '',
+            // A partner sign-up, not a customer lead: keep it out of Google Ads.
+            'channel-partner': ''
+        },
+        // Forms whose success page is a campaign thank-you page.
+        confirmationForms: {
+            'thank-you': ['quote-form', 'contact-form'],
+            'commercial-solar-thank-you': ['ci-estimate-form']
+        },
+        leadTokenMaxAgeMs: 30 * 60 * 1000
+    };
+
+    const TOKEN_KEY = 'r2vLeadToken';
+    const FIRED_KEY = 'r2vFiredLeadIds';
+
+    function hasGtag() {
+        return typeof window.gtag === 'function';
+    }
+
+    function newId(prefix) {
+        if (window.crypto && window.crypto.randomUUID) return window.crypto.randomUUID();
+        return `${prefix || 'lead'}-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+    }
+
+    // Test hook: with sessionStorage r2vDryRun = '1', tracking calls are
+    // recorded in window.r2vDryRunLog instead of being sent to Google.
+    function dryRunLogged(kind, detail) {
+        let dryRun = false;
+        try {
+            dryRun = sessionStorage.getItem('r2vDryRun') === '1';
+        } catch (error) {
+            dryRun = false;
+        }
+        if (!dryRun) return false;
+        (window.r2vDryRunLog = window.r2vDryRunLog || []).push([kind, detail]);
+        console.info('[r2v dry run] ' + kind, detail);
+        return true;
+    }
+
+    // GA4 only: secondary events must never reach Google Ads as conversions.
+    function sendEvent(name, params) {
+        if (!CONFIG.ga4Id) return;
+        if (dryRunLogged('event', Object.assign({ name: name }, params || {}))) return;
+        if (!hasGtag()) return;
+        try {
+            window.gtag('event', name, Object.assign({ send_to: CONFIG.ga4Id }, params || {}));
+        } catch (error) {
+            // Tracking must never break the page.
+        }
+    }
+
+    function sendConversion(sendTo, transactionId) {
+        if (!sendTo) return;
+        if (dryRunLogged('conversion', { send_to: sendTo, transaction_id: transactionId })) return;
+        if (!hasGtag()) return;
+        try {
+            window.gtag('event', 'conversion', { send_to: sendTo, transaction_id: transactionId });
+        } catch (error) {
+            // Tracking must never break the page.
+        }
+    }
+
+    function formIdOf(form) {
+        return form.getAttribute('data-form-id') || form.id || form.getAttribute('name') || 'form';
+    }
+
+    // Called just before a form hands over to a campaign thank-you page.
+    function markLeadSubmitted(formId, leadId) {
+        const token = { id: leadId || newId(formId), form: formId, time: Date.now() };
+        try {
+            sessionStorage.setItem(TOKEN_KEY, JSON.stringify(token));
+        } catch (error) {
+            // Without storage the thank-you page simply counts nothing.
+        }
+        return token.id;
+    }
+
+    function readFired() {
+        try {
+            const list = JSON.parse(localStorage.getItem(FIRED_KEY) || '[]');
+            return Array.isArray(list) ? list : [];
+        } catch (error) {
+            return [];
+        }
+    }
+
+    // Returns the token once if it is recent, unused and from an allowed form.
+    function consumeLeadToken(allowedForms) {
+        let token = null;
+        try {
+            token = JSON.parse(sessionStorage.getItem(TOKEN_KEY) || 'null');
+        } catch (error) {
+            return null;
+        }
+        if (!token || !token.id || !token.form || typeof token.time !== 'number') return null;
+        const age = Date.now() - token.time;
+        if (age < 0 || age > CONFIG.leadTokenMaxAgeMs) return null;
+        if (allowedForms.indexOf(token.form) === -1) return null;
+        const fired = readFired();
+        if (fired.indexOf(token.id) !== -1) return null;
+        try {
+            fired.push(token.id);
+            localStorage.setItem(FIRED_KEY, JSON.stringify(fired.slice(-50)));
+            sessionStorage.removeItem(TOKEN_KEY);
+        } catch (error) {
+            // If the fired list cannot be saved, do not risk counting twice.
+            return null;
+        }
+        return token;
+    }
+
+    function fireLeadConversion(allowedForms) {
+        const token = consumeLeadToken(allowedForms);
+        if (!token) return false;
+        sendConversion(CONFIG.leadConversion, token.id);
+        sendEvent('generate_lead', { form_id: token.form, transaction_id: token.id });
+        return true;
+    }
+
+    // A newer form succeeded on its own page (no redirect).
+    function reportLead(formId) {
+        const leadId = newId(formId);
+        sendEvent('generate_lead', { form_id: formId, transaction_id: leadId });
+        sendConversion(CONFIG.formConversions[formId] || '', leadId);
+        return leadId;
+    }
+
+    window.ray2voltTracking = {
+        config: CONFIG,
+        sendEvent: sendEvent,
+        sendConversion: sendConversion,
+        markLeadSubmitted: markLeadSubmitted,
+        fireLeadConversion: fireLeadConversion,
+        reportLead: reportLead,
+        formIdOf: formIdOf,
+        newId: newId
+    };
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Campaign thank-you pages declare themselves on <body>.
+        const confirmation = document.body.getAttribute('data-lead-confirmation');
+        if (confirmation && CONFIG.confirmationForms[confirmation]) {
+            fireLeadConversion(CONFIG.confirmationForms[confirmation]);
+        }
+
+        // click_to_call and whatsapp_click. Links that open the WhatsApp pop-up
+        // are counted when the pop-up hands over to WhatsApp, not on this click.
+        document.addEventListener('click', function (e) {
+            const link = e.target.closest && e.target.closest('a[href]');
+            if (!link) return;
+            const href = link.getAttribute('href') || '';
+            if (/^tel:/i.test(href)) {
+                sendEvent('click_to_call', { link_url: href, link_text: (link.textContent || '').trim().slice(0, 100) });
+            } else if (/wa\.me\/|api\.whatsapp\.com/i.test(href) && link.hasAttribute('data-wa-direct')) {
+                sendEvent('whatsapp_click', { method: 'direct_link', link_id: link.getAttribute('data-wa-direct') || '' });
+            }
+        }, true);
+
+        // form_start: the first interaction with each form on this page view.
+        const started = new Set();
+        const onFirstInteraction = function (e) {
+            const field = e.target;
+            if (!field || !field.form || field.name === 'botcheck') return;
+            const formId = formIdOf(field.form);
+            if (started.has(field.form)) return;
+            started.add(field.form);
+            sendEvent('form_start', { form_id: formId });
+        };
+        ['focusin', 'input', 'change'].forEach(type => document.addEventListener(type, onFirstInteraction, true));
+    });
+})();
+
 document.addEventListener('DOMContentLoaded', function () {
     // Dynamically set the _next form redirect URL to the thank-you page
     // (Removed as per request to stop redirecting to thank-you.html)
@@ -131,7 +497,8 @@ document.addEventListener('DOMContentLoaded', function () {
             toggle.addEventListener('click', (e) => {
                 if (window.innerWidth <= 768) {
                     e.preventDefault();
-                    dropdown.classList.toggle('active');
+                    const isOpen = dropdown.classList.toggle('active');
+                    toggle.setAttribute('aria-expanded', String(isOpen));
                 }
             });
         });
@@ -264,22 +631,51 @@ document.addEventListener('DOMContentLoaded', function () {
         return phoneRegex.test(phone);
     }
 
-    function submitLeadForm(e, form) {
-        if (!form || !form.action.includes('web3forms.com')) return;
+    // Guards shared by every Web3Forms form: the botcheck honeypot, a minimum
+    // time on the page before submitting, and one submission in flight at a time.
+    const FORM_MIN_MS = 4000;
+    const pageStartedAt = Date.now();
 
-        e.preventDefault();
+    function passesSubmitGuards(form) {
+        const honeypot = form.querySelector('input[name="botcheck"]');
+        if (honeypot && honeypot.checked) {
+            setFormStatus(form, 'We could not submit this form. Please call or WhatsApp us on +91 9666068140.', 'error');
+            return false;
+        }
+        if (Date.now() - pageStartedAt < FORM_MIN_MS) {
+            setFormStatus(form, 'Please review your details, then submit again.', 'error');
+            return false;
+        }
+        if (form.dataset.r2vSubmitting === 'true') return false;
+        return true;
+    }
 
-        const submitButton = form.querySelector('[type="submit"]');
-        const originalButtonHtml = submitButton ? submitButton.innerHTML : '';
+    // Campaign fields captured on arrival (section 0), added to the lead
+    // payload unless the form already carries them as hidden inputs.
+    function addCampaignFields(payload) {
+        const campaign = window.ray2voltCampaign || { params: {}, landingPage: window.location.href };
+        ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'gbraid', 'wbraid'].forEach(key => {
+            if (!payload[key] && campaign.params && campaign.params[key]) payload[key] = campaign.params[key];
+        });
+        if (!payload['Landing Page URL']) payload['Landing Page URL'] = campaign.landingPage || window.location.href;
+        payload['Page URL'] = window.location.href;
+        return payload;
+    }
 
-        setFormStatus(form, 'Submitting your details...', 'info');
-        setSubmitting(submitButton, true, 'Submitting...');
-
-        const formData = new FormData(form);
-        formData.set('Page URL', window.location.href);
-        const payload = Object.fromEntries(formData.entries());
-
-        fetch('https://api.web3forms.com/submit', {
+    // Test hook: sessionStorage.setItem('r2vDryRun', '1') logs the payload
+    // and reports success without sending anything to Web3Forms.
+    function postToWeb3Forms(payload) {
+        let dryRun = false;
+        try {
+            dryRun = sessionStorage.getItem('r2vDryRun') === '1';
+        } catch (error) {
+            dryRun = false;
+        }
+        if (dryRun) {
+            console.info('[r2v dry run] Web3Forms payload', payload);
+            return Promise.resolve({ success: true, dryRun: true });
+        }
+        return fetch('https://api.web3forms.com/submit', {
             method: 'POST',
             body: JSON.stringify(payload),
             headers: {
@@ -288,16 +684,40 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         })
             .then(response => response.json()
-                .catch(() => ({ success: response.ok, message: response.statusText })))
+                .catch(() => ({ success: response.ok, message: response.statusText })));
+    }
+
+    function submitLeadForm(e, form) {
+        if (!form || !form.action.includes('web3forms.com')) return;
+
+        e.preventDefault();
+        if (!passesSubmitGuards(form)) return;
+        form.dataset.r2vSubmitting = 'true';
+
+        const submitButton = form.querySelector('[type="submit"]');
+        const originalButtonHtml = submitButton ? submitButton.innerHTML : '';
+
+        setFormStatus(form, 'Submitting your details...', 'info');
+        setSubmitting(submitButton, true, 'Submitting...');
+
+        const formData = new FormData(form);
+        const payload = addCampaignFields(Object.fromEntries(formData.entries()));
+
+        postToWeb3Forms(payload)
             .then(data => {
                 if (!data.success) {
                     throw new Error(data.message || 'Form submission was not accepted.');
                 }
 
+                // C1: the thank-you page counts this lead once, and only now.
+                if (window.ray2voltTracking) {
+                    window.ray2voltTracking.markLeadSubmitted(window.ray2voltTracking.formIdOf(form));
+                }
                 const redirectInput = form.querySelector('input[name="redirect"]');
-                window.location.href = redirectInput ? redirectInput.value : getThankYouUrl();
+                window.location.href = localRedirect(redirectInput ? redirectInput.value : getThankYouUrl());
             })
             .catch(() => {
+                form.dataset.r2vSubmitting = 'false';
                 setSubmitting(submitButton, false, originalButtonHtml);
                 setFormStatus(
                     form,
@@ -305,6 +725,20 @@ document.addEventListener('DOMContentLoaded', function () {
                     'error'
                 );
             });
+    }
+
+    // The live redirect URLs are absolute. On a local preview, stay on the
+    // preview's origin so the session's lead token is still readable.
+    function localRedirect(url) {
+        try {
+            const target = new URL(url, window.location.href);
+            if (target.hostname === 'ray2voltsolar.com' && window.location.hostname !== 'ray2voltsolar.com') {
+                return window.location.origin + target.pathname + target.search + target.hash;
+            }
+            return target.href;
+        } catch (error) {
+            return url;
+        }
     }
 
     function getThankYouUrl() {
@@ -337,6 +771,124 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ──────────────────────────────────────────────────────────
+    // 5b. Newer lead forms (homepage proposal, bill upload, power audit,
+    //     tender/RFQ, quote check, service request)
+    //     <form data-r2v-form="<form id>"> posts to Web3Forms with the same
+    //     access key and guards, adds the campaign fields and form_id, shows
+    //     its success panel on the page (never a campaign thank-you page)
+    //     and reports generate_lead.
+    // ──────────────────────────────────────────────────────────
+    function fieldIsValid(field) {
+        const value = (field.value || '').trim();
+        if (field.type === 'checkbox') return !field.required || field.checked;
+        if (field.type === 'radio') {
+            return !field.required || !!(field.form && Array.from(field.form.elements)
+                .some(other => other.type === 'radio' && other.name === field.name && other.checked));
+        }
+        if (field.required && !value) return false;
+        if (!value) return true;
+        if (field.type === 'tel') return isValidPhone(value);
+        if (field.type === 'email') return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
+        if (field.type === 'date' && field.min && value < field.min) return false;
+        return true;
+    }
+
+    function setFieldError(field, message) {
+        const group = field.closest('.form-group');
+        if (!group) return;
+        let error = group.querySelector('.error-message');
+        if (message) {
+            if (!error) {
+                error = document.createElement('span');
+                error.className = 'error-message';
+                error.id = `${field.id || field.name.replace(/\W+/g, '-')}-error`;
+                group.appendChild(error);
+            }
+            error.textContent = message;
+            field.setAttribute('aria-invalid', 'true');
+            field.setAttribute('aria-describedby', [field.getAttribute('data-hint-id'), error.id].filter(Boolean).join(' '));
+        } else {
+            if (error) error.remove();
+            field.removeAttribute('aria-invalid');
+            if (field.getAttribute('data-hint-id')) field.setAttribute('aria-describedby', field.getAttribute('data-hint-id'));
+            else field.removeAttribute('aria-describedby');
+        }
+    }
+
+    document.querySelectorAll('form[data-r2v-form]').forEach(function (form) {
+        const formId = form.getAttribute('data-r2v-form');
+        const fields = Array.from(form.querySelectorAll('input, select, textarea'))
+            .filter(field => field.type !== 'hidden' && field.name !== 'botcheck');
+
+        // A date field that asks for a preferred day cannot be set in the past.
+        form.querySelectorAll('input[type="date"][data-min-today]').forEach(field => {
+            const today = new Date();
+            today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
+            field.min = today.toISOString().slice(0, 10);
+        });
+
+        fields.forEach(field => {
+            const hint = field.getAttribute('aria-describedby');
+            if (hint) field.setAttribute('data-hint-id', hint);
+            field.addEventListener(field.tagName === 'SELECT' || field.type === 'checkbox' || field.type === 'date' ? 'change' : 'input', function () {
+                if (field.getAttribute('aria-invalid') === 'true' && fieldIsValid(field)) setFieldError(field, '');
+            });
+        });
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            let firstInvalid = null;
+            fields.forEach(field => {
+                if (fieldIsValid(field)) {
+                    setFieldError(field, '');
+                } else {
+                    setFieldError(field, field.getAttribute('data-error') || 'Please check this field.');
+                    if (!firstInvalid) firstInvalid = field;
+                }
+            });
+            if (firstInvalid) {
+                firstInvalid.focus();
+                return;
+            }
+            if (!passesSubmitGuards(form)) return;
+            form.dataset.r2vSubmitting = 'true';
+
+            const submitButton = form.querySelector('[type="submit"]');
+            const originalButtonHtml = submitButton ? submitButton.innerHTML : '';
+            setSubmitting(submitButton, true, 'Sending...');
+            setFormStatus(form, 'Sending your details...', 'info');
+
+            const payload = addCampaignFields(Object.fromEntries(new FormData(form).entries()));
+            payload.form_id = formId;
+
+            postToWeb3Forms(payload)
+                .then(data => {
+                    if (!data.success) throw new Error(data.message || 'Form submission was not accepted.');
+                    if (window.ray2voltTracking) window.ray2voltTracking.reportLead(formId);
+                    const success = document.querySelector(`[data-success-for="${formId}"]`);
+                    if (success) {
+                        form.hidden = true;
+                        success.hidden = false;
+                        success.focus();
+                    } else {
+                        setSubmitting(submitButton, true, 'Sent');
+                        setFormStatus(form, 'Thank you. We have your details and will call you on the number you gave.', 'success');
+                    }
+                })
+                .catch(() => {
+                    form.dataset.r2vSubmitting = 'false';
+                    setSubmitting(submitButton, false, originalButtonHtml);
+                    setFormStatus(
+                        form,
+                        'We could not send this form right now. Please WhatsApp us at +91 9666068140, or email sales@ray2voltsolar.com.',
+                        'error'
+                    );
+                });
+        });
+    });
+
+    // ──────────────────────────────────────────────────────────
     // 6. Scroll Reveal Animations
     // ──────────────────────────────────────────────────────────
     const revealElements = document.querySelectorAll('.reveal');
@@ -360,9 +912,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // ──────────────────────────────────────────────────────────
     // 7. Animated Counter for Hero Stats
     // ──────────────────────────────────────────────────────────
-    function animateCounter(el, target, suffix = '') {
+    // The counter always ends on the exact published text, so approved wording
+    // such as "1,000+" keeps its comma (D3). Intermediate frames use the same
+    // Indian digit grouping when the original number was grouped.
+    function animateCounter(el, target, suffix = '', grouped = false, finalText = '') {
         const duration = 2000;
-        const start = 0;
         const startTime = performance.now();
 
         function update(currentTime) {
@@ -373,10 +927,12 @@ document.addEventListener('DOMContentLoaded', function () {
             const eased = 1 - Math.pow(1 - progress, 3);
             const current = Math.round(eased * target);
 
-            el.textContent = current + suffix;
+            el.textContent = (grouped ? current.toLocaleString('en-IN') : String(current)) + suffix;
 
             if (progress < 1) {
                 requestAnimationFrame(update);
+            } else if (finalText) {
+                el.textContent = finalText;
             }
         }
 
@@ -384,19 +940,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     const heroStats = document.querySelectorAll('.hero-stat h3');
-    if (heroStats.length > 0 && 'IntersectionObserver' in window) {
+    const reduceCounterMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (heroStats.length > 0 && 'IntersectionObserver' in window && !reduceCounterMotion) {
         const statsObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const el = entry.target;
                     const text = el.textContent.trim();
 
-                    // Parse the number and suffix from text like "1,000+", "5 MW+", "100%"
-                    const match = text.match(/^([\d,]+)\s*(.*)/);
+                    // Parse the number and suffix from text like "1,000+", "5 MW+", "100%".
+                    // The separator between them is kept, so "5 MW+" stays "5 MW+".
+                    const match = text.match(/^([\d,]+)(\s*)(.*)$/);
                     if (match) {
-                        const num = parseInt(match[1].replace(/,/g, ''));
-                        const suffix = match[2] || '';
-                        animateCounter(el, num, suffix);
+                        const num = parseInt(match[1].replace(/,/g, ''), 10);
+                        const suffix = match[2] + (match[3] || '');
+                        animateCounter(el, num, suffix, match[1].indexOf(',') !== -1, text);
                     }
 
                     statsObserver.unobserve(el);
@@ -408,6 +966,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
         heroStats.forEach(stat => statsObserver.observe(stat));
     }
+
+    // ──────────────────────────────────────────────────────────
+    // 7b. Scheme end-date line (B19): days-left counter, removed
+    //     once the date has passed (end of that day, IST)
+    // ──────────────────────────────────────────────────────────
+    document.querySelectorAll('[data-deadline]').forEach(line => {
+        const end = new Date(line.getAttribute('data-deadline') + 'T23:59:59+05:30');
+        if (isNaN(end)) return;
+        const daysLeft = Math.ceil((end - Date.now()) / 86400000);
+        if (daysLeft <= 0) {
+            line.remove();
+            return;
+        }
+        const counter = line.querySelector('[data-days-left]');
+        if (counter) {
+            counter.innerHTML = `<strong>${daysLeft}</strong> ${daysLeft === 1 ? 'day' : 'days'} left`;
+            counter.hidden = false;
+        }
+    });
 
     // ──────────────────────────────────────────────────────────
     // 8. Scroll to Top Button
@@ -485,10 +1062,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // ──────────────────────────────────────────────────────────
     (function initWhatsAppModal() {
         const WA_PHONE = '919666068140';
-        // Google Ads conversion for WhatsApp enquiries.
-        // Swap this for a dedicated 'WhatsApp Lead' conversion label when one is
+        // Google Ads conversion for WhatsApp enquiries, from the tracking config
+        // (section 0b). Swap it for a dedicated 'WhatsApp Lead' label when one is
         // created in Google Ads, so it can be valued separately from form leads.
-        const WA_CONVERSION_SEND_TO = 'AW-18014889887/9NtXCImroaYcEJ_PlY5D';
+        const tracking = window.ray2voltTracking;
+        const WA_CONVERSION_SEND_TO = tracking ? tracking.config.whatsappLeadConversion : '';
 
         // ── Inject CSS ──
         const style = document.createElement('style');
@@ -979,10 +1557,12 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // ── Intercept ALL wa.me links ──
+        // ── Intercept wa.me links ──
+        // Links marked data-wa-direct open WhatsApp with their own pre-filled
+        // text (bill, quote and tender uploads), so the pop-up leaves them alone.
         document.addEventListener('click', function (e) {
             const link = e.target.closest('a[href*="wa.me"]');
-            if (!link) return;
+            if (!link || link.hasAttribute('data-wa-direct')) return;
             e.preventDefault();
             resetForm();
             openModal();
@@ -1053,16 +1633,13 @@ document.addEventListener('DOMContentLoaded', function () {
             const location = document.getElementById('wa-location').value.trim();
             const email    = document.getElementById('wa-email').value.trim();
 
-            // Google Ads conversion — one per enquiry, deduped by transaction_id
+            // Google Ads conversion — one per enquiry, deduped by transaction_id —
+            // plus the GA4 whatsapp_click event for the hand-over to WhatsApp.
             try {
-                if (typeof gtag === 'function') {
-                    const transactionId = window.crypto && window.crypto.randomUUID
-                        ? window.crypto.randomUUID()
-                        : `wa-${Date.now()}-${Math.random().toString(36).slice(2)}`;
-                    gtag('event', 'conversion', {
-                        send_to: WA_CONVERSION_SEND_TO,
-                        transaction_id: transactionId
-                    });
+                if (tracking) {
+                    const transactionId = tracking.newId('wa');
+                    tracking.sendConversion(WA_CONVERSION_SEND_TO, transactionId);
+                    tracking.sendEvent('whatsapp_click', { method: 'lead_popup' });
                 }
             } catch (error) {
                 // Never let a tracking failure block the WhatsApp handoff.

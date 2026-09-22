@@ -177,6 +177,86 @@ body>* {
     z-index: 1;
 }
 
+/* The static grid remains a fallback until the interactive field is ready. */
+body.energy-field-ready::after {
+    display: none;
+}
+
+body.energy-field-ready::before {
+    animation: none;
+}
+
+body > .energy-field {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+body > .energy-motion-toggle {
+    position: fixed;
+    left: 88px;
+    bottom: 40px;
+    z-index: 90;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(125, 211, 252, 0.22);
+    border-radius: 50%;
+    background: rgba(10, 15, 29, 0.85);
+    color: #BAE6FD;
+    transition: border-color 200ms ease, background 200ms ease;
+}
+
+.energy-motion-toggle:hover,
+.energy-motion-toggle:focus-visible {
+    background: #172B40;
+    border-color: #7DD3FC;
+}
+
+.energy-motion-toggle:focus-visible {
+    outline: 2px solid #FFB300;
+    outline-offset: 4px;
+}
+
+.energy-motion-toggle svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+}
+
+body.energy-field-paused .hero::before {
+    animation-play-state: paused;
+}
+
+@media (max-width: 600px) {
+    body > .energy-motion-toggle {
+        left: 74px;
+        bottom: 25px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body::before,
+    .hero::before {
+        animation: none;
+    }
+
+    body > .energy-motion-toggle {
+        display: none;
+    }
+}
+
+@media print {
+    body > .energy-field,
+    body > .energy-motion-toggle {
+        display: none;
+    }
+}
+
 img {
     max-width: 100%;
     height: auto;
@@ -2789,4 +2869,327 @@ textarea.form-control {
     .hero-stats {
         grid-template-columns: repeat(4, 1fr);
     }
+}
+
+/* ==========================================================================
+   Business-first menu (A2), five-column footer and shared form states
+   ========================================================================== */
+.dropdown > .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Keyboard users open the menu by tabbing into it */
+.dropdown:focus-within .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-heading {
+    display: block;
+    padding: 0.5rem 1.5rem 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #475569;
+}
+
+.dropdown-menu a[aria-current="page"] {
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+
+@media (min-width: 769px) {
+    .dropdown-wide .dropdown-menu {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(230px, 1fr));
+        min-width: 520px;
+        padding: 0.75rem 0;
+    }
+
+    .dropdown-wide .dropdown-menu > li {
+        width: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .dropdown-heading {
+        padding: 0.75rem 0 0.25rem;
+    }
+
+    .dropdown-menu a {
+        padding: 0.6rem 0.75rem;
+    }
+}
+
+.footer-grid--5 {
+    grid-template-columns: 1.4fr repeat(4, minmax(0, 1fr));
+    gap: 2.5rem;
+}
+
+@media (max-width: 1100px) {
+    .footer-grid--5 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .footer-grid--5 .footer-brand {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-grid--5 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 2rem 1.5rem;
+    }
+}
+
+@media (max-width: 359px) {
+    .footer-grid--5 {
+        grid-template-columns: 1fr;
+    }
+}
+
+.footer-grid--5 .footer-col li {
+    overflow-wrap: anywhere;
+}
+
+/* Shared form states (script.js section 5b) */
+.error-message {
+    color: #FCA5A5;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.form-control[aria-invalid="true"] {
+    border-color: #F87171;
+}
+
+.form-hint {
+    color: var(--gray-400);
+    font-size: 0.875rem;
+}
+
+.form-success {
+    text-align: center;
+    padding: 2rem 1.5rem;
+}
+
+.form-success:focus {
+    outline: 2px solid var(--secondary-gold);
+    outline-offset: 4px;
+}
+
+.form-success h3 {
+    margin-bottom: 0.75rem;
+}
+
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+}
+
+@media (max-width: 576px) {
+    .form-grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+.form-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.form-note {
+    color: var(--gray-400);
+    font-size: 0.875rem;
+    text-align: center;
+}
+
+.check-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    color: var(--gray-300, #CBD5E1);
+    font-size: 0.9375rem;
+}
+
+.check-row input {
+    margin-top: 0.25rem;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    accent-color: var(--secondary-gold);
+}
+
+/* Scaffold blocks (filled by build_scaffold.py only when real data exists) */
+.text-link {
+    color: #7DD3FC;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.text-link:hover {
+    color: var(--secondary-gold);
+}
+
+.panel {
+    background: rgba(15, 23, 42, 0.72);
+    border: 1px solid rgba(56, 189, 248, 0.16);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+}
+
+.proof-strip {
+    border-top: 1px solid rgba(56, 189, 248, 0.12);
+    border-bottom: 1px solid rgba(56, 189, 248, 0.12);
+}
+
+.proof-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem 2rem;
+    text-align: center;
+}
+
+.proof-label {
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.875rem;
+}
+
+.footer-vendor {
+    font-size: 0.875rem;
+    margin: 0.75rem 0 0;
+    color: var(--gray-400);
+}
+
+.contact-social {
+    margin-top: 2rem;
+}
+
+.contact-social h4 {
+    margin-bottom: 0.75rem;
+}
+
+.logo-wall {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+}
+
+.logo-cell {
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    background: #FFFFFF;
+}
+
+.client-logo {
+    max-height: 60px;
+    width: auto;
+}
+
+.testimonial blockquote p {
+    font-size: 1rem;
+}
+
+.testimonial-photo,
+.team-photo {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+
+.team-photo {
+    width: 120px;
+    height: 120px;
+}
+
+.video-card img,
+.service-card > img {
+    border-radius: var(--radius-md);
+    margin-bottom: 1rem;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    width: 100%;
+}
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+}
+
+.photo-grid img {
+    border-radius: var(--radius-md);
+    width: 100%;
+    height: auto;
+}
+
+/* B19: PM Surya Ghar end-date line (home-solar pages and the subsidy guide) */
+.deadline {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-full);
+    background: rgba(255, 179, 0, 0.1);
+    border: 1px solid rgba(255, 179, 0, 0.3);
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 0.9375rem;
+}
+
+.deadline strong {
+    color: var(--secondary-gold);
+}
+
+/* B10: sourced local guide below the CTA on town landing pages */
+.local-guide-body {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.local-guide-body h3 {
+    margin: 2rem 0 0.75rem;
+}
+
+.local-guide-body ul,
+.local-guide-body ol {
+    margin: 0 0 1.25rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.local-guide-body ul {
+    list-style: disc;
+}
+
+.local-guide-body ol {
+    list-style: decimal;
+}
+
+.local-guide-body li {
+    color: rgba(255, 255, 255, 0.9);
+    padding-left: 0.25rem;
+}
+
+.local-guide-body a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.local-guide-sources {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
 }
