@@ -140,38 +140,53 @@
             </a>
 
             <ul class="nav-menu">
-                <li><a href="/" class="nav-link">Home</a></li>
-                <li><a href="../about.html" class="nav-link">About Us</a></li>
-                <li class="dropdown">
-                    <a href="../residential.html" class="nav-link" style="display: flex; align-items: center; gap: 4px;">Residential
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </a>
+                <li class="dropdown dropdown-wide">
+                    <a href="../commercial.html" class="nav-link" aria-haspopup="true" aria-expanded="false">For Businesses <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
                     <ul class="dropdown-menu">
-                        <li><a href="../residential-ongrid.html">On-Grid Solutions</a></li>
-                        <li><a href="../residential-hybrid.html">Hybrid Solutions</a></li>
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Plan your project</span>
+                            <ul>
+                                <li><a href="../commercial.html">Commercial solar overview</a></li>
+                                <li><a href="../business-solar-finance.html">Finance options</a></li>
+                                <li><a href="../resco-solar-for-business.html">RESCO: pay per unit</a></li>
+                                <li><a href="../solar-roi-calculator.html">ROI calculator</a></li>
+                                <li><a href="../solar-battery-vs-diesel.html">Solar + battery vs diesel</a></li>
+                                <li><a href="../solar-quote-check.html">Free quote check</a></li>
+                                <li><a href="../book-power-audit.html">Book a free power audit</a></li>
+                                <li><a href="../tender-rfq.html">Tenders and RFQs</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Industries</span>
+                            <ul>
+                                <li><a href="../industry-manufacturing.html">Manufacturing &amp; factories</a></li>
+                                <li><a href="../industry-healthcare.html">Hospitals &amp; healthcare</a></li>
+                                <li><a href="../industry-hotels.html">Hotels &amp; resorts</a></li>
+                                <li><a href="../industry-cold-storage.html">Cold storage &amp; food processing</a></li>
+                                <li><a href="../industry-education.html">Schools &amp; colleges</a></li>
+                                <li><a href="../industry-warehousing.html">Warehousing &amp; logistics</a></li>
+                                <li><a href="../industry-retail.html">Retail &amp; malls</a></li>
+                                <li><a href="../industry-offices.html">Offices &amp; IT parks</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="../commercial.html" class="nav-link" style="display: flex; align-items: center; gap: 4px;">Commercial
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </a>
+                    <a href="../residential.html" class="nav-link" aria-haspopup="true" aria-expanded="false">For Homes <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
                     <ul class="dropdown-menu">
-                        <li><a href="../commercial.html">Commercial Solar Overview</a></li>
-                        <li><a href="../industry-manufacturing.html">Manufacturing &amp; Factories</a></li>
-                        <li><a href="../industry-hotels.html">Hotels &amp; Resorts</a></li>
-                        <li><a href="../industry-retail.html">Retail &amp; Malls</a></li>
-                        <li><a href="../industry-healthcare.html">Hospitals &amp; Healthcare</a></li>
-                        <li><a href="../industry-education.html">Schools &amp; Colleges</a></li>
-                        <li><a href="../industry-offices.html">Offices &amp; IT Parks</a></li>
-                        <li><a href="../industry-cold-storage.html">Cold Storage &amp; Food Processing</a></li>
-                        <li><a href="../industry-warehousing.html">Warehousing &amp; Logistics</a></li>
+                        <li><a href="../residential.html">Home solar overview</a></li>
+                        <li><a href="../residential-ongrid.html">On-grid systems</a></li>
+                        <li><a href="../residential-hybrid.html">Hybrid systems with battery</a></li>
+                        <li><a href="../apartment-solar.html">Apartments &amp; housing societies</a></li>
+                        <li><a href="../solar-emi-calculator.html">Solar loan EMI calculator</a></li>
+                        <li><a href="../blog/pm-surya-ghar-subsidy-guide.html">PM Surya Ghar subsidy guide</a></li>
                     </ul>
                 </li>
-                <li><a href="../blog.html" class="nav-link active">Blog</a></li>
                 <li><a href="../investor.html" class="nav-link">Investors</a></li>
+                <li><a href="../blog.html" class="nav-link active">Guides</a></li>
+                <li><a href="../about.html" class="nav-link">About</a></li>
                 <li><a href="../contact.html" class="nav-link">Contact</a></li>
             </ul>
-
             <button class="menu-toggle" aria-label="Toggle menu">
                 <span></span>
                 <span></span>
@@ -468,6 +483,15 @@
                         </ol>
                     </nav>
 
+                    <!-- r2v-crosslinks -->
+                    <nav class="toc" aria-label="Tools and next steps">
+                        <h2>Tools and next steps</h2>
+                        <ol>
+                            <li><a href="../solar-emi-calculator.html">EMI calculator</a></li>
+                            <li><a href="../business-solar-finance.html">Finance options</a></li>
+                        </ol>
+                    </nav>
+
                     <div class="sidebar-cta">
                         <h2>Free power audit</h2>
                         <p>Share your latest electricity bill and we will size a system and show your real payback — no
@@ -520,60 +544,55 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-grid">
+            <div class="footer-grid footer-grid--5">
                 <div class="footer-brand">
-                    <a href="/" class="logo" style="margin-bottom: 1rem;">
-                        <img src="../images/logo.png" alt="Ray2Volt Solar" style="height: 50px; width: auto;" width="1006" height="150" loading="lazy">
+                    <a href="/" class="logo" aria-label="Ray2Volt Solar home">
+                        <div class="logo-text">
+                            Ray2Volt Solar
+                            <span>Private Limited</span>
+                        </div>
                     </a>
-                    <h4 style="color: var(--white); margin-bottom: 0.5rem;">Ray2Volt Solar Private Limited</h4>
-                    <p>Powering homes and businesses with clean, affordable solar energy across India.</p>
-                    <div class="footer-social">
-                        <a href="#" aria-label="Facebook">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                fill="currentColor">
-                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-                            </svg>
-                        </a>
-                        <a href="#" aria-label="Instagram">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-                            </svg>
-                        </a>
-                        <a href="#" aria-label="LinkedIn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                fill="currentColor">
-                                <path
-                                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-                                <rect x="2" y="9" width="4" height="12" />
-                                <circle cx="4" cy="4" r="2" />
-                            </svg>
-                        </a>
-                    </div>
+                    <p>Powering businesses and homes in Tirupati district and across Andhra Pradesh with clean, affordable solar energy.</p>
+                    <!-- r2v:social-footer:start -->
+                    <!-- r2v:social-footer:end -->
+                    <!-- r2v:vendor-id:start -->
+                    <!-- r2v:vendor-id:end -->
                 </div>
 
                 <div class="footer-col">
-                    <h4>Quick Links</h4>
+                    <h4>For Businesses</h4>
                     <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="../about.html">About Us</a></li><li><a href="../careers.html">Work at Ray2Volt Solar</a></li>
-                        <li><a href="../residential.html">Residential Solar</a></li>
-                        <li><a href="../commercial.html">Commercial Solar</a></li>
-                        <li><a href="../blog.html">Solar Blog</a></li>
-                        <li><a href="../investor.html">Investor Opportunities</a></li>
+                        <li><a href="../commercial.html">Commercial &amp; industrial solar</a></li>
+                        <li><a href="../business-solar-finance.html">Finance options</a></li>
+                        <li><a href="../solar-roi-calculator.html">ROI calculator</a></li>
+                        <li><a href="../solar-quote-check.html">Free quote check</a></li>
+                        <li><a href="../book-power-audit.html">Book a free power audit</a></li>
+                        <li><a href="../upload-electricity-bill.html">Send your electricity bill</a></li>
+                        <li><a href="../tender-rfq.html">Tenders and RFQs</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-col">
-                    <h4>Services</h4>
+                    <h4>For Homes</h4>
                     <ul>
-                        <li><a href="../residential.html">Home Solar Systems</a></li>
-                        <li><a href="../commercial.html">C&amp;I Solar</a></li>
-                        <li><a href="../investor.html">RESCO Model</a></li>
-                        <li><a href="../residential.html#subsidy">PM Surya Ghar Subsidy</a></li>
+                        <li><a href="../residential.html">Home solar</a></li>
+                        <li><a href="../residential.html#subsidy">PM Surya Ghar subsidy</a></li>
+                        <li><a href="../solar-emi-calculator.html">Solar loan EMI calculator</a></li>
+                        <li><a href="../apartment-solar.html">Apartments &amp; societies</a></li>
+                        <li><a href="../avoid-solar-fraud.html">Pay safely: avoid subsidy fraud</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="../about.html">About us</a></li>
+                        <li><a href="../locations.html">Where we work</a></li>
+                        <li><a href="../investor.html">Investors</a></li>
+                        <li><a href="../blog.html">Guides</a></li>
+                        <li><a href="../careers.html">Careers</a></li>
+                        <li><a href="../service-request.html">Request a service visit</a></li>
+                        <li><a href="../privacy-policy.html">Privacy policy</a></li>
                     </ul>
                 </div>
 

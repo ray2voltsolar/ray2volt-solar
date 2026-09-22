@@ -139,7 +139,7 @@
     </style>
 </head>
 
-<body>
+<body data-lead-confirmation="commercial-solar-thank-you">
     <header class="header">
         <nav class="nav container">
             <a href="/" class="logo">
@@ -147,35 +147,51 @@
                 <div class="logo-text">Ray2Volt Solar<span>Private Limited</span></div>
             </a>
             <ul class="nav-menu" id="primary-navigation">
-                <li><a href="/" class="nav-link">Home</a></li>
-                <li><a href="about.html" class="nav-link">About Us</a></li>
-                <li class="dropdown">
-                    <a href="residential.html" class="nav-link" style="display: flex; align-items: center; gap: 4px;">Residential
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </a>
+                <li class="dropdown dropdown-wide">
+                    <a href="commercial.html" class="nav-link active" aria-haspopup="true" aria-expanded="false">For Businesses <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
                     <ul class="dropdown-menu">
-                        <li><a href="residential-ongrid.html">On-Grid Solutions</a></li>
-                        <li><a href="residential-hybrid.html">Hybrid Solutions</a></li>
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Plan your project</span>
+                            <ul>
+                                <li><a href="commercial.html">Commercial solar overview</a></li>
+                                <li><a href="business-solar-finance.html">Finance options</a></li>
+                                <li><a href="resco-solar-for-business.html">RESCO: pay per unit</a></li>
+                                <li><a href="solar-roi-calculator.html">ROI calculator</a></li>
+                                <li><a href="solar-battery-vs-diesel.html">Solar + battery vs diesel</a></li>
+                                <li><a href="solar-quote-check.html">Free quote check</a></li>
+                                <li><a href="book-power-audit.html">Book a free power audit</a></li>
+                                <li><a href="tender-rfq.html">Tenders and RFQs</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Industries</span>
+                            <ul>
+                                <li><a href="industry-manufacturing.html">Manufacturing &amp; factories</a></li>
+                                <li><a href="industry-healthcare.html">Hospitals &amp; healthcare</a></li>
+                                <li><a href="industry-hotels.html">Hotels &amp; resorts</a></li>
+                                <li><a href="industry-cold-storage.html">Cold storage &amp; food processing</a></li>
+                                <li><a href="industry-education.html">Schools &amp; colleges</a></li>
+                                <li><a href="industry-warehousing.html">Warehousing &amp; logistics</a></li>
+                                <li><a href="industry-retail.html">Retail &amp; malls</a></li>
+                                <li><a href="industry-offices.html">Offices &amp; IT parks</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="commercial.html" class="nav-link active" style="display: flex; align-items: center; gap: 4px;">Commercial
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </a>
+                    <a href="residential.html" class="nav-link" aria-haspopup="true" aria-expanded="false">For Homes <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
                     <ul class="dropdown-menu">
-                        <li><a href="commercial.html">Commercial Solar Overview</a></li>
-                        <li><a href="industry-manufacturing.html">Manufacturing &amp; Factories</a></li>
-                        <li><a href="industry-hotels.html">Hotels &amp; Resorts</a></li>
-                        <li><a href="industry-retail.html">Retail &amp; Malls</a></li>
-                        <li><a href="industry-healthcare.html">Hospitals &amp; Healthcare</a></li>
-                        <li><a href="industry-education.html">Schools &amp; Colleges</a></li>
-                        <li><a href="industry-offices.html">Offices &amp; IT Parks</a></li>
-                        <li><a href="industry-cold-storage.html">Cold Storage &amp; Food Processing</a></li>
-                        <li><a href="industry-warehousing.html">Warehousing &amp; Logistics</a></li>
+                        <li><a href="residential.html">Home solar overview</a></li>
+                        <li><a href="residential-ongrid.html">On-grid systems</a></li>
+                        <li><a href="residential-hybrid.html">Hybrid systems with battery</a></li>
+                        <li><a href="apartment-solar.html">Apartments &amp; housing societies</a></li>
+                        <li><a href="solar-emi-calculator.html">Solar loan EMI calculator</a></li>
+                        <li><a href="blog/pm-surya-ghar-subsidy-guide.html">PM Surya Ghar subsidy guide</a></li>
                     </ul>
                 </li>
-                <li><a href="blog.html" class="nav-link">Blog</a></li>
                 <li><a href="investor.html" class="nav-link">Investors</a></li>
+                <li><a href="blog.html" class="nav-link">Guides</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
                 <li><a href="contact.html" class="nav-link">Contact</a></li>
             </ul>
             <button class="menu-toggle" type="button" aria-label="Toggle menu" aria-controls="primary-navigation"
@@ -243,18 +259,9 @@
             try {
                 readiness = sessionStorage.getItem('ciLeadReadiness') || '';
                 requirements = (sessionStorage.getItem('ciLeadRequirements') || '').split('|');
-                const submissionPending = sessionStorage.getItem('ciLeadSubmissionPending') === 'true';
-                const transactionId = sessionStorage.getItem('ciLeadTransactionId') || '';
-                const conversionKey = transactionId ? `ciLeadConversionFired:${transactionId}` : '';
-                const alreadyFired = conversionKey && sessionStorage.getItem(conversionKey) === 'true';
-
-                if (submissionPending && transactionId && !alreadyFired) {
-                    gtag('event', 'conversion', {
-                        send_to: 'AW-18014889887/9NtXCImroaYcEJ_PlY5D',
-                        transaction_id: transactionId
-                    });
-                    sessionStorage.setItem(conversionKey, 'true');
-                }
+                // C1: the conversion now fires from script.js (section 0b), gated on
+                // the lead token the estimate form saves: recent, from this session
+                // and never counted before.
                 sessionStorage.removeItem('ciLeadSubmissionPending');
             } catch (error) {
                 // Confirmation content remains available when storage is unavailable.
