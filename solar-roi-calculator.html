@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18014889887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'AW-18014889887');
+        gtag('config', 'G-WZJ1CXHSG9');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Estimate the payback, IRR, NPV and 25-year cash flow of a commercial rooftop solar plant, including depreciation tax savings and loan repayments. Every assumption is labelled and editable.">
+    <title>Business Solar ROI Calculator: Payback, IRR and 25-Year Cash Flow | Ray2Volt Solar</title>
+    <link rel="canonical" href="https://ray2voltsolar.com/solar-roi-calculator.html">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&amp;family=Assistant:wght@400..800&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&amp;family=Assistant:wght@400..800&amp;display=swap" rel="stylesheet">
+    </noscript>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="pages.css">
+    <meta property="og:site_name" content="Ray2Volt Solar">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Business Solar ROI Calculator: Payback, IRR and 25-Year Cash Flow | Ray2Volt Solar">
+    <meta property="og:description" content="Estimate the payback, IRR, NPV and 25-year cash flow of a commercial rooftop solar plant, including depreciation tax savings and loan repayments. Every assumption is labelled and editable.">
+    <meta property="og:url" content="https://ray2voltsolar.com/solar-roi-calculator.html">
+    <meta property="og:image" content="https://ray2voltsolar.com/images/og-default.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://ray2voltsolar.com/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "ROI Calculator",
+                "item": "https://ray2voltsolar.com/solar-roi-calculator.html"
+            }
+        ]
+    }
+    </script>
+</head>
+
+<body>
+    <!-- Header / Navigation -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="logo">
+                <img src="images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'">
+                <div class="logo-text">
+                    Ray2Volt Solar
+                    <span>Private Limited</span>
+                </div>
+            </a>
+
+            <ul class="nav-menu">
+                <li class="dropdown dropdown-wide">
+                    <a href="commercial.html" class="nav-link active" aria-haspopup="true" aria-expanded="false">For Businesses <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Plan your project</span>
+                            <ul>
+                                <li><a href="commercial.html">Commercial solar overview</a></li>
+                                <li><a href="business-solar-finance.html">Finance options</a></li>
+                                <li><a href="resco-solar-for-business.html">RESCO: pay per unit</a></li>
+                                <li><a href="solar-roi-calculator.html" aria-current="page">ROI calculator</a></li>
+                                <li><a href="solar-battery-vs-diesel.html">Solar + battery vs diesel</a></li>
+                                <li><a href="solar-quote-check.html">Free quote check</a></li>
+                                <li><a href="book-power-audit.html">Book a free power audit</a></li>
+                                <li><a href="tender-rfq.html">Tenders and RFQs</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Industries</span>
+                            <ul>
+                                <li><a href="industry-manufacturing.html">Manufacturing &amp; factories</a></li>
+                                <li><a href="industry-healthcare.html">Hospitals &amp; healthcare</a></li>
+                                <li><a href="industry-hotels.html">Hotels &amp; resorts</a></li>
+                                <li><a href="industry-cold-storage.html">Cold storage &amp; food processing</a></li>
+                                <li><a href="industry-education.html">Schools &amp; colleges</a></li>
+                                <li><a href="industry-warehousing.html">Warehousing &amp; logistics</a></li>
+                                <li><a href="industry-retail.html">Retail &amp; malls</a></li>
+                                <li><a href="industry-offices.html">Offices &amp; IT parks</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="residential.html" class="nav-link" aria-haspopup="true" aria-expanded="false">For Homes <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="residential.html">Home solar overview</a></li>
+                        <li><a href="residential-ongrid.html">On-grid systems</a></li>
+                        <li><a href="residential-hybrid.html">Hybrid systems with battery</a></li>
+                        <li><a href="apartment-solar.html">Apartments &amp; housing societies</a></li>
+                        <li><a href="solar-emi-calculator.html">Solar loan EMI calculator</a></li>
+                        <li><a href="blog/pm-surya-ghar-subsidy-guide.html">PM Surya Ghar subsidy guide</a></li>
+                    </ul>
+                </li>
+                <li><a href="investor.html" class="nav-link">Investors</a></li>
+                <li><a href="blog.html" class="nav-link">Guides</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <main id="main">
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="/">Home</a>
+                <span>/</span>
+                <span>ROI Calculator</span>
+            </div>
+            <h1>Business solar ROI calculator</h1>
+            <p>Work out the payback, IRR and 25-year cash flow of a solar plant for your business, including the depreciation tax saving and any loan repayments. Enter your own numbers; every assumption is labelled and you can change it.</p>
+        </div>
+    </section>
+
+<section class="section">
+        <div class="container">
+            <p class="estimate-flag">An estimate from your inputs, not a quote</p>
+            <div class="calc">
+                <form data-calc="roi" data-results="roi-results" novalidate class="no-print">
+                    <fieldset>
+                        <legend>Your plant</legend>
+                        <div class="form-group">
+                            <label for="roi-kwp">System size *</label>
+                            <div class="unit-input"><input class="form-control" id="roi-kwp" name="kwp" type="number" inputmode="decimal" min="1" step="any" required><span>kWp</span></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="roi-cost">Project cost *</label>
+                            <div class="unit-input"><input class="form-control" id="roi-cost" name="cost" type="number" inputmode="decimal" min="1" step="any" required aria-describedby="roi-cost-hint"><span>₹</span></div>
+                            <span class="assumption" id="roi-cost-hint">From your quote, including GST. There is no default: prices vary by site.</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="roi-yield">Yearly generation per kWp *</label>
+                            <div class="unit-input"><input class="form-control" id="roi-yield" name="yield" type="number" inputmode="decimal" min="0" step="any" value="1450" required aria-describedby="roi-yield-hint"><span>kWh/kWp/yr</span></div>
+                            <span class="assumption" id="roi-yield-hint">Assumption: about 1,450 is an estimate for a well-oriented, unshaded roof around Tirupati. Your site survey gives the real figure.</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="roi-deg">Panel degradation per year *</label>
+                            <div class="unit-input"><input class="form-control" id="roi-deg" name="degradation" type="number" inputmode="decimal" min="0" step="any" value="0.5" required aria-describedby="roi-deg-hint"><span>%</span></div>
+                            <span class="assumption" id="roi-deg-hint">Assumption: 0.5% a year. Check the performance warranty on your panel datasheet.</span>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Your electricity</legend>
+                        <div class="form-group">
+                            <label for="roi-tariff">Energy charge per unit *</label>
+                            <div class="unit-input"><input class="form-control" id="roi-tariff" name="tariff" type="number" inputmode="decimal" min="0" step="any" required aria-describedby="roi-tariff-hint"><span>₹/kWh</span></div>
+                            <span class="assumption" id="roi-tariff-hint">From your electricity bill.</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="roi-inc">Tariff increase per year *</label>
+                            <div class="unit-input"><input class="form-control" id="roi-inc" name="tariffIncrease" type="number" inputmode="decimal" step="any" value="0" required aria-describedby="roi-inc-hint"><span>%</span></div>
+                            <span class="assumption" id="roi-inc-hint">Assumption: 0% keeps tariffs flat, the cautious case. Enter your own view.</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="roi-self">Share of solar used on site *</label>
+                            <div class="unit-input"><input class="form-control" id="roi-self" name="selfUse" type="number" inputmode="decimal" min="0" max="100" step="any" value="100" required aria-describedby="roi-self-hint"><span>%</span></div>
+                            <span class="assumption" id="roi-self-hint">Assumption: 100% for a site that uses power all day. The rest is exported to the grid.</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="roi-export">Value of exported units</label>
+                            <div class="unit-input"><input class="form-control" id="roi-export" name="exportRate" type="number" inputmode="decimal" min="0" step="any" aria-describedby="roi-export-hint"><span>₹/kWh</span></div>
+                            <span class="assumption" id="roi-export-hint">Leave blank to value exports at zero. The credit depends on your DISCOM's net-metering or net-billing rules.</span>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Running costs and tax</legend>
+                        <div class="form-group">
+                            <label for="roi-om">O&amp;M cost in year 1</label>
+                            <div class="unit-input"><input class="form-control" id="roi-om" name="omCost" type="number" inputmode="decimal" min="0" step="any" aria-describedby="roi-om-hint"><span>₹/yr</span></div>
+                            <span class="assumption" id="roi-om-hint">Cleaning and maintenance. Leave blank if it's in your quote or you'll do it yourself.</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="roi-omi">O&amp;M cost increase per year</label>
+                            <div class="unit-input"><input class="form-control" id="roi-omi" name="omIncrease" type="number" inputmode="decimal" step="any" value="0"><span>%</span></div>
+                        </div>
+                        <label class="check-row mb-2"><input type="checkbox" name="claimDepreciation" checked> Include the depreciation tax saving (40% on written-down value)</label>
+                        <label class="check-row mb-3"><input type="checkbox" name="halfYear"> The plant will be in use for less than 180 days in the first tax year (half the first-year allowance)</label>
+                        <div class="form-group">
+                            <label for="roi-tax">Your tax rate</label>
+                            <div class="unit-input"><input class="form-control" id="roi-tax" name="taxRate" type="number" inputmode="decimal" min="0" max="100" step="any" value="25.17" aria-describedby="roi-tax-hint"><span>%</span></div>
+                            <span class="assumption" id="roi-tax-hint">Assumption: 25.17%, the effective rate for many domestic companies on the 22% regime with surcharge and cess. Use your own rate; your tax adviser can confirm it.</span>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Loan (optional)</legend>
+                        <div class="form-group">
+                            <label for="roi-loan">Loan amount</label>
+                            <div class="unit-input"><input class="form-control" id="roi-loan" name="loanAmount" type="number" inputmode="decimal" min="0" step="any"><span>₹</span></div>
+                        </div>
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label for="roi-rate">Interest rate</label>
+                                <div class="unit-input"><input class="form-control" id="roi-rate" name="loanRate" type="number" inputmode="decimal" min="0" step="any" aria-describedby="roi-rate-hint"><span>% a year</span></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="roi-years">Tenure</label>
+                                <div class="unit-input"><input class="form-control" id="roi-years" name="loanYears" type="number" inputmode="decimal" min="0" step="any"><span>years</span></div>
+                            </div>
+                        </div>
+                        <span class="assumption" id="roi-rate-hint">Use the rate and tenure your lender offers. Loans are subject to lender approval.</span>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Comparing investments</legend>
+                        <div class="form-group">
+                            <label for="roi-disc">Discount rate for NPV *</label>
+                            <div class="unit-input"><input class="form-control" id="roi-disc" name="discountRate" type="number" inputmode="decimal" step="any" value="10" required aria-describedby="roi-disc-hint"><span>%</span></div>
+                            <span class="assumption" id="roi-disc-hint">Assumption: 10%. Use your own cost of capital.</span>
+                        </div>
+                    </fieldset>
+
+                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Calculate</button>
+                    <p class="form-note mt-2" data-calc-status role="status"></p>
+                </form>
+
+                <div>
+                    <div id="roi-results" hidden>
+                        <p class="print-only"><strong>Ray2Volt Solar: business solar ROI estimate.</strong> An estimate from the inputs entered, not a quote. ray2voltsolar.com/solar-roi-calculator.html</p>
+                        <h2 class="mt-0">Your estimate</h2>
+                        <dl class="results" aria-live="polite">
+                            <div class="result"><dt>Payback</dt><dd data-out="payback">–</dd></div>
+                            <div class="result"><dt>IRR over 25 years</dt><dd data-out="irr">–</dd></div>
+                            <div class="result"><dt>NPV at <span data-out="discount">10%</span></dt><dd data-out="npv">–</dd></div>
+                            <div class="result"><dt>Paid upfront</dt><dd data-out="upfront">–</dd></div>
+                            <div class="result"><dt>Bill savings in year 1</dt><dd data-out="year1">–</dd></div>
+                            <div class="result"><dt>Bill savings over 25 years</dt><dd data-out="savings">–</dd></div>
+                            <div class="result"><dt>Net cash over 25 years</dt><dd data-out="net">–</dd></div>
+                            <div class="result"><dt>Loan EMI</dt><dd data-out="emi">–</dd></div>
+                        </dl>
+                        <h3>Cumulative cash position, year 0 to 25</h3>
+                        <div class="chart-bars" aria-hidden="true"></div>
+                        <p class="assumption mb-4">Red bars: money still to be recovered. Blue bars: the plant has paid for itself.</p>
+                        <div class="btn-row mb-3 no-print">
+                            <button type="button" class="btn btn-secondary btn-sm" data-print>Print or save as PDF</button>
+                            <a class="btn btn-primary btn-sm" href="index.html#business-proposal">Get a proposal for your site</a>
+                        </div>
+                        <div class="table-wrap">
+                            <table class="data-table">
+                                <caption>25-year cash flow (₹). Year 0 is the upfront payment after any loan.</caption>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Year</th>
+                                        <th scope="col" class="num">Units (kWh)</th>
+                                        <th scope="col" class="num">Bill savings</th>
+                                        <th scope="col" class="num">Tax saving</th>
+                                        <th scope="col" class="num">O&amp;M</th>
+                                        <th scope="col" class="num">Loan repaid</th>
+                                        <th scope="col" class="num">Net cash</th>
+                                        <th scope="col" class="num">Cumulative</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="panel no-print" data-before-results>
+                        <h2 class="mt-0">How it works</h2>
+                        <ul class="ticks">
+                            <li><strong>Generation:</strong> size × yearly units per kWp, reduced each year by panel degradation.</li>
+                            <li><strong>Bill savings:</strong> units used on site × your tariff (rising by the increase you set), plus exported units × their value.</li>
+                            <li><strong>Tax saving:</strong> depreciation at 40% of written-down value × your tax rate, halved in year 1 if the plant is used for under 180 days that year.</li>
+                            <li><strong>Cash flow:</strong> year 0 is the cost less any loan; later years are savings plus tax saving, less O&amp;M and loan repayments.</li>
+                            <li><strong>Payback</strong> is when the cumulative cash turns positive. <strong>IRR</strong> is the return that makes the 25-year cash flow worth zero today; <strong>NPV</strong> is its value today at your discount rate.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="prose">
+                <h2 class="mt-0">Before you rely on the numbers</h2>
+                <div class="note">
+                    <p>Under the Income-tax Act, 2025, which applies from 1 April 2026, section 33 allows depreciation on written-down value at the rates in Appendix I of the Income-tax Rules, 2026, where solar power generating systems are listed at 40%. If the plant is bought and put to use for less than 180 days in a tax year, that year's allowance is half the rate (section 33(4)). This was the position as of 23 Sep 2026; confirm what applies to your business with your tax adviser. Depreciation applies when you own the plant, not under RESCO.</p>
+                </div>
+                <ul>
+                    <li>Generation depends on your roof, shade, tilt and dust. A site survey replaces the yield assumption with a figure for your roof.</li>
+                    <li>Only your energy charge per unit is saved. Fixed or demand charges on your bill usually stay.</li>
+                    <li>Whether exported units earn a credit, and at what rate, depends on your DISCOM's rules and your tariff category.</li>
+                </ul>
+                <p>Comparing buying outright with RESCO? See <a href="business-solar-finance.html">finance options for business solar</a>, or try our quick <a href="https://solarsavingscalculator.ray2voltsolar.com/" rel="noopener">CAPEX vs RESCO savings calculator</a>. Already have a quote? <a href="solar-quote-check.html">We'll compare it line by line, free.</a></p>
+            </div>
+        </div>
+    </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid footer-grid--5">
+                <div class="footer-brand">
+                    <a href="/" class="logo" aria-label="Ray2Volt Solar home">
+                        <div class="logo-text">
+                            Ray2Volt Solar
+                            <span>Private Limited</span>
+                        </div>
+                    </a>
+                    <p>Powering businesses and homes in Tirupati district and across Andhra Pradesh with clean, affordable solar energy.</p>
+                    <!-- r2v:social-footer:start -->
+                    <!-- r2v:social-footer:end -->
+                    <!-- r2v:vendor-id:start -->
+                    <!-- r2v:vendor-id:end -->
+                </div>
+
+                <div class="footer-col">
+                    <h4>For Businesses</h4>
+                    <ul>
+                        <li><a href="commercial.html">Commercial &amp; industrial solar</a></li>
+                        <li><a href="business-solar-finance.html">Finance options</a></li>
+                        <li><a href="solar-roi-calculator.html" aria-current="page">ROI calculator</a></li>
+                        <li><a href="solar-quote-check.html">Free quote check</a></li>
+                        <li><a href="book-power-audit.html">Book a free power audit</a></li>
+                        <li><a href="upload-electricity-bill.html">Send your electricity bill</a></li>
+                        <li><a href="tender-rfq.html">Tenders and RFQs</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>For Homes</h4>
+                    <ul>
+                        <li><a href="residential.html">Home solar</a></li>
+                        <li><a href="residential.html#subsidy">PM Surya Ghar subsidy</a></li>
+                        <li><a href="solar-emi-calculator.html">Solar loan EMI calculator</a></li>
+                        <li><a href="apartment-solar.html">Apartments &amp; societies</a></li>
+                        <li><a href="avoid-solar-fraud.html">Pay safely: avoid subsidy fraud</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About us</a></li>
+                        <li><a href="locations.html">Where we work</a></li>
+                        <li><a href="investor.html">Investors</a></li>
+                        <li><a href="blog.html">Guides</a></li>
+                        <li><a href="careers.html">Careers</a></li>
+                        <li><a href="service-request.html">Request a service visit</a></li>
+                        <li><a href="privacy-policy.html">Privacy policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li>1-278, J.K.Nagar, Revenue Ward No-1, Pichatur Road, Srikalahasti, 517644, Andhra Pradesh.</li>
+                        <li><a href="tel:+919666068140">+91 9666068140</a></li>
+                        <li><a href="mailto:sales@ray2voltsolar.com">sales@ray2voltsolar.com</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ray2Volt Solar Private Limited. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" aria-label="Scroll to top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <!-- Sticky Contact Icons -->
+    <div class="sticky-contact">
+        <a href="https://wa.me/919666068140" class="sticky-contact-btn sticky-whatsapp" aria-label="Chat with Ray2Volt Solar on WhatsApp">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+            </svg>
+        </a>
+    </div>
+    <script src="script.js"></script>
+    <script src="calculators.js"></script>
+</body>
+
+</html>
