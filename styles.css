@@ -3193,3 +3193,102 @@ textarea.form-control {
     font-size: 0.875rem;
     color: rgba(255, 255, 255, 0.7);
 }
+
+/* Offer pages: the form card slides in from 30px to the right. Clip the
+   section so phones never get a sideways scroll while it animates. */
+.claim-section {
+    overflow-x: hidden;
+    overflow-x: clip;
+}
+
+/* Team page (B4): cards work with or without a photo. Without one, the
+   person's initials sit in a gold ring; no stand-in faces. */
+.team-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.team-card .role {
+    color: var(--secondary-gold);
+    margin-bottom: 0;
+}
+
+.team-initials {
+    display: grid;
+    place-items: center;
+    width: 96px;
+    height: 96px;
+    margin-bottom: 1.25rem;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 179, 0, 0.55);
+    background: rgba(255, 179, 0, 0.08);
+    color: var(--secondary-gold);
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+/* Branch cards (B9) */
+.branch-card h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+}
+
+.branch-card .branch-tag {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--secondary-gold);
+}
+
+.branch-card p {
+    margin-bottom: 0.5rem;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.branch-card p:last-child {
+    margin-bottom: 0;
+}
+
+/* Offer pages' trust box: a sun badge instead of stock customer faces */
+.trust-icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 179, 0, 0.12);
+    border: 1px solid rgba(255, 179, 0, 0.45);
+    color: var(--secondary-gold);
+    flex-shrink: 0;
+}
+
+.branch-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.25rem;
+}
+
+@media (max-width: 1100px) {
+    .branch-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 576px) {
+    .branch-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}

@@ -54,17 +54,17 @@ Read this file completely before writing any blog post. Every rule here is manda
 
 Use only these figures. If you need a number that is not here, express it as a range and say it should be confirmed with a site audit.
 
-**Company:** Ray2Volt Solar Private Limited, incorporated 26 March 2025. Registered office: 1-278, J.K.Nagar, Revenue Ward No-1, Pichatur Road, Srikalahasti, Tirupati District, 517644, Andhra Pradesh. Operating points: Tirupati, Puttur, Pichatur. Phone +91 9666068140, email sales@ray2voltsolar.com. Services: on-grid, off-grid and hybrid systems; residential and C&I; free power audits; DISCOM coordination and net-metering support; loan and subsidy facilitation; local after-sales support.
+**Company:** Ray2Volt Solar Private Limited, incorporated 26 March 2025. Registered office: 1-278, J.K.Nagar, Revenue Ward No-1, Pichatur Road, Srikalahasti, Tirupati District, 517644, Andhra Pradesh. Branches: Tirupati, Nagari and Puttur (write "registered office in Srikalahasti, branches in Tirupati, Nagari and Puttur"; Pichatur is not a branch, though the office address is on Pichatur Road). Phone +91 9666068140, email sales@ray2voltsolar.com. Services: on-grid, off-grid and hybrid systems; residential and C&I; free power audits; DISCOM coordination and net-metering support; loan and subsidy facilitation; local after-sales support.
 
 **PM Surya Ghar: Muft Bijli Yojana** — central financial assistance for residential rooftop solar. ₹30,000 for 1 kW, ₹60,000 for 2 kW, and ₹78,000 for 3 kW and above (the ₹78,000 is the cap). Requires DCR (domestic content) modules and a registered vendor. Scheme implementation period runs to **31 March 2027**. Official portal: https://www.pmsuryaghar.gov.in. Commercial and industrial customers are **not** eligible for this residential subsidy.
 
 **ALMM / DCR:** MNRE's ALMM List-I covers modules, List-II covers cells. From the June 2026 List-II compliance shift, Ray2Volt prepares all new commercial and industrial quotations on DCR panels unless a project has a verified exemption. Assume a DCR premium of roughly **₹9–12 per Wp** (about ₹9,000–12,000 per kWp) versus non-DCR, brand dependent. MNRE rooftop programme: https://mnre.gov.in/en/grid-connected-solar-rooftop-programme/
 
-**Warranties as quoted on this site:** 30-year panel performance warranty, 7–10 year inverter warranty depending on brand, 10-year lithium battery warranty. Keep to these; do not inflate them.
+**Warranties as quoted on this site:** panels 12-year product warranty and 30-year performance warranty; inverter 8–10 year product warranty depending on the inverter model; lithium-ion battery 10-year product warranty; workmanship and balance of system (BOS) 5 years of free service; AMC available for up to 5 years. Keep to these; do not inflate them.
 
 **Generation rule of thumb:** roughly 4–4.5 units per kW per day annual average in this part of Andhra Pradesh, so about 1,400–1,600 units per kW per year. Roughly 80–100 sq ft of shade-free roof per kW. State these as approximations.
 
-**Accelerated depreciation:** available to businesses on solar assets under the Income Tax Act. Describe the mechanism and its effect on payback, but tell readers to confirm the current rate and their own eligibility with their chartered accountant. Do not present it as tax advice.
+**Accelerated depreciation:** available to businesses on solar assets under section 33 of the Income-tax Act, 2025 (in force from 1 April 2026; it replaced section 32 of the 1961 Act): 40% on written down value, half that if the asset is used for less than 180 days in the year it is bought. Do not cite "Section 32 of the Income Tax Act". Describe the mechanism and its effect on payback, but tell readers to confirm the current rate and their own eligibility with their chartered accountant. Do not present it as tax advice.
 
 **Do not:** invent prices per kW, invent customer names, quote fake testimonials, cite statistics without a named source, promise specific savings, or state guaranteed payback periods. Frame all savings as estimates that depend on a site audit.
 

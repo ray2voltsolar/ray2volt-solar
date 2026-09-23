@@ -43,6 +43,12 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://ray2voltsolar.com/channel-partner.html</loc>
+        <lastmod>2026-09-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://ray2voltsolar.com/commercial-solar-estimate.html</loc>
         <lastmod>2026-09-23</lastmod>
         <changefreq>monthly</changefreq>
@@ -67,6 +73,12 @@
         <priority>0.6</priority>
     </url>
     <url>
+        <loc>https://ray2voltsolar.com/ground-mounted-solar-open-access.html</loc>
+        <lastmod>2026-09-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://ray2voltsolar.com/</loc>
         <lastmod>2026-09-23</lastmod>
         <changefreq>weekly</changefreq>
@@ -80,6 +92,24 @@
     </url>
     <url>
         <loc>https://ray2voltsolar.com/industrial-solar-satyavedu.html</loc>
+        <lastmod>2026-09-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ray2voltsolar.com/industrial-solar-sri-city.html</loc>
+        <lastmod>2026-09-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ray2voltsolar.com/industrial-solar-tada-naidupeta.html</loc>
+        <lastmod>2026-09-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ray2voltsolar.com/industrial-solar-yerpedu.html</loc>
         <lastmod>2026-09-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
@@ -217,6 +247,12 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://ray2voltsolar.com/team.html</loc>
+        <lastmod>2026-09-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://ray2voltsolar.com/tender-rfq.html</loc>
         <lastmod>2026-09-23</lastmod>
         <changefreq>monthly</changefreq>
@@ -224,6 +260,12 @@
     </url>
     <url>
         <loc>https://ray2voltsolar.com/upload-electricity-bill.html</loc>
+        <lastmod>2026-09-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ray2voltsolar.com/warranty.html</loc>
         <lastmod>2026-09-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
