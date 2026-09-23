@@ -204,7 +204,7 @@
                 const tbody = out.querySelector('tbody');
                 tbody.innerHTML = '';
                 const zero = document.createElement('tr');
-                zero.innerHTML = '<th scope="row">0</th><td class="num">–</td><td class="num">–</td><td class="num">–</td><td class="num">–</td><td class="num">–</td>'
+                zero.innerHTML = '<th scope="row">0</th><td class="num">...</td><td class="num">...</td><td class="num">...</td><td class="num">...</td><td class="num">...</td>'
                     + '<td class="num">' + money(r.flows[0]) + '</td><td class="num">' + money(r.flows[0]) + '</td>';
                 tbody.appendChild(zero);
                 r.rows.forEach(row => {
@@ -267,7 +267,7 @@
                     ? 'That is ' + (d.perUnit / tariff).toFixed(1) + ' times the grid rate you entered (₹' + tariff.toFixed(2) + ' per unit).'
                     : 'Enter your grid rate per unit to compare.');
                 setText(out, 'monthly', d.unitsPerMonth > 0 ? money(d.costPerMonth) + ' a month' : 'Enter hours and load');
-                setText(out, 'litres', d.unitsPerMonth > 0 ? num(d.litresPerMonth) + ' litres a month' : '–');
+                setText(out, 'litres', d.unitsPerMonth > 0 ? num(d.litresPerMonth) + ' litres a month' : '...');
             });
         }
 

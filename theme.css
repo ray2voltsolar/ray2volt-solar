@@ -745,11 +745,16 @@ p.fine-print {
     padding-top: 0;
 }
 
-.btn-row--center {
-    justify-content: center;
+/* Everything in a section starts at the container's left edge, in line with
+   the page heading. Reading columns keep their measure without centring. */
+.section .prose,
+.section .local-guide-body,
+.section .policy-content {
+    margin-left: 0;
+    margin-right: 0;
 }
 
-.container--narrow {
+.container--narrow > * {
     max-width: 860px;
 }
 
@@ -875,6 +880,15 @@ a.card:hover,
 .panel {
     padding: 1.75rem;
     background: var(--h-panel);
+}
+
+/* Branch cards: styles.css set the address in white for the old dark theme */
+.branch-card p {
+    color: var(--h-muted);
+}
+
+.branch-card .branch-tag {
+    color: var(--h-gold-ink);
 }
 
 /* Icon tiles: the homepage's tinted square instead of the gold block */

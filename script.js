@@ -696,7 +696,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function passesSubmitGuards(form) {
         const honeypot = form.querySelector('input[name="botcheck"]');
         if (honeypot && honeypot.checked) {
-            setFormStatus(form, 'We could not submit this form. Please call or WhatsApp us on +91 9666068140.', 'error');
+            setFormStatus(form, 'We could not submit this form. Please call or WhatsApp us on +91 96660 68140.', 'error');
             return false;
         }
         if (Date.now() - pageStartedAt < FORM_MIN_MS) {
@@ -778,7 +778,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 setSubmitting(submitButton, false, originalButtonHtml);
                 setFormStatus(
                     form,
-                    'We could not submit this form right now. Please WhatsApp us at +91 9666068140, or email sales@ray2voltsolar.com directly.',
+                    'We could not submit this form right now. Please WhatsApp us at +91 96660 68140, or email sales@ray2voltsolar.com directly.',
                     'error'
                 );
             });
@@ -938,7 +938,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     setSubmitting(submitButton, false, originalButtonHtml);
                     setFormStatus(
                         form,
-                        'We could not send this form right now. Please WhatsApp us at +91 9666068140, or email sales@ray2voltsolar.com.',
+                        'We could not send this form right now. Please WhatsApp us at +91 96660 68140, or email sales@ray2voltsolar.com.',
                         'error'
                     );
                 });

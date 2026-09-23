@@ -107,15 +107,6 @@
     color: var(--h-muted);
 }
 
-.home-head--center {
-    justify-content: center;
-    text-align: center;
-}
-
-.home-head--center > div {
-    max-width: 760px;
-}
-
 .home-head__link {
     display: inline-flex;
     align-items: center;
@@ -831,7 +822,7 @@
 
 .home-center-link {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     margin-top: 2rem;
 }
 
@@ -1223,10 +1214,6 @@
         gap: 1rem;
     }
 
-    .home-head--center {
-        align-items: center;
-    }
-
     .home-cta {
         padding: 2.5rem;
         gap: 1.75rem;
@@ -1272,12 +1259,6 @@
 
     .home-head p:not(.home-kicker) {
         font-size: 1rem;
-    }
-
-    /* Centred intros read badly on a phone, so align them left */
-    .home-head--center {
-        align-items: flex-start;
-        text-align: left;
     }
 
     .home-center-link {

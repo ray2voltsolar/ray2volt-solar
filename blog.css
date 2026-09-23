@@ -226,14 +226,13 @@ body.blog::after {
 }
 
 /* --------------------------------------------------------------------------
-   4. Blog index — masthead
+   4. Blog index — masthead, laid out like every other page header
    -------------------------------------------------------------------------- */
 .blog-hero {
     position: relative;
     isolation: isolate;
-    text-align: center;
-    padding: 3.25rem 1rem 2.75rem;
-    margin-bottom: 2.25rem;
+    text-align: left;
+    padding: 2rem 0 2.5rem;
 }
 
 /* Soft brand glow instead of a hard pastel panel */
@@ -250,40 +249,22 @@ body.blog::after {
     pointer-events: none;
 }
 
-.blog-hero-eyebrow {
-    display: inline-block;
-    font-family: var(--font-heading);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--b-accent-strong);
-    margin-bottom: 1rem;
-}
-
 .blog-hero h1 {
-    font-size: clamp(2.125rem, 1.5rem + 2.4vw, 3rem);
-    line-height: 1.1;
-    letter-spacing: -0.03em;
-    max-width: 18ch;
-    margin: 0 auto 0.9rem;
+    max-width: 22ch;
+    margin: 0 0 1rem;
 }
 
 .blog-hero p {
-    max-width: 40rem;
-    margin: 0 auto;
-    font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
-    line-height: 1.65;
+    max-width: 44rem;
+    margin: 0;
+    font-size: 1.125rem;
+    line-height: 1.7;
     color: var(--ink-soft);
 }
 
 @media (max-width: 640px) {
     .blog-hero {
-        padding: 2.25rem 0 2rem;
-    }
-
-    .blog-hero h1 {
-        max-width: none;
+        padding: 1.5rem 0 2rem;
     }
 }
 
@@ -293,7 +274,7 @@ body.blog::after {
 .blog-filters {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 0.5rem;
     padding-bottom: 2.25rem;
     margin-bottom: 2.5rem;
@@ -1095,7 +1076,7 @@ body.blog .sidebar-cta p {
     border: none;
     border-radius: var(--radius-lg);
     padding: 2.5rem 2rem;
-    text-align: center;
+    text-align: left;
 }
 
 .post-cta::before {
@@ -1123,14 +1104,14 @@ body.blog .post-cta p {
     font-size: 1rem;
     line-height: 1.65;
     max-width: 32rem;
-    margin: 0 auto 1.5rem;
+    margin: 0 0 1.5rem;
 }
 
 .post-cta-buttons {
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .related-posts {

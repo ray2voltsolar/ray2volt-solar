@@ -21,11 +21,6 @@ body.careers {
     --c-error-ink: #a12622;
 }
 
-.careers-main { padding: 112px 0 64px; }
-.application-container { max-width: 1060px; }
-.application-heading { margin-bottom: 24px; }
-.application-heading h1 { font-size: clamp(1.8rem, 3vw, 2.5rem); margin-bottom: 12px; }
-.application-heading p { max-width: 880px; font-size: 1.05rem; line-height: 1.65; }
 .careers .application-card { background: var(--c-card-bg); border: 1px solid var(--c-card-line); border-radius: 16px; padding: 32px; box-shadow: 0 8px 32px var(--c-card-shadow); transform: none; }
 .careers .application-card::before,.careers .application-card::after { display: none; }
 .application-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px 28px; margin-top: 28px; }
@@ -50,10 +45,8 @@ body.careers {
 #application { scroll-margin-top: 95px; }
 [hidden] { display: none!important; }
 @media(max-width:767px) {
-    .careers-main { padding-top: 96px; padding-bottom: 40px; }
     .application-grid { grid-template-columns: 1fr; gap: 22px; }
     .careers .application-card { padding: 20px; }
     .application-grid .full { grid-column: 1; }
-    .application-heading { margin-bottom: 20px; }
     #apply-submit { width: 100%; }
 }
