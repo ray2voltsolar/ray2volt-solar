@@ -62,3 +62,8 @@ test('the Tirupati page no longer claims to be the "best" company', () => {
     assert.ok(page, 'solar-in-tirupati.html exists');
     assert.doesNotMatch(page.body, /Best Solar Company/i);
 });
+
+test('payback follows the owner ranges outside the worked examples', () => {
+    const notExample = file => notCaseStudy(file) && file !== 'investor.html';
+    assert.deepEqual(offenders(/3\.2 (to|[–-]) 4\.2 years|3\.5 to 4\.5 years|in under 4 years|payback[^.<]{0,40}3 to 4 years/i, notExample), []);
+});
