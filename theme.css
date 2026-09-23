@@ -2191,11 +2191,13 @@ body.blog .footer-bottom p {
 
 /* The closing CTA is navy in both themes, so its outline button is light */
 body.blog .post-cta .btn-outline {
+    background: transparent;
     color: #FFFFFF;
     border-color: rgba(255, 255, 255, 0.45);
 }
 
 body.blog .post-cta .btn-outline:hover {
+    background: var(--h-gold);
     color: var(--h-on-gold);
     border-color: var(--h-gold);
 }

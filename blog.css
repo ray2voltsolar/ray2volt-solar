@@ -605,7 +605,8 @@ body.blog::after {
 
 /* #0277BD rather than --primary-dark: 4.85:1 on white, so inline links clear
    AA at body size instead of relying on the underline alone. */
-.post-body a {
+/* Buttons keep their own styling; this is for links in the text */
+.post-body a:not(.btn) {
     color: var(--b-inline-link);
     font-weight: 600;
     text-decoration: underline;
@@ -615,7 +616,7 @@ body.blog::after {
     transition: color var(--transition), text-decoration-color var(--transition);
 }
 
-.post-body a:hover {
+.post-body a:not(.btn):hover {
     color: var(--b-inline-link-hover);
     text-decoration-color: currentColor;
 }
@@ -1053,8 +1054,10 @@ body.blog .sidebar-cta p {
     flex-shrink: 0;
 }
 
-.author-box h2 {
+/* The article h2 spacing does not apply to the author card or the CTA */
+.post-body .author-box h2 {
     font-size: 1rem;
+    margin-top: 0;
     margin-bottom: 0.3rem;
     scroll-margin-top: 0;
 }
@@ -1095,6 +1098,7 @@ body.blog .post-cta h2 {
     color: var(--b-on-accent);
     font-size: clamp(1.3125rem, 1.2rem + 0.5vw, 1.5rem);
     line-height: 1.25;
+    margin-top: 0;
     margin-bottom: 0.6rem;
     scroll-margin-top: 0;
 }
