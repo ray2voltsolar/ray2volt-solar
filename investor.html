@@ -18,6 +18,18 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="description"
         content="Invest in solar projects with Ray2Volt's RESCO model. Earn attractive returns from renewable energy without technical hassles.">
     <title>Investor Opportunities - RESCO Model | Ray2Volt Solar</title>
@@ -34,6 +46,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="theme.css">
     <meta property="og:site_name" content="Ray2Volt Solar">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Investor Opportunities - RESCO Model | Ray2Volt Solar">
@@ -117,9 +130,9 @@
             <div class="breadcrumb">
                 <a href="/">Home</a>
                 <span>/</span>
-                <span>Investor Opportunities</span>
+                <span>Investor opportunities</span>
             </div>
-            <h1>Invest in Solar Energy</h1>
+            <h1>Invest in solar energy</h1>
             <p>Earn attractive returns while contributing to India's clean energy future through our RESCO model.</p>
         </div>
     </section>
@@ -129,15 +142,8 @@
         <div class="container">
             <div class="investor-model reveal">
                 <div>
-                    <div class="hero-badge" style="margin-bottom: 1rem;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10" />
-                            <polyline points="12 6 12 12 16 14" />
-                        </svg>
-                        Passive Income Opportunity
-                    </div>
-                    <h2>What is the RESCO Model?</h2>
+                    <p class="kicker">Passive income opportunity</p>
+                    <h2>What is the RESCO model?</h2>
                     <p class="lead">RESCO (Renewable Energy Service Company) is an investment model where you fund solar
                         projects and earn returns from the electricity generated.</p>
 
@@ -145,7 +151,7 @@
                         rooftop. The electricity generated is sold to the host (building owner) at a fixed rate. You
                         receive your share of the revenue as regular payments.</p>
 
-                    <h4 class="mt-4">Key Benefits:</h4>
+                    <h4 class="mt-4">Key benefits:</h4>
                     <ul class="benefits-list">
                         <li class="benefit-item">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -186,8 +192,7 @@
                 </div>
                 <div>
                     <img src="https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?w=600&h=400&fit=crop&auto=format"
-                        alt="Aerial view of a commercial solar power plant"
-                        style="border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);" width="600" height="400">
+                        alt="Aerial view of a commercial solar power plant" class="frame" width="600" height="400">
                 </div>
             </div>
         </div>
@@ -197,32 +202,33 @@
     <section class="section bg-light">
         <div class="container">
             <div class="section-header reveal">
-                <h2>Attractive Returns</h2>
+                <p class="kicker">Returns</p>
+                <h2>Attractive returns</h2>
                 <p>Solar investments offer competitive and stable returns compared to traditional investment options.
                 </p>
             </div>
 
-            <div class="grid grid-3 reveal-stagger" style="gap: 2rem;">
-                <div class="roi-card">
+            <div class="hero-stats reveal">
+                <div class="hero-stat">
                     <h3>Up to 25.7%</h3>
-                    <p>Illustrative Pre-Tax ROI</p>
-                    <p>See Our 500 kWp Example</p>
+                    <p>Illustrative pre-tax ROI</p>
+                    <p>See our 500 kWp example</p>
                 </div>
 
-                <div class="roi-card">
-                    <h3>Under 4 Years</h3>
-                    <p>Illustrative Payback Period</p>
-                    <p>Return of Principal</p>
+                <div class="hero-stat">
+                    <h3>Under 4 years</h3>
+                    <p>Illustrative payback period</p>
+                    <p>Return of principal</p>
                 </div>
 
-                <div class="roi-card">
-                    <h3>20 Years</h3>
-                    <p>Asset Lifetime</p>
-                    <p>With Performance Warranty</p>
+                <div class="hero-stat">
+                    <h3>20 years</h3>
+                    <p>Asset lifetime</p>
+                    <p>With performance warranty</p>
                 </div>
             </div>
 
-            <p class="text-center text-muted mt-4" style="font-size: 0.875rem;">
+            <p class="text-center fine-print mt-4">
                 * Figures reflect an illustrative 500 kWp portfolio example (pre-tax), detailed in full in our
                 Investment Brochure below. Returns are indicative, subject to project-specific factors, and not
                 guaranteed.
@@ -234,61 +240,53 @@
     <section class="section">
         <div class="container">
             <div class="section-header reveal">
-                <h2>How Your Investment Works</h2>
+                <p class="kicker">How it works</p>
+                <h2>How your investment works</h2>
                 <p>A simple, transparent process from investment to returns.</p>
             </div>
 
-            <div class="grid grid-2 reveal-stagger" style="gap: 4rem; align-items: center;">
-                <div>
-                    <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem;">
-                        <div
-                            style="width: 48px; height: 48px; min-width: 48px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-weight: 700;">
-                            1</div>
+            <div class="grid grid-2 reveal-stagger items-center">
+                <ol class="step-list">
+                    <li>
+                        <span class="step-list__num" aria-hidden="true">1</span>
                         <div>
-                            <h4>Project Selection</h4>
+                            <h4>Project selection</h4>
                             <p class="mb-0">We identify creditworthy commercial/industrial clients with suitable
                                 rooftops and negotiate power purchase agreements.</p>
                         </div>
-                    </div>
+                    </li>
 
-                    <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem;">
-                        <div
-                            style="width: 48px; height: 48px; min-width: 48px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-weight: 700;">
-                            2</div>
+                    <li>
+                        <span class="step-list__num" aria-hidden="true">2</span>
                         <div>
-                            <h4>Your Investment</h4>
+                            <h4>Your investment</h4>
                             <p class="mb-0">You invest in the solar project. Your funds are used for equipment,
                                 installation, and commissioning.</p>
                         </div>
-                    </div>
+                    </li>
 
-                    <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem;">
-                        <div
-                            style="width: 48px; height: 48px; min-width: 48px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-weight: 700;">
-                            3</div>
+                    <li>
+                        <span class="step-list__num" aria-hidden="true">3</span>
                         <div>
-                            <h4>Power Generation</h4>
+                            <h4>Power generation</h4>
                             <p class="mb-0">The solar plant generates electricity which is sold to the host at the
                                 agreed rate.</p>
                         </div>
-                    </div>
+                    </li>
 
-                    <div style="display: flex; gap: 1.5rem;">
-                        <div
-                            style="width: 48px; height: 48px; min-width: 48px; background: var(--success); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-weight: 700;">
-                            4</div>
+                    <li>
+                        <span class="step-list__num" aria-hidden="true">4</span>
                         <div>
-                            <h4>Regular Returns</h4>
+                            <h4>Regular returns</h4>
                             <p class="mb-0">You receive your share of revenue as monthly or quarterly payments
                                 throughout the contract period.</p>
                         </div>
-                    </div>
-                </div>
+                    </li>
+                </ol>
 
                 <div>
                     <img src="https://images.unsplash.com/photo-1579621970795-87facc2f976d?w=600&h=500&fit=crop&auto=format"
-                        alt="Coins with a growing sprout, representing investment returns"
-                        style="border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);" loading="lazy" width="600" height="500">
+                        alt="Coins with a growing sprout, representing investment returns" class="frame" loading="lazy" width="600" height="500">
                 </div>
             </div>
         </div>
@@ -298,7 +296,8 @@
     <section class="section bg-gradient">
         <div class="container">
             <div class="section-header reveal">
-                <h2>Risk Mitigation</h2>
+                <p class="kicker">Investment safeguards</p>
+                <h2>Risk mitigation</h2>
                 <p>We take measures to protect your investment.</p>
             </div>
 
@@ -310,7 +309,7 @@
                             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                         </svg>
                     </div>
-                    <h3>Creditworthy Hosts</h3>
+                    <h3>Creditworthy hosts</h3>
                     <p>We carefully select commercial clients with strong financial standing and long-term operational
                         visibility.</p>
                 </div>
@@ -323,7 +322,7 @@
                             <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                         </svg>
                     </div>
-                    <h3>Legal Contracts</h3>
+                    <h3>Legal contracts</h3>
                     <p>Robust Power Purchase Agreements (PPAs) with clear terms protect both parties for the contract
                         duration.</p>
                 </div>
@@ -336,7 +335,7 @@
                                 d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
                         </svg>
                     </div>
-                    <h3>O&M Guarantee</h3>
+                    <h3>O&amp;M guarantee</h3>
                     <p>We provide comprehensive operations and maintenance services to ensure optimal plant performance.
                     </p>
                 </div>
@@ -347,9 +346,10 @@
     <!-- Downloads & Contact -->
     <section class="section">
         <div class="container">
-            <div class="grid grid-2 reveal-stagger" style="gap: 4rem;">
+            <div class="grid grid-2 reveal-stagger">
                 <div>
-                    <h2>Download Resources</h2>
+                    <p class="kicker">Resources</p>
+                    <h2>Download resources</h2>
                     <p>Learn more about our investment opportunities with detailed documentation.</p>
 
                     <div class="download-links">
@@ -364,7 +364,7 @@
                             </svg>
                             <div>
                                 <strong>Investment Brochure</strong>
-                                <p style="margin: 0; font-size: 0.875rem; color: var(--text-muted);">Full company
+                                <p class="fine-print mb-0">Full company
                                     and investment model overview</p>
                             </div>
                         </a>
@@ -381,25 +381,26 @@
                             </svg>
                             <div>
                                 <strong>Investment Teaser</strong>
-                                <p style="margin: 0; font-size: 0.875rem; color: var(--text-muted);">One-page
+                                <p class="fine-print mb-0">One-page
                                     snapshot with headline numbers</p>
                             </div>
                         </a>
                     </div>
 
-                    <p class="text-muted mt-3" style="font-size: 0.875rem;">
+                    <p class="fine-print mt-3">
                         * Both documents describe an illustrative example of our RESCO model, not a live offering.
                         Please contact us for current project-specific terms.
                     </p>
                 </div>
 
                 <div>
-                    <h2>Investor Enquiries</h2>
+                    <p class="kicker">Contact</p>
+                    <h2>Investor enquiries</h2>
                     <p>Interested in learning more about investment opportunities? Our investor relations team is here
                         to help.</p>
 
-                    <div class="card" style="padding: 2rem; margin-top: 1.5rem;">
-                        <div class="contact-item" style="margin-bottom: 1.5rem;">
+                    <div class="card card-lg mt-3">
+                        <div class="contact-item">
                             <div class="contact-item-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -431,9 +432,8 @@
                         </div>
                     </div>
 
-                    <a href="contact.html" class="btn btn-primary btn-lg mt-3"
-                        style="width: 100%; justify-content: center;">
-                        Contact Investor Relations
+                    <a href="contact.html" class="btn btn-primary btn-lg btn-block mt-3">
+                        Contact investor relations
                     </a>
                 </div>
             </div>

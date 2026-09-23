@@ -18,6 +18,18 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="description" content="Lithium prices have fallen but batteries still change the maths. When backup genuinely pays for itself, how to size a battery bank, and when to skip it entirely.">
     <meta name="keywords" content="solar battery storage India, lithium vs lead acid solar, hybrid solar cost, solar backup power home">
     <title>Solar Plus Battery Storage in 2026: Is a Hybrid System Worth It Yet? | Ray2Volt Solar</title>
@@ -35,6 +47,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../blog.css">
+    <link rel="stylesheet" href="../theme.css">
 
     <!-- Open Graph -->
     <meta property="og:site_name" content="Ray2Volt Solar">

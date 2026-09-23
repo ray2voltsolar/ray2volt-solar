@@ -20,6 +20,18 @@
          for a form submitted in this session, once per lead. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <title>Thank You | Ray2Volt Solar</title>
     <meta name="robots" content="noindex, follow">
 
@@ -34,6 +46,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="theme.css">
     
     <style>
         .thank-you-section {
@@ -56,35 +69,35 @@
             max-width: 600px;
             padding: 3rem;
             border-radius: var(--radius-lg);
-            background: rgba(15, 23, 42, 0.6);
+            background: var(--h-surface);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--h-line);
+            box-shadow: var(--h-card-shadow);
         }
         
         .thank-you-icon {
             width: 80px;
             height: 80px;
             margin: 0 auto 2rem auto;
-            background: linear-gradient(135deg, var(--success-light) 0%, var(--success) 100%);
+            background: var(--h-green);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+            color: var(--h-ink);
+            box-shadow: var(--h-card-shadow);
             animation: bounceIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
         
         .thank-you-content h1 {
             font-size: 2.5rem;
             margin-bottom: 1rem;
-            color: var(--white);
+            color: var(--h-ink);
         }
         
         .thank-you-content p {
-            color: var(--text-muted);
+            color: var(--h-muted);
             font-size: 1.1rem;
             margin-bottom: 2.5rem;
         }
@@ -184,11 +197,11 @@
                 </svg>
             </div>
             <div class="fade-in-up">
-                <h1>Thank You!</h1>
+                <h1>Thank you!</h1>
                 <p>We've received your request successfully. Our solar experts will review your details and get back to you within 24 hours.</p>
-                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                    <a href="/" class="btn btn-primary">Return to Home</a>
-                    <a href="residential.html" class="btn btn-white">Explore Solar Plans</a>
+                <div class="hero-buttons flex-center">
+                    <a href="/" class="btn btn-primary">Return to home</a>
+                    <a href="residential.html" class="btn btn-white">Explore solar plans</a>
                 </div>
             </div>
         </div>

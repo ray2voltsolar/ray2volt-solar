@@ -18,6 +18,18 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="description" content="How solar with battery storage can cut diesel-generator running costs for hospitals, cold storage, petrol pumps and rice mills. Work out what each unit from your DG set costs you.">
     <title>Solar + Battery vs Diesel Generator for Business Backup | Ray2Volt Solar</title>
     <link rel="canonical" href="https://ray2voltsolar.com/solar-battery-vs-diesel.html">
@@ -33,6 +45,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="pages.css">
+    <link rel="stylesheet" href="theme.css">
     <meta property="og:site_name" content="Ray2Volt Solar">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Solar + Battery vs Diesel Generator for Business Backup | Ray2Volt Solar">
@@ -137,7 +150,7 @@
             <div class="breadcrumb">
                 <a href="/">Home</a>
                 <span>/</span>
-                <span>Solar + Battery vs Diesel</span>
+                <span>Solar + battery vs diesel</span>
             </div>
             <h1>Solar + battery vs diesel: cutting generator costs</h1>
             <p>Hospitals, cold stores, petrol pumps and rice mills often run diesel generators through power cuts. Solar can cut the grid bill in the day, and a battery can carry critical loads through shorter outages, so the generator runs less.</p>
@@ -147,6 +160,7 @@
 <section class="section">
         <div class="container">
             <div class="section-header">
+                <p class="kicker">Generator costs</p>
                 <h2>What does a unit from your generator cost?</h2>
                 <p>Diesel cost per unit = price per litre ÷ units your DG set produces per litre. Enter your own figures.</p>
             </div>
@@ -181,7 +195,7 @@
                             <span class="assumption" id="dg-tariff-hint">The energy charge per unit on your electricity bill.</span>
                         </div>
                     </fieldset>
-                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Work it out</button>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Work it out</button>
                     <p class="form-note mt-2" data-calc-status role="status"></p>
                 </form>
                 <div>

@@ -18,6 +18,18 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="description" content="Solar power for hospitals, clinics and diagnostic centres. Reliable, lower-cost energy with Ray2Volt commercial solar.">
     <title>Solar for Hospitals & Healthcare | Ray2Volt Solar</title>
     <link rel="canonical" href="https://ray2voltsolar.com/industry-healthcare.html">
@@ -33,6 +45,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="theme.css">
     <meta property="og:site_name" content="Ray2Volt Solar">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Solar for Hospitals &amp; Healthcare | Ray2Volt Solar">
@@ -120,7 +133,7 @@
                 <span>/</span>
                 <span>Healthcare</span>
             </div>
-            <h1>Solar for <span>Healthcare</span></h1>
+            <h1>Solar for <span>healthcare</span></h1>
             <p>Reliable, lower-cost power for facilities that can never switch off.</p>
         </div>
     </section>
@@ -130,7 +143,8 @@
         <div class="container">
             <div class="about-intro reveal">
                 <div>
-                    <h2>Dependable Power for Critical Care</h2>
+                    <p class="kicker">Healthcare solar</p>
+                    <h2>Dependable power for critical care</h2>
                     <p class="lead">Hospitals run 24x7 with heavy HVAC, imaging, and life-support loads - and electricity is a cost that never sleeps.</p>
                     <p>Healthcare facilities are among the most energy-intensive buildings per square metre. Operating theatres, diagnostic imaging, sterilisation, and round-the-clock climate control create massive, non-negotiable demand.</p>
                     <p>Solar reduces the daytime portion of this load at a fixed cost, freeing budget for patient care. Paired with existing backup systems, it also diversifies your energy sources for greater resilience.</p>
@@ -171,7 +185,7 @@
                     </ul>
                 </div>
                 <div>
-                    <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=800&h=600&fit=crop&auto=format" alt="Hospital building exterior" style="border-radius: var(--radius-xl); box-shadow: var(--shadow-lg);" width="800" height="600">
+                    <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=800&h=600&fit=crop&auto=format" alt="Hospital building exterior" class="frame" width="800" height="600">
                 </div>
             </div>
         </div>
@@ -180,18 +194,18 @@
     <!-- Key Numbers -->
     <section class="section-sm">
         <div class="container">
-            <div class="grid grid-3 reveal-stagger" style="max-width: 900px; margin: 0 auto;">
-                <div class="card reveal" style="padding: 1.75rem; text-align: center;">
-                    <h3 style="color: var(--success); font-size: 2.25rem; margin-bottom: 0.25rem;">Up to 30%</h3>
-                    <p style="margin: 0; font-weight: 600;">Energy Cost Savings</p>
+            <div class="hero-stats reveal-stagger">
+                <div class="hero-stat">
+                    <h3>Up to 30%</h3>
+                    <p>Energy cost savings</p>
                 </div>
-                <div class="card reveal" style="padding: 1.75rem; text-align: center;">
-                    <h3 style="color: var(--primary); font-size: 2.25rem; margin-bottom: 0.25rem;">4-5 Yrs</h3>
-                    <p style="margin: 0; font-weight: 600;">Typical Payback</p>
+                <div class="hero-stat">
+                    <h3>4-5 yrs</h3>
+                    <p>Typical payback</p>
                 </div>
-                <div class="card reveal" style="padding: 1.75rem; text-align: center;">
-                    <h3 style="color: var(--secondary-gold); font-size: 2.25rem; margin-bottom: 0.25rem;">30 Yrs</h3>
-                    <p style="margin: 0; font-weight: 600;">Panel Performance Warranty</p>
+                <div class="hero-stat">
+                    <h3>30 yrs</h3>
+                    <p>Panel performance warranty</p>
                 </div>
             </div>
         </div>
@@ -201,7 +215,8 @@
     <section class="section">
         <div class="container">
             <div class="section-header reveal">
-                <h2>Why Solar Works for Healthcare</h2>
+                <p class="kicker">Industry benefits</p>
+                <h2>Why solar works for healthcare</h2>
                 <p>High, constant demand and large campus rooftops make hospitals strong solar candidates.</p>
             </div>
 
@@ -215,7 +230,7 @@
                             </svg>
                     </div>
                     <div>
-                        <h4>Cost Per Bed Down</h4>
+                        <h4>Cost per bed down</h4>
                         <p>Energy is a top operating cost in healthcare. Solar brings it down predictably for 25+ years.</p>
                     </div>
                 </div>
@@ -229,7 +244,7 @@
                             </svg>
                     </div>
                     <div>
-                        <h4>Campus Rooftops</h4>
+                        <h4>Campus rooftops</h4>
                         <p>Hospital blocks, parking, and utility buildings offer ample area for meaningful plant sizes.</p>
                     </div>
                 </div>
@@ -243,7 +258,7 @@
                             </svg>
                     </div>
                     <div>
-                        <h4>Cleaner Air, Literally</h4>
+                        <h4>Cleaner air, literally</h4>
                         <p>Every solar unit displaces grid and diesel generation - aligned with a healthcare mission.</p>
                     </div>
                 </div>
@@ -254,11 +269,11 @@
     <!-- Ownership models pointer -->
     <section class="section-sm">
         <div class="container">
-            <div class="card reveal" style="padding: 2rem; text-align: center; max-width: 800px; margin: 0 auto;">
-                <h3>CAPEX or Zero-Investment OPEX - Your Choice</h3>
+            <div class="card card-lg reveal">
+                <h3>CAPEX or zero-investment OPEX - your choice</h3>
                 <p>Own the plant outright for strong long-term returns, or go solar with zero upfront capital under our OPEX / PPA
                     model and pay a per-unit rate confirmed after commercial evaluation.</p>
-                <a href="commercial.html" class="btn btn-outline mt-2">Compare Ownership Models</a>
+                <a href="commercial.html" class="btn btn-outline mt-2">Compare ownership models</a>
             </div>
         </div>
     </section>
@@ -268,6 +283,7 @@
     <section class="section">
         <div class="container">
             <div class="section-header reveal">
+                <p class="kicker">Project tools</p>
                 <h2>Plan your project</h2>
                 <p>Work out the numbers, compare the options, or check a quote you already have.</p>
             </div>
@@ -297,14 +313,14 @@
 
     <section class="cta reveal reveal-scale">
         <div class="container">
-            <h2>Get a Free Energy Audit for Your Facility</h2>
+            <h2>Get a free energy audit for your facility</h2>
             <p>Our engineers will assess your roof, analyse your electricity bills, and give you a clear savings
                 projection - no obligations.</p>
             <div class="flex-center gap-3">
-                <a href="commercial-solar-estimate.html#ci-lead-form" class="btn btn-white btn-lg">Get Free Solar
-                    Estimate</a>
-                <a href="tel:+919666068140" class="btn btn-outline btn-lg" style="border-color: white; color: white;">
-                    Call: +91 9666068140
+                <a href="commercial-solar-estimate.html#ci-lead-form" class="btn btn-white btn-lg">Get free solar
+                    estimate</a>
+                <a href="tel:+919666068140" class="btn btn-outline btn-lg">
+                    Call: +91 96660 68140
                 </a>
             </div>
         </div>

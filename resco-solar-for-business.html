@@ -18,6 +18,18 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="description" content="How RESCO rooftop solar works for a business: a developer funds and owns the plant, and you pay a per-unit rate for the solar power you use. Who it suits, what the agreement covers and what to ask.">
     <title>RESCO Solar for Business Owners: Pay Per Unit, Not for the Plant | Ray2Volt Solar</title>
     <link rel="canonical" href="https://ray2voltsolar.com/resco-solar-for-business.html">
@@ -33,6 +45,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="pages.css">
+    <link rel="stylesheet" href="theme.css">
     <meta property="og:site_name" content="Ray2Volt Solar">
     <meta property="og:type" content="website">
     <meta property="og:title" content="RESCO Solar for Business Owners: Pay Per Unit, Not for the Plant | Ray2Volt Solar">
@@ -143,9 +156,9 @@
             <div class="breadcrumb">
                 <a href="/">Home</a>
                 <span>/</span>
-                <a href="business-solar-finance.html">Business Solar Finance</a>
+                <a href="business-solar-finance.html">Business solar finance</a>
                 <span>/</span>
-                <span>RESCO for Business Owners</span>
+                <span>RESCO for business owners</span>
             </div>
             <h1>RESCO solar: pay for the units, not for the plant</h1>
             <p>Under RESCO, a developer funds, installs and owns a solar plant on your roof, and your business pays a per-unit rate for the solar power it uses. This page is for business owners. If you want to invest in solar plants, see the investor page.</p>
@@ -154,20 +167,24 @@
 
 <section class="section">
         <div class="container">
-            <ol class="steps">
+            <ol class="process reveal">
                 <li>
+                    <span class="process__num" aria-hidden="true">01</span>
                     <h3>Your roof is assessed</h3>
                     <p>The site's roof, load and daytime use are checked to see whether a RESCO plant is commercially suitable.</p>
                 </li>
                 <li>
+                    <span class="process__num" aria-hidden="true">02</span>
                     <h3>The agreement is signed</h3>
                     <p>A long-term agreement sets the per-unit rate, how units are measured, the term and what happens at the end.</p>
                 </li>
                 <li>
+                    <span class="process__num" aria-hidden="true">03</span>
                     <h3>The developer builds the plant</h3>
                     <p>The developer funds and installs the plant, and owns it for the term of the agreement.</p>
                 </li>
                 <li>
+                    <span class="process__num" aria-hidden="true">04</span>
                     <h3>You pay for what you use</h3>
                     <p>Each month you pay for the solar units your site uses, at the agreed rate, alongside your remaining grid bill.</p>
                 </li>

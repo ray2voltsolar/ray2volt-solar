@@ -18,6 +18,18 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="description" content="Sector guide with a worked example: sizing a 150 kWp rooftop solar plant for a representative 5,000 MT agro cold storage in Andhra Pradesh. Payback, HT tariffs and compressor loads.">
     <meta name="keywords" content="solar for cold storage India, cold storage power bill reduction, 150 kW solar plant cost, cold chain solar worked example, industrial solar Andhra Pradesh">
     <title>Solar for Cold Storage in India: 150 kWp Worked Example, Sizing &amp; Payback | Ray2Volt Solar</title>
@@ -35,6 +47,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../blog.css">
+    <link rel="stylesheet" href="../theme.css">
 
     <!-- Open Graph -->
     <meta property="og:site_name" content="Ray2Volt Solar">

@@ -1,30 +1,52 @@
 /* The shared blog stylesheet supplies the light page and footer theme. */
+body.careers {
+    /* Application surfaces */
+    --c-card-bg: var(--b-card-bg);
+    --c-card-line: #dce4ec;
+    --c-card-shadow: rgba(27,39,53,.06);
+    --c-choices-bg: var(--surface);
+    --c-choices-line: #dce4ec;
+    --c-success-bg: #eaf7ef;
+    --c-success-line: #b8dfc6;
+    /* Form controls and messages */
+    --c-field-text: var(--ink);
+    --c-input-bg: #fff;
+    --c-input-line: #aab9c9;
+    --c-input-hover-bg: var(--surface);
+    --c-input-hover-line: #71869d;
+    --c-focus-accent: #0279b4;
+    --c-focus-outline: rgba(3,169,244,.2);
+    --c-placeholder-ink: #66778a;
+    --c-help-ink: #526479;
+    --c-error-ink: #a12622;
+}
+
 .careers-main { padding: 112px 0 64px; }
 .application-container { max-width: 1060px; }
 .application-heading { margin-bottom: 24px; }
 .application-heading h1 { font-size: clamp(1.8rem, 3vw, 2.5rem); margin-bottom: 12px; }
 .application-heading p { max-width: 880px; font-size: 1.05rem; line-height: 1.65; }
-.careers .application-card { background: #fff; border: 1px solid #dce4ec; border-radius: 16px; padding: 32px; box-shadow: 0 8px 32px rgba(27,39,53,.06); transform: none; }
+.careers .application-card { background: var(--c-card-bg); border: 1px solid var(--c-card-line); border-radius: 16px; padding: 32px; box-shadow: 0 8px 32px var(--c-card-shadow); transform: none; }
 .careers .application-card::before,.careers .application-card::after { display: none; }
 .application-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px 28px; margin-top: 28px; }
 .application-grid .full { grid-column: 1/-1; }
 .application-grid .form-group { margin: 0; min-width: 0; }
-.careers .application-grid label,.careers .choices legend { color: #1b2735; font-weight: 600; font-size: 1rem; }
-.careers .form-control { background: #fff; border: 1px solid #aab9c9; color: #1b2735; min-height: 48px; border-radius: 8px; font-size: 1rem; color-scheme: light; }
-.careers .form-control:hover { background: #f7fafc; border-color: #71869d; }
-.careers .form-control:focus { background: #fff; border-color: #0279b4; outline: 2px solid rgba(3,169,244,.2); outline-offset: 2px; }
-.careers .form-control::placeholder { color: #66778a; }
+.careers .application-grid label,.careers .choices legend { color: var(--c-field-text); font-weight: 600; font-size: 1rem; }
+.careers .form-control { background: var(--c-input-bg); border: 1px solid var(--c-input-line); color: var(--c-field-text); min-height: 48px; border-radius: 8px; font-size: 1rem; color-scheme: light; }
+.careers .form-control:hover { background: var(--c-input-hover-bg); border-color: var(--c-input-hover-line); }
+.careers .form-control:focus { background: var(--c-input-bg); border-color: var(--c-focus-accent); outline: 2px solid var(--c-focus-outline); outline-offset: 2px; }
+.careers .form-control::placeholder { color: var(--c-placeholder-ink); }
 .careers textarea.form-control { min-height: 120px; }
 .application-grid input,.application-grid select,.application-grid textarea { scroll-margin-top: 110px; }
-.application-grid input[type=checkbox] { width: 20px; height: 20px; flex-shrink: 0; accent-color: #0279b4; margin-top: 2px; }
-.choices { border: 1px solid #dce4ec; background: #f7fafc; border-radius: 10px; padding: 16px; min-width: 0; }
+.application-grid input[type=checkbox] { width: 20px; height: 20px; flex-shrink: 0; accent-color: var(--c-focus-accent); margin-top: 2px; }
+.choices { border: 1px solid var(--c-choices-line); background: var(--c-choices-bg); border-radius: 10px; padding: 16px; min-width: 0; }
 .choices legend { padding: 0 6px; }
 .choice-grid { display: flex; flex-wrap: wrap; gap: 14px 24px; }
 .choice-grid label,.consent>label { display: flex; gap: 10px; align-items: flex-start; }
-.careers .field-help { color: #526479; font-size: .9rem; margin: 7px 0; line-height: 1.5; }
-.careers .field-error,.careers #application-status[data-state=error] { color: #a12622; }
+.careers .field-help { color: var(--c-help-ink); font-size: .9rem; margin: 7px 0; line-height: 1.5; }
+.careers .field-error,.careers #application-status[data-state=error] { color: var(--c-error-ink); }
 #application-status { margin-top: 16px; }
-#application-success { padding: 24px; background: #eaf7ef; border: 1px solid #b8dfc6; border-radius: 12px; }
+#application-success { padding: 24px; background: var(--c-success-bg); border: 1px solid var(--c-success-line); border-radius: 12px; }
 #application { scroll-margin-top: 95px; }
 [hidden] { display: none!important; }
 @media(max-width:767px) {

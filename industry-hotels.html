@@ -18,6 +18,18 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="description" content="Solar power for hotels, resorts and restaurants. Reduce hospitality energy bills and go green with Ray2Volt commercial solar.">
     <title>Solar for Hotels & Resorts | Ray2Volt Solar</title>
     <link rel="canonical" href="https://ray2voltsolar.com/industry-hotels.html">
@@ -33,6 +45,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="theme.css">
     <meta property="og:site_name" content="Ray2Volt Solar">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Solar for Hotels &amp; Resorts | Ray2Volt Solar">
@@ -118,9 +131,9 @@
                 <span>/</span>
                 <a href="commercial.html">Commercial</a>
                 <span>/</span>
-                <span>Hotels & Resorts</span>
+                <span>Hotels & resorts</span>
             </div>
-            <h1>Solar for <span>Hotels & Resorts</span></h1>
+            <h1>Solar for <span>hotels & resorts</span></h1>
             <p>Cut one of your biggest operating costs while strengthening your eco-friendly brand.</p>
         </div>
     </section>
@@ -130,7 +143,8 @@
         <div class="container">
             <div class="about-intro reveal">
                 <div>
-                    <h2>Hospitality Runs on Power. Make It Cheaper.</h2>
+                    <p class="kicker">Hotel solar</p>
+                    <h2>Hospitality runs on power. Make it cheaper.</h2>
                     <p class="lead">Air conditioning, kitchens, laundry, and pools keep hotel electricity bills high every single day of the year.</p>
                     <p>Hotels and resorts have consistent, year-round energy demand - much of it during daylight hours when restaurants, lobbies, and facilities are fully running. Solar directly offsets this base load at a fraction of the grid tariff.</p>
                     <p>Beyond savings, sustainability sells. Travellers increasingly choose eco-certified properties, and visible solar commitment supports green ratings and marketing that premium guests respond to.</p>
@@ -171,7 +185,7 @@
                     </ul>
                 </div>
                 <div>
-                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=600&fit=crop&auto=format" alt="Hotel resort with pool" style="border-radius: var(--radius-xl); box-shadow: var(--shadow-lg);" width="800" height="600">
+                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=600&fit=crop&auto=format" alt="Hotel resort with pool" class="frame" width="800" height="600">
                 </div>
             </div>
         </div>
@@ -180,18 +194,18 @@
     <!-- Key Numbers -->
     <section class="section-sm">
         <div class="container">
-            <div class="grid grid-3 reveal-stagger" style="max-width: 900px; margin: 0 auto;">
-                <div class="card reveal" style="padding: 1.75rem; text-align: center;">
-                    <h3 style="color: var(--success); font-size: 2.25rem; margin-bottom: 0.25rem;">Up to 40%</h3>
-                    <p style="margin: 0; font-weight: 600;">Energy Cost Savings</p>
+            <div class="hero-stats reveal-stagger">
+                <div class="hero-stat">
+                    <h3>Up to 40%</h3>
+                    <p>Energy cost savings</p>
                 </div>
-                <div class="card reveal" style="padding: 1.75rem; text-align: center;">
-                    <h3 style="color: var(--primary); font-size: 2.25rem; margin-bottom: 0.25rem;">4-5 Yrs</h3>
-                    <p style="margin: 0; font-weight: 600;">Typical Payback</p>
+                <div class="hero-stat">
+                    <h3>4-5 yrs</h3>
+                    <p>Typical payback</p>
                 </div>
-                <div class="card reveal" style="padding: 1.75rem; text-align: center;">
-                    <h3 style="color: var(--secondary-gold); font-size: 2.25rem; margin-bottom: 0.25rem;">30 Yrs</h3>
-                    <p style="margin: 0; font-weight: 600;">Panel Performance Warranty</p>
+                <div class="hero-stat">
+                    <h3>30 yrs</h3>
+                    <p>Panel performance warranty</p>
                 </div>
             </div>
         </div>
@@ -201,7 +215,8 @@
     <section class="section">
         <div class="container">
             <div class="section-header reveal">
-                <h2>Why Solar Works for Hotels & Resorts</h2>
+                <p class="kicker">Industry benefits</p>
+                <h2>Why solar works for hotels & resorts</h2>
                 <p>Steady demand, daytime loads, and brand value make solar a natural fit for hospitality.</p>
             </div>
 
@@ -215,7 +230,7 @@
                             </svg>
                     </div>
                     <div>
-                        <h4>Always-On Demand</h4>
+                        <h4>Always-on demand</h4>
                         <p>Hotels never close. A solar plant keeps chipping away at your bill 365 days a year, in season and off season.</p>
                     </div>
                 </div>
@@ -229,7 +244,7 @@
                             </svg>
                     </div>
                     <div>
-                        <h4>Green Guest Appeal</h4>
+                        <h4>Green guest appeal</h4>
                         <p>Solar supports eco-labels and sustainability scores that increasingly influence booking decisions.</p>
                     </div>
                 </div>
@@ -243,7 +258,7 @@
                             </svg>
                     </div>
                     <div>
-                        <h4>Quiet, Clean Power</h4>
+                        <h4>Quiet, clean power</h4>
                         <p>Unlike diesel gensets, solar is silent and emission-free - no disturbance to the guest experience.</p>
                     </div>
                 </div>
@@ -254,11 +269,11 @@
     <!-- Ownership models pointer -->
     <section class="section-sm">
         <div class="container">
-            <div class="card reveal" style="padding: 2rem; text-align: center; max-width: 800px; margin: 0 auto;">
-                <h3>CAPEX or Zero-Investment OPEX - Your Choice</h3>
+            <div class="card card-lg reveal">
+                <h3>CAPEX or zero-investment OPEX - your choice</h3>
                 <p>Own the plant outright for strong long-term returns, or go solar with zero upfront capital under our OPEX / PPA
                     model and pay a per-unit rate confirmed after commercial evaluation.</p>
-                <a href="commercial.html" class="btn btn-outline mt-2">Compare Ownership Models</a>
+                <a href="commercial.html" class="btn btn-outline mt-2">Compare ownership models</a>
             </div>
         </div>
     </section>
@@ -268,6 +283,7 @@
     <section class="section">
         <div class="container">
             <div class="section-header reveal">
+                <p class="kicker">Project tools</p>
                 <h2>Plan your project</h2>
                 <p>Work out the numbers, compare the options, or check a quote you already have.</p>
             </div>
@@ -297,14 +313,14 @@
 
     <section class="cta reveal reveal-scale">
         <div class="container">
-            <h2>Get a Free Energy Audit for Your Facility</h2>
+            <h2>Get a free energy audit for your facility</h2>
             <p>Our engineers will assess your roof, analyse your electricity bills, and give you a clear savings
                 projection - no obligations.</p>
             <div class="flex-center gap-3">
-                <a href="commercial-solar-estimate.html#ci-lead-form" class="btn btn-white btn-lg">Get Free Solar
-                    Estimate</a>
-                <a href="tel:+919666068140" class="btn btn-outline btn-lg" style="border-color: white; color: white;">
-                    Call: +91 9666068140
+                <a href="commercial-solar-estimate.html#ci-lead-form" class="btn btn-white btn-lg">Get free solar
+                    estimate</a>
+                <a href="tel:+919666068140" class="btn btn-outline btn-lg">
+                    Call: +91 96660 68140
                 </a>
             </div>
         </div>

@@ -19,6 +19,18 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="description"
         content="Solar for factories, hospitals, hotels and homes in Tirupati district, from a local team based in Srikalahasti. 1,000+ installations across Andhra Pradesh.">
     <meta name="keywords"
@@ -38,6 +50,8 @@
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="pages.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="home.css">
     <meta property="og:site_name" content="Ray2Volt Solar">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Ray2Volt Solar | Solar for Businesses &amp; Homes in Tirupati District">
@@ -119,7 +133,7 @@
     <!-- r2v:org-sameas:end -->
 </head>
 
-<body>
+<body class="home">
     <!-- Header / Navigation -->
     <header class="header">
         <nav class="nav container">
@@ -187,64 +201,96 @@
         </nav>
     </header>
 
-    <!-- Hero Section (A1) -->
-    <section class="hero">
+    <!-- Homepage icon set, referenced with <use href="#i-…"> -->
+    <svg class="home-sprite" aria-hidden="true" focusable="false" width="0" height="0">
+        <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+        <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+        <symbol id="i-factory" viewBox="0 0 24 24"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1M12 18h1M7 18h1"/></symbol>
+        <symbol id="i-hospital" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8M8 12h8"/></symbol>
+        <symbol id="i-hotel" viewBox="0 0 24 24"><path d="M2 4v16M2 8h18a2 2 0 0 1 2 2v10M2 17h20M6 8v9"/></symbol>
+        <symbol id="i-snow" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M19.07 4.93 4.93 19.07M9 4l3 3 3-3M9 20l3-3 3 3M4 9l3 3-3 3M20 9l-3 3 3 3"/></symbol>
+        <symbol id="i-school" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c3 3 9 3 12 0v-5M22 10v6"/></symbol>
+        <symbol id="i-warehouse" viewBox="0 0 24 24"><path d="M22 8.35V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8.35a2 2 0 0 1 1.26-1.86l8-3.2a2 2 0 0 1 1.48 0l8 3.2A2 2 0 0 1 22 8.35Z"/><path d="M6 22V11h12v11M6 15h12M6 19h12"/></symbol>
+        <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></symbol>
+        <symbol id="i-office" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4M8 6h.01M12 6h.01M16 6h.01M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01"/></symbol>
+        <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+        <symbol id="i-rupee" viewBox="0 0 24 24"><path d="M6 3h12M6 8h12M6 13l8.5 8M6 13h3c6.67 0 6.67-10 0-10"/></symbol>
+        <symbol id="i-trend" viewBox="0 0 24 24"><path d="M22 7 13.5 15.5l-5-5L2 17"/><path d="M16 7h6v6"/></symbol>
+        <symbol id="i-landmark" viewBox="0 0 24 24"><path d="M3 22h18M6 18v-7M10 18v-7M14 18v-7M18 18v-7M12 2l8 5H4Z"/></symbol>
+        <symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></symbol>
+        <symbol id="i-calc" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M8 19h.01M12 19h.01M16 15v4"/></symbol>
+        <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></symbol>
+        <symbol id="i-fileup" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M12 18v-6M9 15l3-3 3 3"/></symbol>
+        <symbol id="i-filetext" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></symbol>
+        <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+        <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></symbol>
+        <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+        <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M9 22V12h6v10"/></symbol>
+        <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+        <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+        <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
+        <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15Z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></symbol>
+    </svg>
+
+    <!-- Hero (A1) -->
+    <section class="home-hero">
         <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <div class="hero-badge">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <circle cx="12" cy="12" r="5" />
-                            <line x1="12" y1="1" x2="12" y2="3" />
-                            <line x1="12" y1="21" x2="12" y2="23" />
-                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                            <line x1="1" y1="12" x2="3" y2="12" />
-                            <line x1="21" y1="12" x2="23" y2="12" />
-                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-                        </svg>
-                        Ray2Volt Solar Private Limited
+            <div class="home-hero__grid">
+                <div class="home-hero__copy">
+                    <p class="home-eyebrow"><span class="home-eyebrow__dot" aria-hidden="true"></span>Commercial &amp; industrial rooftop solar</p>
+
+                    <h1>Solar for businesses in <span>Tirupati district</span></h1>
+
+                    <p class="home-hero__lead">For factories, hospitals, hotels and cold stores. Designed, installed and maintained by a local team based in Srikalahasti, from the power audit to net-metering and after-sales.</p>
+
+                    <div class="home-hero__actions">
+                        <a href="#business-proposal" class="btn btn-primary btn-lg">Get a business proposal <svg class="home-icon home-icon--sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+                        <a href="residential.html" class="btn home-btn-ghost btn-lg"><svg class="home-icon home-icon--sm" aria-hidden="true"><use href="#i-home"/></svg> Solar for my home</a>
                     </div>
 
-                    <h1>Solar for factories, hospitals and hotels in <span>Tirupati district</span></h1>
-
-                    <p class="lead">Designed, installed and maintained by a local team based in Srikalahasti.
-                        1,000+ installations across Andhra Pradesh.</p>
-
-                    <div class="hero-buttons">
-                        <a href="#business-proposal" class="btn btn-primary btn-lg">Get a business proposal</a>
-                        <a href="residential.html" class="btn btn-outline btn-lg">Solar for my home</a>
-                    </div>
-
-                    <div class="hero-stats">
-                        <div class="hero-stat">
-                            <h3>1,000+</h3>
-                            <p>Installations Across Andhra Pradesh</p>
-                        </div>
-                        <div class="hero-stat">
-                            <h3>5 MW+</h3>
-                            <p>Capacity Deployed</p>
-                        </div>
-                        <div class="hero-stat">
-                            <h3>100%</h3>
-                            <p>Customer Satisfaction</p>
-                        </div>
-                        <div class="hero-stat">
-                            <h3>30 Yrs</h3>
-                            <p>Performance Warranty</p>
-                        </div>
-                    </div>
+                    <ul class="home-hero__assurances">
+                        <li><svg class="home-icon" aria-hidden="true"><use href="#i-check"/></svg>Free power audit</li>
+                        <li><svg class="home-icon" aria-hidden="true"><use href="#i-check"/></svg>DISCOM &amp; net-metering handled</li>
+                        <li><svg class="home-icon" aria-hidden="true"><use href="#i-check"/></svg>Loan and RESCO options</li>
+                    </ul>
                 </div>
 
-                <div class="hero-image">
-                    <picture>
-                        <source type="image/webp" srcset="images/hero-800.webp 800w, images/hero-1200.webp 1200w, images/hero-1600.webp 1600w, images/hero-2400.webp 2400w" sizes="(max-width: 768px) 100vw, 50vw">
-                        <img src="images/hero-1600.jpg" alt="Rooftop solar panel array" width="1600" height="1195" fetchpriority="high">
-                    </picture>
+                <div class="home-hero__visual">
+                    <div class="home-hero__frame">
+                        <picture>
+                            <source type="image/webp" srcset="images/hero-800.webp 800w, images/hero-1200.webp 1200w, images/hero-1600.webp 1600w, images/hero-2400.webp 2400w" sizes="(max-width: 900px) 100vw, 50vw">
+                            <img src="images/hero-1600.jpg" alt="Rooftop solar panel array" width="1600" height="1195" fetchpriority="high">
+                        </picture>
+                    </div>
+                    <div class="home-float home-float--top">
+                        <span class="home-float__icon home-float__icon--gold"><svg class="home-icon" aria-hidden="true"><use href="#i-shield"/></svg></span>
+                        <span><strong>Tier-1 panels</strong> with local after-sales support</span>
+                    </div>
+                    <div class="home-float home-float--bottom">
+                        <span class="home-float__icon"><svg class="home-icon" aria-hidden="true"><use href="#i-pin"/></svg></span>
+                        <span><strong>Local team</strong> Srikalahasti · Tirupati · Puttur · Pichatur</span>
+                    </div>
                 </div>
             </div>
+
+            <ul class="home-stats">
+                <li class="home-stat">
+                    <strong class="home-stat__num" data-count>1,000+</strong>
+                    <span>Installations across Andhra Pradesh</span>
+                </li>
+                <li class="home-stat">
+                    <strong class="home-stat__num" data-count>5 MW+</strong>
+                    <span>Solar capacity deployed</span>
+                </li>
+                <li class="home-stat">
+                    <strong class="home-stat__num" data-count>30 yrs</strong>
+                    <span>Panel performance warranty</span>
+                </li>
+                <li class="home-stat">
+                    <strong class="home-stat__num" data-count>4</strong>
+                    <span>Local offices in Tirupati district</span>
+                </li>
+            </ul>
         </div>
     </section>
 
@@ -253,42 +299,77 @@
     <!-- r2v:proof-strip:end -->
 
     <!-- Business proposal form (A3) -->
-    <section class="section" id="business-proposal">
+    <section class="home-section" id="business-proposal">
         <div class="container">
-            <div class="split">
-                <div>
-                    <h2>Get a business proposal</h2>
-                    <p class="lead">Tell us about your site. We'll call you, look at your electricity bill with you and prepare a proposal sized for your roof and your load.</p>
-                    <ul class="ticks mb-4">
-                        <li><strong>System capacity:</strong> an indicative kWp range based on your bill and available roof.</li>
-                        <li><strong>Project cost:</strong> an indicative investment range before technical verification.</li>
-                        <li><strong>Savings and payback:</strong> estimated bill reduction, annual savings and payback direction.</li>
-                        <li><strong>Funding direction:</strong> whether buying outright, a loan or RESCO suits your business.</li>
+            <div class="home-proposal">
+                <div class="home-proposal__intro">
+                    <p class="home-kicker">Free business proposal</p>
+                    <h2>See what solar would do for your site</h2>
+                    <p class="home-proposal__lead">Tell us about your site. We'll call you, look at your electricity bill with you and prepare a proposal sized for your roof and your load.</p>
+
+                    <ul class="home-deliverables">
+                        <li>
+                            <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-sun"/></svg></span>
+                            <div>
+                                <h3>System capacity</h3>
+                                <p>An indicative kWp range based on your bill and available roof.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-rupee"/></svg></span>
+                            <div>
+                                <h3>Project cost</h3>
+                                <p>An indicative investment range before technical verification.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-trend"/></svg></span>
+                            <div>
+                                <h3>Savings and payback</h3>
+                                <p>Estimated bill reduction, annual savings and payback direction.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-landmark"/></svg></span>
+                            <div>
+                                <h3>Funding direction</h3>
+                                <p>Whether buying outright, a loan or RESCO suits your business.</p>
+                            </div>
+                        </li>
                     </ul>
-                    <p>A final quotation follows a technical site visit. Prefer to start with your bill? <a class="text-link" data-wa-direct href="https://wa.me/919666068140?text=Hi%20Ray2Volt%20Solar%2C%20I%27d%20like%20a%20business%20solar%20proposal.%20I%27m%20sending%20our%20electricity%20bill%20here." target="_blank" rel="noopener">Send it on WhatsApp</a>.</p>
-                    <p class="mb-0">Looking for solar for your house? <a class="text-link" href="residential.html">See home solar and the PM Surya Ghar subsidy</a>.</p>
+
+                    <div class="home-proposal__notes">
+                        <p>A final quotation follows a technical site visit. Prefer to start with your bill? <a class="text-link" data-wa-direct href="https://wa.me/919666068140?text=Hi%20Ray2Volt%20Solar%2C%20I%27d%20like%20a%20business%20solar%20proposal.%20I%27m%20sending%20our%20electricity%20bill%20here." target="_blank" rel="noopener">Send it on WhatsApp</a>.</p>
+                        <p>Looking for solar for your house? <a class="text-link" href="residential.html">See home solar and the PM Surya Ghar subsidy</a>.</p>
+                    </div>
                 </div>
 
-                <div class="panel">
+                <div class="home-form-card">
                     <form class="form-stack" data-r2v-form="business-proposal" novalidate>
+                        <div class="home-form-card__head">
+                            <h3>Request your proposal</h3>
+                            <p>Four quick details. No obligation.</p>
+                        </div>
                         <input type="hidden" name="access_key" value="b3d2b2c1-4237-4de1-8879-9048dfa1beb8">
                         <input type="hidden" name="subject" value="Business Proposal Request - Ray2Volt Solar">
                         <input type="hidden" name="from_name" value="Ray2Volt Solar Website">
                         <input type="hidden" name="Source Page" value="Homepage - Business Proposal">
                         <input type="checkbox" name="botcheck" class="hidden" style="display: none;" tabindex="-1" autocomplete="off">
-                        <div class="form-group">
-                            <label for="bp-name">Your name *</label>
-                            <input type="text" id="bp-name" name="Name" class="form-control" autocomplete="name" required data-error="Please enter your name.">
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label for="bp-name">Your name *</label>
+                                <input type="text" id="bp-name" name="Name" class="form-control" autocomplete="name" required data-error="Please enter your name.">
+                            </div>
+                            <div class="form-group">
+                                <label for="bp-phone">Phone number *</label>
+                                <input type="tel" id="bp-phone" name="Phone Number" class="form-control" autocomplete="tel" inputmode="tel" required data-error="Please enter a 10-digit mobile number.">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="bp-company">Business or organisation *</label>
                             <input type="text" id="bp-company" name="Company" class="form-control" autocomplete="organization" required data-error="Please enter your business or organisation name.">
                         </div>
                         <div class="form-grid-2">
-                            <div class="form-group">
-                                <label for="bp-phone">Phone number *</label>
-                                <input type="tel" id="bp-phone" name="Phone Number" class="form-control" autocomplete="tel" inputmode="tel" required data-error="Please enter a 10-digit mobile number.">
-                            </div>
                             <div class="form-group">
                                 <label for="bp-town">Town *</label>
                                 <select id="bp-town" name="Town" class="form-control" required data-error="Please choose your town.">
@@ -308,20 +389,20 @@
                                     <option value="Other">Other town in Andhra Pradesh</option>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label for="bp-bill">Monthly electricity bill *</label>
+                                <select id="bp-bill" name="Monthly Bill" class="form-control" required data-error="Please choose your monthly bill.">
+                                    <option value="">Select your bill</option>
+                                    <option>Below ₹25,000</option>
+                                    <option>₹25,000 – ₹50,000</option>
+                                    <option>₹50,001 – ₹1 lakh</option>
+                                    <option>₹1,00,001 – ₹2 lakh</option>
+                                    <option>₹2,00,001 – ₹5 lakh</option>
+                                    <option>Above ₹5 lakh</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="bp-bill">Monthly electricity bill *</label>
-                            <select id="bp-bill" name="Monthly Bill" class="form-control" required data-error="Please choose your monthly bill.">
-                                <option value="">Select your monthly bill</option>
-                                <option>Below ₹25,000</option>
-                                <option>₹25,000 – ₹50,000</option>
-                                <option>₹50,001 – ₹1 lakh</option>
-                                <option>₹1,00,001 – ₹2 lakh</option>
-                                <option>₹2,00,001 – ₹5 lakh</option>
-                                <option>Above ₹5 lakh</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Get my business proposal</button>
+                        <button type="submit" class="btn btn-primary btn-lg home-form-card__submit">Get my business proposal</button>
                         <p class="form-note mb-0">We use these details only to reply to this request. <a class="text-link" href="privacy-policy.html">Privacy policy</a></p>
                     </form>
 
@@ -336,44 +417,64 @@
     </section>
 
     <!-- Sectors -->
-    <section class="section">
+    <section class="home-section">
         <div class="container">
-            <div class="section-header reveal">
-                <h2>Solar for your sector</h2>
-                <p>How solar fits the way each kind of business uses power, with the questions to ask before you buy.</p>
+            <div class="home-head reveal">
+                <div>
+                    <p class="home-kicker">Industries we serve</p>
+                    <h2>Solar for your sector</h2>
+                    <p>How solar fits the way each kind of business uses power, with the questions to ask before you buy.</p>
+                </div>
+                <a href="commercial.html" class="home-head__link">Commercial solar overview <svg class="home-icon home-icon--sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
             </div>
-            <div class="grid grid-4 reveal-stagger">
-                <a class="card service-card reveal" href="industry-manufacturing.html">
+            <div class="home-sectors reveal">
+                <a class="home-sector" href="industry-manufacturing.html">
+                    <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-factory"/></svg></span>
                     <h3>Factories &amp; manufacturing</h3>
-                    <p class="mb-0">Daytime machine loads and large shed roofs.</p>
+                    <p>Daytime machine loads and large shed roofs.</p>
+                    <span class="home-sector__go" aria-hidden="true"><svg class="home-icon home-icon--sm"><use href="#i-arrow"/></svg></span>
                 </a>
-                <a class="card service-card reveal" href="industry-healthcare.html">
+                <a class="home-sector" href="industry-healthcare.html">
+                    <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-hospital"/></svg></span>
                     <h3>Hospitals &amp; clinics</h3>
-                    <p class="mb-0">Round-the-clock loads, backup and diesel costs.</p>
+                    <p>Round-the-clock loads, backup and diesel costs.</p>
+                    <span class="home-sector__go" aria-hidden="true"><svg class="home-icon home-icon--sm"><use href="#i-arrow"/></svg></span>
                 </a>
-                <a class="card service-card reveal" href="industry-hotels.html">
+                <a class="home-sector" href="industry-hotels.html">
+                    <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-hotel"/></svg></span>
                     <h3>Hotels &amp; resorts</h3>
-                    <p class="mb-0">Air-conditioning, hot water and guest comfort.</p>
+                    <p>Air-conditioning, hot water and guest comfort.</p>
+                    <span class="home-sector__go" aria-hidden="true"><svg class="home-icon home-icon--sm"><use href="#i-arrow"/></svg></span>
                 </a>
-                <a class="card service-card reveal" href="industry-cold-storage.html">
+                <a class="home-sector" href="industry-cold-storage.html">
+                    <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-snow"/></svg></span>
                     <h3>Cold storage &amp; food</h3>
-                    <p class="mb-0">Refrigeration that runs every day of the year.</p>
+                    <p>Refrigeration that runs every day of the year.</p>
+                    <span class="home-sector__go" aria-hidden="true"><svg class="home-icon home-icon--sm"><use href="#i-arrow"/></svg></span>
                 </a>
-                <a class="card service-card reveal" href="industry-education.html">
+                <a class="home-sector" href="industry-education.html">
+                    <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-school"/></svg></span>
                     <h3>Schools &amp; colleges</h3>
-                    <p class="mb-0">Daytime use that matches solar generation.</p>
+                    <p>Daytime use that matches solar generation.</p>
+                    <span class="home-sector__go" aria-hidden="true"><svg class="home-icon home-icon--sm"><use href="#i-arrow"/></svg></span>
                 </a>
-                <a class="card service-card reveal" href="industry-warehousing.html">
+                <a class="home-sector" href="industry-warehousing.html">
+                    <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-warehouse"/></svg></span>
                     <h3>Warehouses &amp; logistics</h3>
-                    <p class="mb-0">Wide roofs, lighting and material handling.</p>
+                    <p>Wide roofs, lighting and material handling.</p>
+                    <span class="home-sector__go" aria-hidden="true"><svg class="home-icon home-icon--sm"><use href="#i-arrow"/></svg></span>
                 </a>
-                <a class="card service-card reveal" href="industry-retail.html">
+                <a class="home-sector" href="industry-retail.html">
+                    <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-bag"/></svg></span>
                     <h3>Retail &amp; malls</h3>
-                    <p class="mb-0">Long opening hours and cooling loads.</p>
+                    <p>Long opening hours and cooling loads.</p>
+                    <span class="home-sector__go" aria-hidden="true"><svg class="home-icon home-icon--sm"><use href="#i-arrow"/></svg></span>
                 </a>
-                <a class="card service-card reveal" href="industry-offices.html">
+                <a class="home-sector" href="industry-offices.html">
+                    <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-office"/></svg></span>
                     <h3>Offices &amp; IT parks</h3>
-                    <p class="mb-0">Computers, cooling and lighting in working hours.</p>
+                    <p>Computers, cooling and lighting in working hours.</p>
+                    <span class="home-sector__go" aria-hidden="true"><svg class="home-icon home-icon--sm"><use href="#i-arrow"/></svg></span>
                 </a>
             </div>
         </div>
@@ -388,204 +489,233 @@
     <!-- r2v:videos:start -->
     <!-- r2v:videos:end -->
 
-    <!-- Plan your project -->
-    <section class="section">
+    <!-- Who we are: one team for the whole job -->
+    <section class="home-section">
         <div class="container">
-            <div class="section-header reveal">
-                <h2>Plan your project</h2>
-                <p>Work out the numbers, check a quote you already have, or book a visit.</p>
-            </div>
-            <div class="grid grid-3 reveal-stagger">
-                <a class="card service-card reveal" href="solar-quote-check.html">
-                    <h3>Free quote check</h3>
-                    <p class="mb-0">Send us any solar quote and we'll compare it line by line, free.</p>
-                </a>
-                <a class="card service-card reveal" href="solar-roi-calculator.html">
-                    <h3>ROI calculator</h3>
-                    <p class="mb-0">Payback, IRR and a 25-year cash flow, with every assumption editable.</p>
-                </a>
-                <a class="card service-card reveal" href="business-solar-finance.html">
-                    <h3>Finance options</h3>
-                    <p class="mb-0">Buying outright, a bank loan or RESCO, side by side.</p>
-                </a>
-                <a class="card service-card reveal" href="book-power-audit.html">
-                    <h3>Book a free power audit</h3>
-                    <p class="mb-0">Pick a preferred date and we'll call to confirm.</p>
-                </a>
-                <a class="card service-card reveal" href="upload-electricity-bill.html">
-                    <h3>Send your electricity bill</h3>
-                    <p class="mb-0">Share a bill and get a proposal sized for your site.</p>
-                </a>
-                <a class="card service-card reveal" href="tender-rfq.html">
-                    <h3>Tenders and RFQs</h3>
-                    <p class="mb-0">Buying by tender? Tell us what your tender needs.</p>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Who We Are Section -->
-    <section class="section">
-        <div class="container">
-            <div class="split reveal">
+            <div class="home-head home-head--center reveal">
                 <div>
+                    <p class="home-kicker">Why Ray2Volt</p>
                     <h2>A local solar team that shows its work</h2>
-                    <p class="lead">Ray2Volt Solar Private Limited is based in Srikalahasti and works across Tirupati district and Andhra Pradesh, with branches in Tirupati, Puttur and Pichatur.</p>
-                    <p>We handle the whole job for businesses and homes: the power audit, system sizing, the proposal, DISCOM and net-metering paperwork, bank-loan and subsidy guidance, installation and local after-sales support.</p>
-                    <a href="about.html" class="btn btn-outline mt-3">About Ray2Volt Solar</a>
-                </div>
-                <div class="panel">
-                    <h3>What we do</h3>
-                    <ul class="ticks">
-                        <li>On-grid, off-grid and hybrid solar for businesses and homes</li>
-                        <li>A complimentary power audit before you decide</li>
-                        <li>Documentation, DISCOM coordination and net-metering support</li>
-                        <li>Collateral-free loan support where eligible</li>
-                        <li>PM Surya Ghar subsidy guidance for homes</li>
-                        <li>Tier-1 solar brands and local after-sales support</li>
-                    </ul>
+                    <p>Ray2Volt Solar Private Limited is based in Srikalahasti and works across Tirupati district and Andhra Pradesh. On-grid, off-grid and hybrid solar for businesses and homes, with one team for the whole job.</p>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Why Choose Us Section -->
-    <section class="section why-choose-us">
-        <div class="container">
-            <div class="section-header reveal">
-                <h2>Why Choose Ray2Volt?</h2>
-                <p>We're your local partners in the clean energy journey.</p>
-            </div>
+            <ol class="home-process reveal">
+                <li>
+                    <span class="home-process__step">01</span>
+                    <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-search"/></svg></span>
+                    <h3>Power audit</h3>
+                    <p>A complimentary visit to read your bills and check your roof and load.</p>
+                </li>
+                <li>
+                    <span class="home-process__step">02</span>
+                    <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-filetext"/></svg></span>
+                    <h3>Sizing and proposal</h3>
+                    <p>System size, cost, savings and funding options, set out in writing.</p>
+                </li>
+                <li>
+                    <span class="home-process__step">03</span>
+                    <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-bolt"/></svg></span>
+                    <h3>Approvals and installation</h3>
+                    <p>DISCOM and net-metering paperwork, bank-loan guidance and installation.</p>
+                </li>
+                <li>
+                    <span class="home-process__step">04</span>
+                    <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-wrench"/></svg></span>
+                    <h3>Local after-sales</h3>
+                    <p>Service from our offices in Srikalahasti, Tirupati, Puttur and Pichatur.</p>
+                </li>
+            </ol>
 
-            <div class="grid grid-4 reveal-stagger">
-                <div class="card feature-card reveal">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                            <circle cx="12" cy="10" r="3" />
-                        </svg>
-                    </div>
+            <div class="home-features reveal">
+                <div class="home-feature">
+                    <svg class="home-icon" aria-hidden="true"><use href="#i-pin"/></svg>
                     <div>
-                        <h4>Local Support</h4>
+                        <h3>Local support</h3>
                         <p>A team based in Srikalahasti, with branches in Tirupati, Puttur and Pichatur.</p>
                     </div>
                 </div>
-
-                <div class="card feature-card reveal">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-                        </svg>
-                    </div>
+                <div class="home-feature">
+                    <svg class="home-icon" aria-hidden="true"><use href="#i-shield"/></svg>
                     <div>
-                        <h4>Future-Ready Systems</h4>
-                        <p>Easy upgrade paths to battery backup and hybrid systems.</p>
+                        <h3>Quality components</h3>
+                        <p>Tier-1 panels with a 30-year performance warranty; inverters warranted 7 years on-grid or 10 years hybrid.</p>
                     </div>
                 </div>
-
-                <div class="card feature-card reveal">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                        </svg>
-                    </div>
+                <div class="home-feature">
+                    <svg class="home-icon" aria-hidden="true"><use href="#i-landmark"/></svg>
                     <div>
-                        <h4>Quality Components</h4>
-                        <p>Tier-1 panels with a 30-year performance warranty, and inverters warranted 7 years on-grid or 10 years hybrid.</p>
-                    </div>
-                </div>
-
-                <div class="card feature-card reveal">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                            <polyline points="22 4 12 14.01 9 11.01" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h4>Subsidy &amp; Loan Guidance</h4>
+                        <h3>Subsidy &amp; loan guidance</h3>
                         <p>Help with PM Surya Ghar documentation, and collateral-free loan support where eligible.</p>
                     </div>
                 </div>
+                <div class="home-feature">
+                    <svg class="home-icon" aria-hidden="true"><use href="#i-bolt"/></svg>
+                    <div>
+                        <h3>Future-ready systems</h3>
+                        <p>Easy upgrade paths to battery backup and hybrid systems.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="home-center-link">
+                <a href="about.html" class="home-head__link">About Ray2Volt Solar <svg class="home-icon home-icon--sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
             </div>
         </div>
     </section>
 
-    <!-- Homes, the second path -->
-    <section class="section">
+    <!-- Plan your project -->
+    <section class="home-section">
         <div class="container">
-            <div class="split reveal">
+            <div class="home-head reveal">
                 <div>
+                    <p class="home-kicker">Tools and services</p>
+                    <h2>Plan your project</h2>
+                    <p>Work out the numbers, check a quote you already have, or book a visit.</p>
+                </div>
+            </div>
+            <div class="home-tools reveal">
+                <a class="home-tool" href="solar-quote-check.html">
+                    <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-clipboard"/></svg></span>
+                    <div>
+                        <h3>Free quote check</h3>
+                        <p>Send us any solar quote and we'll compare it line by line, free.</p>
+                    </div>
+                    <svg class="home-icon home-icon--sm home-tool__go" aria-hidden="true"><use href="#i-arrow"/></svg>
+                </a>
+                <a class="home-tool" href="solar-roi-calculator.html">
+                    <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-calc"/></svg></span>
+                    <div>
+                        <h3>ROI calculator</h3>
+                        <p>Payback, IRR and a 25-year cash flow, with every assumption editable.</p>
+                    </div>
+                    <svg class="home-icon home-icon--sm home-tool__go" aria-hidden="true"><use href="#i-arrow"/></svg>
+                </a>
+                <a class="home-tool" href="business-solar-finance.html">
+                    <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-landmark"/></svg></span>
+                    <div>
+                        <h3>Finance options</h3>
+                        <p>Buying outright, a bank loan or RESCO, side by side.</p>
+                    </div>
+                    <svg class="home-icon home-icon--sm home-tool__go" aria-hidden="true"><use href="#i-arrow"/></svg>
+                </a>
+                <a class="home-tool" href="book-power-audit.html">
+                    <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
+                    <div>
+                        <h3>Book a free power audit</h3>
+                        <p>Pick a preferred date and we'll call to confirm.</p>
+                    </div>
+                    <svg class="home-icon home-icon--sm home-tool__go" aria-hidden="true"><use href="#i-arrow"/></svg>
+                </a>
+                <a class="home-tool" href="upload-electricity-bill.html">
+                    <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-fileup"/></svg></span>
+                    <div>
+                        <h3>Send your electricity bill</h3>
+                        <p>Share a bill and get a proposal sized for your site.</p>
+                    </div>
+                    <svg class="home-icon home-icon--sm home-tool__go" aria-hidden="true"><use href="#i-arrow"/></svg>
+                </a>
+                <a class="home-tool" href="tender-rfq.html">
+                    <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-filetext"/></svg></span>
+                    <div>
+                        <h3>Tenders and RFQs</h3>
+                        <p>Buying by tender? Tell us what your tender needs.</p>
+                    </div>
+                    <svg class="home-icon home-icon--sm home-tool__go" aria-hidden="true"><use href="#i-arrow"/></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Homes and investors, the second paths -->
+    <section class="home-section">
+        <div class="container">
+            <div class="home-paths reveal">
+                <div class="home-path home-path--home">
+                    <span class="home-tile home-tile--gold"><svg class="home-icon" aria-hidden="true"><use href="#i-home"/></svg></span>
+                    <p class="home-kicker">For homes</p>
                     <h2>Solar for your home</h2>
                     <p>On-grid and hybrid systems for houses, with help applying for the PM Surya Ghar subsidy for eligible homes.</p>
                     <div class="btn-row">
                         <a href="residential.html" class="btn btn-primary">Explore home solar</a>
-                        <a href="blog/pm-surya-ghar-subsidy-guide.html" class="btn btn-secondary">PM Surya Ghar subsidy guide</a>
+                        <a href="blog/pm-surya-ghar-subsidy-guide.html" class="btn home-btn-ghost">PM Surya Ghar subsidy guide</a>
                     </div>
                 </div>
-                <div class="panel">
-                    <h3>Investing in solar?</h3>
+                <div class="home-path">
+                    <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-trend"/></svg></span>
+                    <p class="home-kicker">For investors</p>
+                    <h2>Investing in solar?</h2>
                     <p>Fund solar plants on business rooftops under the RESCO model.</p>
-                    <a href="investor.html" class="text-link">See the investor page</a>
+                    <a href="investor.html" class="home-head__link">See the investor page <svg class="home-icon home-icon--sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Guides for business buyers -->
-    <section class="section">
+    <section class="home-section">
         <div class="container">
-            <div class="section-header reveal">
-                <h2>Guides for business buyers</h2>
-                <p>Plain-language answers to the questions owners and finance teams ask most.</p>
+            <div class="home-head reveal">
+                <div>
+                    <p class="home-kicker">Guides</p>
+                    <h2>Guides for business buyers</h2>
+                    <p>Plain-language answers to the questions owners and finance teams ask most.</p>
+                </div>
+                <a href="blog.html" class="home-head__link">All guides <svg class="home-icon home-icon--sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
             </div>
-            <div class="grid grid-3 reveal-stagger">
-                <a class="card service-card reveal" href="blog/commercial-solar-for-factories.html">
+            <div class="home-guides reveal">
+                <a class="home-guide" href="blog/commercial-solar-for-factories.html">
+                    <span class="home-guide__tag">Planning</span>
                     <h3>Commercial solar for factories</h3>
-                    <p class="mb-0">Sizing, roofs and what to expect from a factory plant.</p>
+                    <p>Sizing, roofs and what to expect from a factory plant.</p>
+                    <span class="home-guide__read">Read guide <svg class="home-icon home-icon--sm" aria-hidden="true"><use href="#i-arrow"/></svg></span>
                 </a>
-                <a class="card service-card reveal" href="blog/capex-vs-opex-resco-solar.html">
+                <a class="home-guide" href="blog/capex-vs-opex-resco-solar.html">
+                    <span class="home-guide__tag">Finance</span>
                     <h3>CAPEX vs RESCO</h3>
-                    <p class="mb-0">Buy the plant or pay per unit: how the two compare.</p>
+                    <p>Buy the plant or pay per unit: how the two compare.</p>
+                    <span class="home-guide__read">Read guide <svg class="home-icon home-icon--sm" aria-hidden="true"><use href="#i-arrow"/></svg></span>
                 </a>
-                <a class="card service-card reveal" href="blog/accelerated-depreciation-solar.html">
+                <a class="home-guide" href="blog/accelerated-depreciation-solar.html">
+                    <span class="home-guide__tag">Tax</span>
                     <h3>Accelerated depreciation</h3>
-                    <p class="mb-0">How depreciation on a solar plant affects your tax.</p>
+                    <p>How depreciation on a solar plant affects your tax.</p>
+                    <span class="home-guide__read">Read guide <svg class="home-icon home-icon--sm" aria-hidden="true"><use href="#i-arrow"/></svg></span>
                 </a>
-                <a class="card service-card reveal" href="blog/dcr-vs-non-dcr-almm.html">
+                <a class="home-guide" href="blog/dcr-vs-non-dcr-almm.html">
+                    <span class="home-guide__tag">Compliance</span>
                     <h3>DCR vs non-DCR panels</h3>
-                    <p class="mb-0">What the ALMM rules mean for business projects.</p>
+                    <p>What the ALMM rules mean for business projects.</p>
+                    <span class="home-guide__read">Read guide <svg class="home-icon home-icon--sm" aria-hidden="true"><use href="#i-arrow"/></svg></span>
                 </a>
-                <a class="card service-card reveal" href="blog/rooftop-solar-roi-payback.html">
+                <a class="home-guide" href="blog/rooftop-solar-roi-payback.html">
+                    <span class="home-guide__tag">Finance</span>
                     <h3>ROI and payback</h3>
-                    <p class="mb-0">How to work out the return on a rooftop plant.</p>
+                    <p>How to work out the return on a rooftop plant.</p>
+                    <span class="home-guide__read">Read guide <svg class="home-icon home-icon--sm" aria-hidden="true"><use href="#i-arrow"/></svg></span>
                 </a>
-                <a class="card service-card reveal" href="blog/how-to-choose-a-solar-installer.html">
+                <a class="home-guide" href="blog/how-to-choose-a-solar-installer.html">
+                    <span class="home-guide__tag">Buying</span>
                     <h3>Choosing an installer</h3>
-                    <p class="mb-0">What to check before you sign with anyone.</p>
+                    <p>What to check before you sign with anyone.</p>
+                    <span class="home-guide__read">Read guide <svg class="home-icon home-icon--sm" aria-hidden="true"><use href="#i-arrow"/></svg></span>
                 </a>
-            </div>
-            <div class="flex-center mt-4">
-                <a href="blog.html" class="btn btn-outline">All guides</a>
             </div>
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="cta reveal reveal-scale">
+    <!-- Closing CTA -->
+    <section class="home-section home-section--cta">
         <div class="container">
-            <h2>Ready to Go Solar?</h2>
-            <p>Get a free consultation and personalized quote for your business or home. No obligations, just honest
-                advice.</p>
-            <div class="flex-center gap-3">
-                <a href="#business-proposal" class="btn btn-white btn-lg">Get a business proposal</a>
-                <a href="tel:+919666068140" class="btn btn-outline btn-lg" style="border-color: white; color: white;">
-                    Call Us Now
-                </a>
+            <div class="home-cta reveal">
+                <div class="home-cta__copy">
+                    <h2>Ready to see your numbers?</h2>
+                    <p>Get a free consultation and a proposal for your business or home. No obligation, just honest advice from a local team.</p>
+                </div>
+                <div class="home-cta__actions">
+                    <a href="#business-proposal" class="btn btn-primary btn-lg">Get a business proposal</a>
+                    <a href="tel:+919666068140" class="btn home-btn-ghost btn-lg"><svg class="home-icon home-icon--sm" aria-hidden="true"><use href="#i-phone"/></svg> +91 96660 68140</a>
+                </div>
             </div>
         </div>
     </section>

@@ -18,6 +18,18 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="description" content="Ray2Volt Solar&#x27;s registered office in Srikalahasti, and the towns we serve across Tirupati district and Andhra Pradesh, from Tirupati and Renigunta to Sullurupeta, Gudur, Nellore, Chittoor and Kadapa.">
     <title>Where We Work: Ray2Volt Solar in Tirupati District and Andhra Pradesh</title>
     <link rel="canonical" href="https://ray2voltsolar.com/locations.html">
@@ -33,6 +45,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="pages.css">
+    <link rel="stylesheet" href="theme.css">
     <meta property="og:site_name" content="Ray2Volt Solar">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Where We Work: Ray2Volt Solar in Tirupati District and Andhra Pradesh">
@@ -137,7 +150,7 @@
             <div class="breadcrumb">
                 <a href="/">Home</a>
                 <span>/</span>
-                <span>Where We Work</span>
+                <span>Where we work</span>
             </div>
             <h1>Where we work</h1>
             <p>We're based in Srikalahasti and work with businesses and homes across Tirupati district and Andhra Pradesh.</p>
@@ -148,6 +161,7 @@
         <div class="container">
             <div class="split">
                 <div class="panel">
+                    <p class="kicker">Contact</p>
                     <h2>Registered office</h2>
                     <p><strong>Ray2Volt Solar Private Limited</strong><br>
                         1-278, J.K.Nagar, Revenue Ward No-1, Pichatur Road, Srikalahasti, 517644, Andhra Pradesh.</p>
@@ -162,9 +176,10 @@
                 </div>
 
                 <div>
+                    <p class="kicker">Service area</p>
                     <h2>Towns we serve</h2>
                     <p>We work across Tirupati district and neighbouring districts, including:</p>
-                    <ul class="ticks mb-4" style="columns: 2; column-gap: 2rem; display: block;">
+                    <ul class="ticks ticks--2col mb-4">
                         <li><a class="text-link" href="solar-in-tirupati.html">Tirupati</a></li>
                         <li><a class="text-link" href="solar-in-srikalahasti.html">Srikalahasti</a></li>
                         <li><a class="text-link" href="industrial-solar-renigunta.html">Renigunta</a></li>
@@ -192,7 +207,7 @@
         <div class="container">
             <h2>Planning solar for your site?</h2>
             <p>Book a free power audit, or send us your electricity bill.</p>
-            <div class="hero-buttons" style="justify-content: center;">
+            <div class="hero-buttons">
                 <a href="book-power-audit.html" class="btn btn-primary btn-lg">Book a free power audit</a>
                 <a href="upload-electricity-bill.html" class="btn btn-secondary btn-lg">Send your electricity bill</a>
             </div>

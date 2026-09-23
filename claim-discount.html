@@ -28,6 +28,18 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="description" content="Claim the ₹24,000 Ray2Volt discount plus up to ₹78,000 PM Surya Ghar subsidy on home solar. Save up to ₹1,02,000. T&amp;C apply.">
     <title>Claim Solar Discount | Save ₹1,02,000 | Ray2Volt Solar</title>
     <link rel="canonical" href="https://ray2voltsolar.com/claim-discount.html">
@@ -39,6 +51,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap" rel="stylesheet">
     </noscript>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="theme.css">
     <meta property="og:site_name" content="Ray2Volt Solar">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Claim Solar Discount | Save ₹1,02,000 | Ray2Volt Solar">
@@ -64,8 +77,7 @@
             margin-top: 90px;
             display: flex;
             align-items: center;
-            background: radial-gradient(circle at top right, rgba(255, 179, 0, 0.05), transparent 50%),
-                        radial-gradient(circle at bottom left, rgba(14, 165, 233, 0.05), transparent 50%);
+            background: var(--h-bg);
         }
 
         .claim-grid {
@@ -103,9 +115,9 @@
 
         .offer-badge {
             display: inline-block;
-            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2) 0%, rgba(238, 90, 36, 0.2) 100%);
-            border: 1px solid rgba(255, 107, 107, 0.5);
-            color: #FF6B6B;
+            background: var(--h-error-bg);
+            border: 1px solid var(--h-error-line);
+            color: var(--h-ink);
             font-size: 0.85rem;
             font-weight: 700;
             text-transform: uppercase;
@@ -117,8 +129,8 @@
         }
 
         @keyframes pulse-badge {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.4); }
-            50% { transform: scale(1.05); box-shadow: 0 0 15px 0 rgba(255, 107, 107, 0); }
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 var(--h-error-line); }
+            50% { transform: scale(1.05); box-shadow: 0 0 15px 0 transparent; }
         }
 
         .offer-title {
@@ -127,19 +139,19 @@
             font-weight: 800;
             line-height: 1.1;
             margin-bottom: 1.5rem;
-            color: var(--white);
+            color: var(--h-ink);
         }
 
         .offer-title span {
-            background: linear-gradient(135deg, var(--secondary-gold) 0%, #FF8F00 100%);
+            background: transparent;
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-text-fill-color: var(--h-gold-ink);
             background-clip: text;
         }
 
         .offer-subtitle {
             font-size: 1.15rem;
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--h-body);
             margin-bottom: 2rem;
             line-height: 1.6;
         }
@@ -156,16 +168,16 @@
             font-size: 1.1rem;
             font-weight: 500;
             margin-bottom: 1rem;
-            color: var(--white);
+            color: var(--h-ink);
         }
 
         .value-stack li svg {
-            color: var(--success);
+            color: var(--h-green);
             margin-right: 1rem;
             flex-shrink: 0;
             width: 24px;
             height: 24px;
-            filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.5));
+            filter: drop-shadow(0 0 8px var(--h-success-line));
         }
 
         @media (max-width: 992px) {
@@ -179,10 +191,9 @@
             align-items: center;
             gap: 1rem;
             padding: 1rem;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--h-ghost-bg);
+            border: 1px solid var(--h-ghost-line);
             border-radius: 12px;
-            backdrop-filter: blur(10px);
             width: fit-content;
         }
 
@@ -199,7 +210,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            border: 2px solid var(--gray-900);
+            border: 2px solid var(--h-line-strong);
             margin-left: -15px;
             object-fit: cover;
         }
@@ -207,11 +218,11 @@
 
         .trust-text {
             font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--h-body);
             text-align: left;
         }
         .trust-text strong {
-            color: var(--secondary-gold);
+            color: var(--h-gold-ink);
             display: block;
         }
 
@@ -224,19 +235,18 @@
             content: '';
             position: absolute;
             top: -20px; right: -20px; bottom: -20px; left: -20px;
-            background: linear-gradient(135deg, rgba(255, 179, 0, 0.2) 0%, rgba(14, 165, 233, 0.1) 100%);
+            background: var(--h-gold-tile-bg);
             border-radius: 30px;
             z-index: -1;
             filter: blur(20px);
         }
 
         .claim-form-card {
-            background: rgba(15, 23, 42, 0.7);
-            border: 1px solid rgba(255, 179, 0, 0.2);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            background: var(--h-surface-strong);
+            border: 1px solid var(--h-line-strong);
+            box-shadow: var(--h-form-shadow);
             border-radius: 24px;
             padding: 2.5rem;
-            backdrop-filter: blur(20px);
         }
 
         @media (max-width: 480px) {
@@ -258,7 +268,7 @@
         }
 
         .form-header p {
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--h-muted);
             font-size: 0.9rem;
         }
 
@@ -266,8 +276,8 @@
         .type-selector {
             display: flex;
             gap: 0.5rem;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--h-field-bg);
+            border: 1px solid var(--h-line);
             padding: 0.375rem;
             border-radius: 12px;
             margin-bottom: 1.5rem;
@@ -290,15 +300,15 @@
             padding: 0.75rem 1rem;
             font-weight: 600;
             font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--h-muted);
             border-radius: 8px;
             transition: all 0.3s ease;
             user-select: none;
         }
         .type-option input:checked + .type-btn {
             background: linear-gradient(135deg, var(--secondary-gold) 0%, var(--secondary-dark) 100%);
-            color: var(--gray-900);
-            box-shadow: 0 4px 10px rgba(255, 179, 0, 0.3);
+            color: var(--h-on-gold);
+            box-shadow: var(--h-card-shadow);
         }
 
         /* The options are <label>s too, so `.form-group label` below hands them
@@ -315,15 +325,15 @@
             display: block;
             margin-bottom: 0.5rem;
             font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--h-body);
             font-weight: 500;
         }
 
         .form-control {
             width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--white);
+            background: var(--h-field-bg);
+            border: 1px solid var(--h-field-line);
+            color: var(--h-ink);
             padding: 0.875rem 1rem;
             border-radius: 10px;
             font-family: inherit;
@@ -333,18 +343,18 @@
 
         .form-control:focus {
             outline: none;
-            border-color: var(--secondary-gold);
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 0 3px rgba(255, 179, 0, 0.1);
+            border-color: var(--h-gold);
+            background: var(--h-field-bg);
+            box-shadow: 0 0 0 3px var(--h-focus-ring);
         }
 
         .form-control::placeholder {
-            color: rgba(255, 255, 255, 0.3);
+            color: var(--h-placeholder);
         }
         
         select.form-control option {
-            background-color: var(--gray-900);
-            color: var(--white);
+            background-color: var(--h-field-bg);
+            color: var(--h-ink);
         }
 
         .form-row {
@@ -360,7 +370,7 @@
         .btn-glow {
             width: 100%;
             background: linear-gradient(135deg, var(--secondary-gold) 0%, #FF8F00 100%);
-            color: var(--gray-900);
+            color: var(--h-on-gold);
             border: none;
             padding: 1rem;
             font-size: 1.1rem;
@@ -372,12 +382,12 @@
             align-items: center;
             gap: 0.5rem;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 179, 0, 0.3);
+            box-shadow: var(--h-card-shadow);
             margin-top: 1rem;
         }
 
         .btn-glow:hover {
-            box-shadow: 0 8px 25px rgba(255, 179, 0, 0.5);
+            box-shadow: var(--h-hover-shadow);
         }
 
         /* Step machinery */
@@ -391,7 +401,7 @@
             gap: 0.5rem;
             margin: 0 0 1.5rem;
             padding: 0 0 1.25rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--h-line);
             counter-reset: claim-step;
             list-style: none;
         }
@@ -406,7 +416,7 @@
             font-size: 0.72rem;
             font-weight: 600;
             text-align: center;
-            color: rgba(255, 255, 255, 0.45);
+            color: var(--h-muted);
             transition: color 0.3s ease;
         }
 
@@ -419,9 +429,9 @@
             justify-content: center;
             width: 1.75rem;
             height: 1.75rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--h-line);
             border-radius: 50%;
-            background: var(--gray-900, #0f172a);
+            background: var(--h-surface);
             font-size: 0.8rem;
             font-weight: 700;
             transition: all 0.3s ease;
@@ -434,20 +444,20 @@
             right: 50%;
             width: 100%;
             height: 2px;
-            background: rgba(255, 255, 255, 0.12);
+            background: var(--h-line);
         }
 
         .claim-progress li:first-child::after { display: none; }
 
         .claim-progress li.is-active,
-        .claim-progress li.is-complete { color: #fff; }
+        .claim-progress li.is-complete { color: var(--h-ink); }
 
         .claim-progress li.is-active::before,
         .claim-progress li.is-complete::before {
-            color: var(--gray-900, #0f172a);
-            background: var(--secondary-gold, #FFB300);
-            border-color: var(--secondary-gold, #FFB300);
-            box-shadow: 0 0 0 4px rgba(255, 179, 0, 0.15);
+            color: var(--h-on-gold);
+            background: var(--h-gold);
+            border-color: var(--h-gold);
+            box-shadow: 0 0 0 4px var(--h-gold-tile-line);
         }
 
         .claim-progress li.is-complete::before {
@@ -455,19 +465,19 @@
         }
 
         .claim-progress li.is-complete::after {
-            background: var(--secondary-gold, #FFB300);
+            background: var(--h-gold);
         }
 
         .form-group.has-error .form-control {
-            border-color: #F44336;
-            box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.12);
+            border-color: var(--h-error-line);
+            box-shadow: 0 0 0 3px var(--h-error-bg);
         }
 
         .form-group .field-error {
             display: none;
             margin-top: 0.35rem;
             font-size: 0.75rem;
-            color: #F44336;
+            color: var(--h-error);
         }
 
         .form-group.has-error .field-error { display: block; }
@@ -486,17 +496,17 @@
             padding: 1rem 1.25rem;
             font-size: 1rem;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.75);
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.14);
+            color: var(--h-muted);
+            background: var(--h-ghost-bg);
+            border: 1px solid var(--h-ghost-line);
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .btn-back:hover {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.1);
+            color: var(--h-ink);
+            background: var(--h-ghost-bg-hover);
         }
 
         /* Animations */
@@ -504,6 +514,10 @@
             opacity: 0;
             transform: translateX(-30px);
             animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        /* The form slides in from 30px right; keep that off-screen start from widening phones */
+        .claim-section {
+            overflow-x: clip;
         }
         .reveal-right {
             opacity: 0;
@@ -587,7 +601,7 @@
             <!-- Left Side: Offer Details -->
             <div class="offer-content reveal-left">
                 <div class="offer-badge">PM Surya Ghar subsidy + Ray2Volt discount</div>
-                <h1 class="offer-title">Save <span>₹1,02,000</span> On Your Solar System</h1>
+                <h1 class="offer-title">Save <span>₹1,02,000</span> on your solar system</h1>
                 <p class="offer-subtitle">Take control of your electricity bills today. Claim your government subsidy and exclusive Ray2Volt discount. T&amp;C apply.</p>
                 
                 <ul class="value-stack">
@@ -627,7 +641,7 @@
             <div class="form-wrapper reveal-right">
                 <div class="claim-form-card">
                     <div class="form-header">
-                        <h3>Check Your Eligibility</h3>
+                        <h3>Check your eligibility</h3>
                         <p>Takes less than 60 seconds</p>
                     </div>
 
@@ -684,7 +698,7 @@
 
                             <button type="button" class="btn-glow" id="claim-next">
                                 Continue
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width: 20px; height: 20px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" width="20" height="20">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                 </svg>
                             </button>
@@ -716,8 +730,8 @@
                             <div class="claim-nav">
                                 <button type="button" class="btn-back" id="claim-back">Back</button>
                                 <button type="submit" class="btn-glow">
-                                    Claim My Offer Now
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width: 20px; height: 20px;">
+                                    Claim my offer now
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" width="20" height="20">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                     </svg>
                                 </button>

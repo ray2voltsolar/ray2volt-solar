@@ -18,6 +18,18 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="description" content="Work out the right kW rating from your own electricity bill, check whether your roof can physically take it, and avoid the two sizing mistakes that cost people money.">
     <meta name="keywords" content="solar system size calculator, how many kW solar for home, solar roof space required, units per kW solar India">
     <title>How to Size a Solar System for Your Home: kW, Units, and Roof Space | Ray2Volt Solar</title>
@@ -35,6 +47,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../blog.css">
+    <link rel="stylesheet" href="../theme.css">
 
     <!-- Open Graph -->
     <meta property="og:site_name" content="Ray2Volt Solar">

@@ -33,6 +33,18 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="description"
         content="Get a free solar quote from Ray2Volt Solar. Fill out our simple form with your details and we'll get back to you with a customized solar solution.">
     <title>Get Quote | Ray2Volt Solar</title>
@@ -49,6 +61,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="theme.css">
     <meta property="og:site_name" content="Ray2Volt Solar">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Get Quote | Ray2Volt Solar">
@@ -86,7 +99,7 @@
             font-size: 1.5rem;
             line-height: 1.25;
             font-weight: 700;
-            color: var(--white);
+            color: var(--h-ink);
             text-align: center;
             margin: 0 0 1.5rem;
         }
@@ -95,7 +108,7 @@
             display: block;
             font-size: 1.125rem;
             font-weight: 700;
-            color: var(--white);
+            color: var(--h-ink);
             margin-bottom: 1.25rem;
             text-align: center;
             font-family: var(--font-heading);
@@ -105,8 +118,8 @@
         .type-selector {
             display: flex;
             gap: 0.5rem;
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(56, 189, 248, 0.2);
+            background: var(--h-field-bg);
+            border: 1px solid var(--h-line);
             padding: 0.375rem;
             border-radius: 12px;
             margin-bottom: 2rem;
@@ -133,7 +146,7 @@
             padding: 0.875rem 1rem;
             font-weight: 600;
             font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--h-muted);
             border-radius: 8px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             user-select: none;
@@ -141,8 +154,8 @@
 
         .type-option input:checked+.type-btn {
             background: linear-gradient(135deg, var(--secondary-gold) 0%, var(--secondary-dark) 100%);
-            color: var(--gray-900);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            color: var(--h-on-gold);
+            box-shadow: var(--h-card-shadow);
         }
 
         .form-inputs {
@@ -251,7 +264,7 @@
     <!-- Simplified Form Section -->
     <section class="simple-quote-section">
         <div class="quote-container card form-card">
-            <h1 class="quote-heading">Get a Free Solar Quote</h1>
+            <h1 class="quote-heading">Get a free solar quote</h1>
             <form id="quote-form" action="https://api.web3forms.com/submit" method="POST">
                 <input type="hidden" name="access_key" value="b3d2b2c1-4237-4de1-8879-9048dfa1beb8">
                 <input type="hidden" name="subject" value="New Quote Request - Ray2Volt Solar">
@@ -293,10 +306,10 @@
 
                 <!-- Submit Button -->
                 <div class="animate-up delay-3">
-                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
-                        Get Free Quote
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">
+                        Get free quote
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                            stroke-width="2" style="width: 20px; height: 20px;">
+                            stroke-width="2" width="20" height="20">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                         </svg>
                     </button>

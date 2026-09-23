@@ -18,6 +18,18 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="description" content="Sector guide with a worked example: a 100 kWp rooftop solar design for a representative 85-room hotel in the Tirupati area. HT-II commercial tariffs, laundry loads and guest comfort.">
     <meta name="keywords" content="solar for hotels India, resort rooftop solar worked example, hotel electricity bill reduction, commercial solar Tirupati, hotel solar payback">
     <title>Solar for Hotels &amp; Resorts in India: 100 kWp Worked Example, Payback &amp; Guest Comfort | Ray2Volt Solar</title>
@@ -35,6 +47,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../blog.css">
+    <link rel="stylesheet" href="../theme.css">
 
     <!-- Open Graph -->
     <meta property="og:site_name" content="Ray2Volt Solar">

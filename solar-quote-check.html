@@ -18,6 +18,18 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="description" content="Got a solar quote for your business or home? Send it to Ray2Volt Solar and we&#x27;ll go through it with you line by line, free. Or use our 10-point checklist to compare any quote yourself.">
     <title>Free Solar Quote Check: Compare Any Quote Line by Line | Ray2Volt Solar</title>
     <link rel="canonical" href="https://ray2voltsolar.com/solar-quote-check.html">
@@ -33,6 +45,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="pages.css">
+    <link rel="stylesheet" href="theme.css">
     <meta property="og:site_name" content="Ray2Volt Solar">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Send us any solar quote and we&#x27;ll compare it line by line, free">
@@ -177,7 +190,7 @@
             <div class="breadcrumb">
                 <a href="/">Home</a>
                 <span>/</span>
-                <span>Free Quote Check</span>
+                <span>Free quote check</span>
             </div>
             <h1>Send us any solar quote. We'll compare it line by line, free.</h1>
             <p>A quote can look cheap because of what it leaves out. Share the quote you have, and we'll go through every line with you against the checklist below, so you compare apples to apples.</p>
@@ -188,19 +201,29 @@
         <div class="container">
             <div class="split">
                 <div>
+                    <p class="kicker">Quote review</p>
                     <h2>How it works</h2>
-                    <ol class="steps" style="grid-template-columns: 1fr;">
+                    <ol class="step-list">
                         <li>
-                            <h3>Send us the quote</h3>
-                            <p>A PDF, a photo of the printed quote, or a screenshot is fine. Send it on WhatsApp or by email. You can cover your name and address first if you prefer.</p>
+                            <span class="step-list__num" aria-hidden="true">1</span>
+                            <div>
+                                <h3>Send us the quote</h3>
+                                <p>A PDF, a photo of the printed quote, or a screenshot is fine. Send it on WhatsApp or by email. You can cover your name and address first if you prefer.</p>
+                            </div>
                         </li>
                         <li>
-                            <h3>We go through it line by line</h3>
-                            <p>We check it against the 10 points below: what's included, what's missing, and what could come back later as an extra charge.</p>
+                            <span class="step-list__num" aria-hidden="true">2</span>
+                            <div>
+                                <h3>We go through it line by line</h3>
+                                <p>We check it against the 10 points below: what's included, what's missing, and what could come back later as an extra charge.</p>
+                            </div>
                         </li>
                         <li>
-                            <h3>We talk you through it</h3>
-                            <p>We call you on the number you give us and explain what we found, in plain language. If the quote includes the same quality, the same scope and the same service responsibility, we'll tell you so honestly.</p>
+                            <span class="step-list__num" aria-hidden="true">3</span>
+                            <div>
+                                <h3>We talk you through it</h3>
+                                <p>We call you on the number you give us and explain what we found, in plain language. If the quote includes the same quality, the same scope and the same service responsibility, we'll tell you so honestly.</p>
+                            </div>
                         </li>
                     </ol>
                 </div>
@@ -279,7 +302,7 @@
                             <label for="qc-message">Anything you'd like us to look at?</label>
                             <textarea id="qc-message" name="Message" class="form-control" rows="3" placeholder="For example: the panel brand, the structure, or the warranty"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Request my free quote check</button>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Request my free quote check</button>
                         <p class="form-note">We use these details only to reply to this request. <a class="text-link" href="privacy-policy.html">Privacy policy</a></p>
                     </form>
 
@@ -388,7 +411,7 @@
         <div class="container">
             <h2>Don't have a quote yet?</h2>
             <p>Send us your electricity bill and we'll size a system for your site.</p>
-            <div class="hero-buttons" style="justify-content: center;">
+            <div class="hero-buttons">
                 <a href="index.html#business-proposal" class="btn btn-primary btn-lg">Get a business proposal</a>
                 <a href="residential.html" class="btn btn-secondary btn-lg">Solar for my home</a>
             </div>
