@@ -489,6 +489,72 @@
     color: var(--h-muted);
 }
 
+/* "Solar for" choice: three buttons in a row */
+.home-choice {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.home-choice legend {
+    margin-bottom: 0.5rem;
+    padding: 0;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--h-ink);
+}
+
+.home-choice__options {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+}
+
+.home-form-card .home-choice__options label {
+    position: relative;
+    margin: 0;
+    cursor: pointer;
+}
+
+.home-choice__options input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.home-choice__options span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.5rem;
+    border: 1px solid var(--h-field-line);
+    border-radius: 10px;
+    background: var(--h-field-bg);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--h-ink);
+    transition: border-color 200ms ease, background-color 200ms ease;
+}
+
+.home-choice__options label:hover span {
+    border-color: var(--h-field-line-hover);
+}
+
+.home-choice__options input:checked + span {
+    border-color: var(--h-gold);
+    background: var(--h-gold-tile-bg);
+    color: var(--h-gold-tile-ink);
+}
+
+.home-choice__options input:focus-visible + span {
+    box-shadow: 0 0 0 3px rgba(255, 179, 0, 0.35);
+}
+
+.home-choice__options input[aria-invalid="true"] + span {
+    border-color: var(--h-error);
+}
+
 .home-form-card__submit {
     width: 100%;
     margin-top: 0.25rem;
@@ -499,67 +565,174 @@
 }
 
 /* --------------------------------------------------------------------------
-   7. Sectors
+   7. Solutions (homes, businesses, industry) and ways to pay
    -------------------------------------------------------------------------- */
-.home-sectors {
+.home-segments {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.home-segment {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.75rem;
+    border: 1px solid var(--h-line);
+    border-radius: 24px;
+    background: var(--h-surface);
+    box-shadow: var(--h-card-shadow);
+}
+
+.home-segment h3 {
+    margin: 1.25rem 0 0.5rem;
+    font-size: 1.1875rem;
+    font-weight: 700;
+}
+
+.home .home-segment p {
+    margin: 0 0 1.25rem;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--h-muted);
+}
+
+/* The one number that matters most to this kind of buyer */
+.home .home-segment p.home-segment__fact {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 1px solid var(--h-line);
+    border-radius: 14px;
+    background: var(--h-tile-bg);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+}
+
+.home-segment__fact strong {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+    color: var(--h-ink);
+}
+
+.home-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0 0 1.25rem;
+    padding: 0;
+    list-style: none;
+}
+
+.home-chips a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 0.3125rem 0.75rem;
+    border: 1px solid var(--h-ghost-line);
+    border-radius: 999px;
+    background: var(--h-ghost-bg);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--h-ink);
+    text-decoration: none;
+    transition: border-color 250ms ease, background-color 250ms ease;
+}
+
+.home-chips a:hover,
+.home-chips a:focus-visible {
+    border-color: var(--h-gold);
+    background: var(--h-ghost-bg-hover);
+}
+
+.home .home-segment p.home-segment__areas {
+    margin-top: -0.5rem;
+    font-size: 0.8125rem;
+}
+
+.home-segment__areas a {
+    color: var(--h-link);
+    text-decoration: underline;
+    text-decoration-color: var(--h-line-strong);
+    text-underline-offset: 3px;
+}
+
+.home-segment__areas a:hover {
+    color: var(--h-link-hover);
+}
+
+.home-segment > .home-head__link {
+    margin-top: auto;
+}
+
+.home-pay {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 0.875rem;
 }
 
-.home-sector {
-    position: relative;
+.home-pay__item {
     display: flex;
     flex-direction: column;
-    min-height: 0;
     padding: 1.25rem;
     border: 1px solid var(--h-line);
+    border-top: 3px solid var(--h-sky);
     border-radius: var(--h-radius);
     background: var(--h-surface);
     box-shadow: var(--h-card-shadow);
-    overflow: hidden;
-    transition: border-color 250ms ease, background-color 250ms ease, transform 250ms ease, box-shadow 250ms ease;
 }
 
-.home-sector h3 {
-    margin: 1rem 0 0.25rem;
-    font-size: 1rem;
+.home-pay__item--gold {
+    border-top-color: var(--h-gold);
+}
+
+.home .home-pay p.home-pay__for {
+    margin: 0 0 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--h-muted);
+}
+
+.home-pay h3 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.0625rem;
     font-weight: 700;
 }
 
-.home .home-sector p {
+.home-pay h3 span {
+    padding: 0.0625rem 0.4375rem;
+    border: 1px solid var(--h-line-strong);
+    border-radius: 6px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--h-kicker);
+}
+
+.home .home-pay p {
     margin: 0 0 1rem;
     font-size: 0.875rem;
     line-height: 1.55;
     color: var(--h-muted);
 }
 
-.home-sector__go {
-    display: grid;
-    place-items: center;
-    width: 32px;
-    height: 32px;
+.home-pay__link {
     margin-top: auto;
-    border: 1px solid var(--h-line-strong);
-    border-radius: 50%;
-    color: var(--h-go-ink);
-    transition: background-color 250ms ease, color 250ms ease, border-color 250ms ease, transform 250ms ease;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--h-link);
+    text-decoration: underline;
+    text-decoration-color: var(--h-line-strong);
+    text-underline-offset: 3px;
 }
 
-.home-sector:hover,
-.home-sector:focus-visible {
-    border-color: var(--h-hover-line);
-    background-color: var(--h-surface-hover);
-    transform: translateY(-4px);
-    box-shadow: var(--h-hover-shadow);
-}
-
-.home-sector:hover .home-sector__go,
-.home-sector:focus-visible .home-sector__go {
-    background: var(--h-gold);
-    border-color: var(--h-gold);
-    color: #111827;
-    transform: translateX(4px);
+.home-pay__link:hover {
+    color: var(--h-link-hover);
 }
 
 /* --------------------------------------------------------------------------
@@ -717,49 +890,44 @@
 }
 
 /* --------------------------------------------------------------------------
-   10. Homes and investors
+   10. Investors
    -------------------------------------------------------------------------- */
-.home-paths {
-    display: grid;
-    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-    gap: 1rem;
+.home-section.home-section--tight {
+    padding-top: 0;
 }
 
-.home-path {
+.home-band {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 2rem;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.5rem 1.75rem;
     border: 1px solid var(--h-line);
-    border-radius: 24px;
+    border-radius: 20px;
     background: var(--h-surface);
     box-shadow: var(--h-card-shadow);
 }
 
-.home-path--home {
-    border-color: var(--h-path-line);
+.home-band__copy {
+    flex: 1;
 }
 
-.home-path .home-tile {
-    margin-bottom: 1.25rem;
+.home-band .home-kicker {
+    margin-bottom: 0.375rem;
 }
 
-.home-path .home-kicker {
-    margin-bottom: 0.5rem;
+.home .home-band h2 {
+    margin-bottom: 0.25rem;
+    font-size: 1.1875rem;
 }
 
-.home-path h2 {
-    font-size: clamp(1.3125rem, 1.1rem + 0.6vw, 1.625rem);
-}
-
-.home .home-path p:not(.home-kicker) {
+.home .home-band p:not(.home-kicker) {
+    margin: 0;
+    font-size: 0.875rem;
     color: var(--h-muted);
-    margin-bottom: 1.5rem;
-    font-size: 0.9375rem;
 }
 
-.home-path .home-head__link {
-    margin-top: auto;
+.home-band .btn {
+    flex: none;
 }
 
 /* --------------------------------------------------------------------------
@@ -878,7 +1046,9 @@
    13. Shared chrome on the homepage
    -------------------------------------------------------------------------- */
 /* Visible keyboard focus on the new card links */
-.home-sector:focus-visible,
+.home-chips a:focus-visible,
+.home-pay__link:focus-visible,
+.home-segment__areas a:focus-visible,
 .home-tool:focus-visible,
 .home-guide:focus-visible,
 .home-head__link:focus-visible {
@@ -953,49 +1123,6 @@
 
     .home-deliverables li {
         flex-direction: column;
-    }
-
-    /* Sectors: compact horizontal cards, two per row */
-    .home-sectors {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 0.875rem;
-    }
-
-    .home-sector {
-        display: grid;
-        grid-template-columns: auto minmax(0, 1fr) auto;
-        grid-template-areas:
-            "tile title go"
-            "tile text go";
-        column-gap: 1rem;
-        align-items: center;
-        min-height: 0;
-        padding: 1.125rem 1.25rem;
-    }
-
-    .home-sector .home-tile {
-        grid-area: tile;
-    }
-
-    .home-sector h3 {
-        grid-area: title;
-        align-self: end;
-        margin: 0 0 0.125rem;
-        font-size: 1.0625rem;
-    }
-
-    .home .home-sector p {
-        grid-area: text;
-        align-self: start;
-        margin: 0;
-        font-size: 0.875rem;
-    }
-
-    .home-sector__go {
-        grid-area: go;
-        width: 34px;
-        height: 34px;
-        margin: 0;
     }
 
     .home-features {
@@ -1086,7 +1213,6 @@
         flex-direction: row;
     }
 
-    .home-paths,
     .home-cta {
         grid-template-columns: minmax(0, 1fr);
     }
@@ -1120,7 +1246,7 @@
         border-top: 1px solid var(--h-line);
     }
 
-    .home-sectors,
+
     .home-tools {
         grid-template-columns: minmax(0, 1fr);
     }
@@ -1292,42 +1418,6 @@
         right: 1.25rem;
     }
 
-    /* Sectors */
-    .home-sectors {
-        gap: 0.625rem;
-    }
-
-    .home-sector {
-        column-gap: 0.875rem;
-        padding: 0.875rem 1rem;
-        border-radius: 16px;
-    }
-
-    .home-sector .home-tile {
-        width: 40px;
-        height: 40px;
-        border-radius: 10px;
-    }
-
-    .home-sector h3 {
-        font-size: 1rem;
-    }
-
-    .home .home-sector p {
-        font-size: 0.8125rem;
-        line-height: 1.45;
-    }
-
-    .home-sector__go {
-        width: 30px;
-        height: 30px;
-    }
-
-    .home-sector:hover,
-    .home-sector:focus-visible {
-        transform: none;
-    }
-
     /* Process: icon beside the text, one compact row per step */
     .home-process {
         grid-template-columns: minmax(0, 1fr);
@@ -1433,24 +1523,6 @@
         margin-top: 0;
     }
 
-    .home-paths {
-        gap: 1rem;
-    }
-
-    .home-path {
-        padding: 1.75rem 1.5rem;
-        border-radius: 24px;
-    }
-
-    .home-path .home-tile {
-        margin-bottom: 1.25rem;
-    }
-
-    .home-path .btn-row,
-    .home-path .btn-row .btn {
-        width: 100%;
-    }
-
     /* Guides: a swipeable row instead of six stacked cards */
     .home-guides {
         grid-template-columns: none;
@@ -1524,21 +1596,60 @@
     }
 }
 
+/* Solutions, ways to pay and the investor band on smaller screens */
+@media (max-width: 1100px) {
+    .home-pay {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    .home-segments {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .home-segment {
+        padding: 1.5rem 1.25rem;
+        border-radius: 20px;
+    }
+
+    .home-segment h3 {
+        margin-top: 1rem;
+        font-size: 1.125rem;
+    }
+
+    .home .home-segment p {
+        font-size: 0.875rem;
+    }
+
+    .home-pay {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.625rem;
+    }
+
+    .home-band {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1.5rem 1.25rem;
+    }
+
+    .home-band .btn {
+        width: 100%;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .home-float {
         animation: none;
     }
 
-    .home-sector,
-    .home-sector__go,
-    .home-tool__go {
+    .home-tool__go,
+    .home-chips a {
         transition: none;
     }
 
-    .home-sector:hover,
-    .home-sector:focus-visible {
-        transform: none;
-    }
 }
 
 @media print {
