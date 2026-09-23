@@ -12,11 +12,6 @@ document.addEventListener('DOMContentLoaded', function initEnergyField() {
     canvas.setAttribute('aria-hidden', 'true');
     document.body.prepend(canvas);
 
-    const toggle = document.createElement('button');
-    toggle.className = 'energy-motion-toggle';
-    toggle.type = 'button';
-    document.body.append(toggle);
-
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
     let width = 0;
@@ -26,9 +21,10 @@ document.addEventListener('DOMContentLoaded', function initEnergyField() {
     let frame = 0;
     let lastTime = 0;
     let elapsed = 0;
-    let paused = false;
     const pointer = { x: 0, y: 0, targetX: 0, targetY: 0, strength: 0, active: false };
-    const isStill = () => paused || reducedMotion.matches;
+    const isStill = () => reducedMotion.matches;
+    // The homepage keeps the grid lines only, without the glow layers.
+    const drawGlows = !document.body.classList.contains('home');
 
     function point(column, depth, time) {
         const spread = 0.12 + depth * 1.5;
@@ -52,20 +48,22 @@ document.addEventListener('DOMContentLoaded', function initEnergyField() {
         ctx.clearRect(0, 0, width, height);
 
         // A restrained pool of sunlight moves over the cool blue field.
-        const sunX = width * (0.76 + Math.sin(time * 0.12) * 0.07);
-        const sunY = height * 0.36;
-        const sunlight = ctx.createRadialGradient(sunX, sunY, 0, sunX, sunY, width * 0.48);
-        sunlight.addColorStop(0, 'rgba(255,179,0,0.055)');
-        sunlight.addColorStop(1, 'rgba(255,179,0,0)');
-        ctx.fillStyle = sunlight;
-        ctx.fillRect(0, 0, width, height);
-
-        if (pointer.strength > 0.01) {
-            const glow = ctx.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 260);
-            glow.addColorStop(0, `rgba(56,189,248,${0.045 * pointer.strength})`);
-            glow.addColorStop(1, 'rgba(56,189,248,0)');
-            ctx.fillStyle = glow;
+        if (drawGlows) {
+            const sunX = width * (0.76 + Math.sin(time * 0.12) * 0.07);
+            const sunY = height * 0.36;
+            const sunlight = ctx.createRadialGradient(sunX, sunY, 0, sunX, sunY, width * 0.48);
+            sunlight.addColorStop(0, 'rgba(255,179,0,0.055)');
+            sunlight.addColorStop(1, 'rgba(255,179,0,0)');
+            ctx.fillStyle = sunlight;
             ctx.fillRect(0, 0, width, height);
+
+            if (pointer.strength > 0.01) {
+                const glow = ctx.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 260);
+                glow.addColorStop(0, `rgba(56,189,248,${0.045 * pointer.strength})`);
+                glow.addColorStop(1, 'rgba(56,189,248,0)');
+                ctx.fillStyle = glow;
+                ctx.fillRect(0, 0, width, height);
+            }
         }
 
         ctx.lineWidth = 0.8;
@@ -117,12 +115,6 @@ document.addEventListener('DOMContentLoaded', function initEnergyField() {
         frame = 0;
         lastTime = 0;
         document.body.classList.toggle('energy-field-paused', isStill());
-        const label = paused ? 'Resume background animation' : 'Pause background animation';
-        toggle.setAttribute('aria-label', label);
-        toggle.title = label;
-        toggle.innerHTML = paused
-            ? '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2l10 6-10 6z"/></svg>'
-            : '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2h3v12H4zm5 0h3v12H9z"/></svg>';
         if (isStill()) {
             pointer.strength = 0;
             draw();
@@ -154,10 +146,6 @@ document.addEventListener('DOMContentLoaded', function initEnergyField() {
     window.addEventListener('resize', resize, { passive: true });
     document.addEventListener('visibilitychange', syncMotion);
     reducedMotion.addEventListener('change', syncMotion);
-    toggle.addEventListener('click', () => {
-        paused = !paused;
-        syncMotion();
-    });
 
     resize();
     document.body.classList.add('energy-field-ready');
@@ -502,6 +490,75 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
         });
+    }
+
+    // ──────────────────────────────────────────────────────────
+    // 1b. Light / dark theme toggle
+    //     The page head sets html[data-theme] before paint; this adds the
+    //     round toggle above the WhatsApp button, swaps the theme and
+    //     remembers an explicit choice. Without a saved choice the page
+    //     follows the device setting, including live changes.
+    // ──────────────────────────────────────────────────────────
+    if (document.documentElement.hasAttribute('data-theme') &&
+        !document.querySelector('[data-theme-toggle]')) {
+        let stack = document.querySelector('.sticky-contact');
+        if (!stack) {
+            stack = document.createElement('div');
+            stack.className = 'sticky-contact';
+            document.body.append(stack);
+        }
+        const themeButton = document.createElement('button');
+        themeButton.type = 'button';
+        themeButton.className = 'sticky-contact-btn theme-toggle';
+        themeButton.setAttribute('data-theme-toggle', '');
+        themeButton.innerHTML =
+            '<svg class="theme-toggle__sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>' +
+            '<svg class="theme-toggle__moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+        stack.prepend(themeButton);
+    }
+
+    const themeToggles = document.querySelectorAll('[data-theme-toggle]');
+    if (themeToggles.length > 0) {
+        const root = document.documentElement;
+        const syncThemeLabels = function () {
+            const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            themeToggles.forEach(button => {
+                button.setAttribute('aria-label', `Switch to ${next} theme`);
+                button.setAttribute('title', `Switch to ${next} theme`);
+            });
+        };
+        const savedTheme = function () {
+            try {
+                return localStorage.getItem('r2v-theme');
+            } catch (e) {
+                return null;
+            }
+        };
+
+        themeToggles.forEach(button => {
+            button.addEventListener('click', function () {
+                const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+                root.setAttribute('data-theme', next);
+                try {
+                    localStorage.setItem('r2v-theme', next);
+                } catch (e) {
+                    // The theme still switches for this page view.
+                }
+                syncThemeLabels();
+            });
+        });
+
+        if (window.matchMedia) {
+            const lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+            const followDevice = function (e) {
+                if (savedTheme()) return;
+                root.setAttribute('data-theme', e.matches ? 'light' : 'dark');
+                syncThemeLabels();
+            };
+            if (lightQuery.addEventListener) lightQuery.addEventListener('change', followDevice);
+        }
+
+        syncThemeLabels();
     }
 
     // ──────────────────────────────────────────────────────────
@@ -939,7 +996,7 @@ document.addEventListener('DOMContentLoaded', function () {
         requestAnimationFrame(update);
     }
 
-    const heroStats = document.querySelectorAll('.hero-stat h3');
+    const heroStats = document.querySelectorAll('.hero-stat h3, [data-count]');
     const reduceCounterMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (heroStats.length > 0 && 'IntersectionObserver' in window && !reduceCounterMotion) {
         const statsObserver = new IntersectionObserver((entries) => {

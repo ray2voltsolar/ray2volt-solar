@@ -19,6 +19,18 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="description"
         content="Looking for a trusted solar company in Tirupati? Ray2Volt Solar offers top-quality on-grid and hybrid solar installations with free power audits. 1,000+ installations across Andhra Pradesh.">
     <meta name="keywords"
@@ -37,6 +49,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="theme.css">
     <meta property="og:site_name" content="Ray2Volt Solar">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Trusted Solar Company in Tirupati | Ray2Volt Solar">
@@ -52,7 +65,7 @@
             bottom: 30px;
             right: 30px;
             background-color: #25D366;
-            color: white;
+            color: var(--h-on-gold);
             width: 60px;
             height: 60px;
             border-radius: 50%;
@@ -60,15 +73,15 @@
             align-items: center;
             justify-content: center;
             text-decoration: none;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: var(--h-float-shadow);
             z-index: 1000;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .floating-whatsapp:hover {
             transform: scale(1.1);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-            color: white;
+            box-shadow: var(--h-hover-shadow);
+            color: var(--h-on-gold);
         }
 
         .floating-whatsapp svg {
@@ -174,35 +187,31 @@
                 <span>/</span>
                 <span>Solar in Tirupati</span>
             </div>
-            <h1>Trusted Solar Company in <span>Tirupati</span></h1>
+            <h1>Trusted solar company in <span>Tirupati</span></h1>
             <p>Empowering Tirupati with clean, reliable, and affordable solar energy. From free power audits to flawless
                 installations, Ray2Volt is your trusted local partner.</p>
         </div>
     </section>
 
     <!-- Stats Section -->
-    <section class="section" style="padding-top: 0;">
+    <section class="section pt-0">
         <div class="container">
-            <div class="grid grid-4 tirupati-stats-grid reveal-stagger">
-                <div class="hero-stat reveal">
+            <div class="hero-stats reveal">
+                <div class="hero-stat">
                     <h3>1,000+</h3>
-                    <p>Installations Across Andhra Pradesh</p>
+                    <p>Installations across Andhra Pradesh</p>
                 </div>
-                <div class="hero-stat reveal">
+                <div class="hero-stat">
                     <h3>10 MW+</h3>
-                    <p>Capacity Deployed</p>
+                    <p>Capacity deployed</p>
                 </div>
-                <div class="hero-stat reveal">
-                    <h3
-                        style="font-size: 1.75rem; display: flex; align-items: center; justify-content: center; height: 38px;">
-                        Free</h3>
-                    <p>Site Survey & Power Audit</p>
+                <div class="hero-stat">
+                    <h3>Free</h3>
+                    <p>Site survey & power audit</p>
                 </div>
-                <div class="hero-stat reveal">
-                    <h3
-                        style="font-size: 1.75rem; display: flex; align-items: center; justify-content: center; height: 38px;">
-                        30 Yrs</h3>
-                    <p>Performance Warranty</p>
+                <div class="hero-stat">
+                    <h3>30 yrs</h3>
+                    <p>Performance warranty</p>
                 </div>
             </div>
         </div>
@@ -213,11 +222,12 @@
         <div class="container">
             <div class="about-intro reveal">
                 <div>
-                    <h2>Why Choose Ray2Volt in <span>Tirupati?</span></h2>
+                    <p class="kicker">Why Ray2Volt</p>
+                    <h2>Why choose Ray2Volt in <span>Tirupati?</span></h2>
                     <p class="lead">We deliver premium solar installations with unparalleled post-sales support right
                         here in Tirupati and surrounding areas.</p>
 
-                    <ul class="benefits-list mt-4" style="flex-direction: column;">
+                    <ul class="benefits-list mt-4">
                         <li class="benefit-item">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -260,8 +270,7 @@
                     <!-- Reusing the shared hero image to maintain consistency -->
                     <picture>
                         <source type="image/webp" srcset="images/hero-800.webp 800w, images/hero-1200.webp 1200w, images/hero-1600.webp 1600w, images/hero-2400.webp 2400w" sizes="(max-width: 768px) 100vw, 50vw">
-                        <img src="images/hero-1600.jpg" alt="Solar Installation in Tirupati"
-                            style="border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); border: 2px solid rgba(14, 165, 233, 0.15);" width="1600" height="1195" loading="lazy">
+                        <img src="images/hero-1600.jpg" alt="Solar Installation in Tirupati" class="frame" width="1600" height="1195" loading="lazy">
                     </picture>
                 </div>
             </div>
@@ -272,15 +281,15 @@
     <section class="section services" id="services">
         <div class="container">
             <div class="section-header reveal">
-                <h2>Our Solar Solutions</h2>
+                <p class="kicker">Solar solutions</p>
+                <h2>Our solar solutions</h2>
                 <p>Tailored solar solutions for every type of property in Tirupati.</p>
             </div>
 
             <div class="grid grid-3 reveal-stagger">
                 <!-- On-Grid -->
                 <div class="card service-card reveal">
-                    <div class="card-icon"
-                        style="background: linear-gradient(135deg, var(--primary) 0%, var(--cyan) 100%);">
+                    <div class="card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="5" />
@@ -294,7 +303,7 @@
                             <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
                         </svg>
                     </div>
-                    <h3>On-Grid Solar Solutions</h3>
+                    <h3>On-grid solar solutions</h3>
                     <p>Perfect for urban homes in Tirupati with minimal power cuts. Cut eligible grid energy charges by up to 90%
                         and export excess power to the grid via net metering.</p>
                     <a href="residential-ongrid.html" class="card-link mt-3">Explore on-grid solar <svg
@@ -307,15 +316,14 @@
 
                 <!-- Hybrid -->
                 <div class="card service-card reveal">
-                    <div class="card-icon"
-                        style="background: linear-gradient(135deg, var(--secondary-gold) 0%, var(--secondary-dark) 100%);">
+                    <div class="card-icon card-icon--gold">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="1" y="6" width="18" height="12" rx="2" ry="2" />
                             <line x1="23" y1="13" x2="23" y2="11" />
                         </svg>
                     </div>
-                    <h3>Hybrid Solar Solutions</h3>
+                    <h3>Hybrid solar solutions</h3>
                     <p>Combines grid connection with battery backup. Ideal for areas experiencing frequent power
                         outages. Enjoy uninterrupted power day and night.</p>
                     <a href="residential-hybrid.html" class="card-link mt-3">Explore hybrid solar <svg
@@ -328,7 +336,7 @@
 
                 <!-- Commercial -->
                 <div class="card service-card reveal">
-                    <div class="card-icon" style="background: linear-gradient(135deg, #81D4FA 0%, #29B6F6 100%);">
+                    <div class="card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
@@ -338,7 +346,7 @@
                             <line x1="8" y1="18" x2="12" y2="18" />
                         </svg>
                     </div>
-                    <h3>Commercial Solar</h3>
+                    <h3>Commercial solar</h3>
                     <p>Designed for businesses, factories, hospitals, hotels and schools in Tirupati. Significantly
                         reduce overhead costs. Estimated payback is 3–5 years for businesses and 4–5 years for on-grid
                         homes after the PM Surya Ghar subsidy, for a system bought outright at current APSPDCL tariffs
@@ -357,16 +365,16 @@
     <!-- CTA Section -->
     <!-- r2v:projects-area-tirupati:start -->
     <!-- r2v:projects-area-tirupati:end -->
-    <!-- r2v:branch-tirupati:start --><section class="section"><div class="container"><div class="section-header"><h2>Our nearest branch</h2></div><div class="grid grid-3"><div class="panel branch-card"><h3>Tirupati</h3><p>Beside District Collector Office, Daminedu, Tirupati, Tirupati District, Andhra Pradesh 517503</p><p><a class="text-link" href="tel:+919666068140">+91 9666068140</a></p><p class="mb-0"><a class="text-link" href="https://www.google.com/maps/search/?api=1&amp;query=Beside%20District%20Collector%20Office%2C%20Daminedu%2C%20Tirupati%2C%20Tirupati%20District%2C%20Andhra%20Pradesh%20517503" target="_blank" rel="noopener">Open in Google Maps</a></p></div></div></div></section><!-- r2v:branch-tirupati:end -->
+    <!-- r2v:branch-tirupati:start --><section class="section"><div class="container"><div class="section-header"><p class="kicker">Visit us</p><h2>Our nearest branch</h2></div><div class="grid grid-3"><div class="panel branch-card"><h3>Tirupati</h3><p>Beside District Collector Office, Daminedu, Tirupati, Tirupati District, Andhra Pradesh 517503</p><p><a class="text-link" href="tel:+919666068140">+91 9666068140</a></p><p class="mb-0"><a class="text-link" href="https://www.google.com/maps/search/?api=1&amp;query=Beside%20District%20Collector%20Office%2C%20Daminedu%2C%20Tirupati%2C%20Tirupati%20District%2C%20Andhra%20Pradesh%20517503" target="_blank" rel="noopener">Open in Google Maps</a></p></div></div></div></section><!-- r2v:branch-tirupati:end -->
 
     <section class="cta reveal reveal-scale">
         <div class="container">
-            <h2>Ready to Switch to Solar in Tirupati?</h2>
+            <h2>Ready to switch to solar in Tirupati?</h2>
             <p>Get a free power audit and personalized quote for your home or business today!</p>
             <div class="flex-center gap-3">
-                <a href="contact.html" class="btn btn-white btn-lg">Request Free Audit</a>
-                <a href="tel:+919666068140" class="btn btn-outline btn-lg" style="border-color: white; color: white;">
-                    Call +91 9666068140
+                <a href="contact.html" class="btn btn-white btn-lg">Request free audit</a>
+                <a href="tel:+919666068140" class="btn btn-outline btn-lg" >
+                    Call +91 96660 68140
                 </a>
             </div>
         </div>

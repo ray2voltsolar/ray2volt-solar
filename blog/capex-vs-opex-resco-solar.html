@@ -18,6 +18,18 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="description" content="Own the asset or just buy the power? A side-by-side of capital outlay, tariff structure, balance-sheet treatment, O&amp;M responsibility, and end-of-term ownership.">
     <meta name="keywords" content="CAPEX vs OPEX solar, RESCO model India, solar PPA commercial, zero investment solar for business">
     <title>CAPEX vs OPEX (RESCO) Solar: Which Model Fits Your Business? | Ray2Volt Solar</title>
@@ -35,6 +47,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../blog.css">
+    <link rel="stylesheet" href="../theme.css">
 
     <!-- Open Graph -->
     <meta property="og:site_name" content="Ray2Volt Solar">

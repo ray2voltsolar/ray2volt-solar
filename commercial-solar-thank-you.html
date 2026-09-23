@@ -16,6 +16,18 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="robots" content="noindex, follow">
     <title>C&amp;I Solar Enquiry Received | Ray2Volt Solar</title>
     <link rel="canonical" href="https://ray2voltsolar.com/commercial-solar-thank-you.html">
@@ -27,6 +39,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap" rel="stylesheet">
     </noscript>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="theme.css">
     <style>
         /* ------------------------------------------------------------------
            C&I confirmation page
@@ -52,7 +65,7 @@
         /* A confirmation panel, not a clickable card - keep it still. */
         .ci-thank-you-content:hover {
             transform: none;
-            border-color: rgba(56, 189, 248, 0.12);
+            border-color: var(--h-line);
             box-shadow: none;
         }
 
@@ -61,7 +74,7 @@
         }
 
         .ci-thank-you-content:hover::after {
-            background: rgba(15, 23, 42, 0.85);
+            background: var(--h-surface);
         }
 
         .ci-success-mark {
@@ -72,10 +85,10 @@
             height: 3.25rem;
             margin-bottom: 1.25rem;
             border-radius: 50%;
-            background: rgba(76, 175, 80, 0.15);
-            border: 1px solid rgba(76, 175, 80, 0.45);
-            box-shadow: 0 0 0 6px rgba(76, 175, 80, 0.08);
-            color: var(--success-light);
+            background: var(--h-success-bg);
+            border: 1px solid var(--h-success-line);
+            box-shadow: 0 0 0 6px var(--h-success-line);
+            color: var(--h-green);
             font-size: 1.5rem;
             font-weight: 800;
             line-height: 1;
@@ -88,16 +101,16 @@
         .ci-thank-you-content .lead {
             margin: 0;
             font-size: 1rem;
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--h-muted);
         }
 
         .ci-next-step {
             margin: 1.75rem 0;
             padding: 1rem 1.25rem;
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            border-left: 3px solid var(--primary);
+            border: 1px solid var(--h-tile-line);
+            border-left: 3px solid var(--h-sky);
             border-radius: var(--radius);
-            background: rgba(3, 169, 244, 0.08);
+            background: var(--h-tile-bg);
             text-align: left;
         }
 
@@ -110,7 +123,7 @@
             margin: 0;
             font-size: 0.9375rem;
             line-height: 1.6;
-            color: rgba(255, 255, 255, 0.75);
+            color: var(--h-muted);
         }
 
         .ci-thank-you-actions {
@@ -212,9 +225,9 @@
                     assessment path.</p>
             </div>
             <div class="ci-thank-you-actions">
-                <a href="tel:+919666068140" class="btn btn-primary">Call Commercial Solar Team</a>
+                <a href="tel:+919666068140" class="btn btn-primary">Call commercial solar team</a>
                 <a href="blog/capex-vs-opex-resco-solar.html" class="btn btn-outline">Compare CAPEX &amp; RESCO</a>
-                <a href="commercial.html" class="btn btn-outline">Explore C&amp;I Solar</a>
+                <a href="commercial.html" class="btn btn-outline">Explore C&amp;I solar</a>
             </div>
         </div>
     </main>

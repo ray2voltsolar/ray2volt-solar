@@ -18,6 +18,18 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="description" content="Three ways to pay for commercial rooftop solar, side by side: buying the plant outright with depreciation, a bank loan, or RESCO where you pay per unit. Financing options are available for eligible C&amp;I projects.">
     <title>Business Solar Finance: Buy, Loan or RESCO Compared | Ray2Volt Solar</title>
     <link rel="canonical" href="https://ray2voltsolar.com/business-solar-finance.html">
@@ -33,6 +45,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="pages.css">
+    <link rel="stylesheet" href="theme.css">
     <meta property="og:site_name" content="Ray2Volt Solar">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Business Solar Finance: Buy, Loan or RESCO Compared | Ray2Volt Solar">
@@ -138,7 +151,7 @@
             <div class="breadcrumb">
                 <a href="/">Home</a>
                 <span>/</span>
-                <span>Business Solar Finance</span>
+                <span>Business solar finance</span>
             </div>
             <h1>Three ways to pay for business solar</h1>
             <p>Buy the plant with your own funds, borrow for it, or pay only for the units it produces under RESCO. Here is how the three compare, so you can choose the one that suits your cash flow and tax position.</p>

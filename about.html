@@ -18,6 +18,18 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="description"
         content="About Ray2Volt Solar Private Limited: a solar company based in Srikalahasti, serving businesses and homes in Tirupati district and across Andhra Pradesh. Our mission, vision and way of working.">
     <title>About Us | Ray2Volt Solar</title>
@@ -34,6 +46,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="theme.css">
     <meta property="og:site_name" content="Ray2Volt Solar">
     <meta property="og:type" content="website">
     <meta property="og:title" content="About Us | Ray2Volt Solar">
@@ -138,7 +151,7 @@
             <div class="breadcrumb">
                 <a href="/">Home</a>
                 <span>/</span>
-                <span>About Us</span>
+                <span>About us</span>
             </div>
             <h1>About Ray2Volt Solar</h1>
             <p>Empowering communities with clean, affordable solar energy since our founding.</p>
@@ -150,7 +163,8 @@
         <div class="container">
             <div class="about-intro reveal">
                 <div>
-                    <h2>Our Mission</h2>
+                    <p class="kicker">Our purpose</p>
+                    <h2>Our mission</h2>
                     <p class="lead">To accelerate the adoption of solar energy in India by making it accessible,
                         affordable, and hassle-free for every household and business.</p>
                     <p>At Ray2Volt Solar, we believe that clean energy is not just for the privileged few - it's a
@@ -160,7 +174,7 @@
                     <p>Ray2Volt Solar is led by P Harsha Vardhan Reddy, Managing Director; M Praveen, Head of
                         Operations; and P Mallikarjuna Reddy, Director and Advisor.</p>
 
-                    <h3 class="mt-4">Our Vision</h3>
+                    <h3 class="mt-4">Our vision</h3>
                     <p>To be the most trusted solar energy partner in Andhra Pradesh, known for our commitment to
                         quality, customer satisfaction, and community impact. We envision a future where every rooftop
                         harnesses the power of the sun.</p>
@@ -177,7 +191,8 @@
     <section class="section bg-light">
         <div class="container">
             <div class="section-header reveal">
-                <h2>Our Core Values</h2>
+                <p class="kicker">Our values</p>
+                <h2>Our core values</h2>
                 <p>The principles that guide everything we do at Ray2Volt Solar.</p>
             </div>
 
@@ -204,7 +219,7 @@
                             <line x1="15" y1="9" x2="15.01" y2="9" />
                         </svg>
                     </div>
-                    <h3>Customer First</h3>
+                    <h3>Customer first</h3>
                     <p>Your satisfaction is our success. We go the extra mile to ensure every customer is happy with
                         their solar installation.</p>
                 </div>
@@ -217,7 +232,7 @@
                             <polyline points="22 4 12 14.01 9 11.01" />
                         </svg>
                     </div>
-                    <h3>Quality Excellence</h3>
+                    <h3>Quality excellence</h3>
                     <p>We never compromise on quality. From Tier-1 panels to expert installation, we ensure top-notch
                         standards in everything.</p>
                 </div>
@@ -229,7 +244,8 @@
             <div class="container">
                 <div class="about-intro reveal">
                     <div>
-                        <h2>Proudly Local</h2>
+                        <p class="kicker">Local support</p>
+                        <h2>Proudly local</h2>
                         <p class="lead">We understand the unique needs of our customers.
                         </p>
                         <p>Being a local company means we're always accessible. When you need support, you don't have to
@@ -277,13 +293,15 @@
         </section>
 
         <!-- CTA Section -->
-        <!-- r2v:company-pages:start --><section class="section-sm"><div class="container text-center"><div class="btn-row" style="justify-content:center"><a class="btn btn-secondary" href="team.html">Our team</a><a class="btn btn-secondary" href="warranty.html">Warranty and claims</a></div></div></section><!-- r2v:company-pages:end -->
+        <!-- r2v:company-pages:start --><section class="section-sm"><div class="container text-center"><div class="btn-row btn-row--center"><a class="btn btn-secondary" href="team.html">Our team</a><a class="btn btn-secondary" href="warranty.html">Warranty and claims</a></div></div></section><!-- r2v:company-pages:end -->
 
         <section class="cta reveal reveal-scale">
             <div class="container">
-                <h2>Ready to Start Your Solar Journey?</h2>
+                <h2>Ready to start your solar journey?</h2>
                 <p>Let's discuss how solar energy can benefit your home or business. Our team is ready to help.</p>
-                <a href="contact.html" class="btn btn-white btn-lg">Contact Us Today</a>
+                <div class="flex-center gap-3">
+                    <a href="contact.html" class="btn btn-white btn-lg">Contact us today</a>
+                </div>
             </div>
         </section>
 

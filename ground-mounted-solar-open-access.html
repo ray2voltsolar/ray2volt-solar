@@ -18,6 +18,18 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="description" content="Roof too small for your load? Compare a ground-mounted solar plant on your own land with solar through open access, under Andhra Pradesh rules for businesses.">
     <title>Ground-Mounted Solar and Open Access in AP | Ray2Volt Solar</title>
     <link rel="canonical" href="https://ray2voltsolar.com/ground-mounted-solar-open-access.html">
@@ -33,6 +45,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="pages.css">
+    <link rel="stylesheet" href="theme.css">
     <meta property="og:site_name" content="Ray2Volt Solar">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Ground-Mounted Solar and Open Access in AP | Ray2Volt Solar">
@@ -144,9 +157,9 @@
             <div class="breadcrumb">
                 <a href="/">Home</a>
                 <span>/</span>
-                <a href="commercial.html">Commercial Solar</a>
+                <a href="commercial.html">Commercial solar</a>
                 <span>/</span>
-                <span>Ground-Mounted Solar and Open Access</span>
+                <span>Ground-mounted solar and open access</span>
             </div>
             <h1>Ground-mounted solar and open access for business</h1>
             <p>When your roof cannot carry enough solar for your load, there are two other routes: a ground-mounted plant on your own land, or solar supplied to you through open access. Ray2Volt designs and builds both.</p>
@@ -158,6 +171,7 @@
     <section class="section">
         <div class="container">
             <div class="section-header">
+                <p class="kicker">Compare routes</p>
                 <h2>Two routes when the roof is not enough</h2>
                 <p>Which one fits depends on your load, whether you have spare land inside your premises, and whether the plant will send power to the grid.</p>
             </div>
@@ -212,6 +226,7 @@
         <div class="container">
             <div class="split">
                 <div class="prose">
+                    <p class="kicker">On your land</p>
                     <h2 class="mt-0">A ground-mounted plant on your premises</h2>
                     <p>APERC's solar regulation (Regulation 4 of 2023) covers solar panels on roofs, on walls and on open land within your premises. So a plant on spare land inside your boundary is connected under the same regulation as a rooftop plant.</p>
                     <p>The power is used on site as it is generated. The main question is whether the plant will send any power to the grid, because that decides which limits apply.</p>
@@ -240,6 +255,7 @@
         <div class="container">
             <div class="split">
                 <div class="prose">
+                    <p class="kicker">Off-site solar</p>
                     <h2 class="mt-0">Solar through open access</h2>
                     <p>Open access lets your business take solar power from a plant that is not at your site. The power travels over the DISCOM or APTRANSCO network, and you pay charges for using it. In Andhra Pradesh this is governed by APERC's Green Energy Open Access Regulation (Regulation 3 of 2024).</p>
                     <p>Under captive use, you hold at least 26% of the plant's ownership and use at least 51% of the power it generates in the financial year. Under third-party sale, you buy the power from a plant owned by someone else.</p>
@@ -267,22 +283,27 @@
     <section class="section">
         <div class="container">
             <div class="section-header">
+                <p class="kicker">How we work</p>
                 <h2>How a project runs with Ray2Volt</h2>
             </div>
-            <ol class="steps">
+            <ol class="process">
                 <li>
+                    <span class="process__num" aria-hidden="true">01</span>
                     <h3>We look at your load, bills and land</h3>
                     <p>We go through your electricity bills, how your load runs through the day, and any land you have inside or away from your premises.</p>
                 </li>
                 <li>
+                    <span class="process__num" aria-hidden="true">02</span>
                     <h3>We suggest a route and a size</h3>
                     <p>We compare a ground-mounted plant and open access for your site, and size the plant to your consumption and the rules that apply.</p>
                 </li>
                 <li>
+                    <span class="process__num" aria-hidden="true">03</span>
                     <h3>We prepare the paperwork with you</h3>
                     <p>We prepare and file the paperwork with you: the DISCOM intimation for a behind-the-meter plant, or the open access and connectivity applications. The decisions rest with the DISCOM and the nodal agencies.</p>
                 </li>
                 <li>
+                    <span class="process__num" aria-hidden="true">04</span>
                     <h3>We build, commission and service the plant</h3>
                     <p>We install and commission the plant, and service it after handover.</p>
                 </li>
@@ -314,7 +335,7 @@
         <div class="container">
             <h2>Not sure which route fits your site?</h2>
             <p>Send us a recent electricity bill and tell us about your land or your load, and we'll suggest a route.</p>
-            <div class="hero-buttons" style="justify-content: center;">
+            <div class="hero-buttons">
                 <a href="index.html#business-proposal" class="btn btn-primary btn-lg">Get a business proposal</a>
                 <a href="upload-electricity-bill.html" class="btn btn-secondary btn-lg">Send your bill</a>
             </div>

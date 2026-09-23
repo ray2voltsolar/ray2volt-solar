@@ -195,48 +195,8 @@ body > .energy-field {
     pointer-events: none;
 }
 
-body > .energy-motion-toggle {
-    position: fixed;
-    left: 88px;
-    bottom: 40px;
-    z-index: 90;
-    display: grid;
-    place-items: center;
-    width: 36px;
-    height: 36px;
-    border: 1px solid rgba(125, 211, 252, 0.22);
-    border-radius: 50%;
-    background: rgba(10, 15, 29, 0.85);
-    color: #BAE6FD;
-    transition: border-color 200ms ease, background 200ms ease;
-}
-
-.energy-motion-toggle:hover,
-.energy-motion-toggle:focus-visible {
-    background: #172B40;
-    border-color: #7DD3FC;
-}
-
-.energy-motion-toggle:focus-visible {
-    outline: 2px solid #FFB300;
-    outline-offset: 4px;
-}
-
-.energy-motion-toggle svg {
-    width: 14px;
-    height: 14px;
-    fill: currentColor;
-}
-
 body.energy-field-paused .hero::before {
     animation-play-state: paused;
-}
-
-@media (max-width: 600px) {
-    body > .energy-motion-toggle {
-        left: 74px;
-        bottom: 25px;
-    }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -244,15 +204,10 @@ body.energy-field-paused .hero::before {
     .hero::before {
         animation: none;
     }
-
-    body > .energy-motion-toggle {
-        display: none;
-    }
 }
 
 @media print {
-    body > .energy-field,
-    body > .energy-motion-toggle {
+    body > .energy-field {
         display: none;
     }
 }

@@ -18,6 +18,18 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="description" content="Solar power for schools, colleges and universities. Cut campus energy costs and teach sustainability with Ray2Volt.">
     <title>Solar for Schools, Colleges & Universities | Ray2Volt Solar</title>
     <link rel="canonical" href="https://ray2voltsolar.com/industry-education.html">
@@ -33,6 +45,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="theme.css">
     <meta property="og:site_name" content="Ray2Volt Solar">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Solar for Schools, Colleges &amp; Universities | Ray2Volt Solar">
@@ -119,9 +132,9 @@
                 <span>/</span>
                 <a href="commercial.html">Commercial</a>
                 <span>/</span>
-                <span>Educational Institutions</span>
+                <span>Educational institutions</span>
             </div>
-            <h1>Solar for <span>Educational Institutions</span></h1>
+            <h1>Solar for <span>educational institutions</span></h1>
             <p>Big rooftops, daytime usage, and a living lesson in sustainability.</p>
         </div>
     </section>
@@ -131,7 +144,8 @@
         <div class="container">
             <div class="about-intro reveal">
                 <div>
-                    <h2>A Smarter Campus Starts on the Roof</h2>
+                    <p class="kicker">Education solar</p>
+                    <h2>A smarter campus starts on the roof</h2>
                     <p class="lead">Classes run in daylight - so campuses consume power precisely when solar panels produce it.</p>
                     <p>Schools, colleges, and universities operate classrooms, labs, libraries, and hostels across sprawling campuses with large, flat rooftops. That combination of daytime load and abundant roof area makes education one of the easiest sectors to solarise.</p>
                     <p>A campus plant is also a teaching tool: live generation dashboards bring renewable energy into science classrooms and demonstrate institutional values to students and parents. The payback shown below is an estimate for a system bought outright, at current APSPDCL tariffs and typical daytime use; your own figure depends on your tariff, how much solar you use yourself and the system cost.</p>
@@ -172,7 +186,7 @@
                     </ul>
                 </div>
                 <div>
-                    <img src="https://images.unsplash.com/photo-1562774053-701939374585?w=800&h=600&fit=crop&auto=format" alt="University campus" style="border-radius: var(--radius-xl); box-shadow: var(--shadow-lg);" width="800" height="600">
+                    <img src="https://images.unsplash.com/photo-1562774053-701939374585?w=800&h=600&fit=crop&auto=format" alt="University campus" class="frame" width="800" height="600">
                 </div>
             </div>
         </div>
@@ -181,18 +195,18 @@
     <!-- Key Numbers -->
     <section class="section-sm">
         <div class="container">
-            <div class="grid grid-3 reveal-stagger" style="max-width: 900px; margin: 0 auto;">
-                <div class="card reveal" style="padding: 1.75rem; text-align: center;">
-                    <h3 style="color: var(--success); font-size: 2.25rem; margin-bottom: 0.25rem;">Up to 60%</h3>
-                    <p style="margin: 0; font-weight: 600;">Daytime Load Offset</p>
+            <div class="hero-stats reveal-stagger">
+                <div class="hero-stat">
+                    <h3>Up to 60%</h3>
+                    <p>Daytime load offset</p>
                 </div>
-                <div class="card reveal" style="padding: 1.75rem; text-align: center;">
-                    <h3 style="color: var(--primary); font-size: 2.25rem; margin-bottom: 0.25rem;">4–5 Yrs</h3>
-                    <p style="margin: 0; font-weight: 600;">Estimated Payback</p>
+                <div class="hero-stat">
+                    <h3>4–5 yrs</h3>
+                    <p>Estimated payback</p>
                 </div>
-                <div class="card reveal" style="padding: 1.75rem; text-align: center;">
-                    <h3 style="color: var(--secondary-gold); font-size: 2.25rem; margin-bottom: 0.25rem;">30 Yrs</h3>
-                    <p style="margin: 0; font-weight: 600;">Panel Performance Warranty</p>
+                <div class="hero-stat">
+                    <h3>30 yrs</h3>
+                    <p>Panel performance warranty</p>
                 </div>
             </div>
         </div>
@@ -202,7 +216,8 @@
     <section class="section">
         <div class="container">
             <div class="section-header reveal">
-                <h2>Why Solar Works for Educational Institutions</h2>
+                <p class="kicker">Industry benefits</p>
+                <h2>Why solar works for educational institutions</h2>
                 <p>Educational campuses combine ideal roofs, daytime demand, and a mission that solar reinforces.</p>
             </div>
 
@@ -216,7 +231,7 @@
                             </svg>
                     </div>
                     <div>
-                        <h4>Budget Relief</h4>
+                        <h4>Budget relief</h4>
                         <p>Lower electricity spend means more funds for teachers, labs, and student programmes.</p>
                     </div>
                 </div>
@@ -230,7 +245,7 @@
                             </svg>
                     </div>
                     <div>
-                        <h4>Hands-On Learning</h4>
+                        <h4>Hands-on learning</h4>
                         <p>Generation dashboards and plant tours turn the campus into a renewable-energy classroom.</p>
                     </div>
                 </div>
@@ -244,7 +259,7 @@
                             </svg>
                     </div>
                     <div>
-                        <h4>Leadership Signal</h4>
+                        <h4>Leadership signal</h4>
                         <p>Parents and accreditation bodies notice institutions that invest in sustainability.</p>
                     </div>
                 </div>
@@ -255,11 +270,11 @@
     <!-- Ownership models pointer -->
     <section class="section-sm">
         <div class="container">
-            <div class="card reveal" style="padding: 2rem; text-align: center; max-width: 800px; margin: 0 auto;">
-                <h3>CAPEX or Zero-Investment OPEX - Your Choice</h3>
+            <div class="card card-lg reveal">
+                <h3>CAPEX or zero-investment OPEX - your choice</h3>
                 <p>Own the plant outright for strong long-term returns, or go solar with zero upfront capital under our OPEX / PPA
                     model and pay a per-unit rate confirmed after commercial evaluation.</p>
-                <a href="commercial.html" class="btn btn-outline mt-2">Compare Ownership Models</a>
+                <a href="commercial.html" class="btn btn-outline mt-2">Compare ownership models</a>
             </div>
         </div>
     </section>
@@ -269,6 +284,7 @@
     <section class="section">
         <div class="container">
             <div class="section-header reveal">
+                <p class="kicker">Project tools</p>
                 <h2>Plan your project</h2>
                 <p>Work out the numbers, compare the options, or check a quote you already have.</p>
             </div>
@@ -298,14 +314,14 @@
 
     <section class="cta reveal reveal-scale">
         <div class="container">
-            <h2>Get a Free Energy Audit for Your Facility</h2>
+            <h2>Get a free energy audit for your facility</h2>
             <p>Our engineers will assess your roof, analyse your electricity bills, and give you a clear savings
                 projection - no obligations.</p>
             <div class="flex-center gap-3">
-                <a href="commercial-solar-estimate.html#ci-lead-form" class="btn btn-white btn-lg">Get Free Solar
-                    Estimate</a>
-                <a href="tel:+919666068140" class="btn btn-outline btn-lg" style="border-color: white; color: white;">
-                    Call: +91 9666068140
+                <a href="commercial-solar-estimate.html#ci-lead-form" class="btn btn-white btn-lg">Get free solar
+                    estimate</a>
+                <a href="tel:+919666068140" class="btn btn-outline btn-lg">
+                    Call: +91 96660 68140
                 </a>
             </div>
         </div>

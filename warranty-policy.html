@@ -18,6 +18,18 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="robots" content="noindex, nofollow">
     <!-- DRAFT: B24 DRAFT for owner/legal review: not linked, not indexed -->
     <meta name="description" content="The warranties on a Ray2Volt Solar system, including workmanship, and how to make a claim.">
@@ -34,8 +46,9 @@
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="pages.css">
+    <link rel="stylesheet" href="theme.css">
     <style>
-        .confirm { background: rgba(255, 179, 0, 0.18); color: #FFE08A; padding: 0 0.25rem; border-radius: 4px; font-style: normal; }
+        .confirm { background: var(--h-gold-tile-bg); color: var(--h-gold-ink); padding: 0 0.25rem; border-radius: 4px; font-style: normal; }
     </style>
     <meta property="og:site_name" content="Ray2Volt Solar">
     <meta property="og:type" content="website">
@@ -121,9 +134,9 @@
             <div class="breadcrumb">
                 <a href="/">Home</a>
                 <span>/</span>
-                <span>Warranty Policy</span>
+                <span>Warranty policy</span>
             </div>
-            <h1>Warranty Policy</h1>
+            <h1>Warranty policy</h1>
             <p>Draft for owner/legal review.</p>
         </div>
     </section>

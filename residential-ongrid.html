@@ -17,6 +17,18 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="description" content="Residential On-Grid solar solutions from Ray2Volt. Reduce electricity bills with PM Surya Ghar subsidy support.">
     <title>Residential On-Grid Solar | Ray2Volt Solar</title>
     <link rel="canonical" href="https://ray2voltsolar.com/residential-ongrid.html">
@@ -28,6 +40,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap" rel="stylesheet">
     </noscript>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="theme.css">
     <meta property="og:site_name" content="Ray2Volt Solar">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Residential On-Grid Solar | Ray2Volt Solar">
@@ -107,34 +120,34 @@
             <div class="breadcrumb">
                 <a href="/">Home</a>
                 <span>/</span>
-                <a href="residential.html" style="color: rgba(255, 255, 255, 0.7);">Residential Solar</a>
+                <a href="residential.html">Residential solar</a>
                 <span>/</span>
-                <span>On-Grid</span>
+                <span>On-grid</span>
             </div>
-            <h1>On-Grid Solar Solutions for <span>Your Home</span></h1>
+            <h1>On-grid solar solutions for <span>your home</span></h1>
             <p>The most cost-effective way to reduce your electricity bills. Connected directly to the grid with net metering support.</p>
         </div>
     </section>
 
     <!-- Stats Row -->
-    <section class="section" style="padding-top: 0;">
+    <section class="section pt-0">
         <div class="container">
             <div class="hero-stats reveal">
                 <div class="hero-stat">
                     <h3>Up to 90%</h3>
-                    <p>Lower Eligible Bills</p>
+                    <p>Lower eligible bills</p>
                 </div>
                 <div class="hero-stat">
-                    <h3>4–5 Yrs</h3>
-                    <p>Estimated Payback</p>
+                    <h3>4–5 yrs</h3>
+                    <p>Estimated payback</p>
                 </div>
                 <div class="hero-stat">
-                    <h3>12 Yrs</h3>
-                    <p>Panel Product Warranty</p>
+                    <h3>12 yrs</h3>
+                    <p>Panel product warranty</p>
                 </div>
                 <div class="hero-stat">
-                    <h3>30 Yrs</h3>
-                    <p>Performance Warranty</p>
+                    <h3>30 yrs</h3>
+                    <p>Performance warranty</p>
                 </div>
             </div>
         </div>
@@ -145,17 +158,12 @@
         <div class="container">
             <div class="about-intro reveal">
                 <div>
-                    <div class="hero-badge" style="margin-bottom: 1rem;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" /><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" /><line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" />
-                        </svg>
-                        Most Popular Choice
-                    </div>
-                    <h2>What is an On-Grid System?</h2>
+                    <p class="kicker">Most popular choice</p>
+                    <h2>What is an on-grid system?</h2>
                     <p class="lead">An on-grid solar system is directly connected to the electricity grid. It generates power during the day, and any excess energy is exported to the grid, earning you credits through net metering.</p>
                     <p>This is the most affordable type of solar system since it doesn't require expensive batteries. It's perfect for homes with reliable grid supply and minimal power cuts.</p>
 
-                    <ul class="benefits-list mt-3" style="flex-direction: column;">
+                    <ul class="benefits-list mt-3">
                         <li class="benefit-item">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                             <p>Lower upfront cost — no battery required</p>
@@ -174,14 +182,14 @@
                         </li>
                     </ul>
 
-                    <p class="mt-3 text-muted" style="font-size: 0.9rem;">
+                    <p class="fine-print mt-3">
                         <strong>Note:</strong> Does not provide backup during power cuts as it requires grid connection to operate.
                     </p>
                 </div>
                 <div>
                     <picture>
                         <source type="image/webp" srcset="images/hero-800.webp 800w, images/hero-1200.webp 1200w, images/hero-1600.webp 1600w, images/hero-2400.webp 2400w" sizes="(max-width: 768px) 100vw, 50vw">
-                        <img src="images/hero-1600.jpg" alt="On-Grid Solar System" style="border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); border: 2px solid rgba(14, 165, 233, 0.15);" width="1600" height="1195" loading="lazy">
+                        <img src="images/hero-1600.jpg" alt="On-Grid Solar System" class="frame" width="1600" height="1195" loading="lazy">
                     </picture>
                 </div>
             </div>
@@ -192,43 +200,45 @@
     <section class="section">
         <div class="container">
             <div class="section-header reveal">
-                <h2>How It Works</h2>
+                <p class="kicker">How we work</p>
+                <h2>How it works</h2>
                 <p>A simple 4-step process from consultation to clean energy generation.</p>
             </div>
 
-            <div class="grid grid-4 reveal-stagger">
-                <div class="card feature-card reveal" style="flex-direction: column; text-align: center; padding: 2rem;">
-                    <div class="card-icon" style="margin: 0 auto 1rem; background: linear-gradient(135deg, var(--primary) 0%, var(--cyan) 100%);">
+            <ol class="process reveal">
+                <li>
+                    <span class="process__num" aria-hidden="true">01</span>
+                    <div class="card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>
                     </div>
-                    <h4>1. Site Survey</h4>
+                    <h3>Site survey</h3>
                     <p>Our team visits your home, inspects your roof, and analyzes your electricity consumption.</p>
-                </div>
-
-                <div class="card feature-card reveal" style="flex-direction: column; text-align: center; padding: 2rem;">
-                    <div class="card-icon" style="margin: 0 auto 1rem; background: linear-gradient(135deg, var(--secondary-gold) 0%, var(--secondary-dark) 100%);">
+                </li>
+                <li>
+                    <span class="process__num" aria-hidden="true">02</span>
+                    <div class="card-icon card-icon--gold">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /></svg>
                     </div>
-                    <h4>2. Custom Design</h4>
+                    <h3>Custom design</h3>
                     <p>We design the perfect system size based on your energy needs and available roof space.</p>
-                </div>
-
-                <div class="card feature-card reveal" style="flex-direction: column; text-align: center; padding: 2rem;">
-                    <div class="card-icon" style="margin: 0 auto 1rem; background: linear-gradient(135deg, var(--success-light) 0%, var(--success) 100%);">
+                </li>
+                <li>
+                    <span class="process__num" aria-hidden="true">03</span>
+                    <div class="card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg>
                     </div>
-                    <h4>3. Installation</h4>
+                    <h3>Installation</h3>
                     <p>Professional installation by certified engineers. Typically completed in 1-2 days.</p>
-                </div>
-
-                <div class="card feature-card reveal" style="flex-direction: column; text-align: center; padding: 2rem;">
-                    <div class="card-icon" style="margin: 0 auto 1rem; background: linear-gradient(135deg, #81D4FA 0%, #29B6F6 100%);">
+                </li>
+                <li>
+                    <span class="process__num" aria-hidden="true">04</span>
+                    <div class="card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>
                     </div>
-                    <h4>4. Go Live</h4>
+                    <h3>Go live</h3>
                     <p>Net meter installation, DISCOM approvals, and subsidy filing — we handle it all.</p>
-                </div>
-            </div>
+                </li>
+            </ol>
         </div>
     </section>
 
@@ -236,32 +246,33 @@
     <section class="section">
         <div class="container">
             <div class="section-header reveal">
-                <h2>Benefits of On-Grid Solar</h2>
+                <p class="kicker">Why on-grid solar</p>
+                <h2>Benefits of on-grid solar</h2>
                 <p>Here's why on-grid is the most popular choice for homeowners.</p>
             </div>
 
             <div class="grid grid-3 reveal-stagger">
                 <div class="card service-card reveal">
-                    <div class="card-icon" style="background: linear-gradient(135deg, var(--success-light) 0%, var(--success) 100%);">
+                    <div class="card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg>
                     </div>
-                    <h3>Significant Savings</h3>
+                    <h3>Significant savings</h3>
                     <p>Cut eligible grid energy charges by up to 90%. On-grid home systems have an estimated payback of 4–5 years after the PM Surya Ghar subsidy, and generate free power for 25+ years. The payback is an estimate for a system bought outright, at current APSPDCL tariffs and typical daytime use.</p>
                 </div>
 
                 <div class="card service-card reveal">
-                    <div class="card-icon" style="background: linear-gradient(135deg, var(--secondary-gold) 0%, var(--secondary-dark) 100%);">
+                    <div class="card-icon card-icon--gold">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
                     </div>
-                    <h3>Net Metering Credits</h3>
+                    <h3>Net metering credits</h3>
                     <p>Earn credits by exporting excess power to the grid. Offset your nighttime and cloudy day usage seamlessly through APSPDCL net metering.</p>
                 </div>
 
                 <div class="card service-card reveal">
-                    <div class="card-icon" style="background: linear-gradient(135deg, #81D4FA 0%, #29B6F6 100%);">
+                    <div class="card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
                     </div>
-                    <h3>30 Year Performance Warranty</h3>
+                    <h3>30 year performance warranty</h3>
                     <p>Our Tier-1 panels come with 30-year performance warranty and 8–10 year inverter warranty. Peace of mind for decades.</p>
                 </div>
             </div>
@@ -273,16 +284,13 @@
         <div class="container">
             <div class="about-intro reveal">
                 <div>
-                    <div class="hero-badge" style="margin-bottom: 1rem;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>
-                        Government Scheme
-                    </div>
-                    <h2>PM Surya Ghar - Free Electricity</h2>
+                    <p class="kicker">Government scheme</p>
+                    <h2>PM Surya Ghar - free electricity</h2>
                     <p class="lead">Get up to ₹78,000 subsidy on your rooftop solar installation under the PM Surya Ghar: Muft Bijli Yojana.</p>
                     <p class="deadline" data-deadline="2027-03-31"><span>PM Surya Ghar runs until <strong>31 March 2027</strong> (MNRE scheme guidelines, as of 23 Sep 2026).</span> <span data-days-left hidden></span></p>
                     <p>The Government of India's flagship program makes solar more affordable than ever. As an empanelled vendor, Ray2Volt handles the complete subsidy application process for you.</p>
 
-                    <h4 class="mt-3">Subsidy Benefits:</h4>
+                    <h4 class="mt-3">Subsidy benefits:</h4>
                     <ul class="benefits-list">
                         <li class="benefit-item">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
@@ -297,7 +305,7 @@
                             <p><strong>Maximum subsidy:</strong> ₹78,000 for 3 kW system</p>
                         </li>
                     </ul>
-                    <a href="contact.html" class="btn btn-primary btn-lg mt-4">Apply for Subsidy</a>
+                    <a href="contact.html" class="btn btn-primary btn-lg mt-4">Apply for subsidy</a>
                 </div>
                 <div>
                     <img src="https://images.unsplash.com/photo-1559302504-64aae6ca6b6d?w=600&amp;h=400&amp;fit=crop&amp;auto=format" alt="PM Surya Ghar Yojana" loading="lazy" width="600" height="400">
@@ -312,10 +320,10 @@
 
     <section class="cta reveal reveal-scale">
         <div class="container">
-            <h2>Get Your Free Quote Today</h2>
+            <h2>Get your free quote today</h2>
             <p>Our experts will visit your home, assess your rooftop, and provide a customized on-grid solar solution with detailed cost-benefit analysis.</p>
             <div class="flex-center gap-3">
-                <a href="contact.html" class="btn btn-white btn-lg">Request Site Visit</a>
+                <a href="contact.html" class="btn btn-white btn-lg">Request site visit</a>
                 <a href="https://wa.me/919666068140" class="whatsapp-btn btn-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
                     Chat on WhatsApp

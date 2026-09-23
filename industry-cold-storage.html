@@ -18,6 +18,18 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="description" content="Solar power for cold storage, refrigeration and food processing units. Slash the biggest cost in your cold chain with Ray2Volt.">
     <title>Solar for Cold Storage & Food Processing | Ray2Volt Solar</title>
     <link rel="canonical" href="https://ray2voltsolar.com/industry-cold-storage.html">
@@ -33,6 +45,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="theme.css">
     <meta property="og:site_name" content="Ray2Volt Solar">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Solar for Cold Storage &amp; Food Processing | Ray2Volt Solar">
@@ -119,9 +132,9 @@
                 <span>/</span>
                 <a href="commercial.html">Commercial</a>
                 <span>/</span>
-                <span>Cold Storage</span>
+                <span>Cold storage</span>
             </div>
-            <h1>Solar for <span>Cold Storage</span></h1>
+            <h1>Solar for <span>cold storage</span></h1>
             <p>When electricity is your #1 cost, solar is your #1 saving.</p>
         </div>
     </section>
@@ -131,7 +144,8 @@
         <div class="container">
             <div class="about-intro reveal">
                 <div>
-                    <h2>Keep It Cold for Less</h2>
+                    <p class="kicker">Cold storage solar</p>
+                    <h2>Keep it cold for less</h2>
                     <p class="lead">Refrigeration compressors run round the clock, making power 60-70% of a cold storage facility's operating cost.</p>
                     <p>No industry feels tariff hikes like the cold chain. Compressors, blowers, and chillers never stop, and daytime ambient heat pushes consumption to its peak exactly when solar output peaks - a perfect offset.</p>
                     <p>With solar covering the daytime load, per-tonne storage costs drop immediately, margins improve, and your facility gains a real pricing advantage in a commodity business. The payback shown below is an estimate for a system bought outright, at current APSPDCL tariffs and typical daytime use; your own figure depends on your tariff, how much solar you use yourself and the system cost.</p>
@@ -172,7 +186,7 @@
                     </ul>
                 </div>
                 <div>
-                    <img src="https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=800&h=600&fit=crop&auto=format" alt="Cold storage facility" style="border-radius: var(--radius-xl); box-shadow: var(--shadow-lg);" width="800" height="600">
+                    <img src="https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=800&h=600&fit=crop&auto=format" alt="Cold storage facility" class="frame" width="800" height="600">
                 </div>
             </div>
         </div>
@@ -181,18 +195,18 @@
     <!-- Key Numbers -->
     <section class="section-sm">
         <div class="container">
-            <div class="grid grid-3 reveal-stagger" style="max-width: 900px; margin: 0 auto;">
-                <div class="card reveal" style="padding: 1.75rem; text-align: center;">
-                    <h3 style="color: var(--success); font-size: 2.25rem; margin-bottom: 0.25rem;">70%</h3>
-                    <p style="margin: 0; font-weight: 600;">Of OPEX Is Electricity</p>
+            <div class="hero-stats reveal-stagger">
+                <div class="hero-stat">
+                    <h3>70%</h3>
+                    <p>Of OPEX is electricity</p>
                 </div>
-                <div class="card reveal" style="padding: 1.75rem; text-align: center;">
-                    <h3 style="color: var(--primary); font-size: 2.25rem; margin-bottom: 0.25rem;">3–5 Yrs</h3>
-                    <p style="margin: 0; font-weight: 600;">Estimated Payback</p>
+                <div class="hero-stat">
+                    <h3>3–5 yrs</h3>
+                    <p>Estimated payback</p>
                 </div>
-                <div class="card reveal" style="padding: 1.75rem; text-align: center;">
-                    <h3 style="color: var(--secondary-gold); font-size: 2.25rem; margin-bottom: 0.25rem;">30 Yrs</h3>
-                    <p style="margin: 0; font-weight: 600;">Panel Performance Warranty</p>
+                <div class="hero-stat">
+                    <h3>30 yrs</h3>
+                    <p>Panel performance warranty</p>
                 </div>
             </div>
         </div>
@@ -202,7 +216,8 @@
     <section class="section">
         <div class="container">
             <div class="section-header reveal">
-                <h2>Why Solar Works for Cold Storage</h2>
+                <p class="kicker">Industry benefits</p>
+                <h2>Why solar works for cold storage</h2>
                 <p>The hotter the day, the harder your compressors work - and the more your solar plant generates.</p>
             </div>
 
@@ -216,7 +231,7 @@
                             </svg>
                     </div>
                     <div>
-                        <h4>Perfect Load Match</h4>
+                        <h4>Perfect load match</h4>
                         <p>Cooling demand rises with the sun. Solar generation rises with it, offsetting your most expensive hours.</p>
                     </div>
                 </div>
@@ -230,7 +245,7 @@
                             </svg>
                     </div>
                     <div>
-                        <h4>Margin Machine</h4>
+                        <h4>Margin machine</h4>
                         <p>Every rupee saved on power flows straight to margin in a business where electricity dominates cost.</p>
                     </div>
                 </div>
@@ -244,7 +259,7 @@
                             </svg>
                     </div>
                     <div>
-                        <h4>Cold Chain Reliability</h4>
+                        <h4>Cold chain reliability</h4>
                         <p>Lower grid dependence and predictable energy costs keep your commitments to customers safe.</p>
                     </div>
                 </div>
@@ -255,11 +270,11 @@
     <!-- Ownership models pointer -->
     <section class="section-sm">
         <div class="container">
-            <div class="card reveal" style="padding: 2rem; text-align: center; max-width: 800px; margin: 0 auto;">
-                <h3>CAPEX or Zero-Investment OPEX - Your Choice</h3>
+            <div class="card card-lg reveal">
+                <h3>CAPEX or zero-investment OPEX - your choice</h3>
                 <p>Own the plant outright for strong long-term returns, or go solar with zero upfront capital under our OPEX / PPA
                     model and pay a per-unit rate confirmed after commercial evaluation.</p>
-                <a href="commercial.html" class="btn btn-outline mt-2">Compare Ownership Models</a>
+                <a href="commercial.html" class="btn btn-outline mt-2">Compare ownership models</a>
             </div>
         </div>
     </section>
@@ -269,6 +284,7 @@
     <section class="section">
         <div class="container">
             <div class="section-header reveal">
+                <p class="kicker">Project tools</p>
                 <h2>Plan your project</h2>
                 <p>Work out the numbers, compare the options, or check a quote you already have.</p>
             </div>
@@ -298,14 +314,14 @@
 
     <section class="cta reveal reveal-scale">
         <div class="container">
-            <h2>Get a Free Energy Audit for Your Facility</h2>
+            <h2>Get a free energy audit for your facility</h2>
             <p>Our engineers will assess your roof, analyse your electricity bills, and give you a clear savings
                 projection - no obligations.</p>
             <div class="flex-center gap-3">
-                <a href="commercial-solar-estimate.html#ci-lead-form" class="btn btn-white btn-lg">Get Free Solar
-                    Estimate</a>
-                <a href="tel:+919666068140" class="btn btn-outline btn-lg" style="border-color: white; color: white;">
-                    Call: +91 9666068140
+                <a href="commercial-solar-estimate.html#ci-lead-form" class="btn btn-white btn-lg">Get free solar
+                    estimate</a>
+                <a href="tel:+919666068140" class="btn btn-outline btn-lg">
+                    Call: +91 96660 68140
                 </a>
             </div>
         </div>

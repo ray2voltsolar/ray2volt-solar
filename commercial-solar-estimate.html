@@ -16,6 +16,18 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="description"
         content="Get a free commercial solar assessment, ROI estimate and indicative quote from Ray2Volt Solar for businesses in Tirupati, Chittoor, Nellore and Kadapa.">
     <title>Free Commercial Solar Estimate | Ray2Volt Solar</title>
@@ -28,6 +40,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap" rel="stylesheet">
     </noscript>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="theme.css">
     <meta property="og:site_name" content="Ray2Volt Solar">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Free Commercial Solar Estimate | Ray2Volt Solar">
@@ -66,15 +79,15 @@
         }
 
         .ci-estimate-hero h1 span {
-            background: linear-gradient(135deg, var(--secondary-gold) 0%, #FFD54F 100%);
+            background: transparent;
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-text-fill-color: var(--h-highlight);
             background-clip: text;
         }
 
         .ci-estimate-hero .lead {
             margin-bottom: 1.5rem;
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--h-muted);
         }
 
         .ci-hero-image {
@@ -83,11 +96,11 @@
 
         .ci-hero-image img {
             width: 100%;
-            aspect-ratio: 4 / 3;
+            aspect-ratio: 5 / 4;
             object-fit: cover;
-            border-radius: var(--radius-xl);
-            border: 2px solid rgba(14, 165, 233, 0.15);
-            box-shadow: var(--shadow-xl);
+            border-radius: 28px;
+            border: 1px solid var(--h-line-strong);
+            box-shadow: var(--h-frame-shadow);
         }
 
         /* What the assessment covers */
@@ -116,10 +129,10 @@
 
         .ci-industry {
             padding: 0.5rem 1rem;
-            border: 1px solid rgba(56, 189, 248, 0.2);
+            border: 1px solid var(--h-line);
             border-radius: var(--radius-full);
-            background: rgba(15, 23, 42, 0.6);
-            color: rgba(255, 255, 255, 0.85);
+            background: var(--h-surface);
+            color: var(--h-body);
             font-size: 0.8125rem;
             font-weight: 600;
         }
@@ -138,7 +151,7 @@
         /* The form is a container, not a clickable card - keep it still. */
         .ci-form-shell:hover {
             transform: none;
-            border-color: rgba(56, 189, 248, 0.12);
+            border-color: var(--h-line);
             box-shadow: none;
         }
 
@@ -147,7 +160,7 @@
         }
 
         .ci-form-shell:hover::after {
-            background: rgba(15, 23, 42, 0.85);
+            background: var(--h-surface-strong);
         }
 
         .ci-progress {
@@ -155,7 +168,7 @@
             grid-template-columns: repeat(3, 1fr);
             margin-bottom: 1.75rem;
             padding-bottom: 1.5rem;
-            border-bottom: 1px solid rgba(56, 189, 248, 0.12);
+            border-bottom: 1px solid var(--h-line);
             counter-reset: ci-step;
         }
 
@@ -172,7 +185,7 @@
             font-weight: 600;
             line-height: 1.35;
             text-align: center;
-            color: rgba(255, 255, 255, 0.5);
+            color: var(--h-muted);
         }
 
         .ci-progress li::before {
@@ -184,9 +197,9 @@
             justify-content: center;
             width: 1.875rem;
             height: 1.875rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--h-line);
             border-radius: 50%;
-            background: rgba(15, 23, 42, 0.95);
+            background: var(--h-surface);
             font-size: 0.8125rem;
             font-weight: 700;
             transition: all var(--transition);
@@ -199,7 +212,7 @@
             right: 50%;
             width: 100%;
             height: 2px;
-            background: rgba(255, 255, 255, 0.12);
+            background: var(--h-line);
         }
 
         .ci-progress li:first-child::after {
@@ -208,15 +221,15 @@
 
         .ci-progress li.is-active,
         .ci-progress li.is-complete {
-            color: var(--white);
+            color: var(--h-ink);
         }
 
         .ci-progress li.is-active::before,
         .ci-progress li.is-complete::before {
-            color: var(--gray-900);
-            background: var(--secondary-gold);
-            border-color: var(--secondary-gold);
-            box-shadow: 0 0 0 4px rgba(255, 179, 0, 0.15);
+            color: var(--h-on-gold);
+            background: var(--h-gold);
+            border-color: var(--h-gold);
+            box-shadow: 0 0 0 4px var(--h-gold-tile-line);
         }
 
         .ci-progress li.is-complete::before {
@@ -225,7 +238,7 @@
 
         .ci-progress li.is-active::after,
         .ci-progress li.is-complete::after {
-            background: var(--secondary-gold);
+            background: var(--h-gold);
         }
 
         .ci-form-step[hidden] {
@@ -245,7 +258,7 @@
         .ci-form-shell .ci-step-heading p {
             margin: 0;
             font-size: 0.875rem;
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--h-muted);
         }
 
         .ci-form-grid {
@@ -262,7 +275,7 @@
             appearance: none;
             -webkit-appearance: none;
             padding-right: 2.5rem;
-            background-color: rgba(15, 23, 42, 0.8);
+            background-color: var(--h-field-bg);
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 1rem center;
@@ -270,8 +283,8 @@
         }
 
         .ci-form-shell select.form-control option {
-            background: #0F172A;
-            color: var(--white);
+            background: var(--h-field-bg);
+            color: var(--h-ink);
         }
 
         .ci-form-shell fieldset {
@@ -287,7 +300,7 @@
             margin-bottom: 0.625rem;
             font-weight: 600;
             font-size: 0.9375rem;
-            color: var(--white);
+            color: var(--h-ink);
         }
 
         .ci-checkbox-grid {
@@ -301,10 +314,10 @@
             align-items: center;
             gap: 0.625rem;
             padding: 0.75rem 0.875rem;
-            border: 1px solid rgba(56, 189, 248, 0.2);
+            border: 1px solid var(--h-tile-line);
             border-radius: var(--radius);
-            background: rgba(15, 23, 42, 0.8);
-            color: rgba(255, 255, 255, 0.9);
+            background: var(--h-surface);
+            color: var(--h-body);
             font-size: 0.875rem;
             font-weight: 500;
             line-height: 1.4;
@@ -313,13 +326,13 @@
         }
 
         .ci-checkbox-grid .ci-check-option:hover {
-            border-color: rgba(56, 189, 248, 0.45);
-            background: rgba(15, 23, 42, 0.95);
+            border-color: var(--h-field-line-hover);
+            background: var(--h-surface-hover);
         }
 
         .ci-checkbox-grid .ci-check-option:focus-within {
-            border-color: #10B981;
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+            border-color: var(--h-gold);
+            box-shadow: 0 0 0 3px var(--h-focus-ring);
         }
 
         .ci-checkbox-grid .ci-check-option input {
@@ -327,14 +340,14 @@
             width: 1.0625rem;
             height: 1.0625rem;
             margin: 0;
-            accent-color: var(--secondary-gold);
+            accent-color: var(--h-gold);
             cursor: pointer;
         }
 
         .ci-checkbox-grid .ci-check-option:has(input:checked) {
-            border-color: var(--secondary-gold);
-            background: rgba(255, 179, 0, 0.1);
-            color: var(--white);
+            border-color: var(--h-gold);
+            background: var(--h-gold-tile-bg);
+            color: var(--h-ink);
         }
 
         .ci-form-actions {
@@ -344,7 +357,7 @@
             gap: 0.75rem;
             margin-top: 1.75rem;
             padding-top: 1.5rem;
-            border-top: 1px solid rgba(56, 189, 248, 0.12);
+            border-top: 1px solid var(--h-line);
         }
 
         .ci-form-actions #ci-back {
@@ -359,7 +372,7 @@
             margin: 0.625rem 0 0;
             font-size: 0.875rem;
             font-weight: 600;
-            color: #FCA5A5;
+            color: var(--h-error);
         }
 
         .ci-form-message:empty {
@@ -370,11 +383,11 @@
             margin: 0;
             font-size: 0.8125rem;
             line-height: 1.6;
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--h-muted);
         }
 
         .ci-privacy-note a {
-            color: var(--primary-light);
+            color: var(--h-text-link);
             text-decoration: underline;
         }
 
@@ -395,7 +408,7 @@
         .ci-final-note .ci-estimate-disclaimer {
             font-size: 0.9375rem;
             line-height: 1.7;
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--h-muted);
         }
 
         /* Responsive */
@@ -436,6 +449,10 @@
 
             .ci-estimate-hero {
                 padding: 2rem 0 2.5rem;
+            }
+
+            .ci-hero-image img {
+                border-radius: 20px;
             }
 
             .ci-value-grid,
@@ -534,20 +551,13 @@
             <div class="container ci-estimate-hero-grid">
                 <div class="ci-estimate-hero-text">
                     <div class="hero-badge">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
-                            <line x1="8" y1="6" x2="16" y2="6" />
-                            <line x1="8" y1="10" x2="16" y2="10" />
-                            <line x1="8" y1="14" x2="16" y2="14" />
-                        </svg>
-                        Commercial &amp; Industrial Solar
+                        Commercial &amp; industrial solar
                     </div>
-                    <h1>Get a Free Commercial Solar <span>Estimate &amp; ROI Assessment</span></h1>
+                    <h1>Get a free commercial solar <span>estimate &amp; ROI assessment</span></h1>
                     <p class="lead">See your indicative system capacity, project cost, expected savings and payback
                         before a technical site visit.</p>
                     <div class="hero-buttons">
-                        <a href="#ci-lead-form" class="btn btn-primary btn-lg">Get Free Solar Estimate</a>
+                        <a href="#ci-lead-form" class="btn btn-primary btn-lg">Get free solar estimate</a>
                         <a href="tel:+919666068140" class="btn btn-outline btn-lg">Call +91 96660 68140</a>
                     </div>
                     <p class="ci-savings-note">Businesses may reduce eligible electricity bills by up to 80%.
@@ -559,6 +569,14 @@
                         <img src="images/blog/commercial-solar-for-factories.jpg"
                         alt="Commercial rooftop solar installation for a business" width="1600" height="900">
                     </picture>
+                    <div class="hero-float hero-float--top">
+                        <span class="hero-float__icon hero-float__icon--gold"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
+                        <span><strong>Indicative quote</strong> before any technical site visit</span>
+                    </div>
+                    <div class="hero-float hero-float--bottom">
+                        <span class="hero-float__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></span>
+                        <span><strong>Local team</strong> Srikalahasti · Tirupati · Nagari · Puttur</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -566,23 +584,24 @@
         <section class="section">
             <div class="container">
                 <div class="section-header">
-                    <h2>What Your Free Assessment Covers</h2>
+                    <p class="kicker">Free assessment</p>
+                    <h2>What your free assessment covers</h2>
                 </div>
-                <div class="ci-value-grid">
-                    <article class="card ci-value-item">
-                        <h3>System Capacity</h3>
+                <div class="grid grid-4 reveal-stagger">
+                    <article class="card service-card">
+                        <h3>System capacity</h3>
                         <p>Indicative kWp range based on your bill and available roof.</p>
                     </article>
-                    <article class="card ci-value-item">
-                        <h3>Project Cost</h3>
+                    <article class="card service-card">
+                        <h3>Project cost</h3>
                         <p>Indicative investment range before technical verification.</p>
                     </article>
-                    <article class="card ci-value-item">
-                        <h3>Savings &amp; Payback</h3>
+                    <article class="card service-card">
+                        <h3>Savings &amp; payback</h3>
                         <p>Estimated bill reduction, annual savings and payback direction.</p>
                     </article>
-                    <article class="card ci-value-item">
-                        <h3>Funding Direction</h3>
+                    <article class="card service-card">
+                        <h3>Funding direction</h3>
                         <p>CAPEX, finance or RESCO suitability for your business.</p>
                     </article>
                 </div>
@@ -592,7 +611,8 @@
         <section class="section">
             <div class="container">
                 <div class="section-header">
-                    <h2>Built for High-Consumption Businesses</h2>
+                    <p class="kicker">Industries we serve</p>
+                    <h2>Built for high-consumption businesses</h2>
                     <p>We prioritize facilities with strong daytime electricity use and suitable project potential.</p>
                 </div>
                 <div class="ci-industries" aria-label="Priority industries">
@@ -609,7 +629,8 @@
         <section class="section ci-form-section" id="ci-lead-form">
             <div class="container">
                 <div class="section-header">
-                    <h2>Get Your Free Solar Estimate</h2>
+                    <p class="kicker">Free business proposal</p>
+                    <h2>Get your free solar estimate</h2>
                     <p>Complete three short steps. No electricity-bill upload or OTP required.</p>
                 </div>
 
@@ -848,7 +869,7 @@
                         <div class="ci-form-actions">
                             <button class="btn btn-outline" type="button" id="ci-back" hidden>Back</button>
                             <button class="btn btn-primary" type="button" id="ci-next">Continue</button>
-                            <button class="btn btn-primary" type="submit" id="ci-submit" hidden>Get Free Solar Estimate</button>
+                            <button class="btn btn-primary" type="submit" id="ci-submit" hidden>Get free solar estimate</button>
                         </div>
                     </form>
                 </div>
@@ -862,11 +883,11 @@
 
         <section class="section">
             <div class="container ci-final-note">
-                <h2>Indicative First. Site-Verified Final.</h2>
+                <h2>Indicative first. Site-verified final.</h2>
                 <p class="ci-estimate-disclaimer">The free estimate provides a preliminary capacity, cost, savings and
                     funding direction based on the information submitted. Final system design, savings projection and
                     quotation follow roof, electrical and technical verification.</p>
-                <a href="tel:+919666068140" class="btn btn-outline mt-4">Talk to a Commercial Solar Expert</a>
+                <a href="tel:+919666068140" class="btn btn-outline mt-4">Talk to a commercial solar expert</a>
             </div>
         </section>
     </main>

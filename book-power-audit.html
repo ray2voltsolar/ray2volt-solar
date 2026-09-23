@@ -18,6 +18,18 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="description" content="Book a complimentary power audit with Ray2Volt Solar. Choose a preferred date and your nearest branch town (Srikalahasti, Tirupati, Nagari or Puttur), and we&#x27;ll call to confirm.">
     <title>Book a Free Solar Power Audit in Andhra Pradesh | Ray2Volt Solar</title>
     <link rel="canonical" href="https://ray2voltsolar.com/book-power-audit.html">
@@ -33,6 +45,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="pages.css">
+    <link rel="stylesheet" href="theme.css">
     <meta property="og:site_name" content="Ray2Volt Solar">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Book a Free Solar Power Audit in Andhra Pradesh | Ray2Volt Solar">
@@ -138,7 +151,7 @@
             <div class="breadcrumb">
                 <a href="/">Home</a>
                 <span>/</span>
-                <span>Book a Power Audit</span>
+                <span>Book a power audit</span>
             </div>
             <h1>Book a free power audit</h1>
             <p>Before you decide on solar, we look at how your site uses electricity, the system size that suits it and what you could save. Pick a preferred date and we'll call to confirm.</p>
@@ -149,6 +162,7 @@
         <div class="container">
             <div class="split">
                 <div>
+                    <p class="kicker">Free power audit</p>
                     <h2>What the audit covers</h2>
                     <p>The audit is complimentary for prospective customers. It looks at your electricity usage, the system size that suits your site and your potential savings, and gives you:</p>
                     <ol class="checklist mb-4">
@@ -237,7 +251,7 @@
                             <input type="date" id="pa-date" name="Preferred Date" class="form-control" required data-min-today aria-describedby="pa-date-hint" data-error="Please choose a date from today onwards.">
                             <span class="form-hint" id="pa-date-hint">This is a preference, not a booking: we'll call to confirm.</span>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Request my power audit</button>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Request my power audit</button>
                         <p class="form-note mb-0">We use these details only to reply to this request. <a class="text-link" href="privacy-policy.html">Privacy policy</a></p>
                     </form>
 
@@ -254,7 +268,7 @@
         <div class="container">
             <h2>Want a head start?</h2>
             <p>Send us your electricity bill before the audit, or check a quote you already have.</p>
-            <div class="hero-buttons" style="justify-content: center;">
+            <div class="hero-buttons">
                 <a href="upload-electricity-bill.html" class="btn btn-primary btn-lg">Send your electricity bill</a>
                 <a href="solar-quote-check.html" class="btn btn-secondary btn-lg">Free quote check</a>
             </div>

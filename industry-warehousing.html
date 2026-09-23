@@ -18,6 +18,18 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta name="description" content="Rooftop solar for warehouses, logistics parks and distribution centres. Monetise unused roof area with Ray2Volt.">
     <title>Solar for Warehouses & Logistics Hubs | Ray2Volt Solar</title>
     <link rel="canonical" href="https://ray2voltsolar.com/industry-warehousing.html">
@@ -33,6 +45,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="theme.css">
     <meta property="og:site_name" content="Ray2Volt Solar">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Solar for Warehouses &amp; Logistics Hubs | Ray2Volt Solar">
@@ -119,9 +132,9 @@
                 <span>/</span>
                 <a href="commercial.html">Commercial</a>
                 <span>/</span>
-                <span>Warehousing & Logistics</span>
+                <span>Warehousing & logistics</span>
             </div>
-            <h1>Solar for <span>Warehousing & Logistics</span></h1>
+            <h1>Solar for <span>warehousing & logistics</span></h1>
             <p>Your roof is your biggest unused asset. Put it to work.</p>
         </div>
     </section>
@@ -131,7 +144,8 @@
         <div class="container">
             <div class="about-intro reveal">
                 <div>
-                    <h2>Monetise Every Square Metre of Roof</h2>
+                    <p class="kicker">Warehouse solar</p>
+                    <h2>Monetise every square metre of roof</h2>
                     <p class="lead">Warehouses have enormous, unobstructed rooftops - ideal real estate for MW-scale solar plants.</p>
                     <p>Distribution centres and logistics parks combine vast metal roofs with growing power needs: lighting, conveyors, sorting automation, and increasingly, EV fleet charging. Rooftop solar serves all of it at a fraction of grid cost.</p>
                     <p>Even facilities with modest self-consumption can benefit - surplus generation can be net-metered or structured as an additional revenue stream, turning a passive roof into an income-producing asset. The payback shown below is an estimate for a system bought outright, at current APSPDCL tariffs and typical daytime use; your own figure depends on your tariff, how much solar you use yourself and the system cost.</p>
@@ -172,7 +186,7 @@
                     </ul>
                 </div>
                 <div>
-                    <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?w=800&h=600&fit=crop&auto=format" alt="Warehouse interior with racks" style="border-radius: var(--radius-xl); box-shadow: var(--shadow-lg);" width="800" height="600">
+                    <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?w=800&h=600&fit=crop&auto=format" alt="Warehouse interior with racks" class="frame" width="800" height="600">
                 </div>
             </div>
         </div>
@@ -181,18 +195,18 @@
     <!-- Key Numbers -->
     <section class="section-sm">
         <div class="container">
-            <div class="grid grid-3 reveal-stagger" style="max-width: 900px; margin: 0 auto;">
-                <div class="card reveal" style="padding: 1.75rem; text-align: center;">
-                    <h3 style="color: var(--success); font-size: 2.25rem; margin-bottom: 0.25rem;">MW-scale</h3>
-                    <p style="margin: 0; font-weight: 600;">Roof Potential on Large Sheds</p>
+            <div class="hero-stats reveal-stagger">
+                <div class="hero-stat">
+                    <h3>MW-scale</h3>
+                    <p>Roof potential on large sheds</p>
                 </div>
-                <div class="card reveal" style="padding: 1.75rem; text-align: center;">
-                    <h3 style="color: var(--primary); font-size: 2.25rem; margin-bottom: 0.25rem;">4–5 Yrs</h3>
-                    <p style="margin: 0; font-weight: 600;">Estimated Payback</p>
+                <div class="hero-stat">
+                    <h3>4–5 yrs</h3>
+                    <p>Estimated payback</p>
                 </div>
-                <div class="card reveal" style="padding: 1.75rem; text-align: center;">
-                    <h3 style="color: var(--secondary-gold); font-size: 2.25rem; margin-bottom: 0.25rem;">30 Yrs</h3>
-                    <p style="margin: 0; font-weight: 600;">Panel Performance Warranty</p>
+                <div class="hero-stat">
+                    <h3>30 yrs</h3>
+                    <p>Panel performance warranty</p>
                 </div>
             </div>
         </div>
@@ -202,7 +216,8 @@
     <section class="section">
         <div class="container">
             <div class="section-header reveal">
-                <h2>Why Solar Works for Warehousing & Logistics</h2>
+                <p class="kicker">Industry benefits</p>
+                <h2>Why solar works for warehousing & logistics</h2>
                 <p>Massive roofs, rising automation loads, and green logistics demand make warehouses ideal solar hosts.</p>
             </div>
 
@@ -216,7 +231,7 @@
                             </svg>
                     </div>
                     <div>
-                        <h4>Asset Utilisation</h4>
+                        <h4>Asset utilisation</h4>
                         <p>A roof that was pure overhead becomes a generating asset with 25+ years of output.</p>
                     </div>
                 </div>
@@ -230,7 +245,7 @@
                             </svg>
                     </div>
                     <div>
-                        <h4>Future-Ready</h4>
+                        <h4>Future-ready</h4>
                         <p>Solar capacity today powers the EV charging and automation loads of tomorrow.</p>
                     </div>
                 </div>
@@ -244,7 +259,7 @@
                             </svg>
                     </div>
                     <div>
-                        <h4>Client Requirements</h4>
+                        <h4>Client requirements</h4>
                         <p>Major brands increasingly require green warehousing from their logistics partners.</p>
                     </div>
                 </div>
@@ -255,11 +270,11 @@
     <!-- Ownership models pointer -->
     <section class="section-sm">
         <div class="container">
-            <div class="card reveal" style="padding: 2rem; text-align: center; max-width: 800px; margin: 0 auto;">
-                <h3>CAPEX or Zero-Investment OPEX - Your Choice</h3>
+            <div class="card card-lg reveal">
+                <h3>CAPEX or zero-investment OPEX - your choice</h3>
                 <p>Own the plant outright for strong long-term returns, or go solar with zero upfront capital under our OPEX / PPA
                     model and pay a per-unit rate confirmed after commercial evaluation.</p>
-                <a href="commercial.html" class="btn btn-outline mt-2">Compare Ownership Models</a>
+                <a href="commercial.html" class="btn btn-outline mt-2">Compare ownership models</a>
             </div>
         </div>
     </section>
@@ -269,6 +284,7 @@
     <section class="section">
         <div class="container">
             <div class="section-header reveal">
+                <p class="kicker">Project tools</p>
                 <h2>Plan your project</h2>
                 <p>Work out the numbers, compare the options, or check a quote you already have.</p>
             </div>
@@ -298,14 +314,14 @@
 
     <section class="cta reveal reveal-scale">
         <div class="container">
-            <h2>Get a Free Energy Audit for Your Facility</h2>
+            <h2>Get a free energy audit for your facility</h2>
             <p>Our engineers will assess your roof, analyse your electricity bills, and give you a clear savings
                 projection - no obligations.</p>
             <div class="flex-center gap-3">
-                <a href="commercial-solar-estimate.html#ci-lead-form" class="btn btn-white btn-lg">Get Free Solar
-                    Estimate</a>
-                <a href="tel:+919666068140" class="btn btn-outline btn-lg" style="border-color: white; color: white;">
-                    Call: +91 9666068140
+                <a href="commercial-solar-estimate.html#ci-lead-form" class="btn btn-white btn-lg">Get free solar
+                    estimate</a>
+                <a href="tel:+919666068140" class="btn btn-outline btn-lg">
+                    Call: +91 96660 68140
                 </a>
             </div>
         </div>
