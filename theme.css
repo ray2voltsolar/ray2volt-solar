@@ -1737,6 +1737,21 @@ select.form-control option {
         text-align: left;
     }
 
+    /* Stacked: text, then the stats bar, then the photo last */
+    .hero > .container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .hero > .container > .hero-content {
+        display: contents;
+    }
+
+    .hero-content > .hero-image {
+        order: 1;
+        margin: 3rem 0 0;
+    }
+
     .hero-buttons {
         justify-content: flex-start;
     }

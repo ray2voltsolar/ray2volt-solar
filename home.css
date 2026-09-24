@@ -1147,9 +1147,19 @@
         padding-top: 7.5rem;
     }
 
+    /* Stacked: copy, then the stats bar, then the photo last */
+    .home-hero > .container {
+        display: flex;
+        flex-direction: column;
+    }
+
     .home-hero__grid {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 2.5rem;
+        display: contents;
+    }
+
+    .home-hero__visual {
+        order: 1;
+        margin-top: 2.5rem;
     }
 
     .home-hero__copy {
