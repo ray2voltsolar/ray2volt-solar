@@ -2226,3 +2226,68 @@ body.blog .post-cta .btn-outline:hover {
 [data-theme="dark"] .careers .form-control {
     color-scheme: dark;
 }
+
+/* --------------------------------------------------------------------------
+   Phones: centre the hero / page-header copy and section titles
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    .page-header,
+    .hero-content,
+    .blog-hero,
+    .post-header,
+    .claim-section .offer-content {
+        text-align: center;
+    }
+
+    .page-header h1,
+    .page-header p,
+    .blog-hero h1,
+    .blog-hero p,
+    .post-header h1,
+    .post-header .post-standfirst,
+    .hero-badge,
+    .ci-savings-note {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .breadcrumb,
+    .breadcrumbs,
+    .post-meta,
+    .blog-filters,
+    .hero .hero-buttons,
+    .page-header .hero-buttons {
+        justify-content: center;
+    }
+
+    /* Checklists stay left-aligned inside a centred block */
+    .claim-section .value-stack {
+        width: fit-content;
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: left;
+    }
+
+    .claim-section .trust-box {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Section titles: kicker + heading (body copy below stays left) */
+    .section-header,
+    .section-header--center {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+
+    .kicker:has(+ h2) {
+        display: flex;
+        justify-content: center;
+    }
+
+    .kicker + h2 {
+        text-align: center;
+    }
+}

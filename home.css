@@ -1558,6 +1558,39 @@
     }
 }
 
+/* Phones: centre the hero copy and section titles */
+@media (max-width: 768px) {
+    .home-hero__copy {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+
+    .home-hero__actions,
+    .home-hero__assurances {
+        justify-content: center;
+    }
+
+    .home-head {
+        align-items: center;
+        text-align: center;
+    }
+
+    .home-head > div {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .home-kicker:has(+ h2) {
+        display: flex;
+        justify-content: center;
+    }
+
+    .home-kicker + h2 {
+        text-align: center;
+    }
+}
+
 @media (max-width: 380px) {
     .home-hero h1 {
         font-size: 1.875rem;
