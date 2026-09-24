@@ -2,7 +2,7 @@
    Site theme (every page). Loaded after styles.css and the page stylesheet
    (pages.css, blog.css, careers.css); index.html adds home.css after it.
    Two themes, chosen on <html data-theme="dark|light"> by the inline script
-   in each page head and the round toggle above the WhatsApp button
+   in each page head and the round floating toggle
    (script.js, section 1b). Colours come from the tokens in section 1.
    ========================================================================== */
 
@@ -1586,12 +1586,8 @@ select.form-control option {
 }
 
 /* --------------------------------------------------------------------------
-   10. Floating buttons: theme toggle above WhatsApp, scroll-to-top
+   10. Floating buttons: theme toggle, scroll-to-top
    -------------------------------------------------------------------------- */
-.sticky-whatsapp {
-    background: #25D366;
-}
-
 .sticky-contact .theme-toggle {
     display: grid;
     place-items: center;

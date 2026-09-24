@@ -346,7 +346,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 1b. Light / dark theme toggle
     //     The page head sets html[data-theme] before paint: the visitor's
     //     saved choice, else a random theme kept for the visit. This adds
-    //     the round toggle above the WhatsApp button, swaps the theme and
+    //     the round floating toggle, swaps the theme and
     //     remembers an explicit choice. Blog pages are fixed to light
     //     (html[data-theme-fixed]) and get no toggle.
     // ──────────────────────────────────────────────────────────

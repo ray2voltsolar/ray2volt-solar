@@ -2368,10 +2368,6 @@ textarea.form-control {
     box-shadow: 0 8px 28px rgba(0, 0, 0, 0.32);
 }
 
-.sticky-whatsapp {
-    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-}
-
 @media (max-width: 600px) {
     .sticky-contact {
         bottom: 1.25rem;
