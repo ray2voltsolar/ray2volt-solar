@@ -114,27 +114,31 @@ body {
     overflow-x: hidden;
 }
 
-/* Converging Perspective Grid Overlay */
+/* Flat blueprint grid behind the top of the page. It scrolls away with
+   the hero and fades out before the content, so it never sits behind
+   body copy on narrow screens. Line colour comes from theme.css. */
 body::after {
     content: '';
-    position: fixed;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: max(100vh, 640px);
     background-image:
-        /* Intersecting grid lines */
-        linear-gradient(rgba(56, 189, 248, 0.15) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(56, 189, 248, 0.15) 1px, transparent 1px);
-    background-size: 80px 80px;
-    background-position: center center;
-    /* 3D tilt transformation to create converging lines */
-    transform: perspective(1000px) rotateX(65deg) translateY(-20%);
+        linear-gradient(var(--h-grid, rgba(56, 189, 248, 0.16)) 1px, transparent 1px),
+        linear-gradient(90deg, var(--h-grid, rgba(56, 189, 248, 0.16)) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-position: center top;
     pointer-events: none;
     z-index: 0;
-    /* Fade out the grid smoothly into the background edges */
-    -webkit-mask-image: radial-gradient(circle at center, black 0%, transparent 60%);
-    mask-image: radial-gradient(circle at center, black 0%, transparent 60%);
+    -webkit-mask-image: radial-gradient(ellipse 120% 60% at 50% 0%, #000 30%, transparent 80%);
+    mask-image: radial-gradient(ellipse 120% 60% at 50% 0%, #000 30%, transparent 80%);
+}
+
+@media (min-width: 768px) {
+    body::after {
+        background-size: 44px 44px;
+    }
 }
 
 /* Animated aurora gradient overlay */
@@ -177,28 +181,6 @@ body>* {
     z-index: 1;
 }
 
-/* The static grid remains a fallback until the interactive field is ready. */
-body.energy-field-ready::after {
-    display: none;
-}
-
-body.energy-field-ready::before {
-    animation: none;
-}
-
-body > .energy-field {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    pointer-events: none;
-}
-
-body.energy-field-paused .hero::before {
-    animation-play-state: paused;
-}
-
 @media (prefers-reduced-motion: reduce) {
     body::before,
     .hero::before {
@@ -207,7 +189,7 @@ body.energy-field-paused .hero::before {
 }
 
 @media print {
-    body > .energy-field {
+    body::after {
         display: none;
     }
 }

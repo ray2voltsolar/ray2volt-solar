@@ -73,6 +73,7 @@ body {
     --h-float-shadow: 0 18px 40px -16px rgba(0, 0, 0, 0.75);
     --h-form-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.85);
     --h-frame-shadow: 0 40px 80px -32px rgba(0, 0, 0, 0.8), 0 0 0 10px rgba(255, 255, 255, 0.025);
+    --h-grid: rgba(56, 189, 248, 0.16);
     --h-radius: 20px;
 }
 
@@ -139,6 +140,7 @@ body {
     --h-float-shadow: 0 14px 32px -12px rgba(15, 23, 42, 0.28);
     --h-form-shadow: 0 24px 48px -28px rgba(15, 23, 42, 0.3);
     --h-frame-shadow: 0 30px 60px -30px rgba(15, 23, 42, 0.35), 0 0 0 8px rgba(15, 23, 42, 0.03);
+    --h-grid: rgba(3, 169, 244, 0.13);
 }
 
 :root[data-theme="dark"] {
@@ -165,9 +167,8 @@ body {
     overflow-x: clip;
 }
 
-/* No aurora wash or static grid; the canvas field keeps the grid lines */
-body::before,
-body::after {
+/* No aurora wash; the flat grid (body::after in styles.css) stays */
+body::before {
     display: none;
 }
 
