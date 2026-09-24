@@ -29,13 +29,13 @@ for (const page of pages) test(`${path.relative(root, page)} loads the theme bef
         assert.match(htmlTag, /\bdata-theme-fixed\b/, 'blog page opts out of the toggle');
         assert.doesNotMatch(html, /r2v-theme/, 'blog page ignores the saved theme');
     } else {
-        // Other pages: the saved choice, else a random theme kept for the visit
+        // Other pages: the saved choice, else light
         const scripts = [...head.matchAll(/<script\b[^>]*>[\s\S]*?<\/script>/gi)]
             .filter(match => match[0].includes("localStorage.getItem('r2v-theme')"));
         assert.equal(scripts.length, 1, 'one pre-paint script');
         assert.equal(html.split("localStorage.getItem('r2v-theme')").length - 1, 1, 'script appears once in the page');
-        assert.match(scripts[0][0], /Math\.random\(\) < 0\.5 \? 'light' : 'dark'/, 'random theme');
-        assert.match(scripts[0][0], /sessionStorage\.setItem\('r2v-theme-visit', theme\)/, 'random theme is kept for the visit');
+        assert.match(scripts[0][0], /var theme = 'light';/, 'light is the default theme');
+        assert.doesNotMatch(scripts[0][0], /Math\.random|r2v-theme-visit/, 'no random theme');
         assert.doesNotMatch(scripts[0][0], /prefers-color-scheme/, 'the device setting no longer decides');
         assert.match(scripts[0][0], /document\.documentElement\.setAttribute\('data-theme', theme\)/);
         assert.ok(scripts[0].index < stylesheetLinks[0].index, 'theme script precedes stylesheets');
@@ -62,5 +62,5 @@ for (const page of pages) test(`${path.relative(root, page)} loads the theme bef
 test('script.js gives fixed-theme pages no toggle', () => {
     const js = fs.readFileSync(path.join(root, 'script.js'), 'utf8');
     assert.match(js, /hasAttribute\('data-theme-fixed'\)/);
-    assert.doesNotMatch(js, /prefers-color-scheme/, 'no device-setting listener overrides the random theme');
+    assert.doesNotMatch(js, /prefers-color-scheme/, 'no device-setting listener overrides the default theme');
 });
