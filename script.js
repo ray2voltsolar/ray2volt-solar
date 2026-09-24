@@ -3,6 +3,8 @@
    ========================================================================== */
 
 // Decorative solar field. Independent of navigation, forms, and tracking.
+// A perspective floor fills the bottom third of the viewport with a
+// sunrise on its horizon, so the copy above it sits on clean space.
 document.addEventListener('DOMContentLoaded', function initEnergyField() {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
@@ -13,85 +15,65 @@ document.addEventListener('DOMContentLoaded', function initEnergyField() {
     document.body.prepend(canvas);
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
     let width = 0;
     let height = 0;
-    let columns = 22;
-    let rows = 18;
     let frame = 0;
     let lastTime = 0;
     let elapsed = 0;
-    const pointer = { x: 0, y: 0, targetX: 0, targetY: 0, strength: 0, active: false };
     const isStill = () => reducedMotion.matches;
-    // The homepage keeps the grid lines only, without the glow layers.
-    const drawGlows = !document.body.classList.contains('home');
-
-    function point(column, depth, time) {
-        const spread = 0.12 + depth * 1.5;
-        let x = width * 0.5 + (column / columns - 0.5) * width * spread;
-        let y = height * (0.07 + depth * depth * 1.12);
-        // Low-amplitude waves keep the field quiet behind the content.
-        y += Math.sin(column * 0.36 + depth * 6 - time * 0.38) * 6 * depth;
-        y += Math.cos(column * 0.18 - depth * 8 + time * 0.24) * 4 * depth;
-        x += Math.sin(depth * 5 + time * 0.2) * 4 * depth;
-        const dx = x - pointer.x;
-        const dy = y - pointer.y;
-        const influence = Math.exp(-(dx * dx + dy * dy) / 65000) * pointer.strength;
-        y -= influence * 4;
-        x += dx * influence * 0.006;
-        return { x, y };
-    }
 
     function draw() {
-        // Run ambient movement at 12% of the original speed.
-        const time = elapsed / 1000 * 0.12;
+        const time = elapsed / 1000;
+        const light = document.documentElement.getAttribute('data-theme') === 'light';
+        const line = light ? '3,169,244' : '56,189,248';
+        const strength = light ? 0.75 : 1;
         ctx.clearRect(0, 0, width, height);
 
-        // A restrained pool of sunlight moves over the cool blue field.
-        if (drawGlows) {
-            const sunX = width * (0.76 + Math.sin(time * 0.12) * 0.07);
-            const sunY = height * 0.36;
-            const sunlight = ctx.createRadialGradient(sunX, sunY, 0, sunX, sunY, width * 0.48);
-            sunlight.addColorStop(0, 'rgba(255,179,0,0.055)');
-            sunlight.addColorStop(1, 'rgba(255,179,0,0)');
-            ctx.fillStyle = sunlight;
-            ctx.fillRect(0, 0, width, height);
+        const horizon = height * 0.64;
+        const centre = width * 0.5;
 
-            if (pointer.strength > 0.01) {
-                const glow = ctx.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 260);
-                glow.addColorStop(0, `rgba(56,189,248,${0.045 * pointer.strength})`);
-                glow.addColorStop(1, 'rgba(56,189,248,0)');
-                ctx.fillStyle = glow;
-                ctx.fillRect(0, 0, width, height);
-            }
-        }
+        // Sunrise glow sitting on the horizon.
+        const sunRadius = Math.min(width * 0.75, height * 0.9);
+        const sun = ctx.createRadialGradient(centre, horizon, 0, centre, horizon, sunRadius);
+        sun.addColorStop(0, `rgba(255,179,0,${light ? 0.14 : 0.22})`);
+        sun.addColorStop(0.35, `rgba(255,179,0,${light ? 0.04 : 0.06})`);
+        sun.addColorStop(1, 'rgba(255,179,0,0)');
+        ctx.fillStyle = sun;
+        ctx.fillRect(0, 0, width, height);
 
-        ctx.lineWidth = 0.8;
-        for (let column = 0; column <= columns; column++) {
-            const edgeFade = Math.sin(Math.PI * column / columns);
-            ctx.strokeStyle = `rgba(56,189,248,${0.045 + edgeFade * 0.095})`;
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = `rgba(${line},${0.3 * strength})`;
+        ctx.beginPath();
+        ctx.moveTo(0, horizon);
+        ctx.lineTo(width, horizon);
+        ctx.stroke();
+
+        // Lines converging on the horizon; wider screens get more of them
+        // at the same spacing rather than wider cells.
+        const spacing = Math.max(66, Math.min(width * 0.22, 110));
+        const sideCount = Math.ceil(centre / spacing) + 3;
+        for (let i = -sideCount; i <= sideCount; i++) {
+            const fade = Math.abs(i) / sideCount;
+            ctx.strokeStyle = `rgba(${line},${(0.03 + (1 - fade) * 0.13) * strength})`;
             ctx.beginPath();
-            for (let row = 0; row <= rows; row++) {
-                const p = point(column, row / rows, time);
-                if (row === 0) ctx.moveTo(p.x, p.y);
-                else ctx.lineTo(p.x, p.y);
-            }
+            ctx.moveTo(centre + i * spacing * 0.09, horizon);
+            ctx.lineTo(centre + i * spacing, height);
             ctx.stroke();
         }
 
-        const drift = (time * 0.035) % (1 / rows);
-        for (let row = 0; row <= rows; row++) {
-            const depth = row / rows + drift;
-            ctx.strokeStyle = `rgba(56,189,248,${0.025 + Math.sin(Math.min(depth, 1) * Math.PI) * 0.12})`;
+        // Cross lines drift slowly toward the viewer.
+        const floor = height - horizon;
+        const rows = 9;
+        const phase = (time * 0.08) % 1;
+        for (let row = 0; row < rows; row++) {
+            const depth = (row + phase) / rows;
+            ctx.strokeStyle = `rgba(${line},${(0.04 + depth * 0.16) * strength})`;
             ctx.beginPath();
-            for (let column = 0; column <= columns; column++) {
-                const p = point(column, depth, time);
-                if (column === 0) ctx.moveTo(p.x, p.y);
-                else ctx.lineTo(p.x, p.y);
-            }
+            const y = horizon + floor * depth * depth;
+            ctx.moveTo(0, y);
+            ctx.lineTo(width, y);
             ctx.stroke();
         }
-
     }
 
     function animate(now) {
@@ -102,9 +84,6 @@ document.addEventListener('DOMContentLoaded', function initEnergyField() {
         if (delta >= 1000 / 30) {
             elapsed += Math.min(delta, 70);
             lastTime = now;
-            pointer.x += (pointer.targetX - pointer.x) * 0.05;
-            pointer.y += (pointer.targetY - pointer.y) * 0.05;
-            pointer.strength += ((pointer.active ? 1 : 0) - pointer.strength) * 0.04;
             draw();
         }
         frame = requestAnimationFrame(animate);
@@ -116,7 +95,6 @@ document.addEventListener('DOMContentLoaded', function initEnergyField() {
         lastTime = 0;
         document.body.classList.toggle('energy-field-paused', isStill());
         if (isStill()) {
-            pointer.strength = 0;
             draw();
         } else if (!document.hidden) {
             frame = requestAnimationFrame(animate);
@@ -126,8 +104,6 @@ document.addEventListener('DOMContentLoaded', function initEnergyField() {
     function resize() {
         width = window.innerWidth;
         height = window.innerHeight;
-        columns = width < 700 ? 12 : 22;
-        rows = width < 700 ? 12 : 18;
         const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
         canvas.width = Math.round(width * dpr);
         canvas.height = Math.round(height * dpr);
@@ -135,17 +111,11 @@ document.addEventListener('DOMContentLoaded', function initEnergyField() {
         draw();
     }
 
-    window.addEventListener('pointermove', event => {
-        if (!finePointer.matches || isStill() || event.pointerType === 'touch') return;
-        pointer.targetX = event.clientX;
-        pointer.targetY = event.clientY;
-        pointer.active = true;
-    }, { passive: true });
-    document.documentElement.addEventListener('pointerleave', () => { pointer.active = false; });
-    window.addEventListener('blur', () => { pointer.active = false; });
     window.addEventListener('resize', resize, { passive: true });
     document.addEventListener('visibilitychange', syncMotion);
     reducedMotion.addEventListener('change', syncMotion);
+    // Redraw in the new colours when the theme toggle flips, even when paused.
+    new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
     resize();
     document.body.classList.add('energy-field-ready');
