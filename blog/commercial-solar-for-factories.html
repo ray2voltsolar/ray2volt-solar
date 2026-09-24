@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light" data-theme-fixed>
 
 <head>
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -18,18 +18,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Theme before first paint: the saved choice, else the device setting -->
-    <script>
-        (function () {
-            var theme = 'dark';
-            try {
-                var saved = localStorage.getItem('r2v-theme');
-                if (saved === 'light' || saved === 'dark') theme = saved;
-                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
-            } catch (e) {}
-            document.documentElement.setAttribute('data-theme', theme);
-        })();
-    </script>
+    <!-- Blog pages are always light: the theme is fixed on <html> and has no toggle -->
     <meta name="description" content="Factory solar works best when daytime load matches output. Check roof strength, plant size, generator controls, DCR rules and project payback before you commit.">
     <meta name="keywords" content="solar for factory India, industrial rooftop solar, manufacturing power cost reduction, C&I solar plant">
     <title>Solar for Factories: Cutting Manufacturing Power Costs in India | Ray2Volt Solar</title>

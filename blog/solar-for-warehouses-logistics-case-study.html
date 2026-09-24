@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light" data-theme-fixed>
 
 <head>
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -18,18 +18,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Theme before first paint: the saved choice, else the device setting -->
-    <script>
-        (function () {
-            var theme = 'dark';
-            try {
-                var saved = localStorage.getItem('r2v-theme');
-                if (saved === 'light' || saved === 'dark') theme = saved;
-                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
-            } catch (e) {}
-            document.documentElement.setAttribute('data-theme', theme);
-        })();
-    </script>
+    <!-- Blog pages are always light: the theme is fixed on <html> and has no toggle -->
     <meta name="description" content="Review a 250 kWp solar design for a representative Andhra Pradesh warehouse. See roof clamping, forklift charging, export assumptions and illustrative payback.">
     <meta name="keywords" content="solar for warehouses India, logistics park solar worked example, PEB roof solar installation, EV fleet solar charging, 250 kW industrial solar">
     <title>Solar for Warehouses &amp; Logistics in India: 250 kWp Worked Example, EV Fleets &amp; ROI | Ray2Volt Solar</title>

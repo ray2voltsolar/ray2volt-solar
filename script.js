@@ -494,12 +494,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ──────────────────────────────────────────────────────────
     // 1b. Light / dark theme toggle
-    //     The page head sets html[data-theme] before paint; this adds the
-    //     round toggle above the WhatsApp button, swaps the theme and
-    //     remembers an explicit choice. Without a saved choice the page
-    //     follows the device setting, including live changes.
+    //     The page head sets html[data-theme] before paint: the visitor's
+    //     saved choice, else a random theme kept for the visit. This adds
+    //     the round toggle above the WhatsApp button, swaps the theme and
+    //     remembers an explicit choice. Blog pages are fixed to light
+    //     (html[data-theme-fixed]) and get no toggle.
     // ──────────────────────────────────────────────────────────
     if (document.documentElement.hasAttribute('data-theme') &&
+        !document.documentElement.hasAttribute('data-theme-fixed') &&
         !document.querySelector('[data-theme-toggle]')) {
         let stack = document.querySelector('.sticky-contact');
         if (!stack) {
@@ -527,13 +529,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 button.setAttribute('title', `Switch to ${next} theme`);
             });
         };
-        const savedTheme = function () {
-            try {
-                return localStorage.getItem('r2v-theme');
-            } catch (e) {
-                return null;
-            }
-        };
 
         themeToggles.forEach(button => {
             button.addEventListener('click', function () {
@@ -547,16 +542,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 syncThemeLabels();
             });
         });
-
-        if (window.matchMedia) {
-            const lightQuery = window.matchMedia('(prefers-color-scheme: light)');
-            const followDevice = function (e) {
-                if (savedTheme()) return;
-                root.setAttribute('data-theme', e.matches ? 'light' : 'dark');
-                syncThemeLabels();
-            };
-            if (lightQuery.addEventListener) lightQuery.addEventListener('change', followDevice);
-        }
 
         syncThemeLabels();
     }

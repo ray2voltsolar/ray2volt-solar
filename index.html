@@ -19,14 +19,14 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Theme before first paint: the saved choice, else the device setting -->
+    <!-- Theme before first paint: the visitor's own choice, else a random theme kept for the visit -->
     <script>
         (function () {
-            var theme = 'dark';
+            var theme = Math.random() < 0.5 ? 'light' : 'dark';
             try {
-                var saved = localStorage.getItem('r2v-theme');
+                var saved = localStorage.getItem('r2v-theme') || sessionStorage.getItem('r2v-theme-visit');
                 if (saved === 'light' || saved === 'dark') theme = saved;
-                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+                else sessionStorage.setItem('r2v-theme-visit', theme);
             } catch (e) {}
             document.documentElement.setAttribute('data-theme', theme);
         })();

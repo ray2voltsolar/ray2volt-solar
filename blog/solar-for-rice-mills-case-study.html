@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light" data-theme-fixed>
 
 <head>
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -18,18 +18,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Theme before first paint: the saved choice, else the device setting -->
-    <script>
-        (function () {
-            var theme = 'dark';
-            try {
-                var saved = localStorage.getItem('r2v-theme');
-                if (saved === 'light' || saved === 'dark') theme = saved;
-                else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
-            } catch (e) {}
-            document.documentElement.setAttribute('data-theme', theme);
-        })();
-    </script>
+    <!-- Blog pages are always light: the theme is fixed on <html> and has no toggle -->
     <meta name="description" content="See how a representative 60 TPD rice mill could use 200 kWp of rooftop solar. Review motor loads, husk dust control, HT bills and illustrative returns.">
     <meta name="keywords" content="solar for rice mill India, parboiled rice mill power cost, 200 kW industrial solar, rice mill solar worked example Andhra Pradesh, APSPDCL HT tariff solar">
     <title>Solar for Rice Mills in India: 200 kWp Worked Example, Heavy Motor Loads &amp; ROI | Ray2Volt Solar</title>
