@@ -567,3 +567,520 @@
         text-decoration: none !important;
     }
 }
+
+/* ==========================================================================
+   RayCare (raycare.html): service pass, plan cards, warranty timeline, FAQ.
+   Colours come from the theme tokens in theme.css, so both themes work.
+   ========================================================================== */
+
+.rc-hero {
+    padding: 8.5rem 0 4.5rem;
+    border-bottom: 1px solid var(--h-line);
+}
+
+.rc-hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 4rem;
+    align-items: center;
+}
+
+.rc-hero h1 {
+    max-width: 16ch;
+    margin-bottom: 1.25rem;
+}
+
+.rc-hero h1 span {
+    color: var(--h-highlight);
+}
+
+.rc-hero .lead {
+    max-width: 36rem;
+    margin-bottom: 2rem;
+    font-size: 1.125rem;
+    color: var(--h-muted);
+}
+
+/* The "pass": a membership card that sums up free RayCare */
+.rc-pass {
+    position: relative;
+    padding: 1.75rem;
+    border: 1px solid var(--h-line-strong);
+    border-radius: 24px;
+    background: var(--h-surface-strong);
+    box-shadow: var(--h-frame-shadow);
+    overflow: hidden;
+}
+
+.rc-pass::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 4px;
+    background: linear-gradient(90deg, var(--secondary-gold), #FFD54F);
+}
+
+.rc-pass__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.rc-pass__name {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--h-ink);
+}
+
+.rc-pass__name strong {
+    font-weight: 700;
+    color: var(--h-gold-ink);
+}
+
+.rc-pass__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    border: 1px solid var(--h-success-line);
+    border-radius: 999px;
+    background: var(--h-success-bg);
+    font-family: var(--font-heading);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--h-green);
+}
+
+.rc-pass__status::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.rc-pass__rows {
+    margin: 0 0 1.5rem;
+}
+
+.rc-pass__rows > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    border-top: 1px solid var(--h-line);
+}
+
+.rc-pass__rows dt {
+    color: var(--h-muted);
+    font-size: 0.9375rem;
+}
+
+.rc-pass__rows dd {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--h-ink);
+    text-align: right;
+}
+
+/* Five yearly check-ins, each a ticked dot on a line */
+.rc-pass__years {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.rc-pass__years::before {
+    content: '';
+    position: absolute;
+    top: 11px;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: var(--h-path-line);
+}
+
+.rc-pass__years li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--h-muted);
+}
+
+.rc-pass__years li::before {
+    content: '';
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--secondary-gold) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231A1A1A' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 12 4 4 8-8'/%3E%3C/svg%3E") center / 14px no-repeat;
+    box-shadow: 0 0 0 4px var(--h-surface-strong);
+}
+
+/* Plan cards */
+.rc-plans-section {
+    background: var(--h-panel);
+    border-top: 1px solid var(--h-line);
+    border-bottom: 1px solid var(--h-line);
+}
+
+.rc-plans {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    align-items: stretch;
+}
+
+.rc-plan {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 1.75rem 1.75rem;
+    border: 1px solid var(--h-line);
+    border-radius: 24px;
+    background: var(--h-surface-strong);
+    box-shadow: var(--h-card-shadow);
+}
+
+.rc-plan--featured {
+    border: 2px solid var(--secondary-gold);
+    box-shadow: var(--h-hover-shadow);
+}
+
+.rc-plan__tag {
+    position: absolute;
+    top: 0;
+    left: 1.75rem;
+    margin: 0;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    background: var(--secondary-gold);
+    color: var(--h-on-gold);
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 700;
+    transform: translateY(-50%);
+}
+
+.rc-plan h3 {
+    margin: 0 0 0.25rem;
+    font-size: 1.25rem;
+}
+
+.rc-plan__for {
+    margin: 0 0 1.25rem;
+    font-size: 0.9375rem;
+    color: var(--h-muted);
+}
+
+.rc-plan__price {
+    margin: 0 0 1.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--h-line);
+    color: var(--h-muted);
+}
+
+.rc-plan__price strong {
+    font-family: var(--font-heading);
+    font-size: 2.25rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--h-ink);
+}
+
+.rc-plan__list {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0 0 1.75rem;
+    padding: 0;
+    list-style: none;
+    flex: 1;
+    align-content: start;
+}
+
+.rc-plan__list li {
+    position: relative;
+    padding-left: 1.75rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--h-body);
+}
+
+.rc-plan__list li::before {
+    content: '';
+    position: absolute;
+    top: 0.3em;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--h-success-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2316A34A' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 12 4 4 8-8'/%3E%3C/svg%3E") center / 10px no-repeat;
+    border: 1px solid var(--h-success-line);
+}
+
+.rc-plans__note {
+    margin-top: 1.5rem;
+}
+
+.rc-plans__note p {
+    margin: 0 0 0.25rem;
+}
+
+/* Warranty timeline: bars on a 30-year scale */
+.rc-timeline {
+    display: grid;
+    gap: 0.875rem;
+    padding: 1.75rem;
+    border: 1px solid var(--h-line);
+    border-radius: 24px;
+    background: var(--h-surface);
+    box-shadow: var(--h-card-shadow);
+}
+
+.rc-timeline__row,
+.rc-timeline__axis {
+    display: grid;
+    grid-template-columns: 11rem minmax(0, 1fr) 7rem;
+    gap: 1.25rem;
+    align-items: center;
+}
+
+.rc-timeline__label,
+.rc-timeline__value {
+    margin: 0;
+    font-size: 0.9375rem;
+}
+
+.rc-timeline__label {
+    color: var(--h-body);
+}
+
+.rc-timeline__value {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--h-ink);
+}
+
+.rc-timeline__track {
+    display: flex;
+    height: 14px;
+    border-radius: 999px;
+    background: var(--h-tile-bg);
+    overflow: hidden;
+}
+
+.rc-timeline__bar {
+    height: 100%;
+    background: var(--h-sky);
+}
+
+.rc-timeline__bar:first-child {
+    border-radius: 999px 0 0 999px;
+}
+
+.rc-timeline__bar:last-child {
+    border-radius: 0 999px 999px 0;
+}
+
+.rc-timeline__bar:only-child {
+    border-radius: 999px;
+}
+
+.rc-timeline__bar--30 { width: 100%; }
+.rc-timeline__bar--12 { width: 40%; }
+.rc-timeline__bar--10 { width: 33.333%; }
+.rc-timeline__bar--8 { width: 26.667%; }
+.rc-timeline__bar--5 { width: 16.667%; }
+
+/* The inverter's model-dependent last two years */
+.rc-timeline__bar--range {
+    width: 6.667%;
+    background: repeating-linear-gradient(135deg, var(--h-sky) 0 3px, transparent 3px 6px);
+}
+
+.rc-timeline__row--care .rc-timeline__bar {
+    background: var(--secondary-gold);
+}
+
+/* Axis: six 5-year columns under the track, each label at its column's end */
+.rc-timeline__axis {
+    grid-template-columns: 12.25rem repeat(6, minmax(0, 1fr)) 8.25rem;
+    gap: 0;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--h-line);
+}
+
+.rc-timeline__axis span {
+    grid-row: 1;
+    justify-self: end;
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    color: var(--h-muted);
+}
+
+.rc-timeline__axis span:first-child {
+    grid-column: 2;
+    justify-self: start;
+}
+
+.rc-timeline__axis span:nth-child(2) { grid-column: 2; }
+.rc-timeline__axis span:nth-child(3) { grid-column: 3; }
+.rc-timeline__axis span:nth-child(4) { grid-column: 4; }
+.rc-timeline__axis span:nth-child(5) { grid-column: 5; }
+.rc-timeline__axis span:nth-child(6) { grid-column: 6; }
+.rc-timeline__axis span:nth-child(7) { grid-column: 7; }
+
+/* Questions: native disclosure widgets */
+.rc-faq {
+    max-width: 860px;
+    border-top: 1px solid var(--h-line);
+}
+
+.rc-faq details {
+    border-bottom: 1px solid var(--h-line);
+}
+
+.rc-faq summary {
+    position: relative;
+    padding: 1.25rem 2.5rem 1.25rem 0;
+    font-family: var(--font-heading);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--h-ink);
+    cursor: pointer;
+    list-style: none;
+}
+
+.rc-faq summary::-webkit-details-marker {
+    display: none;
+}
+
+.rc-faq summary::after {
+    content: '+';
+    position: absolute;
+    top: 50%;
+    right: 0.25rem;
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--h-sky);
+    transform: translateY(-50%);
+    transition: transform 0.2s ease;
+}
+
+.rc-faq details[open] summary::after {
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.rc-faq summary:focus-visible {
+    outline: 2px solid var(--h-sky);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+.rc-faq details p {
+    margin: 0 0 1.25rem;
+    max-width: 44rem;
+    line-height: 1.7;
+    color: var(--h-muted);
+}
+
+@media (max-width: 992px) {
+    .rc-hero__grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+
+    .rc-pass {
+        width: 100%;
+        max-width: 480px;
+    }
+
+    .rc-plans {
+        grid-template-columns: 1fr;
+        max-width: 520px;
+    }
+
+    .rc-plan--featured {
+        order: -1;
+    }
+}
+
+@media (max-width: 640px) {
+    .rc-hero {
+        padding: 7rem 0 3rem;
+    }
+
+    .rc-pass {
+        padding: 1.5rem 1.25rem;
+    }
+
+    .rc-plan {
+        padding: 1.75rem 1.25rem 1.25rem;
+    }
+
+    .rc-plan__tag {
+        left: 1.25rem;
+    }
+
+    .rc-timeline {
+        padding: 1.25rem;
+    }
+
+    /* Label and value share a line; the bar runs full width beneath */
+    .rc-timeline__row {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 0.375rem 1rem;
+    }
+
+    .rc-timeline__track {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+
+    .rc-timeline__axis {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+
+    .rc-timeline__axis span:first-child,
+    .rc-timeline__axis span:nth-child(2) { grid-column: 1; }
+    .rc-timeline__axis span:nth-child(3) { grid-column: 2; }
+    .rc-timeline__axis span:nth-child(4) { grid-column: 3; }
+    .rc-timeline__axis span:nth-child(5) { grid-column: 4; }
+    .rc-timeline__axis span:nth-child(6) { grid-column: 5; }
+    .rc-timeline__axis span:nth-child(7) { grid-column: 6; }
+
+    .rc-faq summary {
+        font-size: 1rem;
+    }
+}
+
+/* Phones: centre the RayCare hero copy, as every other hero is */
+@media (max-width: 768px) {
+    .rc-hero__grid > div:first-child {
+        text-align: center;
+    }
+
+    .rc-hero h1,
+    .rc-hero .lead,
+    .rc-pass {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .rc-hero .hero-buttons {
+        justify-content: center;
+    }
+}
