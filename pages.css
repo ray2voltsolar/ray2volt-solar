@@ -1084,3 +1084,64 @@
         justify-content: center;
     }
 }
+
+/* RayCare plan prices are per kWp: a size box above the cards, and each
+   card shows the yearly total for that size */
+.rc-size {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1rem;
+    margin-bottom: 2.5rem;
+}
+
+.rc-size label {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--h-ink);
+}
+
+.rc-size__field {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.rc-size__field .form-control {
+    width: 7rem;
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+    font-weight: 700;
+}
+
+.rc-size__field span {
+    font-weight: 600;
+    color: var(--h-muted);
+}
+
+.rc-size .fine-print {
+    margin: 0;
+}
+
+.rc-plan__price {
+    margin-bottom: 0.25rem;
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+.rc-plan__total {
+    margin: 0 0 1.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--h-line);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--h-gold-ink);
+}
+
+@media (max-width: 768px) {
+    .rc-size {
+        justify-content: center;
+        text-align: center;
+    }
+}
