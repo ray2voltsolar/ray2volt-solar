@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18014889887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'AW-18014889887');
+        gtag('config', 'G-WZJ1CXHSG9');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme before first paint: the visitor's own choice, else light -->
+    <script>
+        (function () {
+            var theme = 'light';
+            try {
+                var saved = localStorage.getItem('r2v-theme');
+                if (saved === 'light' || saved === 'dark') theme = saved;
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    <meta name="description" content="Every EPC sends a PDF. Send a 3D plant. A live 3D viewer of your C&amp;I solar project for your client, in 3–5 working days after complete inputs, from ₹4,999.">
+    <title>Ray2Volt 3D: 3D Plant Viewers for C&amp;I Solar EPCs | Ray2Volt Solar</title>
+    <link rel="canonical" href="https://ray2voltsolar.com/ray2volt-3d.html">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&amp;family=Assistant:wght@400..800&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&amp;family=Assistant:wght@400..800&amp;display=swap" rel="stylesheet">
+    </noscript>
+
+    <!-- Styles: the site stylesheets, the homepage components, then this page's own -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="pages.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="ray2volt-3d.css">
+    <meta property="og:site_name" content="Ray2Volt Solar">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_IN">
+    <meta property="og:title" content="Ray2Volt 3D: every EPC sends a PDF. Send a 3D plant.">
+    <meta property="og:description" content="A live 3D viewer of your C&amp;I solar project, ready to share with your client. 3–5 working days, from ₹4,999.">
+    <meta property="og:url" content="https://ray2voltsolar.com/ray2volt-3d.html">
+    <meta property="og:image" content="https://ray2voltsolar.com/images/3d/og-ray2volt-3d.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Ray2Volt 3D: Every EPC sends a PDF. Send a 3D plant. 3–5 working days, from ₹4,999.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Ray2Volt 3D: every EPC sends a PDF. Send a 3D plant.">
+    <meta name="twitter:description" content="A live 3D viewer of your C&amp;I solar project, ready to share with your client. 3–5 working days, from ₹4,999.">
+    <meta name="twitter:image" content="https://ray2voltsolar.com/images/3d/og-ray2volt-3d.png">
+    <meta name="twitter:image:alt" content="Ray2Volt 3D: Every EPC sends a PDF. Send a 3D plant. 3–5 working days, from ₹4,999.">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://ray2voltsolar.com/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Ray2Volt 3D",
+                "item": "https://ray2voltsolar.com/ray2volt-3d.html"
+            }
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://ray2voltsolar.com/ray2volt-3d.html#service",
+        "name": "Ray2Volt 3D: interactive 3D solar plant viewer",
+        "serviceType": "3D visualisation of C&I solar projects",
+        "description": "One hosted, interactive 3D web viewer per C&I solar project, built from the EPC's PV layout, equipment list, site location and photos. Ready in 3–5 working days after complete inputs.",
+        "url": "https://ray2voltsolar.com/ray2volt-3d.html",
+        "image": "https://ray2voltsolar.com/images/3d/og-ray2volt-3d.png",
+        "brand": {
+            "@type": "Brand",
+            "name": "Ray2Volt 3D",
+            "logo": "https://ray2voltsolar.com/images/3d/ray2volt-3d-logo-h64.png"
+        },
+        "provider": {
+            "@type": "Organization",
+            "@id": "https://ray2voltsolar.com/#organization",
+            "name": "Ray2Volt Solar Private Limited",
+            "url": "https://ray2voltsolar.com/",
+            "telephone": "+91 96660 68140",
+            "email": "sales@ray2voltsolar.com"
+        },
+        "audience": {
+            "@type": "BusinessAudience",
+            "audienceType": "Solar EPCs and installers"
+        },
+        "areaServed": {
+            "@type": "Country",
+            "name": "India"
+        },
+        "offers": {
+            "@type": "Offer",
+            "description": "Starting at ₹4,999. Fixed price that depends on site size.",
+            "priceSpecification": {
+                "@type": "PriceSpecification",
+                "minPrice": 4999,
+                "priceCurrency": "INR"
+            },
+            "url": "https://ray2voltsolar.com/ray2volt-3d.html#pricing"
+        }
+    }
+    </script>
+</head>
+
+<body class="home r3d">
+    <!-- Header / Navigation -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="logo">
+                <img src="images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'">
+                <div class="logo-text">
+                    Ray2Volt Solar
+                    <span>Private Limited</span>
+                </div>
+            </a>
+
+            <ul class="nav-menu">
+                <li class="dropdown dropdown-wide">
+                    <a href="commercial.html" class="nav-link" aria-haspopup="true" aria-expanded="false">For Businesses <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Plan your project</span>
+                            <ul>
+                                <li><a href="commercial.html">Commercial solar overview</a></li>
+                                <li><a href="business-solar-finance.html">Finance options</a></li>
+                                <li><a href="resco-solar-for-business.html">RESCO: pay per unit</a></li>
+                                <li><a href="solar-roi-calculator.html">ROI calculator</a></li>
+                                <li><a href="ground-mounted-solar-open-access.html">Ground-mounted &amp; open access</a></li>
+                                <li><a href="solar-battery-vs-diesel.html">Solar + battery vs diesel</a></li>
+                                <li><a href="solar-quote-check.html">Free quote check</a></li>
+                                <li><a href="book-power-audit.html">Book a free power audit</a></li>
+                                <li><a href="tender-rfq.html">Tenders and RFQs</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Industries</span>
+                            <ul>
+                                <li><a href="industry-manufacturing.html">Manufacturing &amp; factories</a></li>
+                                <li><a href="industry-healthcare.html">Hospitals &amp; healthcare</a></li>
+                                <li><a href="industry-hotels.html">Hotels &amp; resorts</a></li>
+                                <li><a href="industry-cold-storage.html">Cold storage &amp; food processing</a></li>
+                                <li><a href="industry-education.html">Schools &amp; colleges</a></li>
+                                <li><a href="industry-warehousing.html">Warehousing &amp; logistics</a></li>
+                                <li><a href="industry-retail.html">Retail &amp; malls</a></li>
+                                <li><a href="industry-offices.html">Offices &amp; IT parks</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">For solar EPCs</span>
+                            <ul>
+                                <li><a href="ray2volt-3d.html" aria-current="page">Ray2Volt 3D: 3D plant viewers</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="residential.html" class="nav-link" aria-haspopup="true" aria-expanded="false">For Homes <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="residential.html">Home solar overview</a></li>
+                        <li><a href="residential-ongrid.html">On-grid systems</a></li>
+                        <li><a href="residential-hybrid.html">Hybrid systems with battery</a></li>
+                        <li><a href="apartment-solar.html">Apartments &amp; housing societies</a></li>
+                        <li><a href="solar-emi-calculator.html">Solar loan EMI calculator</a></li>
+                        <li><a href="blog/pm-surya-ghar-subsidy-guide.html">PM Surya Ghar subsidy guide</a></li>
+                        <li><a href="raycare.html">RayCare: service plans</a></li>
+                    </ul>
+                </li>
+                <li><a href="investor.html" class="nav-link">Investors</a></li>
+                <li><a href="blog.html" class="nav-link">Guides</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Icon set for this page, referenced with <use href="#i-…"> (the homepage stroke icons, plus a filled WhatsApp glyph) -->
+    <svg class="home-sprite" aria-hidden="true" focusable="false" width="0" height="0">
+        <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+        <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+        <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+        <symbol id="i-ext" viewBox="0 0 24 24"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+        <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+        <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></symbol>
+        <symbol id="i-inverter" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="m13 7-3 5h4l-3 5"/></symbol>
+        <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+        <symbol id="i-tag" viewBox="0 0 24 24"><path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.5"/></symbol>
+        <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></symbol>
+        <symbol id="i-cube" viewBox="0 0 24 24"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="m3 7 9 5 9-5M12 12v10"/></symbol>
+        <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+        <symbol id="i-orbit" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/><circle cx="12" cy="12" r="2.5"/></symbol>
+        <symbol id="i-video" viewBox="0 0 24 24"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="m22 8-6 4 6 4V8z"/></symbol>
+        <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+        <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></symbol>
+        <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/></symbol>
+        <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15Z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></symbol>
+        <symbol id="i-device" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></symbol>
+        <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+        <symbol id="i-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m10 8.5 5 3.5-5 3.5z"/></symbol>
+        <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></symbol>
+        <symbol id="i-rupee" viewBox="0 0 24 24"><path d="M6 3h12M6 8h12M6 13l8.5 8M6 13h3c6.67 0 6.67-10 0-10"/></symbol>
+        <symbol id="i-wa" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></symbol>
+    </svg>
+
+    <main id="main">
+    <!-- 1. Hero: the Ray2Volt 3D offer for other solar EPCs -->
+    <section class="home-hero" aria-labelledby="hero-title">
+        <div class="container">
+            <div class="home-hero__grid">
+                <div class="home-hero__copy">
+                    <p class="r3d-mark">
+                        <picture>
+                            <source srcset="images/3d/ray2volt-3d-logo-h64.webp 590w, images/3d/ray2volt-3d-logo-h128.webp 1180w" sizes="295px" type="image/webp">
+                            <img src="images/3d/ray2volt-3d-logo-h64.png" alt="Ray2Volt 3D, from Ray2Volt Solar" width="590" height="64">
+                        </picture>
+                    </p>
+                    <p class="home-eyebrow"><span class="home-eyebrow__dot" aria-hidden="true"></span>For solar EPCs and installers · C&amp;I projects</p>
+                    <h1 id="hero-title">Every EPC sends a PDF. <span>Send a 3D plant.</span></h1>
+                    <p class="home-hero__lead">We turn your PV layout into a live 3D model of the plant. Your client opens one link and explores it on a phone or laptop. Ready in <span class="nw">3–5 working days</span> once we have your inputs, <span class="nw">from ₹4,999</span>.</p>
+                    <div class="home-hero__actions">
+                        <a class="btn btn-primary btn-lg" href="#enquire">Get a quote <svg class="home-icon home-icon--sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+                        <a class="btn home-btn-ghost btn-lg" href="#demos"><svg class="home-icon home-icon--sm" aria-hidden="true"><use href="#i-play"/></svg>Try a live demo</a>
+                    </div>
+                    <ul class="home-hero__assurances">
+                        <li><svg class="home-icon" aria-hidden="true"><use href="#i-check"/></svg>Your client, your design</li>
+                        <li><svg class="home-icon" aria-hidden="true"><use href="#i-check"/></svg>Nothing to install</li>
+                        <li><svg class="home-icon" aria-hidden="true"><use href="#i-check"/></svg>Shadows at any hour</li>
+                    </ul>
+                </div>
+
+                <div class="home-hero__visual">
+                    <div class="home-hero__frame">
+                        <!-- The poster is the page's own picture (and its LCP candidate). The muted loop of real viewer
+                             captures has no src until ray2volt-3d.js gives it one after the load event, once the frame
+                             is on screen, and never with reduced motion, Save-Data or a 2G/3G connection. -->
+                        <img class="home-hero__poster" src="images/3d/hero-poster.webp" width="720" height="576" fetchpriority="high" decoding="async"
+                             alt="Footage from our live 3D viewers: a raised solar canopy on a water park roof in Visakhapatnam, then rooftop solar on three poultry-farm sheds in Kadapa">
+                        <video class="home-hero__video" width="720" height="576" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback
+                               poster="images/3d/hero-poster.webp" data-src="images/3d/hero-loop.mp4" aria-hidden="true" tabindex="-1"></video>
+                        <a class="home-hero__frame-link" href="#demos" tabindex="-1" aria-hidden="true" title="Try the live demos"></a>
+                        <!-- Pause for the loop, the float cards and the button shimmer; shown by ray2volt-3d.js unless the visitor asks for reduced motion -->
+                        <button class="hero-motion" type="button" aria-pressed="false" aria-label="Pause animation" title="Pause animation" hidden>
+                            <svg class="hero-motion__pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6v12M15 6v12"/></svg>
+                            <svg class="hero-motion__play" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5.5 11 6.5-11 6.5z"/></svg>
+                        </button>
+                    </div>
+                    <div class="home-float home-float--top">
+                        <span class="home-float__icon home-float__icon--gold"><svg class="home-icon" aria-hidden="true"><use href="#i-video"/></svg></span>
+                        <span><strong>Real viewer footage</strong> From our two live C&amp;I demos</span>
+                    </div>
+                    <div class="home-float home-float--bottom">
+                        <span class="home-float__icon"><svg class="home-icon" aria-hidden="true"><use href="#i-cube"/></svg></span>
+                        <span><strong>Live 3D viewer</strong> Orbit, zoom and tap any module</span>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="home-stats">
+                <li class="home-stat">
+                    <strong class="home-stat__num">471 kWp</strong>
+                    <span>Largest live demo</span>
+                </li>
+                <li class="home-stat">
+                    <strong class="home-stat__num">904</strong>
+                    <span>Modules modelled in the two demos</span>
+                </li>
+                <li class="home-stat">
+                    <strong class="home-stat__num">5</strong>
+                    <span>Inputs from your team</span>
+                </li>
+                <li class="home-stat">
+                    <strong class="home-stat__num">6</strong>
+                    <span>Features in every viewer</span>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 2. Live demos -->
+    <section class="home-section" id="demos" aria-labelledby="demos-title">
+        <div class="container">
+            <div class="home-head reveal">
+                <div>
+                    <p class="home-kicker">Live demos</p>
+                    <h2 id="demos-title">Open a real C&amp;I proposal in 3D</h2>
+                    <p>Two real C&amp;I proposals, in the same kind of live 3D viewer your client&nbsp;gets.</p>
+                </div>
+                <a class="home-head__link" href="#enquire">Get one for your project <svg class="home-icon home-icon--sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            </div>
+            <!-- The tips come before the cards, so they are read before a viewer opens in a new tab -->
+            <div class="home-band home-band--tips reveal">
+                <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-info"/></svg></span>
+                <p><strong>Try this:</strong> drag to orbit, pinch to zoom, tap a module, then press play on the time bar to watch a day of sun and shadow.</p>
+            </div>
+            <div class="demo-grid">
+                <article class="demo-card reveal">
+                    <a class="demo-card__media" href="https://ray2voltsolar.github.io/arena-water-park-solar-3d/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+                        <img src="images/3d/demo-waterpark.webp" width="720" height="450" loading="lazy" decoding="async"
+                             alt="3D model of a water park with slides, pools and a raised rooftop solar canopy">
+                    </a>
+                    <div class="demo-card__body">
+                        <span class="demo-card__tag">Rooftop solar canopy</span>
+                        <h3>Water park, Visakhapatnam</h3>
+                        <p>A net-metered solar canopy raised over a busy roof where the slide queues start.</p>
+                        <dl class="demo-card__facts">
+                            <div><dt>Capacity</dt><dd>145.5<small> kWp</small></dd></div>
+                            <div><dt>Modules</dt><dd>231</dd></div>
+                            <div><dt>Inverter</dt><dd>125<small> kW</small></dd></div>
+                        </dl>
+                        <a class="btn home-btn-ghost" href="https://ray2voltsolar.github.io/arena-water-park-solar-3d/" target="_blank" rel="noopener">
+                            Open the live 3D viewer<svg class="home-icon home-icon--sm" aria-hidden="true"><use href="#i-ext"/></svg><span class="sr-only"> for the water park in Visakhapatnam (opens in a new tab)</span>
+                        </a>
+                    </div>
+                </article>
+                <article class="demo-card reveal">
+                    <a class="demo-card__media" href="https://ray2voltsolar.github.io/ar-poultry-solar-3d/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+                        <img src="images/3d/demo-poultry.webp" width="720" height="450" loading="lazy" decoding="async"
+                             alt="3D model of three long poultry sheds with solar modules along their roofs and feed silos between them">
+                    </a>
+                    <div class="demo-card__body">
+                        <span class="demo-card__tag">Shed roofs</span>
+                        <h3>Poultry farm, Kadapa</h3>
+                        <p>Three EC broiler sheds, with one net-metered system and three open-access inverters feeding 11&nbsp;kV.</p>
+                        <dl class="demo-card__facts">
+                            <div><dt>Capacity</dt><dd>471<small> kWp</small></dd></div>
+                            <div><dt>Modules</dt><dd>673</dd></div>
+                            <div><dt>Sheds</dt><dd>3</dd></div>
+                        </dl>
+                        <a class="btn home-btn-ghost" href="https://ray2voltsolar.github.io/ar-poultry-solar-3d/" target="_blank" rel="noopener">
+                            Open the live 3D viewer<svg class="home-icon home-icon--sm" aria-hidden="true"><use href="#i-ext"/></svg><span class="sr-only"> for the poultry farm in Kadapa (opens in a new tab)</span>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. How it works -->
+    <section class="home-section" id="how" aria-labelledby="how-title">
+        <div class="container">
+            <div class="home-head reveal">
+                <div>
+                    <p class="home-kicker">How it works</p>
+                    <h2 id="how-title">Three steps, one link</h2>
+                    <p>You keep the design and the client. We turn your layout into a plant your client can explore.</p>
+                </div>
+                <a class="home-head__link" href="#enquire">Start with the form <svg class="home-icon home-icon--sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            </div>
+            <ol class="home-process reveal">
+                <li>
+                    <span class="home-process__step" aria-hidden="true">01</span>
+                    <span class="home-tile home-tile--gold"><svg class="home-icon" aria-hidden="true"><use href="#i-send"/></svg></span>
+                    <h3>Send your inputs</h3>
+                    <p>Fill in the quick form for your fixed price. Then send the layout, equipment list, location and photos.</p>
+                </li>
+                <li>
+                    <span class="home-process__step" aria-hidden="true">02</span>
+                    <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-cube"/></svg></span>
+                    <h3>We build it in <span class="nw">3–5 working days</span></h3>
+                    <p>Counted from the day we have complete inputs. A sketch may need one round of questions.</p>
+                </li>
+                <li>
+                    <span class="home-process__step" aria-hidden="true">03</span>
+                    <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-link"/></svg></span>
+                    <h3>Share one link with your client</h3>
+                    <p>It opens in the browser on a phone or laptop. Nothing to install.</p>
+                </li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- 4. What we need from you -->
+    <section class="home-section" id="inputs" aria-labelledby="inputs-title">
+        <div class="container">
+            <div class="home-head reveal">
+                <div>
+                    <p class="home-kicker">What we need from you</p>
+                    <h2 id="inputs-title">Five inputs from your team</h2>
+                    <p>The <span class="nw">3–5</span> working days start once we have inputs <span class="nw">1–4</span>, plus input 5 if your client wants their name and logo shown.</p>
+                </div>
+            </div>
+            <ul class="need-grid reveal">
+                <li class="need-card need-card--main">
+                    <span class="need-card__num" aria-hidden="true">01</span>
+                    <span class="home-tile home-tile--gold"><svg class="home-icon" aria-hidden="true"><use href="#i-file"/></svg></span>
+                    <h3>PV layout</h3>
+                    <p>AutoCAD/DWG is best. We also accept:</p>
+                    <ul class="need-card__formats" aria-label="Other layout formats we accept">
+                        <li>PDF drawing</li><li>PVsyst export</li><li>HelioScope export</li><li>Hand sketch</li>
+                    </ul>
+                    <p class="need-card__aside">A sketch must be clear, with the roof dimensions and the panel rows. It may need one round of clarification.</p>
+                </li>
+                <li class="need-card">
+                    <span class="need-card__num" aria-hidden="true">02</span>
+                    <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-pin"/></svg></span>
+                    <h3>Site location</h3>
+                    <p>A Google Maps pin, a KML file or the address.</p>
+                </li>
+                <li class="need-card">
+                    <span class="need-card__num" aria-hidden="true">03</span>
+                    <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-inverter"/></svg></span>
+                    <h3>Equipment and capacity</h3>
+                    <p>Module and inverter models and counts, and the DC/AC capacity.</p>
+                </li>
+                <li class="need-card">
+                    <span class="need-card__num" aria-hidden="true">04</span>
+                    <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-camera"/></svg></span>
+                    <h3>Site photos</h3>
+                    <p>Phone photos are fine.</p>
+                </li>
+                <li class="need-card">
+                    <span class="need-card__num" aria-hidden="true">05</span>
+                    <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-tag"/></svg></span>
+                    <h3>Client name and logo</h3>
+                    <p>Only if your client wants them shown in the viewer.</p>
+                </li>
+            </ul>
+            <div class="need-no reveal">
+                <span class="home-tile"><svg class="home-icon" aria-hidden="true"><use href="#i-x"/></svg></span>
+                <p><strong>Not offered: PV layout/design from scratch.</strong> A roof and a kWp target alone are not enough. Send the layout your team has made, and we turn it into 3D.</p>
+            </div>
+            <p class="need-note fine-print reveal"><svg class="home-icon home-icon--sm" aria-hidden="true"><use href="#i-layers"/></svg><span><strong>Optional:</strong> your string plan, SLD and design notes, if you want them shown in the viewer.</span></p>
+        </div>
+    </section>
+
+    <!-- 5. What the viewer includes -->
+    <section class="home-section" id="viewer" aria-labelledby="viewer-title">
+        <div class="container">
+            <div class="home-head reveal">
+                <div>
+                    <p class="home-kicker">What the viewer includes</p>
+                    <h2 id="viewer-title">More than a pretty render</h2>
+                    <p>Six features come with every viewer. Two more show your own design documents, so they are added when you send them. Both live demos have all eight.</p>
+                </div>
+            </div>
+            <h3 class="feature-group-title reveal" id="viewer-every">In every viewer</h3>
+            <ul class="home-features reveal" aria-labelledby="viewer-every">
+                <li class="home-feature">
+                    <svg class="home-icon" aria-hidden="true"><use href="#i-cube"/></svg>
+                    <div>
+                        <h4>Your plant, in 3D</h4>
+                        <p>The building, the roofs and every module row from your layout, with the site around it.</p>
+                    </div>
+                </li>
+                <li class="home-feature">
+                    <svg class="home-icon" aria-hidden="true"><use href="#i-orbit"/></svg>
+                    <div>
+                        <h4>Orbit, zoom and tap</h4>
+                        <p>Drag to orbit and pinch or scroll to zoom. Tap a module or inverter for its details from your equipment list.</p>
+                    </div>
+                </li>
+                <li class="home-feature">
+                    <svg class="home-icon" aria-hidden="true"><use href="#i-video"/></svg>
+                    <div>
+                        <h4>One-tap camera views</h4>
+                        <p>Jump to views such as the overview, the plan, the inverters and the grid connection.</p>
+                    </div>
+                </li>
+                <li class="home-feature">
+                    <svg class="home-icon" aria-hidden="true"><use href="#i-sun"/></svg>
+                    <div>
+                        <h4>Sun and shadows</h4>
+                        <p>Pick a date and time, or play a whole day, and watch the shadows move across the array.</p>
+                    </div>
+                </li>
+                <li class="home-feature">
+                    <svg class="home-icon" aria-hidden="true"><use href="#i-book"/></svg>
+                    <div>
+                        <h4>A guided tour</h4>
+                        <p>A step-by-step tour that walks your client through the plant.</p>
+                    </div>
+                </li>
+                <li class="home-feature">
+                    <svg class="home-icon" aria-hidden="true"><use href="#i-device"/></svg>
+                    <div>
+                        <h4>Made for phones</h4>
+                        <p>A layout built for phone screens as well as laptops. Your client can also save any view as a picture.</p>
+                    </div>
+                </li>
+            </ul>
+            <div class="viewer-extras reveal">
+                <div class="viewer-extras__head">
+                    <h3 id="viewer-extra">Added when you send them</h3>
+                    <p>We show your design in 3D. We don't create it.</p>
+                </div>
+                <ul class="home-features" aria-labelledby="viewer-extra">
+                    <li class="home-feature">
+                        <svg class="home-icon" aria-hidden="true"><use href="#i-layers"/></svg>
+                        <div>
+                            <h4>String plan and single-line diagram</h4>
+                            <p>Your string plan and SLD, linked to the 3D model, plus your design notes.</p>
+                        </div>
+                    </li>
+                    <li class="home-feature">
+                        <svg class="home-icon" aria-hidden="true"><use href="#i-bolt"/></svg>
+                        <div>
+                            <h4>Energy flow</h4>
+                            <p>Animated power flow from the strings to the inverters and the grid, with <span class="nw">hour-by-hour</span> output estimates. Needs your string plan.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <p class="viewer-note fine-print reveal"><svg class="home-icon home-icon--sm" aria-hidden="true"><use href="#i-info"/></svg><span>Energy figures in the viewer are model estimates (a&nbsp;clear-day curve and a&nbsp;typical-year total) to help your client understand the plant. They are not a guarantee of generation.</span></p>
+        </div>
+    </section>
+
+    <!-- 6. Pricing -->
+    <section class="home-section" id="pricing" aria-labelledby="pricing-title">
+        <div class="container">
+            <div class="price-panel reveal">
+                <div class="price-panel__copy">
+                    <p class="home-kicker">Pricing</p>
+                    <h2 id="pricing-title"><span class="nw title-line">One project.</span> <span class="nw title-line">One 3D viewer.</span> <span class="nw-wide title-line">A&nbsp;fixed price for your&nbsp;site.</span></h2>
+                    <ul class="price-panel__list">
+                        <li><svg class="home-icon" aria-hidden="true"><use href="#i-check"/></svg><span>A hosted, interactive 3D viewer of one project, on a link you share with your client</span></li>
+                        <li><svg class="home-icon" aria-hidden="true"><use href="#i-check"/></svg><span>Ready in <span class="nw">3–5</span> working days after complete inputs</span></li>
+                        <li><svg class="home-icon" aria-hidden="true"><use href="#i-check"/></svg><span>One product, with no tiers or packages to choose from</span></li>
+                    </ul>
+                    <p class="price-firm"><svg class="home-icon" aria-hidden="true"><use href="#i-tag"/></svg><span><strong>Fixed, affordable pricing.</strong> One clear price for your site, quoted up front, <span class="nw">before we start.</span></span></p>
+                </div>
+                <div class="price-offer">
+                    <p class="price-offer__from">Starting at</p>
+                    <p class="price-offer__price">₹4,999</p>
+                    <p class="price-offer__note">The price depends on site size. Send the form and we reply with&nbsp;yours.</p>
+                    <div class="price-offer__actions">
+                        <a class="btn btn-primary btn-lg" href="#enquire">Get your price <svg class="home-icon home-icon--sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+                        <a class="btn home-btn-ghost" href="#enquire" data-wa-pref><svg class="home-icon home-icon--fill" aria-hidden="true"><use href="#i-wa"/></svg>Get your price on WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. FAQ -->
+    <section class="home-section" id="faq" aria-labelledby="faq-title">
+        <div class="container faq-layout">
+            <div class="home-head reveal">
+                <div>
+                    <p class="home-kicker">FAQ</p>
+                    <h2 id="faq-title">Questions EPCs ask</h2>
+                    <p>Something else? Ask in the <a class="text-link" href="#enquire">enquiry form</a> and we will reply.</p>
+                    <div class="faq-aside">
+                        <span class="home-tile home-tile--gold"><svg class="home-icon" aria-hidden="true"><use href="#i-rupee"/></svg></span>
+                        <h3>Want your price?</h3>
+                        <p>Send the quick form and we reply on WhatsApp with the price for your site.</p>
+                        <a class="btn home-btn-ghost" href="#enquire">Get a quote <svg class="home-icon home-icon--sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+                    </div>
+                </div>
+            </div>
+            <div class="faq-list reveal">
+                <details class="faq-item">
+                    <summary>Who is Ray2Volt 3D for?</summary>
+                    <div class="faq-answer"><p>Solar EPCs and installers who sell commercial and industrial (C&amp;I) projects. We work on C&amp;I projects only.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>What exactly do I get?</summary>
+                    <div class="faq-answer"><p>One hosted, interactive 3D web viewer of your project, on a link you send to your client. There is one product for now: no tiers or packages.</p><p>The string plan, single-line diagram and energy flow are added when your design documents include them. We don't do the electrical design.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Does my client need to install an app?</summary>
+                    <div class="faq-answer"><p>No. The viewer opens in a web browser on a phone or a computer. <a class="text-link" href="#demos">Try a live demo</a> on your own phone.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>How fast is it ready?</summary>
+                    <div class="faq-answer"><p>3–5 working days after we receive complete inputs. If something is missing or unclear, the clock starts once we have it.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>We only have a hand-drawn sketch. Is that enough?</summary>
+                    <div class="faq-answer"><p>Yes, if it is clear and shows the roof dimensions and the panel rows. A sketch may need one round of clarification with you.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Can you design the PV layout for us?</summary>
+                    <div class="faq-answer"><p>No. We build the 3D viewer from your layout; we don't design layouts from scratch. A roof and a kWp target alone are not enough.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>How is the price decided?</summary>
+                    <div class="faq-answer"><p>Prices start at ₹4,999. The price depends on site size, and it is fixed and affordable. Send the <a class="text-link" href="#enquire">enquiry form</a> and we reply with your price.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Can I just message you on WhatsApp?</summary>
+                    <div class="faq-answer"><p>Yes, through the same form. Fill in the short <a class="text-link" href="#enquire" data-wa-pref>enquiry form</a> and tap <strong>Send on WhatsApp</strong>: WhatsApp opens with your details already in the message, and we reply there with your price.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Can the viewer show my client's name and logo?</summary>
+                    <div class="faq-answer"><p>Yes, if your client wants them shown. Send the name and logo with your other inputs.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Can you white-label the viewer with our company's branding?</summary>
+                    <div class="faq-answer"><p>Not yet. White-label viewers are not offered at the moment.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Are the energy numbers in the viewer a guarantee?</summary>
+                    <div class="faq-answer"><p>No. They are model estimates (a&nbsp;clear-day curve and a&nbsp;typical-year total) that help your client understand the plant. They are not a generation guarantee.</p></div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. Enquiry form: the page's single contact path; both send actions start here -->
+    <section class="home-section home-section--last" id="enquire" aria-labelledby="enquire-title">
+        <div class="container">
+            <!-- Wide screens: intro and "what happens next" on the left, the form card on the right.
+                 Narrower screens: intro, then the form, then "what happens next". -->
+            <div class="home-proposal" id="proposal">
+                <div class="home-proposal__intro">
+                    <p class="home-kicker">Get a quote</p>
+                    <h2 id="enquire-title">Tell us about your project</h2>
+                    <p class="home-proposal__lead">Send the form and we reply on WhatsApp with a fixed price for your site.<span class="only-key-mode"> Prefer WhatsApp? Fill in the form and tap <strong>Send on WhatsApp</strong>: your details go into the message.</span></p>
+                </div>
+
+                <div class="home-form-card" id="form-card">
+                    <noscript>
+                        <p class="form-status form-status--note form-noscript"><strong>Please email us your enquiry</strong>Write to <a href="mailto:sales@ray2voltsolar.com?subject=Ray2Volt%203D%20enquiry">sales@ray2voltsolar.com</a> with your name, company, WhatsApp number, project city and project size in kWp. We reply on WhatsApp.</p>
+                    </noscript>
+                    <!-- ray2volt-3d.js checks the form and sends it to Web3Forms. Both buttons run the same checks;
+                         "Send on WhatsApp" also opens WhatsApp with every field in the message. -->
+                    <form class="form-stack" id="enquiry-form" data-form-id="ray2volt-3d" novalidate>
+                        <div class="home-form-card__head">
+                            <h3 id="form-title">Get your price</h3>
+                            <p>Fields marked <span aria-hidden="true">*</span><span class="sr-only">with a star</span> are required. It takes <span class="nw">about a minute.</span></p>
+                            <!-- Shown when the visitor came from a WhatsApp link or #whatsapp -->
+                            <p class="form-hint-wa" id="wa-lead" hidden><svg class="home-icon home-icon--fill" aria-hidden="true"><use href="#i-wa"/></svg><span>Fill in these details, then tap <strong>Send on WhatsApp</strong>: they go into the message.</span></p>
+                        </div>
+                        <input type="hidden" name="access_key" value="b3d2b2c1-4237-4de1-8879-9048dfa1beb8">
+                        <input type="hidden" name="subject" value="Ray2Volt 3D Enquiry - Ray2Volt Solar">
+                        <input type="hidden" name="from_name" value="Ray2Volt Solar Website">
+                        <input type="hidden" name="Source Page" value="Ray2Volt 3D - Enquiry">
+                        <input type="checkbox" name="botcheck" class="hidden" style="display: none;" tabindex="-1" autocomplete="off">
+
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label for="f-name">Your name <span aria-hidden="true">*</span></label>
+                                <input class="form-control" id="f-name" name="name" type="text" autocomplete="name" required maxlength="80" aria-describedby="e-name">
+                                <p class="error-message" id="e-name" hidden></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="f-phone">WhatsApp number <span aria-hidden="true">*</span></label>
+                                <input class="form-control" id="f-phone" name="whatsapp" type="tel" autocomplete="tel" inputmode="tel" required maxlength="20" placeholder="98765 43210" aria-describedby="e-phone">
+                                <p class="error-message" id="e-phone" hidden></p>
+                            </div>
+                        </div>
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label for="f-company">Company / EPC name <span aria-hidden="true">*</span></label>
+                                <input class="form-control" id="f-company" name="company" type="text" autocomplete="organization" required maxlength="120" aria-describedby="e-company">
+                                <p class="error-message" id="e-company" hidden></p>
+                            </div>
+                            <div class="form-group">
+                                <!-- The project site's city, not the visitor's address, so the browser does not fill it from their own -->
+                                <label for="f-city">Project city <span aria-hidden="true">*</span></label>
+                                <input class="form-control" id="f-city" name="project_city" type="text" autocomplete="off" required maxlength="80" aria-describedby="e-city">
+                                <p class="error-message" id="e-city" hidden></p>
+                            </div>
+                        </div>
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label for="f-kwp">Project size<span class="sr-only"> in kWp</span> <span aria-hidden="true">*</span></label>
+                                <div class="field-unit">
+                                    <input class="form-control" id="f-kwp" name="project_size_kwp" type="text" inputmode="decimal" autocomplete="off" required maxlength="10" placeholder="e.g. 150" aria-describedby="e-kwp">
+                                    <span class="field-unit__suffix" aria-hidden="true">kWp</span>
+                                </div>
+                                <p class="error-message" id="e-kwp" hidden></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="f-layout">Layout you have <span class="opt">(optional)</span></label>
+                                <select class="form-control" id="f-layout" name="layout" aria-describedby="h-layout">
+                                    <option value="">Choose one</option>
+                                    <option>AutoCAD/DWG</option>
+                                    <option>PDF drawing</option>
+                                    <option>PVsyst or HelioScope export</option>
+                                    <option>Hand-drawn sketch with dimensions</option>
+                                    <option value="No layout yet">No layout yet</option>
+                                </select>
+                                <p class="fine-print" id="h-layout" hidden>We build the 3D plant from your team's layout and don't design layouts from scratch. You can still send the enquiry and the layout later.</p>
+                            </div>
+                        </div>
+                        <fieldset class="home-choice">
+                            <legend>Project type <span class="opt">(optional)</span></legend>
+                            <div class="home-choice__options">
+                                <label><input type="radio" name="project_type" value="Rooftop (RCC roof)"><span>Rooftop</span></label>
+                                <label><input type="radio" name="project_type" value="Industrial shed roof"><span>Shed roof</span></label>
+                                <label><input type="radio" name="project_type" value="Ground-mounted"><span>Ground-mount</span></label>
+                                <label><input type="radio" name="project_type" value="Carport or canopy"><span>Carport</span></label>
+                            </div>
+                        </fieldset>
+                        <div class="form-group">
+                            <label for="f-message">Message <span class="opt">(optional)</span></label>
+                            <textarea class="form-control" id="f-message" name="message" maxlength="1500" rows="3" placeholder="When you need it, client meeting date, anything else"></textarea>
+                        </div>
+
+                        <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
+                        <p class="form-hint-wa" id="wa-hint" hidden><svg class="home-icon home-icon--fill" aria-hidden="true"><use href="#i-wa"/></svg><span>Fill in the form, then tap <strong>Send on WhatsApp</strong>. WhatsApp opens with your details in the message, ready to send.</span></p>
+
+                        <div class="form-actions" id="form-actions">
+                            <button class="btn btn-primary btn-lg" type="submit" data-action="email">Send enquiry <svg class="home-icon home-icon--sm" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+                            <button class="btn home-btn-ghost btn-lg btn-wa-ghost" type="submit" data-action="whatsapp"><svg class="home-icon home-icon--fill" aria-hidden="true"><use href="#i-wa"/></svg>Send on WhatsApp</button>
+                        </div>
+                        <p class="form-note">We use your details only to reply to you. <a class="text-link" href="privacy-policy.html">Privacy policy</a></p>
+                    </form>
+
+                    <div class="form-success" id="form-success" tabindex="-1" hidden>
+                        <span class="form-success__icon"><svg class="home-icon" aria-hidden="true"><use href="#i-check"/></svg></span>
+                        <h3>Thank you. <span class="nw">We have your enquiry.</span></h3>
+                        <p>We'll reply on WhatsApp with your fixed price. Send your layout/photos to <a href="mailto:sales@ray2voltsolar.com?subject=Layout%20and%20photos%20for%20my%20Ray2Volt%203D%20enquiry">sales@ray2voltsolar.com</a> or on WhatsApp.</p>
+                        <div class="form-success__actions">
+                            <a class="btn btn-primary" href="mailto:sales@ray2voltsolar.com?subject=Layout%20and%20photos%20for%20my%20Ray2Volt%203D%20enquiry"><svg class="home-icon home-icon--sm" aria-hidden="true"><use href="#i-mail"/></svg>Send by email</a>
+                            <button class="btn home-btn-ghost" type="button" data-wa-followup><svg class="home-icon home-icon--fill" aria-hidden="true"><use href="#i-wa"/></svg>Send on WhatsApp</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="home-proposal__more">
+                    <h3 class="proposal-label" id="next-title">What happens next</h3>
+                    <ol class="next-steps" aria-labelledby="next-title">
+                        <li>
+                            <span class="next-steps__num" aria-hidden="true">1</span>
+                            <div>
+                                <h4>We reply with your price</h4>
+                                <p>On WhatsApp: one fixed, affordable price for your site, from&nbsp;₹4,999.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="next-steps__num" aria-hidden="true">2</span>
+                            <div>
+                                <h4>You send the inputs</h4>
+                                <p>By email to <a class="text-link" href="mailto:sales@ray2voltsolar.com">sales@ray2voltsolar.com</a>, or in the WhatsApp chat where we send your price. The form takes no attachments.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="next-steps__num" aria-hidden="true">3</span>
+                            <div>
+                                <h4>Your 3D viewer is ready</h4>
+                                <p>In <span class="nw">3–5 working days</span> after complete inputs, on one link for your client.</p>
+                            </div>
+                        </li>
+                    </ol>
+                    <h3 class="proposal-label" id="ready-title">Keep these ready</h3>
+                    <ul class="ready-list" aria-labelledby="ready-title">
+                        <li><svg class="home-icon" aria-hidden="true"><use href="#i-check"/></svg>PV layout: AutoCAD/DWG, PDF, PVsyst/HelioScope or a clear sketch</li>
+                        <li><svg class="home-icon" aria-hidden="true"><use href="#i-check"/></svg>Site location: pin, KML or address</li>
+                        <li><svg class="home-icon" aria-hidden="true"><use href="#i-check"/></svg>Module and inverter models, counts and DC/AC capacity</li>
+                        <li><svg class="home-icon" aria-hidden="true"><use href="#i-check"/></svg>Site photos (phone photos are fine)</li>
+                        <li><svg class="home-icon" aria-hidden="true"><use href="#i-check"/></svg>Client name and logo, if they want them shown</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid footer-grid--5">
+                <div class="footer-brand">
+                    <p>Powering businesses and homes in Tirupati district and across Andhra Pradesh with clean, affordable solar energy.</p>
+                    <!-- r2v:social-footer:start -->
+                    <!-- r2v:social-footer:end -->
+                    <!-- r2v:vendor-id:start -->
+                    <!-- r2v:vendor-id:end -->
+                </div>
+
+                <div class="footer-col">
+                    <h4>For Businesses</h4>
+                    <ul>
+                        <li><a href="commercial.html">Commercial &amp; industrial solar</a></li>
+                        <li><a href="business-solar-finance.html">Finance options</a></li>
+                        <li><a href="solar-roi-calculator.html">ROI calculator</a></li>
+                        <li><a href="solar-quote-check.html">Free quote check</a></li>
+                        <li><a href="book-power-audit.html">Book a free power audit</a></li>
+                        <li><a href="upload-electricity-bill.html">Send your electricity bill</a></li>
+                        <li><a href="tender-rfq.html">Tenders and RFQs</a></li>
+                        <li><a href="ray2volt-3d.html" aria-current="page">Ray2Volt 3D for solar EPCs</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>For Homes</h4>
+                    <ul>
+                        <li><a href="residential.html">Home solar</a></li>
+                        <li><a href="residential.html#subsidy">PM Surya Ghar subsidy</a></li>
+                        <li><a href="solar-emi-calculator.html">Solar loan EMI calculator</a></li>
+                        <li><a href="apartment-solar.html">Apartments &amp; societies</a></li>
+                        <li><a href="avoid-solar-fraud.html">Pay safely: avoid subsidy fraud</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About us</a></li>
+                        <li><a href="team.html">Our team</a></li>
+                        <li><a href="locations.html">Where we work</a></li>
+                        <li><a href="investor.html">Investors</a></li>
+                        <li><a href="blog.html">Guides</a></li>
+                        <li><a href="careers.html">Careers</a></li>
+                        <li><a href="channel-partner.html">Channel partners</a></li>
+                        <li><a href="raycare.html">RayCare service and warranty</a></li>
+                        <li><a href="service-request.html">Request a service visit</a></li>
+                        <li><a href="privacy-policy.html">Privacy policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li>1-278, J.K.Nagar, Revenue Ward No-1, Pichatur Road, Srikalahasti, 517644, Andhra Pradesh.</li>
+                        <li><a href="tel:+919666068140">+91 96660 68140</a></li>
+                        <li><a href="mailto:sales@ray2voltsolar.com">sales@ray2voltsolar.com</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ray2Volt Solar Private Limited. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" aria-label="Scroll to top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <script src="script.js"></script>
+    <script src="ray2volt-3d.js"></script>
+</body>
+
+</html>

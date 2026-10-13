@@ -116,6 +116,7 @@
             'tender-rfq': '',
             'quote-check': '',
             'service-request': '',
+            'ray2volt-3d': '',
             // A partner sign-up, not a customer lead: keep it out of Google Ads.
             'channel-partner': ''
         },
