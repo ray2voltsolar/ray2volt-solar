@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-theme-fixed>
+
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18014889887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-18014889887');
+        gtag('config', 'G-WZJ1CXHSG9');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Blog pages are always light: the theme is fixed on <html> and has no toggle -->
+    <meta name="description" content="Derive solar energy yield from first principles: irradiance, plane-of-array transposition, the loss chain, performance ratio, CUF and 25-year degradation.">
+    <meta name="keywords" content="solar energy yield, performance ratio, peak sun hours, plane of array irradiance, capacity utilisation factor, specific yield kWh/kWp, solar degradation">
+    <title>From Sunlight to Units: The Mathematics of Solar Energy Yield and Performance Ratio</title>
+    <link rel="canonical" href="https://ray2voltsolar.com/blog/solar-energy-yield-performance-ratio.html">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap"
+        rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap" rel="stylesheet">
+    </noscript>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../blog.css">
+    <link rel="stylesheet" href="../theme.css">
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Ray2Volt Solar">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="From Sunlight to Units: The Mathematics of Solar Energy Yield and Performance Ratio">
+    <meta property="og:description" content="Derive solar energy yield from first principles: irradiance, plane-of-array transposition, the loss chain, performance ratio, CUF and 25-year degradation.">
+    <meta property="og:url" content="https://ray2voltsolar.com/blog/solar-energy-yield-performance-ratio.html">
+    <meta property="og:image" content="https://ray2voltsolar.com/images/blog/solar-energy-yield-performance-ratio.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "From Sunlight to Units: The Mathematics of Solar Energy Yield and Performance Ratio",
+      "description": "Derive solar energy yield from first principles: irradiance, plane-of-array transposition, the loss chain, performance ratio, CUF and 25-year degradation.",
+      "image": "https://ray2voltsolar.com/images/blog/solar-energy-yield-performance-ratio.jpg",
+      "author": { "@type": "Organization", "name": "Ray2Volt Solar Private Limited", "url": "https://ray2voltsolar.com" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Ray2Volt Solar Private Limited",
+        "logo": { "@type": "ImageObject", "url": "https://ray2voltsolar.com/images/logo.png" }
+      },
+      "datePublished": "2026-10-16",
+      "dateModified": "2026-10-16",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ray2voltsolar.com/blog/solar-energy-yield-performance-ratio.html" },
+      "articleSection": "Technology"
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ray2voltsolar.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://ray2voltsolar.com/blog.html" },
+        { "@type": "ListItem", "position": 3, "name": "Solar Energy Yield Mathematics", "item": "https://ray2voltsolar.com/blog/solar-energy-yield-performance-ratio.html" }
+      ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the difference between irradiance and irradiation?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Irradiance is power per unit area in watts per square metre, and it changes second by second. Irradiation is the energy arriving per unit area over a period, in kilowatt-hours per square metre, and it is the time integral of irradiance. Yield calculations use irradiation because your meter records energy, not power."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does a peak sun hour mean?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "One peak sun hour is 1 kWh/m² of irradiation, the energy that falls in one hour at 1,000 W/m². A day with 5.5 kWh/m² has 5.5 peak sun hours even though the sun is up for about twelve. The idea converts a day of varying sunlight into an equivalent number of hours at full strength."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What performance ratio should a rooftop plant achieve?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Well-built plants often report a performance ratio from the high 70s to the low 80s per cent, but the figure depends on climate, soiling, design and how it is measured. Treat that as a typical range, not a guarantee. Compare your plant with its own history and a site-specific estimate, using the same period and method."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why are summer months not always the best for output?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Hot cells lose voltage. Output falls about 0.3 to 0.4 per cent for each degree the cell is above 25 degrees Celsius, and a roof-mounted cell can run 25 to 35 degrees above ambient in strong sun. Spring still gives high energy because irradiation is high, but the performance ratio dips in the hottest, dustiest weeks."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many units per kW can I expect in a year?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A rule of thumb for this part of Andhra Pradesh is about 4 to 4.5 units per kW per day, or roughly 1,400 to 1,600 units per kW per year. The real figure depends on tilt, shade, soiling, equipment and weather. A site audit and a simulation with measured irradiance data give a better estimate for your roof."
+          }
+        }
+      ]
+    }
+    </script>
+</head>
+
+<body class="blog">
+    <!-- Header / Navigation -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="logo">
+                <img src="../images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'">
+                <div class="logo-text">
+                    Ray2Volt Solar
+                    <span>Private Limited</span>
+                </div>
+            </a>
+
+            <ul class="nav-menu">
+                <li class="dropdown dropdown-wide">
+                    <a href="../commercial.html" class="nav-link" aria-haspopup="true" aria-expanded="false">For Businesses <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Plan your project</span>
+                            <ul>
+                                <li><a href="../commercial.html">Commercial solar overview</a></li>
+                                <li><a href="../business-solar-finance.html">Finance options</a></li>
+                                <li><a href="../resco-solar-for-business.html">RESCO: pay per unit</a></li>
+                                <li><a href="../solar-roi-calculator.html">ROI calculator</a></li>
+                                <li><a href="../ground-mounted-solar-open-access.html">Ground-mounted &amp; open access</a></li>
+                                <li><a href="../solar-battery-vs-diesel.html">Solar + battery vs diesel</a></li>
+                                <li><a href="../solar-quote-check.html">Free quote check</a></li>
+                                <li><a href="../book-power-audit.html">Book a free power audit</a></li>
+                                <li><a href="../tender-rfq.html">Tenders and RFQs</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Industries</span>
+                            <ul>
+                                <li><a href="../industry-manufacturing.html">Manufacturing &amp; factories</a></li>
+                                <li><a href="../industry-healthcare.html">Hospitals &amp; healthcare</a></li>
+                                <li><a href="../industry-hotels.html">Hotels &amp; resorts</a></li>
+                                <li><a href="../industry-cold-storage.html">Cold storage &amp; food processing</a></li>
+                                <li><a href="../industry-education.html">Schools &amp; colleges</a></li>
+                                <li><a href="../industry-warehousing.html">Warehousing &amp; logistics</a></li>
+                                <li><a href="../industry-retail.html">Retail &amp; malls</a></li>
+                                <li><a href="../industry-offices.html">Offices &amp; IT parks</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">For solar EPCs</span>
+                            <ul>
+                                <li><a href="https://3d.ray2voltsolar.com/">Ray2Volt 3D: 3D plant viewers</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="../residential.html" class="nav-link" aria-haspopup="true" aria-expanded="false">For Homes <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../residential.html">Home solar overview</a></li>
+                        <li><a href="../residential-ongrid.html">On-grid systems</a></li>
+                        <li><a href="../residential-hybrid.html">Hybrid systems with battery</a></li>
+                        <li><a href="../apartment-solar.html">Apartments &amp; housing societies</a></li>
+                        <li><a href="../solar-emi-calculator.html">Solar loan EMI calculator</a></li>
+                        <li><a href="../blog/pm-surya-ghar-subsidy-guide.html">PM Surya Ghar subsidy guide</a></li>
+                        <li><a href="../raycare.html">RayCare: service plans</a></li>
+                    </ul>
+                </li>
+                <li><a href="../investor.html" class="nav-link">Investors</a></li>
+                <li><a href="../blog.html" class="nav-link active">Guides</a></li>
+                <li><a href="../about.html" class="nav-link">About</a></li>
+                <li><a href="../contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+        <main class="blog-main">
+        <div class="container">
+
+            <!-- Breadcrumbs -->
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="/">Home</a>
+                <span class="sep">/</span>
+                <a href="../blog.html">Blog</a>
+                <span class="sep">/</span>
+                <span aria-current="page">Solar Energy Yield Mathematics</span>
+            </nav>
+
+            <!-- Post header -->
+            <header class="post-header">
+                <div class="post-meta">
+                    <span class="category-pill" data-cat="Technology">Technology</span>
+                    <time datetime="2026-10-16">16 October 2026</time>
+                    <span class="dot">&middot;</span>
+                    <span>16 min read</span>
+                </div>
+                <h1>From Sunlight to Units: The Mathematics of Solar Energy Yield and Performance Ratio</h1>
+                <p class="post-standfirst">Follow sunlight from watts per square metre to units on your meter, then see how temperature, soiling, wiring and ageing shape the performance ratio.</p>
+            </header>
+
+            <!-- Hero image -->
+            <figure class="post-hero">
+                <picture>
+                    <source type="image/webp" srcset="../images/blog/solar-energy-yield-performance-ratio-800w.webp 800w, ../images/blog/solar-energy-yield-performance-ratio-1600w.webp 1600w" sizes="(max-width: 900px) 100vw, 800px">
+                    <img src="../images/blog/solar-energy-yield-performance-ratio.jpg" alt="Rooftop solar array on a flat Indian roof in clear daylight" width="1600" height="900" fetchpriority="high">
+                </picture>
+                <figcaption>Annual energy from a roof is the sunlight it receives multiplied by a chain of losses, each of which can be estimated and checked.</figcaption>
+            </figure>
+
+            <div class="post-shell">
+                <article class="post-body">
+                    <div class="key-takeaways">
+                        <h2>Four yield facts to hold on to</h2>
+                        <ul>
+                            <li>Irradiance is power per area in W/m². Irradiation is its time integral in kWh/m². A day with 5.5 kWh/m² equals 5.5 peak sun hours at 1 kW/m².</li>
+                            <li>Ideal energy is E = P × H ÷ G, with P in kWp, H in kWh/m² and G = 1 kW/m². The performance ratio PR = actual ÷ ideal collects every loss into one number.</li>
+                            <li>Losses multiply, so PR is a product of (1 − loss) terms. In our illustrative chain the losses add up to 22.5 per cent, but the product gives a PR of 0.794, not 0.775.</li>
+                            <li>The site rule of 1,400 to 1,600 units per kW per year equals a capacity utilisation factor of about 16 to 18 per cent.</li>
+                        </ul>
+                    </div>
+
+                    <p>A quotation says your roof will make so many units a year. Behind that sentence sits a short chain of physics: sunlight reaching the panels, the panels turning it into DC at a given temperature, and the DC surviving wiring, the inverter and dust. Each link is an equation, and once you can write it you can question it.</p>
+
+                    <p>This article builds that chain from first principles: irradiance and irradiation, plane-of-array transposition, the performance ratio of IEC 61724, temperature loss, the 4 to 4.5 units per kW per day rule of thumb we use in Andhra Pradesh, 25 years of degradation, and a 10 kWp worked example.</p>
+
+                    <p>All site data here are illustrative, and every result is an estimate that a site audit would refine. Companion articles cover <a href="sun-path-tilt-angle-shading-geometry.html">sun path, tilt angle and shading geometry</a> and <a href="solar-module-iv-curve-explained.html">the module I-V curve</a>, which explains the temperature coefficient.</p>
+
+                    <h2 id="irradiance-and-peak-sun-hours">From power density to energy: irradiance and peak sun hours</h2>
+                    <p>Two quantities are easily confused: power and energy. We define both before using either.</p>
+
+                    <ul>
+                        <li><math><semantics><mi>G</mi><annotation encoding="application/x-tex">G</annotation></semantics></math>: irradiance, the solar power arriving per unit area, in W/m². It changes from second to second.</li>
+                        <li><math><semantics><mi>H</mi><annotation encoding="application/x-tex">H</annotation></semantics></math>: irradiation, the solar energy arriving per unit area over a period, in kWh/m².</li>
+                        <li><math><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>: time, in hours.</li>
+                        <li><math><semantics><msub><mi>G</mi><mpadded lspace="0"><mi>ref</mi></mpadded></msub><annotation encoding="application/x-tex">G_{\mathrm{ref}}</annotation></semantics></math>: the reference irradiance of 1 kW/m² (1,000 W/m²), also the standard test condition value.</li>
+                    </ul>
+
+                    <p>Energy is the time integral of power, so irradiation is the time integral of irradiance over the period of interest, usually a day, a month or a year.</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mi>H</mi><mo>=</mo><msubsup><mo movablelimits="false">∫</mo><msub><mi>t</mi><mn>1</mn></msub><msub><mi>t</mi><mn>2</mn></msub></msubsup><mi>G</mi><mo form="prefix" stretchy="false">(</mo><mi>t</mi><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><mi>d</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">H = \int_{t_1}^{t_2} G(t)\,dt</annotation></semantics></math></div>
+
+                    <p>If G is in kW/m² and t in hours, H comes out in kWh/m². A pyranometer or reference cell measures G, and a data logger approximates the integral by summing short samples.</p>
+
+                    <h3>Peak sun hours</h3>
+                    <p>Peak sun hours (PSH) are a unit conversion, not a count of sunshine. Define the equivalent time <math><semantics><msub><mi>t</mi><mpadded lspace="0"><mi>eq</mi></mpadded></msub><annotation encoding="application/x-tex">t_{\mathrm{eq}}</annotation></semantics></math> as the hours at the reference irradiance that would deliver the same irradiation:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mi>H</mi><mo>=</mo><msub><mi>G</mi><mpadded lspace="0"><mi>ref</mi></mpadded></msub><mspace width="0.1667em"></mspace><msub><mi>t</mi><mpadded lspace="0"><mi>eq</mi></mpadded></msub><mspace width="1em"></mspace><mo stretchy="false">⇒</mo><mspace width="1em"></mspace><msub><mi>t</mi><mpadded lspace="0"><mi>eq</mi></mpadded></msub><mo>=</mo><mfrac><mi>H</mi><msub><mi>G</mi><mpadded lspace="0"><mi>ref</mi></mpadded></msub></mfrac></mrow><annotation encoding="application/x-tex">H = G_{\mathrm{ref}}\,t_{\mathrm{eq}} \quad\Rightarrow\quad t_{\mathrm{eq}} = \frac{H}{G_{\mathrm{ref}}}</annotation></semantics></math></div>
+
+                    <p>With <math><semantics><mrow><msub><mi>G</mi><mpadded lspace="0"><mi>ref</mi></mpadded></msub><mo>=</mo><mn>1</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">k</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded><mi>/</mi><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup></mrow></mrow><annotation encoding="application/x-tex">G_{\mathrm{ref}} = 1\,\mathrm{kW/m^2}</annotation></semantics></math>, <math><semantics><msub><mi>t</mi><mpadded lspace="0"><mi>eq</mi></mpadded></msub><annotation encoding="application/x-tex">t_{\mathrm{eq}}</annotation></semantics></math> in hours equals H in kWh/m². That is the whole identity: a day with <math><semantics><mrow><mi>H</mi><mo>=</mo><mn>5.5</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">k</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">h</mi></mpadded><mi>/</mi><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup></mrow></mrow><annotation encoding="application/x-tex">H = 5.5\,\mathrm{kWh/m^2}</annotation></semantics></math> has 5.5 peak sun hours. Sanity check: the sun is up for roughly twelve hours, but irradiance averages far below 1 kW/m² over them, so 5 to 6 equivalent hours is plausible.</p>
+
+                    <h3>GHI, DNI and DHI</h3>
+                    <p>Sunlight arrives either straight from the solar disc or scattered by the atmosphere. Databases report three components, each on a defined surface.</p>
+                    <ul>
+                        <li><math><semantics><mpadded lspace="0"><mi>DNI</mi></mpadded><annotation encoding="application/x-tex">\mathrm{DNI}</annotation></semantics></math>: direct normal irradiance, in W/m². Beam light measured on a surface kept perpendicular to the sun's rays.</li>
+                        <li><math><semantics><mpadded lspace="0"><mi>DHI</mi></mpadded><annotation encoding="application/x-tex">\mathrm{DHI}</annotation></semantics></math>: diffuse horizontal irradiance, in W/m². Scattered sky light falling on a horizontal surface.</li>
+                        <li><math><semantics><mpadded lspace="0"><mi>GHI</mi></mpadded><annotation encoding="application/x-tex">\mathrm{GHI}</annotation></semantics></math>: global horizontal irradiance, in W/m². Everything arriving on a horizontal surface.</li>
+                        <li><math><semantics><msub><mi>θ</mi><mi>z</mi></msub><annotation encoding="application/x-tex">\theta_z</annotation></semantics></math>: solar zenith angle, in degrees. The angle between the sun and the vertical.</li>
+                    </ul>
+
+                    <p>A horizontal surface sees the beam at an incidence angle equal to the zenith angle, so the beam contributes DNI × cos θz to it. Adding the diffuse part gives the closure relation:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mpadded lspace="0"><mi>GHI</mi></mpadded><mo>=</mo><mpadded lspace="0"><mi>DNI</mi></mpadded><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msub><mi>θ</mi><mi>z</mi></msub><mo>+</mo><mpadded lspace="0"><mi>DHI</mi></mpadded></mrow><annotation encoding="application/x-tex">\mathrm{GHI} = \mathrm{DNI}\cos\theta_z + \mathrm{DHI}</annotation></semantics></math></div>
+
+                    <p>Worked check, with illustrative numbers. At <math><semantics><mrow><msub><mi>θ</mi><mi>z</mi></msub><mo>=</mo><msup><mn>25</mn><mo>∘</mo></msup></mrow><annotation encoding="application/x-tex">\theta_z = 25^\circ</annotation></semantics></math>, take DNI = 700 W/m² and DHI = 130 W/m². Then <math><semantics><mrow><mpadded lspace="0"><mi>GHI</mi></mpadded><mo>=</mo><mn>700</mn><mo>×</mo><mn>0.9063</mn><mo>+</mo><mn>130</mn><mo>=</mo><mn>764.4</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded><mi>/</mi><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup></mrow></mrow><annotation encoding="application/x-tex">\mathrm{GHI} = 700\times 0.9063 + 130 = 764.4\,\mathrm{W/m^2}</annotation></semantics></math>, below the 1,000 W/m² reference, which is reasonable for a hazy or non-peak hour. If a source gives two components, closure recovers the third.</p>
+
+                    <h2 id="plane-of-array-transposition">Transposing sunlight to the plane of the array</h2>
+                    <p>Panels are tilted, so the number that matters is the plane-of-array irradiance <math><semantics><msub><mi>G</mi><mpadded lspace="0"><mi>poa</mi></mpadded></msub><annotation encoding="application/x-tex">G_{\mathrm{poa}}</annotation></semantics></math>. Databases usually give GHI, so a model must convert it. The simplest is the isotropic sky model of Liu and Jordan. Anisotropic models such as Hay-Davies and Perez add circumsolar and horizon brightening and are used in professional simulation software. At moderate tilts they differ by a few per cent of annual irradiation, and more at steep tilts.</p>
+
+                    <ul>
+                        <li><math><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>: module tilt from the horizontal, in degrees.</li>
+                        <li><math><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math>: angle of incidence between the sun's rays and the module normal, in degrees.</li>
+                        <li><math><semantics><mrow><msub><mi>γ</mi><mi>s</mi></msub><mo separator="true">,</mo><mtext> </mtext><msub><mi>γ</mi><mi>p</mi></msub></mrow><annotation encoding="application/x-tex">\gamma_s,\ \gamma_p</annotation></semantics></math>: solar azimuth and module azimuth, in degrees.</li>
+                        <li><math><semantics><msub><mi>ρ</mi><mi>g</mi></msub><annotation encoding="application/x-tex">\rho_g</annotation></semantics></math>: ground albedo, the dimensionless fraction of GHI that the ground reflects. Values around 0.2 are commonly assumed for ordinary ground and 0.3 or more for a bright, whitewashed roof.</li>
+                    </ul>
+
+                    <p>The beam term needs the incidence angle, from the sun-path geometry of the companion article:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>θ</mi><mo>=</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msub><mi>θ</mi><mi>z</mi></msub><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>β</mi><mo>+</mo><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msub><mi>θ</mi><mi>z</mi></msub><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>β</mi><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo></mrow><mo form="prefix" stretchy="false">(</mo><msub><mi>γ</mi><mi>s</mi></msub><mo>−</mo><msub><mi>γ</mi><mi>p</mi></msub><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\cos\theta = \cos\theta_z\cos\beta + \sin\theta_z\sin\beta\cos(\gamma_s-\gamma_p)</annotation></semantics></math></div>
+
+                    <p>When the sun is behind the module plane, cos θ is negative and the beam term is set to zero.</p>
+
+                    <h3>Deriving the sky view factor</h3>
+                    <p>Assume uniform sky radiance <math><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math> in W/m²/sr over the upper hemisphere, which is what isotropic means. A surface with unit normal <math><semantics><mover><mi>n</mi><mo stretchy="false" class="wbk-acc">^</mo></mover><annotation encoding="application/x-tex">\hat n</annotation></semantics></math> receives <math><semantics><mrow><mo movablelimits="false">∫</mo><mi>L</mi><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><mover><mi>n</mi><mo stretchy="false" class="wbk-acc">^</mo></mover><mo>⋅</mo><mover><mi>s</mi><mo stretchy="false" class="chr-sml wbk-sml-acc">^</mo></mover><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><mi>d</mi><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded></mrow><annotation encoding="application/x-tex">\int L\,(\hat n\cdot\hat s)\,d\Omega</annotation></semantics></math> from the directions <math><semantics><mover><mi>s</mi><mo stretchy="false" class="chr-sml wbk-sml-acc">^</mo></mover><annotation encoding="application/x-tex">\hat s</annotation></semantics></math> it can see, with <math><semantics><mrow><mi>d</mi><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded></mrow><annotation encoding="application/x-tex">d\Omega</annotation></semantics></math> the solid angle in steradians. For a horizontal surface:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mpadded lspace="0"><mi>DHI</mi></mpadded><mo>=</mo><mi>L</mi><msubsup><mo movablelimits="false">∫</mo><mn>0</mn><mrow><mn>2</mn><mi>π</mi></mrow></msubsup><mrow></mrow><mrow></mrow><msubsup><mo movablelimits="false">∫</mo><mn>0</mn><mrow><mi>π</mi><mi>/</mi><mn>2</mn></mrow></msubsup><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>α</mi><mspace width="0.1667em"></mspace><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>α</mi><mspace width="0.1667em"></mspace><mi>d</mi><mi>α</mi><mspace width="0.1667em"></mspace><mi>d</mi><mi>φ</mi><mo>=</mo><mi>π</mi><mi>L</mi></mrow><annotation encoding="application/x-tex">\mathrm{DHI} = L\int_0^{2\pi}\!\!\int_0^{\pi/2}\cos\alpha\,\sin\alpha\,d\alpha\,d\varphi = \pi L</annotation></semantics></math></div>
+
+                    <p>Here <math><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math> is the polar angle from the vertical and <math><semantics><mi>φ</mi><annotation encoding="application/x-tex">\varphi</annotation></semantics></math> the azimuth. Now tilt the surface by β. The module's front hemisphere (where <math><semantics><mrow><mover><mi>n</mi><mo stretchy="false" class="wbk-acc">^</mo></mover><mo>⋅</mo><mover><mi>s</mi><mo stretchy="false" class="chr-sml wbk-sml-acc">^</mo></mover><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\hat n\cdot\hat s\gt 0</annotation></semantics></math>) splits into a sky part and a ground part, with contributions per unit radiance <math><semantics><msub><mi>E</mi><mpadded lspace="0"><mi>sky</mi></mpadded></msub><annotation encoding="application/x-tex">E_{\mathrm{sky}}</annotation></semantics></math> and <math><semantics><msub><mi>E</mi><mpadded lspace="0"><mi>gnd</mi></mpadded></msub><annotation encoding="application/x-tex">E_{\mathrm{gnd}}</annotation></semantics></math>. Together they fill the front hemisphere:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>E</mi><mpadded lspace="0"><mi>sky</mi></mpadded></msub><mo>+</mo><msub><mi>E</mi><mpadded lspace="0"><mi>gnd</mi></mpadded></msub><mo>=</mo><mi>π</mi></mrow><annotation encoding="application/x-tex">E_{\mathrm{sky}} + E_{\mathrm{gnd}} = \pi</annotation></semantics></math></div>
+
+                    <p>For a second relation, integrate <math><semantics><mrow><mover><mi>n</mi><mo stretchy="false" class="wbk-acc">^</mo></mover><mo>⋅</mo><mover><mi>s</mi><mo stretchy="false" class="chr-sml wbk-sml-acc">^</mo></mover></mrow><annotation encoding="application/x-tex">\hat n\cdot\hat s</annotation></semantics></math> over the whole upper hemisphere with no visibility cut. Horizontal components cancel by symmetry and the vertical one integrates to π, so <math><semantics><mrow><mo movablelimits="false">∫</mo><mover><mi>s</mi><mo stretchy="false" class="chr-sml wbk-sml-acc">^</mo></mover><mspace width="0.1667em"></mspace><mi>d</mi><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><mo>=</mo><mi>π</mi><mover><mi>z</mi><mo stretchy="false" class="chr-sml wbk-sml-acc">^</mo></mover></mrow><annotation encoding="application/x-tex">\int \hat s\,d\Omega = \pi\hat z</annotation></semantics></math> and the result is <math><semantics><mrow><mi>π</mi><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>β</mi></mrow><annotation encoding="application/x-tex">\pi\cos\beta</annotation></semantics></math>. This counts the visible sky positively and the sky behind the module plane negatively. Reflecting that region through the origin maps it onto the ground region in the module's front hemisphere, so its magnitude is <math><semantics><msub><mi>E</mi><mpadded lspace="0"><mi>gnd</mi></mpadded></msub><annotation encoding="application/x-tex">E_{\mathrm{gnd}}</annotation></semantics></math>. Therefore</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>E</mi><mpadded lspace="0"><mi>sky</mi></mpadded></msub><mo>−</mo><msub><mi>E</mi><mpadded lspace="0"><mi>gnd</mi></mpadded></msub><mo>=</mo><mi>π</mi><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>β</mi></mrow><annotation encoding="application/x-tex">E_{\mathrm{sky}} - E_{\mathrm{gnd}} = \pi\cos\beta</annotation></semantics></math></div>
+
+                    <p>Adding and subtracting the two relations gives the sky view factor and the ground view factor:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>E</mi><mpadded lspace="0"><mi>sky</mi></mpadded></msub><mo>=</mo><mi>π</mi><mspace width="0.1667em"></mspace><mfrac><mrow><mn>1</mn><mo>+</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>β</mi></mrow><mn>2</mn></mfrac><mo separator="true">,</mo><mspace width="2em"></mspace><msub><mi>E</mi><mpadded lspace="0"><mi>gnd</mi></mpadded></msub><mo>=</mo><mi>π</mi><mspace width="0.1667em"></mspace><mfrac><mrow><mn>1</mn><mo>−</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>β</mi></mrow><mn>2</mn></mfrac></mrow><annotation encoding="application/x-tex">E_{\mathrm{sky}} = \pi\,\frac{1+\cos\beta}{2}, \qquad E_{\mathrm{gnd}} = \pi\,\frac{1-\cos\beta}{2}</annotation></semantics></math></div>
+
+                    <p>Dividing by <math><semantics><mi>π</mi><annotation encoding="application/x-tex">\pi</annotation></semantics></math> (since <math><semantics><mrow><mpadded lspace="0"><mi>DHI</mi></mpadded><mo>=</mo><mi>π</mi><mi>L</mi></mrow><annotation encoding="application/x-tex">\mathrm{DHI}=\pi L</annotation></semantics></math>), the module receives the fraction <math><semantics><mrow><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>+</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>β</mi><mo form="postfix" stretchy="false">)</mo><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">(1+\cos\beta)/2</annotation></semantics></math> of the diffuse irradiance. Sanity check: at <math><semantics><mrow><mi>β</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\beta = 0</annotation></semantics></math> it is 1, and at <math><semantics><mrow><mi>β</mi><mo>=</mo><msup><mn>90</mn><mo>∘</mo></msup></mrow><annotation encoding="application/x-tex">\beta = 90^\circ</annotation></semantics></math> it is one half, as for a vertical wall. A uniform diffuse ground of radiance <math><semantics><mrow><msub><mi>ρ</mi><mi>g</mi></msub><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>GHI</mi></mpadded><mi>/</mi><mi>π</mi></mrow><annotation encoding="application/x-tex">\rho_g\,\mathrm{GHI}/\pi</annotation></semantics></math> gives, by the same argument, the ground-reflected term <math><semantics><mrow><mpadded lspace="0"><mi>GHI</mi></mpadded><mspace width="0.1667em"></mspace><msub><mi>ρ</mi><mi>g</mi></msub><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>β</mi><mo form="postfix" stretchy="false">)</mo><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">\mathrm{GHI}\,\rho_g\,(1-\cos\beta)/2</annotation></semantics></math>. The assumptions are a flat unobstructed horizon, a uniform sky and uniform ground. Nearby walls, parapets and trees break all three, which is why shade surveys matter.</p>
+
+                    <h3>The Liu and Jordan result</h3>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>G</mi><mpadded lspace="0"><mi>poa</mi></mpadded></msub><mo>=</mo><mpadded lspace="0"><mi>DNI</mi></mpadded><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>θ</mi><mo>+</mo><mpadded lspace="0"><mi>DHI</mi></mpadded><mspace width="0.1667em"></mspace><mfrac><mrow><mn>1</mn><mo>+</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>β</mi></mrow><mn>2</mn></mfrac><mo>+</mo><mpadded lspace="0"><mi>GHI</mi></mpadded><mspace width="0.1667em"></mspace><msub><mi>ρ</mi><mi>g</mi></msub><mspace width="0.1667em"></mspace><mfrac><mrow><mn>1</mn><mo>−</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>β</mi></mrow><mn>2</mn></mfrac></mrow><annotation encoding="application/x-tex">G_{\mathrm{poa}} = \mathrm{DNI}\cos\theta + \mathrm{DHI}\,\frac{1+\cos\beta}{2} + \mathrm{GHI}\,\rho_g\,\frac{1-\cos\beta}{2}</annotation></semantics></math></div>
+
+                    <p>The three terms are beam, sky diffuse and ground-reflected. Worked example, illustrative: sun at <math><semantics><mrow><msub><mi>θ</mi><mi>z</mi></msub><mo>=</mo><msup><mn>25</mn><mo>∘</mo></msup></mrow><annotation encoding="application/x-tex">\theta_z = 25^\circ</annotation></semantics></math>, tilt <math><semantics><mrow><mi>β</mi><mo>=</mo><msup><mn>15</mn><mo>∘</mo></msup></mrow><annotation encoding="application/x-tex">\beta = 15^\circ</annotation></semantics></math> facing the sun's azimuth so <math><semantics><mrow><mi>θ</mi><mo>=</mo><msup><mn>10</mn><mo>∘</mo></msup></mrow><annotation encoding="application/x-tex">\theta = 10^\circ</annotation></semantics></math>, DNI = 700, DHI = 130, GHI = 764.4 W/m² and <math><semantics><mrow><msub><mi>ρ</mi><mi>g</mi></msub><mo>=</mo><mn>0.2</mn></mrow><annotation encoding="application/x-tex">\rho_g = 0.2</annotation></semantics></math>.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr><th>Term</th><th>Working</th><th>Result (W/m²)</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Beam</td><td>700 × cos 10° = 700 × 0.9848</td><td>689.4</td></tr>
+                                <tr><td>Sky diffuse</td><td>130 × (1 + cos 15°) ÷ 2 = 130 × 0.9830</td><td>127.8</td></tr>
+                                <tr><td>Ground reflected</td><td>764.4 × 0.2 × (1 − cos 15°) ÷ 2 = 764.4 × 0.2 × 0.0170</td><td>2.6</td></tr>
+                                <tr><td><strong>Plane of array total</strong></td><td>689.4 + 127.8 + 2.6</td><td><strong>819.8</strong></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>The plane receives about 7 per cent more than the horizontal (819.8 against 764.4 W/m²), sensible for a tilt towards the sun. The ground term is tiny at a shallow tilt, so a low-tilt rooftop array gains little from albedo.</p>
+                    <h2 id="ideal-energy-and-performance-ratio">Ideal energy and the performance ratio</h2>
+                    <p>Module ratings are given at standard test conditions (STC): 1,000 W/m², 25 °C cell temperature and a defined air-mass spectrum. The nameplate kWp is the DC power under those conditions. We ask what energy an ideal plant would deliver, then compare the real plant with it.</p>
+
+                    <ul>
+                        <li><math><semantics><msub><mi>P</mi><mpadded lspace="0"><mi>STC</mi></mpadded></msub><annotation encoding="application/x-tex">P_{\mathrm{STC}}</annotation></semantics></math>: array rating at STC, in kWp.</li>
+                        <li><math><semantics><msub><mi>G</mi><mpadded lspace="0"><mi>STC</mi></mpadded></msub><annotation encoding="application/x-tex">G_{\mathrm{STC}}</annotation></semantics></math>: STC irradiance, 1 kW/m².</li>
+                        <li><math><semantics><msub><mi>H</mi><mpadded lspace="0"><mi>poa</mi></mpadded></msub><annotation encoding="application/x-tex">H_{\mathrm{poa}}</annotation></semantics></math>: plane-of-array irradiation over the period, in kWh/m².</li>
+                        <li><math><semantics><mrow><msub><mi>E</mi><mpadded lspace="0"><mi>ideal</mi></mpadded></msub><mo separator="true">,</mo><mtext> </mtext><msub><mi>E</mi><mpadded lspace="0"><mi>actual</mi></mpadded></msub></mrow><annotation encoding="application/x-tex">E_{\mathrm{ideal}},\ E_{\mathrm{actual}}</annotation></semantics></math>: ideal and measured energy at the AC meter, in kWh.</li>
+                    </ul>
+
+                    <p>Assume an ideal array whose power is proportional to irradiance, with the cell at 25 °C and no other losses. Then <math><semantics><mrow><mi>P</mi><mo form="prefix" stretchy="false">(</mo><mi>t</mi><mo form="postfix" stretchy="false">)</mo><mo>=</mo><msub><mi>P</mi><mpadded lspace="0"><mi>STC</mi></mpadded></msub><mspace width="0.1667em"></mspace><msub><mi>G</mi><mpadded lspace="0"><mi>poa</mi></mpadded></msub><mo form="prefix" stretchy="false">(</mo><mi>t</mi><mo form="postfix" stretchy="false">)</mo><mi>/</mi><msub><mi>G</mi><mpadded lspace="0"><mi>STC</mi></mpadded></msub></mrow><annotation encoding="application/x-tex">P(t) = P_{\mathrm{STC}}\,G_{\mathrm{poa}}(t)/G_{\mathrm{STC}}</annotation></semantics></math>, and integrating gives</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>E</mi><mpadded lspace="0"><mi>ideal</mi></mpadded></msub><mo>=</mo><mfrac><msub><mi>P</mi><mpadded lspace="0"><mi>STC</mi></mpadded></msub><msub><mi>G</mi><mpadded lspace="0"><mi>STC</mi></mpadded></msub></mfrac><mo movablelimits="false">∫</mo><msub><mi>G</mi><mpadded lspace="0"><mi>poa</mi></mpadded></msub><mspace width="0.1667em"></mspace><mi>d</mi><mi>t</mi><mo>=</mo><mfrac><mrow><msub><mi>P</mi><mpadded lspace="0"><mi>STC</mi></mpadded></msub><mspace width="0.1667em"></mspace><msub><mi>H</mi><mpadded lspace="0"><mi>poa</mi></mpadded></msub></mrow><msub><mi>G</mi><mpadded lspace="0"><mi>STC</mi></mpadded></msub></mfrac></mrow><annotation encoding="application/x-tex">E_{\mathrm{ideal}} = \frac{P_{\mathrm{STC}}}{G_{\mathrm{STC}}}\int G_{\mathrm{poa}}\,dt = \frac{P_{\mathrm{STC}}\,H_{\mathrm{poa}}}{G_{\mathrm{STC}}}</annotation></semantics></math></div>
+
+                    <p>Unit check: <math><semantics><mrow><mpadded lspace="0"><mi>kWp</mi></mpadded><mo>×</mo><mrow><mpadded lspace="0"><mi mathvariant="normal">k</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">h</mi></mpadded><mi>/</mi><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup></mrow><mo>÷</mo><mrow><mpadded lspace="0"><mi mathvariant="normal">k</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded><mi>/</mi><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup></mrow><mo>=</mo><mpadded lspace="0"><mi>kWh</mi></mpadded></mrow><annotation encoding="application/x-tex">\mathrm{kWp}\times\mathrm{kWh/m^2}\div\mathrm{kW/m^2} = \mathrm{kWh}</annotation></semantics></math>. Example: 10 kWp on a day with <math><semantics><mrow><msub><mi>H</mi><mpadded lspace="0"><mi>poa</mi></mpadded></msub><mo>=</mo><mn>5.5</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">k</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">h</mi></mpadded><mi>/</mi><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup></mrow></mrow><annotation encoding="application/x-tex">H_{\mathrm{poa}} = 5.5\,\mathrm{kWh/m^2}</annotation></semantics></math> gives <math><semantics><mrow><mn>10</mn><mo>×</mo><mn>5.5</mn><mo>÷</mo><mn>1</mn><mo>=</mo><mn>55</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>kWh</mi></mpadded></mrow><annotation encoding="application/x-tex">10\times 5.5\div 1 = 55\,\mathrm{kWh}</annotation></semantics></math>, which is 10 kW for 5.5 peak sun hours.</p>
+
+                    <h3>The performance ratio</h3>
+                    <p>IEC 61724 defines the monitoring quantities for photovoltaic systems. Two of them are the reference yield <math><semantics><mrow><msub><mi>Y</mi><mi>r</mi></msub><mo>=</mo><msub><mi>H</mi><mpadded lspace="0"><mi>poa</mi></mpadded></msub><mi>/</mi><msub><mi>G</mi><mpadded lspace="0"><mi>STC</mi></mpadded></msub></mrow><annotation encoding="application/x-tex">Y_r = H_{\mathrm{poa}}/G_{\mathrm{STC}}</annotation></semantics></math> in hours and the final yield <math><semantics><mrow><msub><mi>Y</mi><mi>f</mi></msub><mo>=</mo><msub><mi>E</mi><mpadded lspace="0"><mi>actual</mi></mpadded></msub><mi>/</mi><msub><mi>P</mi><mpadded lspace="0"><mi>STC</mi></mpadded></msub></mrow><annotation encoding="application/x-tex">Y_f = E_{\mathrm{actual}}/P_{\mathrm{STC}}</annotation></semantics></math> in kWh/kWp, which is also hours. Their ratio is the performance ratio:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mpadded lspace="0"><mi>PR</mi></mpadded><mo>=</mo><mfrac><msub><mi>Y</mi><mi>f</mi></msub><msub><mi>Y</mi><mi>r</mi></msub></mfrac><mo>=</mo><mfrac><msub><mi>E</mi><mpadded lspace="0"><mi>actual</mi></mpadded></msub><msub><mi>E</mi><mpadded lspace="0"><mi>ideal</mi></mpadded></msub></mfrac><mo>=</mo><mfrac><mrow><msub><mi>E</mi><mpadded lspace="0"><mi>actual</mi></mpadded></msub><mspace width="0.1667em"></mspace><msub><mi>G</mi><mpadded lspace="0"><mi>STC</mi></mpadded></msub></mrow><mrow><msub><mi>P</mi><mpadded lspace="0"><mi>STC</mi></mpadded></msub><mspace width="0.1667em"></mspace><msub><mi>H</mi><mpadded lspace="0"><mi>poa</mi></mpadded></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">\mathrm{PR} = \frac{Y_f}{Y_r} = \frac{E_{\mathrm{actual}}}{E_{\mathrm{ideal}}} = \frac{E_{\mathrm{actual}}\,G_{\mathrm{STC}}}{P_{\mathrm{STC}}\,H_{\mathrm{poa}}}</annotation></semantics></math></div>
+
+                    <p>PR is dimensionless and not an efficiency: it compares output with what the nameplate rating would deliver, which makes plants comparable. PR falls in hot weather because the reference stays at 25 °C, so compare like periods with like. The denominator also needs plane-of-array data from a pyranometer or reference cell, since a satellite-based PR inherits the satellite error.</p>
+
+                    <h2 id="the-loss-chain">The multiplicative loss chain</h2>
+                    <p>Energy flows through a series of stages: the module, the DC wiring, the inverter and the AC wiring to the meter. Each stage passes on a fraction of what it receives. Let <math><semantics><msub><mi>l</mi><mi>i</mi></msub><annotation encoding="application/x-tex">l_i</annotation></semantics></math> be the fractional loss at stage i, a dimensionless number between 0 and 1. Stage i retains <math><semantics><mrow><mn>1</mn><mo>−</mo><msub><mi>l</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">1-l_i</annotation></semantics></math>, so after n stages</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mpadded lspace="0"><mi>PR</mi></mpadded><mo>=</mo><mrow><munderover><mo movablelimits="false">∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover></mrow><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><msub><mi>l</mi><mi>i</mi></msub><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{PR} = \prod_{i=1}^{n}(1-l_i)</annotation></semantics></math></div>
+
+                    <p>This is exact when the stages act in series on the same energy stream, each loss defined against the energy entering that stage. Simulation tools split losses differently, so treat it as a close approximation. Expanding for small <math><semantics><msub><mi>l</mi><mi>i</mi></msub><annotation encoding="application/x-tex">l_i</annotation></semantics></math> shows what simply adding percentages loses:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mrow><munder><mo movablelimits="false">∏</mo><mi>i</mi></munder></mrow><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><msub><mi>l</mi><mi>i</mi></msub><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mn>1</mn><mo>−</mo><mrow><munder><mo movablelimits="false">∑</mo><mi>i</mi></munder></mrow><msub><mi>l</mi><mi>i</mi></msub><mo>+</mo><mrow><munder><mo movablelimits="false">∑</mo><mrow><mi>i</mi><mo>&lt;</mo><mi>j</mi></mrow></munder></mrow><msub><mi>l</mi><mi>i</mi></msub><mspace width="0.1667em"></mspace><msub><mi>l</mi><mi>j</mi></msub><mo>−</mo><mrow><munder><mo movablelimits="false">∑</mo><mrow><mi>i</mi><mo>&lt;</mo><mi>j</mi><mo>&lt;</mo><mi>k</mi></mrow></munder></mrow><msub><mi>l</mi><mi>i</mi></msub><mspace width="0.1667em"></mspace><msub><mi>l</mi><mi>j</mi></msub><mspace width="0.1667em"></mspace><msub><mi>l</mi><mi>k</mi></msub><mo>+</mo><mo>⋯</mo></mrow><annotation encoding="application/x-tex">\prod_{i}(1-l_i) = 1 - \sum_i l_i + \sum_{i\lt j} l_i\,l_j - \sum_{i\lt j\lt k} l_i\,l_j\,l_k + \cdots</annotation></semantics></math></div>
+
+                    <p>The first-order estimate <math><semantics><mrow><mn>1</mn><mo>−</mo><mo movablelimits="false">∑</mo><msub><mi>l</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">1-\sum l_i</annotation></semantics></math> is slightly low because the pair term is positive: a second loss acts on energy already reduced, so it removes a little less than its face value.</p>
+
+                    <figure>
+                        <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1200&h=675&fit=crop&auto=format" alt="Clean rooftop solar panels under a clear sky" loading="lazy" width="1200" height="675">
+                        <figcaption>Dust on the glass, cell heating and wiring each remove a few per cent, and they compound rather than simply add.</figcaption>
+                    </figure>
+
+                    <h3>An illustrative loss table</h3>
+                    <p>The table lists typical ranges for a rooftop plant in a hot, dusty climate, and the values used in the worked examples. They are illustrative. Confirm each per site, because roof ventilation, cleaning, cable length, inverter model and grid reliability differ. The last column is the running product. An optical, spectral and weak-light row is included because real plants lose a few per cent there too.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr><th>Loss</th><th>Typical range</th><th>Value used</th><th>Running factor</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Cell temperature</td><td>6 to 12 %</td><td>9.0 %</td><td>0.9100</td></tr>
+                                <tr><td>Soiling</td><td>2 to 6 %</td><td>3.0 %</td><td>0.8827</td></tr>
+                                <tr><td>Module mismatch</td><td>0.5 to 2 %</td><td>1.5 %</td><td>0.8695</td></tr>
+                                <tr><td>DC wiring</td><td>1 to 2 %</td><td>1.5 %</td><td>0.8564</td></tr>
+                                <tr><td>Inverter conversion</td><td>2 to 3.5 %</td><td>2.5 %</td><td>0.8350</td></tr>
+                                <tr><td>AC wiring and transformer</td><td>0.5 to 1.5 %</td><td>1.0 %</td><td>0.8267</td></tr>
+                                <tr><td>Availability (outages, downtime)</td><td>0.5 to 2 %</td><td>1.0 %</td><td>0.8184</td></tr>
+                                <tr><td>Optical, spectral and weak-light</td><td>2 to 4 %</td><td>3.0 %</td><td>0.7938</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>The values add up to <math><semantics><mrow><mo movablelimits="false">∑</mo><msub><mi>l</mi><mi>i</mi></msub><mo>=</mo><mn>22.5</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">\sum l_i = 22.5\%</annotation></semantics></math>, so the first-order estimate gives <math><semantics><mrow><mpadded lspace="0"><mi>PR</mi></mpadded><mo>≈</mo><mn>0.775</mn></mrow><annotation encoding="application/x-tex">\mathrm{PR}\approx 0.775</annotation></semantics></math>. The exact product is 0.7938. The pair terms sum to 0.0197, and including them gives 0.7947, within 0.1 percentage point. Adding losses understates PR by about 1.9 points here.</p>
+
+                    <div class="callout">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        <p><strong>Read the table as a template:</strong> Each value is typical for a rooftop plant, not a measurement of your roof. Soiling depends on how often the array is cleaned, as our <a href="solar-panel-maintenance-guide.html">solar panel maintenance guide</a> explains.</p>
+                    </div>
+
+                    <h2 id="cell-temperature-loss">Temperature loss and why it must be irradiance-weighted</h2>
+                    <p>Silicon cells lose voltage as they warm, so output falls with temperature. In India this is usually the largest single loss, so it gets its own derivation. Notation first.</p>
+
+                    <ul>
+                        <li><math><semantics><msub><mi>T</mi><mi>c</mi></msub><annotation encoding="application/x-tex">T_c</annotation></semantics></math>: cell temperature, in °C.</li>
+                        <li><math><semantics><msub><mi>T</mi><mi>a</mi></msub><annotation encoding="application/x-tex">T_a</annotation></semantics></math>: ambient air temperature, in °C.</li>
+                        <li><math><semantics><mi>γ</mi><annotation encoding="application/x-tex">\gamma</annotation></semantics></math>: power temperature coefficient, in 1/K. It is negative for silicon, and a typical datasheet value is about <math><semantics><mrow><mo>−</mo><mn>0.0030</mn><mspace width="0.1667em"></mspace><msup><mpadded lspace="0"><mi mathvariant="normal">K</mi></mpadded><mrow><mo lspace="0em" rspace="0em">−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">-0.0030\,\mathrm{K^{-1}}</annotation></semantics></math> (that is, −0.30 % per kelvin). Use your own module datasheet.</li>
+                        <li><math><semantics><mpadded lspace="0"><mi>NOCT</mi></mpadded><annotation encoding="application/x-tex">\mathrm{NOCT}</annotation></semantics></math>: nominal operating cell temperature from the datasheet, in °C. We use 45 °C as an illustrative value.</li>
+                        <li><math><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>: heating coefficient, in K·m²/W.</li>
+                    </ul>
+
+                    <p>Assume the cell runs above ambient in proportion to irradiance. NOCT is defined at 800 W/m² and 20 °C ambient, so the rise there is NOCT − 20 and</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>T</mi><mi>c</mi></msub><mo>=</mo><msub><mi>T</mi><mi>a</mi></msub><mo>+</mo><mi>k</mi><mi>G</mi><mo separator="true">,</mo><mspace width="2em"></mspace><mi>k</mi><mo>=</mo><mfrac><mrow><mpadded lspace="0"><mi>NOCT</mi></mpadded><mo>−</mo><mn>20</mn></mrow><mn>800</mn></mfrac></mrow><annotation encoding="application/x-tex">T_c = T_a + kG, \qquad k = \frac{\mathrm{NOCT}-20}{800}</annotation></semantics></math></div>
+
+                    <p>For NOCT = 45 °C, <math><semantics><mrow><mi>k</mi><mo>=</mo><mn>25</mn><mi>/</mi><mn>800</mn><mo>=</mo><mn>0.03125</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">K</mi></mpadded><mspace width="0.1667em"></mspace><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">k = 25/800 = 0.03125\,\mathrm{K\,m^2/W}</annotation></semantics></math>, so a cell at 1,000 W/m² runs about 31 K above ambient. This ignores wind and mounting. Close-mounted modules on a concrete roof run hotter than the datasheet suggests, perhaps by several kelvin. To first order, the power at irradiance G and cell temperature <math><semantics><msub><mi>T</mi><mi>c</mi></msub><annotation encoding="application/x-tex">T_c</annotation></semantics></math> is</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mi>P</mi><mo>=</mo><msub><mi>P</mi><mpadded lspace="0"><mi>STC</mi></mpadded></msub><mspace width="0.1667em"></mspace><mfrac><mi>G</mi><msub><mi>G</mi><mpadded lspace="0"><mi>STC</mi></mpadded></msub></mfrac><mrow><mo fence="true" form="prefix">[</mo><mn>1</mn><mo>+</mo><mi>γ</mi><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><msub><mi>T</mi><mi>c</mi></msub><mo>−</mo><mn>25</mn><mo form="postfix" stretchy="false">)</mo><mo fence="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">P = P_{\mathrm{STC}}\,\frac{G}{G_{\mathrm{STC}}}\left[1+\gamma\,(T_c-25)\right]</annotation></semantics></math></div>
+
+                    <p>Integrating over the period, the energy is <math><semantics><mrow><mi>E</mi><mo>=</mo><mo form="prefix" stretchy="false">(</mo><msub><mi>P</mi><mpadded lspace="0"><mi>STC</mi></mpadded></msub><mi>/</mi><msub><mi>G</mi><mpadded lspace="0"><mi>STC</mi></mpadded></msub><mo form="postfix" stretchy="false">)</mo><mo movablelimits="false">∫</mo><mi>G</mi><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">[</mo><mn>1</mn><mo>+</mo><mi>γ</mi><mo form="prefix" stretchy="false">(</mo><msub><mi>T</mi><mi>c</mi></msub><mo>−</mo><mn>25</mn><mo form="postfix" stretchy="false">)</mo><mo form="postfix" stretchy="false">]</mo><mspace width="0.1667em"></mspace><mi>d</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">E = (P_{\mathrm{STC}}/G_{\mathrm{STC}})\int G\,[1+\gamma(T_c-25)]\,dt</annotation></semantics></math>. Pull the constants out and define the irradiance-weighted mean cell temperature:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mover><mi>T</mi><mo stretchy="false" class="chr-med wbk-med-acc">‾</mo></mover><mi>w</mi></msub><mo>=</mo><mfrac><mrow><mo movablelimits="false" lspace="0em" rspace="0em">∫</mo><mi>G</mi><mspace width="0.1667em"></mspace><msub><mi>T</mi><mi>c</mi></msub><mspace width="0.1667em"></mspace><mi>d</mi><mi>t</mi></mrow><mrow><mo movablelimits="false" lspace="0em" rspace="0em">∫</mo><mi>G</mi><mspace width="0.1667em"></mspace><mi>d</mi><mi>t</mi></mrow></mfrac><mo separator="true">,</mo><mspace width="2em"></mspace><mi>E</mi><mo>=</mo><mfrac><mrow><msub><mi>P</mi><mpadded lspace="0"><mi>STC</mi></mpadded></msub><mi>H</mi></mrow><msub><mi>G</mi><mpadded lspace="0"><mi>STC</mi></mpadded></msub></mfrac><mrow><mo fence="true" form="prefix">[</mo><mn>1</mn><mo>+</mo><mi>γ</mi><mo form="prefix" stretchy="false">(</mo><msub><mover><mi>T</mi><mo stretchy="false" class="chr-med wbk-med-acc">‾</mo></mover><mi>w</mi></msub><mo>−</mo><mn>25</mn><mo form="postfix" stretchy="false">)</mo><mo fence="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">\bar T_w = \frac{\int G\,T_c\,dt}{\int G\,dt}, \qquad E = \frac{P_{\mathrm{STC}}H}{G_{\mathrm{STC}}}\left[1+\gamma(\bar T_w-25)\right]</annotation></semantics></math></div>
+
+                    <p>The temperature loss is exactly <math><semantics><mrow><msub><mi>l</mi><mi>T</mi></msub><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mi>γ</mi><mo form="prefix" stretchy="false">(</mo><msub><mover><mi>T</mi><mo stretchy="false" class="chr-med wbk-med-acc">‾</mo></mover><mi>w</mi></msub><mo>−</mo><mn>25</mn><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">l_T = -\gamma(\bar T_w - 25)</annotation></semantics></math>, and it uses <math><semantics><msub><mover><mi>T</mi><mo stretchy="false" class="chr-med wbk-med-acc">‾</mo></mover><mi>w</mi></msub><annotation encoding="application/x-tex">\bar T_w</annotation></semantics></math>, not the simple time average. Energy is the quantity being summed, and it arrives mostly when the sun is high. Cool early-morning and late-afternoon hours contribute little energy, so averaging them in equally would flatter the plant.</p>
+
+                    <h3>A worked clear day</h3>
+                    <p>Take an illustrative clear day with <math><semantics><mrow><mi>G</mi><mo>=</mo><mn>900</mn><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo></mrow><mo form="prefix" stretchy="false">(</mo><mi>π</mi><mo form="prefix" stretchy="false">(</mo><mi>t</mi><mo>−</mo><mn>6</mn><mo form="postfix" stretchy="false">)</mo><mi>/</mi><mn>12</mn><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">G = 900\sin(\pi(t-6)/12)</annotation></semantics></math> W/m² from 06:00 to 18:00 and <math><semantics><mrow><msub><mi>T</mi><mi>a</mi></msub><mo>=</mo><mn>26</mn><mo>+</mo><mn>8</mn><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo></mrow><mo form="prefix" stretchy="false">(</mo><mi>π</mi><mo form="prefix" stretchy="false">(</mo><mi>t</mi><mo>−</mo><mn>9</mn><mo form="postfix" stretchy="false">)</mo><mi>/</mi><mn>12</mn><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">T_a = 26 + 8\sin(\pi(t-9)/12)</annotation></semantics></math> °C. Twelve hourly midpoints give:</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr><th>Hour (midpoint)</th><th>G (W/m²)</th><th>T<sub>a</sub> (°C)</th><th>T<sub>c</sub> (°C)</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>06:30</td><td>117</td><td>21.1</td><td>24.8</td></tr>
+                                <tr><td>07:30</td><td>344</td><td>22.9</td><td>33.7</td></tr>
+                                <tr><td>08:30</td><td>548</td><td>25.0</td><td>42.1</td></tr>
+                                <tr><td>09:30</td><td>714</td><td>27.0</td><td>49.4</td></tr>
+                                <tr><td>10:30</td><td>831</td><td>29.1</td><td>55.0</td></tr>
+                                <tr><td>11:30</td><td>892</td><td>30.9</td><td>58.8</td></tr>
+                                <tr><td>12:30</td><td>892</td><td>32.3</td><td>60.2</td></tr>
+                                <tr><td>13:30</td><td>831</td><td>33.4</td><td>59.4</td></tr>
+                                <tr><td>14:30</td><td>714</td><td>33.9</td><td>56.2</td></tr>
+                                <tr><td>15:30</td><td>548</td><td>33.9</td><td>51.1</td></tr>
+                                <tr><td>16:30</td><td>344</td><td>33.4</td><td>44.2</td></tr>
+                                <tr><td>17:30</td><td>117</td><td>32.3</td><td>36.0</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>The day's irradiation is <math><semantics><mrow><mi>H</mi><mo>=</mo><mn>6.90</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">k</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">h</mi></mpadded><mi>/</mi><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup></mrow></mrow><annotation encoding="application/x-tex">H = 6.90\,\mathrm{kWh/m^2}</annotation></semantics></math>. The simple mean cell temperature is 47.6 °C, but the irradiance-weighted mean is <math><semantics><mrow><msub><mover><mi>T</mi><mo stretchy="false" class="chr-med wbk-med-acc">‾</mo></mover><mi>w</mi></msub><mo>=</mo><mn>52.5</mn><mspace width="0.1667em"></mspace><mrow><mi>°</mi><mpadded lspace="0"><mi mathvariant="normal">C</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">\bar T_w = 52.5\,\mathrm{°C}</annotation></semantics></math>. With <math><semantics><mrow><mi>γ</mi><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>0.0030</mn><mspace width="0.1667em"></mspace><msup><mpadded lspace="0"><mi mathvariant="normal">K</mi></mpadded><mrow><mo lspace="0em" rspace="0em">−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\gamma = -0.0030\,\mathrm{K^{-1}}</annotation></semantics></math>:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>l</mi><mi>T</mi></msub><mo>=</mo><mn>0.0030</mn><mo>×</mo><mo form="prefix" stretchy="false">(</mo><mn>52.5</mn><mo>−</mo><mn>25</mn><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mn>8.2</mn><mi>%</mi><mo separator="true">,</mo><mspace width="2em"></mspace><msubsup><mi>l</mi><mi>T</mi><mtext>simple</mtext></msubsup><mo>=</mo><mn>0.0030</mn><mo>×</mo><mo form="prefix" stretchy="false">(</mo><mn>47.6</mn><mo>−</mo><mn>25</mn><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mn>6.8</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">l_T = 0.0030\times(52.5-25) = 8.2\%, \qquad l_T^{\text{simple}} = 0.0030\times(47.6-25) = 6.8\%</annotation></semantics></math></div>
+
+                    <p>The unweighted average understates the loss by about 1.5 percentage points, roughly one-fifth of the true loss. Sanity check: the weighted value lies closer to the midday cell temperature (about 60 °C), as it should. A real annual figure weights all 8,760 hours of measured or modelled weather. The 9 per cent used in the chain is plausible for a hot climate and a close-mounted roof, and your datasheet coefficient and roof airflow could move it by a couple of points.</p>
+                    <h2 id="specific-yield-and-cuf">Specific yield, CUF and the site rule of thumb</h2>
+                    <p>Two numbers compare plants of different sizes: specific yield, met above as final yield, and the capacity utilisation factor, which compares energy with what the array would make at full rated power for every hour of the year.</p>
+
+                    <ul>
+                        <li><math><semantics><msub><mi>Y</mi><mi>f</mi></msub><annotation encoding="application/x-tex">Y_f</annotation></semantics></math>: specific (final) yield, in kWh/kWp, equal numerically to hours.</li>
+                        <li><math><semantics><mpadded lspace="0"><mi>CUF</mi></mpadded><annotation encoding="application/x-tex">\mathrm{CUF}</annotation></semantics></math>: capacity utilisation factor, dimensionless, often quoted in per cent.</li>
+                        <li><math><semantics><mrow><mn>8760</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">h</mi></mpadded></mrow><annotation encoding="application/x-tex">8760\,\mathrm{h}</annotation></semantics></math>: hours in a non-leap year.</li>
+                    </ul>
+
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>Y</mi><mi>f</mi></msub><mo>=</mo><mfrac><mi>E</mi><msub><mi>P</mi><mpadded lspace="0"><mi>STC</mi></mpadded></msub></mfrac><mo separator="true">,</mo><mspace width="2em"></mspace><mpadded lspace="0"><mi>CUF</mi></mpadded><mo>=</mo><mfrac><mi>E</mi><mrow><msub><mi>P</mi><mpadded lspace="0"><mi>STC</mi></mpadded></msub><mo>×</mo><mn>8760</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">h</mi></mpadded></mrow></mfrac><mo>=</mo><mfrac><msub><mi>Y</mi><mi>f</mi></msub><mrow><mn>8760</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">h</mi></mpadded></mrow></mfrac></mrow><annotation encoding="application/x-tex">Y_f = \frac{E}{P_{\mathrm{STC}}}, \qquad \mathrm{CUF} = \frac{E}{P_{\mathrm{STC}}\times 8760\,\mathrm{h}} = \frac{Y_f}{8760\,\mathrm{h}}</annotation></semantics></math></div>
+
+                    <p>Some reports use AC capacity in the denominator, so check which one a quoted CUF uses. Combining the PR definition with the reference yield gives a forecast formula, <math><semantics><mrow><msub><mi>Y</mi><mi>f</mi></msub><mo>=</mo><mpadded lspace="0"><mi>PR</mi></mpadded><mo>×</mo><msub><mi>Y</mi><mi>r</mi></msub></mrow><annotation encoding="application/x-tex">Y_f = \mathrm{PR}\times Y_r</annotation></semantics></math>, where <math><semantics><msub><mi>Y</mi><mi>r</mi></msub><annotation encoding="application/x-tex">Y_r</annotation></semantics></math> is numerically the annual <math><semantics><msub><mi>H</mi><mpadded lspace="0"><mi>poa</mi></mpadded></msub><annotation encoding="application/x-tex">H_{\mathrm{poa}}</annotation></semantics></math> in kWh/m².</p>
+
+                    <h3>Reconciling with 4 to 4.5 units per kW per day</h3>
+                    <p>Our working rule for this part of Andhra Pradesh is about 4 to 4.5 units per kW per day, or roughly 1,400 to 1,600 units per kW per year. A unit is one kWh. Convert it:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mpadded lspace="0"><mi>CUF</mi></mpadded><mo>=</mo><mfrac><mn>1400</mn><mn>8760</mn></mfrac><mo>=</mo><mn>16.0</mn><mi>%</mi><mo separator="true">,</mo><mspace width="2em"></mspace><mpadded lspace="0"><mi>CUF</mi></mpadded><mo>=</mo><mfrac><mn>1600</mn><mn>8760</mn></mfrac><mo>=</mo><mn>18.3</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">\mathrm{CUF} = \frac{1400}{8760} = 16.0\%, \qquad \mathrm{CUF} = \frac{1600}{8760} = 18.3\%</annotation></semantics></math></div>
+
+                    <p>Dividing the annual range by 365 gives 3.8 to 4.4 units per kW per day, matching the quoted daily figures within the rounding that "about" allows. Now work backwards to the implied PR. For an illustrative plane-of-array irradiation of 5.3 to 5.6 kWh/m² per day, the annual <math><semantics><msub><mi>Y</mi><mi>r</mi></msub><annotation encoding="application/x-tex">Y_r</annotation></semantics></math> is 1,934.5 to 2,044 hours, and <math><semantics><mrow><mpadded lspace="0"><mi>PR</mi></mpadded><mo>=</mo><msub><mi>Y</mi><mi>f</mi></msub><mi>/</mi><msub><mi>Y</mi><mi>r</mi></msub></mrow><annotation encoding="application/x-tex">\mathrm{PR} = Y_f/Y_r</annotation></semantics></math>.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr><th>Annual Y<sub>f</sub> (kWh/kWp)</th><th>H<sub>poa</sub> = 5.3 kWh/m²/day</th><th>H<sub>poa</sub> = 5.45 kWh/m²/day</th><th>H<sub>poa</sub> = 5.6 kWh/m²/day</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>1,400</td><td>0.724</td><td>0.704</td><td>0.685</td></tr>
+                                <tr><td>1,500</td><td>0.775</td><td>0.754</td><td>0.734</td></tr>
+                                <tr><td>1,600</td><td>0.827</td><td>0.804</td><td>0.783</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>The implied PR runs from 0.69 to 0.83 across the grid, and from 0.72 to 0.78 if you pair low yield with low irradiation and high with high. Our clean chain gave 0.794, so the rule sits somewhat below it. That is deliberate: a planning figure should absorb outages, partial shade, poor years, hotter roofs and slow decline.</p>
+
+                    <p>The 5.3 to 5.6 kWh/m² figure is illustrative. For a real site, pull plane-of-array irradiation from NASA POWER, the NREL National Solar Radiation Database (through PVWatts) or Meteonorm, then transpose for your tilt and azimuth. Our guide on <a href="how-to-size-a-solar-system.html">how to size a solar system</a> turns such figures into kW.</p>
+
+                    <h2 id="degradation-and-seasons">Degradation and seasonal variation</h2>
+                    <h3>Degradation over a lifetime</h3>
+                    <p>Modules lose a small fraction of output each year. Let d be the annual degradation rate (dimensionless, per year), <math><semantics><msub><mi>E</mi><mn>1</mn></msub><annotation encoding="application/x-tex">E_1</annotation></semantics></math> the first-year energy in kWh and <math><semantics><msub><mi>E</mi><mi>n</mi></msub><annotation encoding="application/x-tex">E_n</annotation></semantics></math> the energy in year n. Assume a constant rate and the same weather every year. Each year retains <math><semantics><mrow><mn>1</mn><mo>−</mo><mi>d</mi></mrow><annotation encoding="application/x-tex">1-d</annotation></semantics></math> of the previous one, so</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>E</mi><mi>n</mi></msub><mo>=</mo><msub><mi>E</mi><mn>1</mn></msub><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>d</mi><msup><mo form="postfix" stretchy="false">)</mo><mrow><mspace width="0.1667em"></mspace><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">E_n = E_1\,(1-d)^{\,n-1}</annotation></semantics></math></div>
+
+                    <p>The lifetime energy over N years is a geometric series with ratio <math><semantics><mrow><mn>1</mn><mo>−</mo><mi>d</mi></mrow><annotation encoding="application/x-tex">1-d</annotation></semantics></math>:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>S</mi><mi>N</mi></msub><mo>=</mo><msub><mi>E</mi><mn>1</mn></msub><mrow><munderover><mo movablelimits="false">∑</mo><mrow><mi>n</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></munderover></mrow><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>d</mi><msup><mo form="postfix" stretchy="false">)</mo><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msup><mo>=</mo><msub><mi>E</mi><mn>1</mn></msub><mspace width="0.1667em"></mspace><mfrac><mrow><mn>1</mn><mo>−</mo><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>d</mi><msup><mo form="postfix" stretchy="false">)</mo><mi>N</mi></msup></mrow><mi>d</mi></mfrac></mrow><annotation encoding="application/x-tex">S_N = E_1\sum_{n=1}^{N}(1-d)^{n-1} = E_1\,\frac{1-(1-d)^N}{d}</annotation></semantics></math></div>
+
+                    <p>For small d the binomial expansion <math><semantics><mrow><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>d</mi><msup><mo form="postfix" stretchy="false">)</mo><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msup><mo>≈</mo><mn>1</mn><mo>−</mo><mo form="prefix" stretchy="false">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo form="postfix" stretchy="false">)</mo><mi>d</mi></mrow><annotation encoding="application/x-tex">(1-d)^{n-1}\approx 1-(n-1)d</annotation></semantics></math> gives a linear approximation. Summing it with <math><semantics><mrow><msubsup><mo movablelimits="false">∑</mo><mrow><mi>n</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></msubsup><mo form="prefix" stretchy="false">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mi>N</mi><mo form="prefix" stretchy="false">(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo form="postfix" stretchy="false">)</mo><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">\sum_{n=1}^{N}(n-1) = N(N-1)/2</annotation></semantics></math>:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><msubsup><mi>S</mi><mi>N</mi><mpadded lspace="0"><mi>lin</mi></mpadded></msubsup><mo>=</mo><msub><mi>E</mi><mn>1</mn></msub><mrow><mo fence="true" form="prefix">[</mo><mi>N</mi><mo>−</mo><mi>d</mi><mspace width="0.1667em"></mspace><mfrac><mrow><mi>N</mi><mo form="prefix" stretchy="false">(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo form="postfix" stretchy="false" lspace="0em" rspace="0em">)</mo></mrow><mn>2</mn></mfrac><mo fence="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">S_N^{\mathrm{lin}} = E_1\left[N - d\,\frac{N(N-1)}{2}\right]</annotation></semantics></math></div>
+
+                    <p>Worked example. Take an illustrative <math><semantics><mrow><mi>d</mi><mo>=</mo><mn>0.005</mn></mrow><annotation encoding="application/x-tex">d = 0.005</annotation></semantics></math> per year, <math><semantics><mrow><mi>N</mi><mo>=</mo><mn>25</mn></mrow><annotation encoding="application/x-tex">N = 25</annotation></semantics></math> years and the first-year energy of the 10 kWp example below, <math><semantics><mrow><msub><mi>E</mi><mn>1</mn></msub><mo>=</mo><mn>15,936</mn></mrow><annotation encoding="application/x-tex">E_1 = 15{,}936</annotation></semantics></math> kWh.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr><th>Year n</th><th>Factor (1 − d)<sup>n−1</sup></th><th>Energy (kWh)</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>1</td><td>1.0000</td><td>15,936</td></tr>
+                                <tr><td>5</td><td>0.9801</td><td>15,620</td></tr>
+                                <tr><td>10</td><td>0.9559</td><td>15,233</td></tr>
+                                <tr><td>15</td><td>0.9322</td><td>14,856</td></tr>
+                                <tr><td>20</td><td>0.9092</td><td>14,489</td></tr>
+                                <tr><td>25</td><td>0.8867</td><td>14,130</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>The geometric sum is <math><semantics><mrow><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><msup><mn>0.995</mn><mn>25</mn></msup><mo form="postfix" stretchy="false">)</mo><mi>/</mi><mn>0.005</mn><mo>=</mo><mn>23.556</mn></mrow><annotation encoding="application/x-tex">(1-0.995^{25})/0.005 = 23.556</annotation></semantics></math> first-year equivalents, so <math><semantics><mrow><msub><mi>S</mi><mn>25</mn></msub><mo>=</mo><mn>23.556</mn><mo>×</mo><mn>15,936</mn><mo>=</mo><mn>375,395</mn></mrow><annotation encoding="application/x-tex">S_{25} = 23.556\times 15{,}936 = 375{,}395</annotation></semantics></math> kWh. The linear form gives <math><semantics><mrow><mn>25</mn><mo>×</mo><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mn>0.005</mn><mo>×</mo><mn>12</mn><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mn>23.5</mn></mrow><annotation encoding="application/x-tex">25\times(1-0.005\times 12) = 23.5</annotation></semantics></math>, or 374,503 kWh, only 0.24 per cent lower. Ignoring degradation gives <math><semantics><mrow><mn>25</mn><mo>×</mo><mn>15,936</mn><mo>=</mo><mn>398,408</mn></mrow><annotation encoding="application/x-tex">25\times 15{,}936 = 398{,}408</annotation></semantics></math> kWh, 6.1 per cent above the geometric result. The 25-year average is 0.942 of year one, about 1,502 kWh/kWp per year, near the middle of the 1,400 to 1,600 rule.</p>
+
+                    <div class="callout callout--warning">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        <p><strong>An estimate, not a promise:</strong> The 0.5 per cent a year is an assumed planning value, and modules often lose more in the first year. The performance warranty states a guaranteed floor, not a forecast. Read the schedule for your model and treat any lifetime kWh figure as a planning estimate.</p>
+                    </div>
+
+                    <h3>Seasons and monsoon months</h3>
+                    <p>Monthly energy follows irradiation, modified by temperature and soiling. Clear spring months give the highest irradiation but hot cells and dusty glass, so PR dips while energy peaks. Monsoon months bring cloud, which cuts the beam and raises the diffuse share, and rain, which washes the glass. Winter has a lower sun but cooler cells and a higher PR. The profile below is illustrative, not site data, and holds PR at 0.794 for simplicity.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr><th>Month</th><th>H<sub>poa</sub> (kWh/m²/day)</th><th>Energy, 10 kWp (kWh)</th><th>Units per kW per day</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>January</td><td>5.3</td><td>1,304</td><td>4.21</td></tr>
+                                <tr><td>February</td><td>6.1</td><td>1,356</td><td>4.84</td></tr>
+                                <tr><td>March</td><td>6.7</td><td>1,649</td><td>5.32</td></tr>
+                                <tr><td>April</td><td>6.8</td><td>1,619</td><td>5.40</td></tr>
+                                <tr><td>May</td><td>6.5</td><td>1,600</td><td>5.16</td></tr>
+                                <tr><td>June</td><td>5.4</td><td>1,286</td><td>4.29</td></tr>
+                                <tr><td>July</td><td>4.8</td><td>1,181</td><td>3.81</td></tr>
+                                <tr><td>August</td><td>4.9</td><td>1,206</td><td>3.89</td></tr>
+                                <tr><td>September</td><td>5.1</td><td>1,215</td><td>4.05</td></tr>
+                                <tr><td>October</td><td>4.9</td><td>1,206</td><td>3.89</td></tr>
+                                <tr><td>November</td><td>4.7</td><td>1,119</td><td>3.73</td></tr>
+                                <tr><td>December</td><td>4.8</td><td>1,181</td><td>3.81</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>The profile averages 5.50 kWh/m² per day, like the worked example, and sums to about 15,922 kWh, within 0.1 per cent of the one-step annual figure. The best month gives about 1.45 times the energy per day of the weakest, so your meter will not show 4.4 units per kW every day. Compare a month with the same month last year.</p>
+
+                    <h2 id="worked-example-10-kwp">Worked example: a 10 kWp rooftop</h2>
+                    <p>Now put the chain together. The inputs are illustrative: 10 kWp, <math><semantics><mrow><msub><mi>H</mi><mpadded lspace="0"><mi>poa</mi></mpadded></msub><mo>=</mo><mn>5.5</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">k</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">h</mi></mpadded><mi>/</mi><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup></mrow></mrow><annotation encoding="application/x-tex">H_{\mathrm{poa}} = 5.5\,\mathrm{kWh/m^2}</annotation></semantics></math> per day averaged over 365 days, and the loss values above. The annual irradiation is <math><semantics><mrow><mn>5.5</mn><mo>×</mo><mn>365</mn><mo>=</mo><mn>2,007.5</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">k</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">h</mi></mpadded><mi>/</mi><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup></mrow></mrow><annotation encoding="application/x-tex">5.5\times 365 = 2{,}007.5\,\mathrm{kWh/m^2}</annotation></semantics></math>, so</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>E</mi><mpadded lspace="0"><mi>ideal</mi></mpadded></msub><mo>=</mo><mfrac><mrow><mn>10</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>kWp</mi></mpadded><mo>×</mo><mn>2007.5</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">k</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">h</mi></mpadded><mi>/</mi><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup></mrow></mrow><mrow><mn>1</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">k</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded><mi>/</mi><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup></mrow></mrow></mfrac><mo>=</mo><mn>20,075</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>kWh</mi></mpadded></mrow><annotation encoding="application/x-tex">E_{\mathrm{ideal}} = \frac{10\,\mathrm{kWp}\times 2007.5\,\mathrm{kWh/m^2}}{1\,\mathrm{kW/m^2}} = 20{,}075\,\mathrm{kWh}</annotation></semantics></math></div>
+
+                    <p>Each loss then multiplies the running energy by its retained fraction.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr><th>Step</th><th>Retained fraction</th><th>Energy after step (kWh)</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Ideal energy</td><td>1.000</td><td>20,075</td></tr>
+                                <tr><td>Cell temperature</td><td>0.910</td><td>18,268</td></tr>
+                                <tr><td>Soiling</td><td>0.970</td><td>17,720</td></tr>
+                                <tr><td>Module mismatch</td><td>0.985</td><td>17,454</td></tr>
+                                <tr><td>DC wiring</td><td>0.985</td><td>17,193</td></tr>
+                                <tr><td>Inverter conversion</td><td>0.975</td><td>16,763</td></tr>
+                                <tr><td>AC wiring and transformer</td><td>0.990</td><td>16,595</td></tr>
+                                <tr><td>Availability</td><td>0.990</td><td>16,429</td></tr>
+                                <tr><td>Optical, spectral and weak-light</td><td>0.970</td><td>15,936</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>The final energy is <math><semantics><mrow><msub><mi>E</mi><mpadded lspace="0"><mi>actual</mi></mpadded></msub><mo>=</mo><mn>15,936</mn></mrow><annotation encoding="application/x-tex">E_{\mathrm{actual}} = 15{,}936</annotation></semantics></math> kWh in the first year. The headline metrics follow from the definitions above:</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr><th>Metric</th><th>Working</th><th>Result</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Performance ratio</td><td>15,936 ÷ 20,075</td><td>0.794</td></tr>
+                                <tr><td>Specific yield</td><td>15,936 kWh ÷ 10 kWp</td><td>1,594 kWh/kWp</td></tr>
+                                <tr><td>CUF</td><td>1,594 ÷ 8,760</td><td>18.2 %</td></tr>
+                                <tr><td>Units per kW per day</td><td>1,594 ÷ 365</td><td>4.37</td></tr>
+                                <tr><td>Whole plant per day</td><td>15,936 ÷ 365</td><td>43.7 kWh</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>Sanity checks: 4.37 units per kW per day lies inside the 4 to 4.5 rule, and 1,594 kWh/kWp sits at the top of the 1,400 to 1,600 range. Over 25 years with 0.5 per cent degradation, lifetime energy is about 375,000 kWh, roughly 15,000 kWh a year.</p>
+
+                    <h3>How uncertain is this?</h3>
+                    <p>With every loss at the optimistic end of its table range the PR becomes 0.863 (about 17,300 kWh). At the pessimistic end it falls to 0.710 (about 14,300 kWh). Raising soiling from 3 to 6 per cent alone cuts the result by 3.1 per cent, and a temperature loss of 12 per cent instead of 9 cuts it by 3.3 per cent. The estimate is a range of a few thousand kWh, narrowed only by a site audit, a shade study and local weather data.</p>
+
+                    <div class="callout callout--success">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        <p><strong>Where to act:</strong> After installation you influence soiling and availability, through cleaning and prompt fault response. Temperature, wiring and inverter losses are largely fixed at design stage. A falling monthly PR flags a problem before the bill does.</p>
+                    </div>
+
+                    <h2 id="using-this-on-your-roof">Using these numbers on your own roof</h2>
+                    <p>To apply this to a real building, follow the same order. Get plane-of-array irradiation for your tilt and azimuth. Replace the illustrative losses with values from your datasheets, cable lengths, cleaning plan and DISCOM supply record. Compute <math><semantics><mrow><mi>E</mi><mo>=</mo><msub><mi>P</mi><mpadded lspace="0"><mi>STC</mi></mpadded></msub><mspace width="0.1667em"></mspace><msub><mi>H</mi><mpadded lspace="0"><mi>poa</mi></mpadded></msub><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>PR</mi></mpadded><mi>/</mi><msub><mi>G</mi><mpadded lspace="0"><mi>STC</mi></mpadded></msub></mrow><annotation encoding="application/x-tex">E = P_{\mathrm{STC}}\,H_{\mathrm{poa}}\,\mathrm{PR}/G_{\mathrm{STC}}</annotation></semantics></math>, apply degradation, and only then ask what the units are worth. That belongs to <a href="rooftop-solar-roi-payback.html">rooftop solar ROI and payback</a>, and it should use a range, not a point.</p>
+
+                    <p>Ray2Volt can run this analysis for your own site, including a shade survey, a tilt and orientation check and a loss budget for the equipment we propose. <a href="../book-power-audit.html">Book a free power audit</a> and we will send the estimate with its assumptions written out, so you can check each line.</p>
+
+                    <h2 id="faq">Frequently asked questions</h2>
+                    <div class="faq-list">
+                        <details class="faq-item">
+                            <summary>What is the difference between irradiance and irradiation?</summary>
+                            <div class="faq-answer">
+                                <p>Irradiance is power per unit area in watts per square metre, and it changes second by second. Irradiation is the energy arriving per unit area over a period, in kilowatt-hours per square metre, and it is the time integral of irradiance. Yield calculations use irradiation because your meter records energy, not power.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>What does a peak sun hour mean?</summary>
+                            <div class="faq-answer">
+                                <p>One peak sun hour is 1 kWh/m² of irradiation, the energy that falls in one hour at 1,000 W/m². A day with 5.5 kWh/m² has 5.5 peak sun hours even though the sun is up for about twelve. The idea converts a day of varying sunlight into an equivalent number of hours at full strength.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>What performance ratio should a rooftop plant achieve?</summary>
+                            <div class="faq-answer">
+                                <p>Well-built plants often report a performance ratio from the high 70s to the low 80s per cent, but the figure depends on climate, soiling, design and how it is measured. Treat that as a typical range, not a guarantee. Compare your plant with its own history and a site-specific estimate, using the same period and method.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>Why are summer months not always the best for output?</summary>
+                            <div class="faq-answer">
+                                <p>Hot cells lose voltage. Output falls about 0.3 to 0.4 per cent for each degree the cell is above 25 degrees Celsius, and a roof-mounted cell can run 25 to 35 degrees above ambient in strong sun. Spring still gives high energy because irradiation is high, but the performance ratio dips in the hottest, dustiest weeks.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>How many units per kW can I expect in a year?</summary>
+                            <div class="faq-answer">
+                                <p>A rule of thumb for this part of Andhra Pradesh is about 4 to 4.5 units per kW per day, or roughly 1,400 to 1,600 units per kW per year. The real figure depends on tilt, shade, soiling, equipment and weather. A site audit and a simulation with measured irradiance data give a better estimate for your roof.</p>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- Author box -->
+                    <div class="author-box">
+                        <img src="../images/logo.png" alt="Ray2Volt Solar" width="52" height="52" loading="lazy">
+                        <div>
+                            <h2>Ray2Volt Solar Private Limited</h2>
+                            <p>We design, install, and service rooftop solar for homes and businesses across Tirupati district and Andhra Pradesh, from PM Surya Ghar residential systems to commercial and industrial plants. Every enquiry starts with a free power audit.</p>
+                        </div>
+                    </div>
+
+                    <!-- End-of-post CTA -->
+                    <div class="post-cta">
+                        <h2>Get a yield estimate for your own roof</h2>
+                        <p>Send Ray2Volt your bill and roof details. Our engineers can survey the site, model the losses and explain the generation estimate in your quotation.</p>
+                        <div class="post-cta-buttons">
+                            <a href="../get-quote.html" class="btn btn-primary">Get a free quote</a>
+                            <a href="https://wa.me/919666068140" class="btn btn-outline">Chat on WhatsApp</a>
+                        </div>
+                    </div>
+
+                </article>
+
+                <!-- Sidebar -->
+                <aside class="post-sidebar">
+                    <nav class="toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#irradiance-and-peak-sun-hours">From power density to energy: irradiance and peak sun hours</a></li>
+                            <li><a href="#plane-of-array-transposition">Transposing sunlight to the plane of the array</a></li>
+                            <li><a href="#ideal-energy-and-performance-ratio">Ideal energy and the performance ratio</a></li>
+                            <li><a href="#the-loss-chain">The multiplicative loss chain</a></li>
+                            <li><a href="#cell-temperature-loss">Temperature loss and why it must be irradiance-weighted</a></li>
+                            <li><a href="#specific-yield-and-cuf">Specific yield, CUF and the site rule of thumb</a></li>
+                            <li><a href="#degradation-and-seasons">Degradation and seasonal variation</a></li>
+                            <li><a href="#worked-example-10-kwp">Worked example: a 10 kWp rooftop</a></li>
+                            <li><a href="#using-this-on-your-roof">Using these numbers on your own roof</a></li>
+                            <li><a href="#faq">Frequently asked questions</a></li>
+                        </ol>
+                    </nav>
+
+                    <div class="sidebar-cta">
+                        <h2>Free power audit</h2>
+                        <p>Share your latest electricity bill and we will size a system and show your real payback. No cost, no obligation.</p>
+                        <a href="../get-quote.html" class="btn btn-white btn-sm">Book my audit</a>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- Related posts -->
+            <section class="related-posts">
+                <h2>Related reading</h2>
+                <div class="related-grid">
+                    <a href="sun-path-tilt-angle-shading-geometry.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/sun-path-tilt-angle-shading-geometry-800w.webp 800w, ../images/blog/sun-path-tilt-angle-shading-geometry-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/sun-path-tilt-angle-shading-geometry.jpg" alt="Sun path, tilt angle and shading geometry" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>Sun Path Geometry for Solar: Tilt, Azimuth and Row Spacing from First Principles</h3>
+                            <p>Technology</p>
+                        </div>
+                    </a>
+                    <a href="how-to-size-a-solar-system.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/how-to-size-a-solar-system-800w.webp 800w, ../images/blog/how-to-size-a-solar-system-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/how-to-size-a-solar-system.jpg" alt="How to size a solar system" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>How to Size a Solar System for Your Home: kW, Units, and Roof Space</h3>
+                            <p>Technology</p>
+                        </div>
+                    </a>
+                    <a href="rooftop-solar-roi-payback.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/rooftop-solar-roi-payback-800w.webp 800w, ../images/blog/rooftop-solar-roi-payback-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/rooftop-solar-roi-payback.jpg" alt="Rooftop solar ROI and payback" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>Rooftop Solar ROI: How Long Until Your System Actually Pays for Itself?</h3>
+                            <p>Technology</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid footer-grid--5">
+                <div class="footer-brand">
+                    <p>Powering businesses and homes in Tirupati district and across Andhra Pradesh with clean, affordable solar energy.</p>
+                    <!-- r2v:social-footer:start -->
+                    <!-- r2v:social-footer:end -->
+                    <!-- r2v:vendor-id:start -->
+                    <!-- r2v:vendor-id:end -->
+                </div>
+
+                <div class="footer-col">
+                    <h4>For Businesses</h4>
+                    <ul>
+                        <li><a href="../commercial.html">Commercial &amp; industrial solar</a></li>
+                        <li><a href="../business-solar-finance.html">Finance options</a></li>
+                        <li><a href="../solar-roi-calculator.html">ROI calculator</a></li>
+                        <li><a href="../solar-quote-check.html">Free quote check</a></li>
+                        <li><a href="../book-power-audit.html">Book a free power audit</a></li>
+                        <li><a href="../upload-electricity-bill.html">Send your electricity bill</a></li>
+                        <li><a href="../tender-rfq.html">Tenders and RFQs</a></li>
+                        <li><a href="https://3d.ray2voltsolar.com/">Ray2Volt 3D for solar EPCs</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>For Homes</h4>
+                    <ul>
+                        <li><a href="../residential.html">Home solar</a></li>
+                        <li><a href="../residential.html#subsidy">PM Surya Ghar subsidy</a></li>
+                        <li><a href="../solar-emi-calculator.html">Solar loan EMI calculator</a></li>
+                        <li><a href="../apartment-solar.html">Apartments &amp; societies</a></li>
+                        <li><a href="../avoid-solar-fraud.html">Pay safely: avoid subsidy fraud</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="../about.html">About us</a></li>
+                        <li><a href="../team.html">Our team</a></li>
+                        <li><a href="../locations.html">Where we work</a></li>
+                        <li><a href="../investor.html">Investors</a></li>
+                        <li><a href="../blog.html">Guides</a></li>
+                        <li><a href="../careers.html">Careers</a></li>
+                        <li><a href="../channel-partner.html">Channel partners</a></li>
+                        <li><a href="../raycare.html">RayCare service and warranty</a></li>
+                        <li><a href="../service-request.html">Request a service visit</a></li>
+                        <li><a href="../privacy-policy.html">Privacy policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li>1-278, J.K.Nagar, Revenue Ward No-1, Pichatur Road, Srikalahasti, 517644, Andhra Pradesh.</li>
+                        <li><a href="tel:+919666068140">+91 96660 68140</a></li>
+                        <li><a href="mailto:sales@ray2voltsolar.com">sales@ray2voltsolar.com</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ray2Volt Solar Private Limited. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" aria-label="Scroll to top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <script src="../script.js"></script>
+    <script src="../blog.js"></script>
+</body>
+
+</html>
