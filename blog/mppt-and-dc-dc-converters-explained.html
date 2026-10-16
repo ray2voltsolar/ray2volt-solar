@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-theme-fixed>
+
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18014889887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-18014889887');
+        gtag('config', 'G-WZJ1CXHSG9');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Blog pages are always light: the theme is fixed on <html> and has no toggle -->
+    <meta name="description" content="How MPPT works: the calculus of dP/dV = 0, buck and boost derivations, inductor sizing, perturb and observe, incremental conductance and partial shading.">
+    <meta name="keywords" content="MPPT explained, maximum power point tracking, perturb and observe, incremental conductance, boost converter inductor, solar DC-DC converter, partial shading MPPT">
+    <title>MPPT Explained: The Calculus and Power Electronics Behind Maximum Power Point Tracking | Ray2Volt Solar</title>
+    <link rel="canonical" href="https://ray2voltsolar.com/blog/mppt-and-dc-dc-converters-explained.html">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap"
+        rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap" rel="stylesheet">
+    </noscript>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../blog.css">
+    <link rel="stylesheet" href="../theme.css">
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Ray2Volt Solar">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MPPT Explained: The Calculus and Power Electronics Behind Maximum Power Point Tracking | Ray2Volt Solar">
+    <meta property="og:description" content="How MPPT works: the calculus of dP/dV = 0, buck and boost derivations, inductor sizing, perturb and observe, incremental conductance and partial shading.">
+    <meta property="og:url" content="https://ray2voltsolar.com/blog/mppt-and-dc-dc-converters-explained.html">
+    <meta property="og:image" content="https://ray2voltsolar.com/images/blog/mppt-and-dc-dc-converters-explained.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "MPPT Explained: The Calculus and Power Electronics Behind Maximum Power Point Tracking | Ray2Volt Solar",
+      "description": "How MPPT works: the calculus of dP/dV = 0, buck and boost derivations, inductor sizing, perturb and observe, incremental conductance and partial shading.",
+      "image": "https://ray2voltsolar.com/images/blog/mppt-and-dc-dc-converters-explained.jpg",
+      "author": { "@type": "Organization", "name": "Ray2Volt Solar Private Limited", "url": "https://ray2voltsolar.com" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Ray2Volt Solar Private Limited",
+        "logo": { "@type": "ImageObject", "url": "https://ray2voltsolar.com/images/logo.png" }
+      },
+      "datePublished": "2026-10-16",
+      "dateModified": "2026-10-16",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ray2voltsolar.com/blog/mppt-and-dc-dc-converters-explained.html" },
+      "articleSection": "Technology"
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ray2voltsolar.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://ray2voltsolar.com/blog.html" },
+        { "@type": "ListItem", "position": 3, "name": "MPPT Explained", "item": "https://ray2voltsolar.com/blog/mppt-and-dc-dc-converters-explained.html" }
+      ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the difference between MPPT and a DC-DC converter?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The DC-DC converter is the hardware: switches, an inductor and capacitors that change the voltage and current between the array and the DC bus. MPPT is the control algorithm that sets the converter's duty ratio so the array stays at its maximum power point. The two work together inside the inverter."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does the operating point oscillate even in steady sunlight?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Perturb and observe cannot know it has reached the peak, because any step away lowers the power slightly. It therefore dithers among three voltages. The average loss grows with the square of the step, so a step of about 1% of the maximum power voltage costs roughly 0.06% of array power."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does MPPT create extra power?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. It cannot exceed what the modules produce at the prevailing irradiance and temperature. It only avoids the loss of a badly matched load. In our example a direct 27 V battery connection captured about 68% of the available power, while an ideal buck converter at the maximum power point delivered all of it, before converter losses."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need more than one MPPT input?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Two inputs help when parts of the array differ in orientation, tilt or shading, because each input finds its own peak instead of compromising. One input is fine for an array facing a single direction without shade. Check the inverter datasheet for the number of inputs and the MPPT voltage window."
+          }
+        }
+      ]
+    }
+    </script>
+</head>
+
+<body class="blog">
+    <!-- Header / Navigation -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="logo">
+                <img src="../images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'">
+                <div class="logo-text">
+                    Ray2Volt Solar
+                    <span>Private Limited</span>
+                </div>
+            </a>
+
+            <ul class="nav-menu">
+                <li class="dropdown dropdown-wide">
+                    <a href="../commercial.html" class="nav-link" aria-haspopup="true" aria-expanded="false">For Businesses <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Plan your project</span>
+                            <ul>
+                                <li><a href="../commercial.html">Commercial solar overview</a></li>
+                                <li><a href="../business-solar-finance.html">Finance options</a></li>
+                                <li><a href="../resco-solar-for-business.html">RESCO: pay per unit</a></li>
+                                <li><a href="../solar-roi-calculator.html">ROI calculator</a></li>
+                                <li><a href="../ground-mounted-solar-open-access.html">Ground-mounted &amp; open access</a></li>
+                                <li><a href="../solar-battery-vs-diesel.html">Solar + battery vs diesel</a></li>
+                                <li><a href="../solar-quote-check.html">Free quote check</a></li>
+                                <li><a href="../book-power-audit.html">Book a free power audit</a></li>
+                                <li><a href="../tender-rfq.html">Tenders and RFQs</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Industries</span>
+                            <ul>
+                                <li><a href="../industry-manufacturing.html">Manufacturing &amp; factories</a></li>
+                                <li><a href="../industry-healthcare.html">Hospitals &amp; healthcare</a></li>
+                                <li><a href="../industry-hotels.html">Hotels &amp; resorts</a></li>
+                                <li><a href="../industry-cold-storage.html">Cold storage &amp; food processing</a></li>
+                                <li><a href="../industry-education.html">Schools &amp; colleges</a></li>
+                                <li><a href="../industry-warehousing.html">Warehousing &amp; logistics</a></li>
+                                <li><a href="../industry-retail.html">Retail &amp; malls</a></li>
+                                <li><a href="../industry-offices.html">Offices &amp; IT parks</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">For solar EPCs</span>
+                            <ul>
+                                <li><a href="https://3d.ray2voltsolar.com/">Ray2Volt 3D: 3D plant viewers</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="../residential.html" class="nav-link" aria-haspopup="true" aria-expanded="false">For Homes <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../residential.html">Home solar overview</a></li>
+                        <li><a href="../residential-ongrid.html">On-grid systems</a></li>
+                        <li><a href="../residential-hybrid.html">Hybrid systems with battery</a></li>
+                        <li><a href="../apartment-solar.html">Apartments &amp; housing societies</a></li>
+                        <li><a href="../solar-emi-calculator.html">Solar loan EMI calculator</a></li>
+                        <li><a href="../blog/pm-surya-ghar-subsidy-guide.html">PM Surya Ghar subsidy guide</a></li>
+                        <li><a href="../raycare.html">RayCare: service plans</a></li>
+                    </ul>
+                </li>
+                <li><a href="../investor.html" class="nav-link">Investors</a></li>
+                <li><a href="../blog.html" class="nav-link active">Guides</a></li>
+                <li><a href="../about.html" class="nav-link">About</a></li>
+                <li><a href="../contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="blog-main">
+        <div class="container">
+
+            <!-- Breadcrumbs -->
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="/">Home</a>
+                <span class="sep">/</span>
+                <a href="../blog.html">Blog</a>
+                <span class="sep">/</span>
+                <span aria-current="page">MPPT Explained</span>
+            </nav>
+
+            <!-- Post header -->
+            <header class="post-header">
+                <div class="post-meta">
+                    <span class="category-pill" data-cat="Technology">Technology</span>
+                    <time datetime="2026-10-16">16 October 2026</time>
+                    <span class="dot">&middot;</span>
+                    <span>17 min read</span>
+                </div>
+                <h1>MPPT Explained: The Calculus and Power Electronics Behind Maximum Power Point Tracking</h1>
+                <p class="post-standfirst">Why the load sets a module's operating point, how a boost converter moves it, and how two tracking algorithms find the peak, with the calculus shown and every number checked.</p>
+            </header>
+
+            <!-- Hero image -->
+            <figure class="post-hero">
+                <picture>
+                    <source type="image/webp" srcset="../images/blog/mppt-and-dc-dc-converters-explained-800w.webp 800w, ../images/blog/mppt-and-dc-dc-converters-explained-1600w.webp 1600w" sizes="(max-width: 900px) 100vw, 800px">
+                    <img src="../images/blog/mppt-and-dc-dc-converters-explained.jpg" alt="Rows of solar modules on a flat industrial roof with a wall-mounted inverter enclosure beside a plant room" width="1600" height="900" fetchpriority="high">
+                </picture>
+                <figcaption>The inverter's MPPT stage keeps the array at its maximum power point as light and temperature change.</figcaption>
+            </figure>
+
+            <div class="post-shell">
+                <article class="post-body">
+
+                    <div class="key-takeaways">
+                        <h2>Four facts about MPPT</h2>
+                        <ul>
+                            <li>A module's operating point is where its I-V curve meets the load line. In our illustrative 550 W module, a resistor tuned for 1,000 W/m&sup2; captures only 66% of the available power at 600 W/m&sup2;.</li>
+                            <li>The maximum power point is where the slope of power against voltage is zero. Equivalently, the slope of the I-V curve (incremental conductance) equals minus the ratio of current to voltage (instantaneous conductance).</li>
+                            <li>An ideal boost converter makes the array see the load resistance multiplied by <math><semantics><mrow><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>D</mi><msup><mo form="postfix" stretchy="false">)</mo><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">(1-D)^2</annotation></semantics></math>, where <math><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math> is the fraction of each cycle the switch is on. Changing <math><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math> therefore moves the operating point.</li>
+                            <li>Perturb and observe loses power in proportion to its step squared, about 0.003% for 1 V on a 417 V string. Fast irradiance ramps and partial shading can still mislead it.</li>
+                        </ul>
+                    </div>
+
+                    <p>Every solar module has one voltage and current at which it delivers its greatest power, and that point never stays still. It moves with each passing cloud and each degree of cell temperature. The maximum power point tracker, or MPPT, in your inverter chases it many times a second. A datasheet reduces all this to "MPPT efficiency above 99%", which hides a good deal of calculus and power electronics.</p>
+
+                    <p>This guide builds the subject from first principles: a resistor across a module, the maximum power condition from a derivative, buck and boost relations from volt-second balance, an inductor sized with real numbers, then the two classic tracking algorithms and the two conditions that defeat them. You need school calculus and Ohm's law. Every symbol is defined with its unit before use, and every number was computed in Python. For the cell physics, see <a href="how-a-solar-cell-works-physics.html">How a Solar Cell Works</a>. For the inverter as a whole, see <a href="what-is-a-solar-inverter.html">What Is a Solar Inverter?</a></p>
+
+                    <div class="callout">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        <p><strong>About the numbers:</strong> The module here is a model, not a product, and its parameters are illustrative values typical of a 550 W-class module. The converter values are illustrative too. Use the datasheets of your own equipment, and check the current edition of any standard you rely on.</p>
+                    </div>
+
+                    <h2 id="load-sets-operating-point">Why the load sets the operating point</h2>
+
+                    <p>A module's voltage and current are tied together by its I-V curve, explained cell by cell in <a href="solar-module-iv-curve-explained.html">How a Solar Module Works</a>. The load supplies a second relation between the same two quantities, and the operating point is the one pair that satisfies both. Notation:</p>
+                    <ul>
+                        <li><math><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math>, <math><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>: module voltage (V) and current (A); <math><semantics><mrow><mi>P</mi><mo>=</mo><mi>V</mi><mi>I</mi></mrow><annotation encoding="application/x-tex">P = VI</annotation></semantics></math> is power (W)</li>
+                        <li><math><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>: load resistance, in ohms (<math><semantics><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><annotation encoding="application/x-tex">\Omega</annotation></semantics></math>); <math><semantics><mi>G</mi><annotation encoding="application/x-tex">G</annotation></semantics></math>: irradiance, in W/m&sup2;</li>
+                        <li><math><semantics><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">V_{oc}</annotation></semantics></math>: open-circuit voltage; <math><semantics><mrow><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo separator="true">,</mo><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo separator="true">,</mo><msub><mi>P</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{mp}, I_{mp}, P_{mp}</annotation></semantics></math>: voltage, current and power at the maximum power point (MPP)</li>
+                    </ul>
+
+                    <p>Assume uniform irradiance, one cell temperature and steady conditions. Ohm's law gives the load line, a straight line through the origin with slope <math><semantics><mrow><mn>1</mn><mi>/</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">1/R</annotation></semantics></math>:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mi>I</mi><mo>=</mo><mfrac><mi>V</mi><mi>R</mi></mfrac></mrow><annotation encoding="application/x-tex">I = \frac{V}{R}</annotation></semantics></math></div>
+
+                    <p>To compute rather than sketch, we need an equation for the curve. The single-diode model uses these symbols: <math><semantics><msub><mi>I</mi><mrow><mi>p</mi><mi>h</mi></mrow></msub><annotation encoding="application/x-tex">I_{ph}</annotation></semantics></math>, the photocurrent, proportional to <math><semantics><mi>G</mi><annotation encoding="application/x-tex">G</annotation></semantics></math>; <math><semantics><msub><mi>I</mi><mn>0</mn></msub><annotation encoding="application/x-tex">I_0</annotation></semantics></math>, the diode saturation current; <math><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>, the ideality factor; <math><semantics><msub><mi>N</mi><mi>s</mi></msub><annotation encoding="application/x-tex">N_s</annotation></semantics></math>, the number of series cells; <math><semantics><mrow><msub><mi>V</mi><mi>T</mi></msub><mo>=</mo><mi>k</mi><mi>T</mi><mi>/</mi><mi>q</mi></mrow><annotation encoding="application/x-tex">V_T = kT/q</annotation></semantics></math>, the thermal voltage, about 25.7 mV at 25 &deg;C, with <math><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> Boltzmann's constant, <math><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math> the electron charge and <math><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math> the cell temperature in kelvin; and <math><semantics><msub><mi>R</mi><mi>s</mi></msub><annotation encoding="application/x-tex">R_s</annotation></semantics></math>, <math><semantics><msub><mi>R</mi><mrow><mi>s</mi><mi>h</mi></mrow></msub><annotation encoding="application/x-tex">R_{sh}</annotation></semantics></math>, the series and shunt resistances.</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mi>I</mi><mo>=</mo><msub><mi>I</mi><mrow><mi>p</mi><mi>h</mi></mrow></msub><mo>−</mo><msub><mi>I</mi><mn>0</mn></msub><mrow><mo fence="true" form="prefix">[</mo><mrow><mi>exp</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mfrac><mrow><mi>V</mi><mo>+</mo><mi>I</mi><msub><mi>R</mi><mi>s</mi></msub></mrow><mrow><mi>n</mi><msub><mi>N</mi><mi>s</mi></msub><msub><mi>V</mi><mi>T</mi></msub></mrow></mfrac><mo fence="true" form="postfix">)</mo></mrow><mo>−</mo><mn>1</mn><mo fence="true" form="postfix">]</mo></mrow><mo>−</mo><mfrac><mrow><mi>V</mi><mo>+</mo><mi>I</mi><msub><mi>R</mi><mi>s</mi></msub></mrow><msub><mi>R</mi><mrow><mi>s</mi><mi>h</mi></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">I = I_{ph} - I_0\left[\exp\!\left(\frac{V + I R_s}{n N_s V_T}\right) - 1\right] - \frac{V + I R_s}{R_{sh}}</annotation></semantics></math></div>
+
+                    <p>The terms are the light-generated current, the diode loss and the shunt leakage. Since <math><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math> appears on both sides, we solve it numerically by bisection. Illustrative parameters: <math><semantics><mrow><msub><mi>N</mi><mi>s</mi></msub><mo>=</mo><mn>72</mn></mrow><annotation encoding="application/x-tex">N_s = 72</annotation></semantics></math>, <math><semantics><mrow><mi>n</mi><mo>=</mo><mn>1.0</mn></mrow><annotation encoding="application/x-tex">n = 1.0</annotation></semantics></math>, <math><semantics><mrow><msub><mi>R</mi><mi>s</mi></msub><mo>=</mo><mn>0.15</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded></mrow><annotation encoding="application/x-tex">R_s = 0.15\ \Omega</annotation></semantics></math>, <math><semantics><mrow><msub><mi>R</mi><mrow><mi>s</mi><mi>h</mi></mrow></msub><mo>=</mo><mn>300</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded></mrow><annotation encoding="application/x-tex">R_{sh} = 300\ \Omega</annotation></semantics></math>, <math><semantics><mrow><msub><mi>I</mi><mrow><mi>p</mi><mi>h</mi></mrow></msub><mo>=</mo><mn>13.95</mn></mrow><annotation encoding="application/x-tex">I_{ph} = 13.95</annotation></semantics></math> A at 1,000 W/m&sup2;, and <math><semantics><msub><mi>I</mi><mn>0</mn></msub><annotation encoding="application/x-tex">I_0</annotation></semantics></math> set for <math><semantics><mrow><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mo>=</mo><mn>49.5</mn></mrow><annotation encoding="application/x-tex">V_{oc} = 49.5</annotation></semantics></math> V at 25 &deg;C. The model then gives <math><semantics><mrow><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo>=</mo><mn>41.75</mn></mrow><annotation encoding="application/x-tex">V_{mp} = 41.75</annotation></semantics></math> V, <math><semantics><mrow><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo>=</mo><mn>13.20</mn></mrow><annotation encoding="application/x-tex">I_{mp} = 13.20</annotation></semantics></math> A and <math><semantics><mrow><msub><mi>P</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo>=</mo><mn>550.9</mn></mrow><annotation encoding="application/x-tex">P_{mp} = 550.9</annotation></semantics></math> W, with power falling 0.29% per kelvin.</p>
+
+                    <h3>Worked example: a resistor and a battery</h3>
+                    <p>Connect the module to a 3.16 <math><semantics><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><annotation encoding="application/x-tex">\Omega</annotation></semantics></math> resistor, perfect at 1,000 W/m&sup2;, or to an ideal 27 V battery, such as a 24 V lead-acid bank on charge. Hold the cell at 25 &deg;C so only irradiance changes.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>G (W/m&sup2;)</th>
+                                    <th>V<sub>mp</sub> (V)</th>
+                                    <th>I<sub>mp</sub> (A)</th>
+                                    <th>P<sub>mp</sub> (W)</th>
+                                    <th>R<sub>opt</sub> (&Omega;)</th>
+                                    <th>3.16 &Omega; resistor: W (share)</th>
+                                    <th>27 V battery: W (share)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>1000</td><td>41.75</td><td>13.20</td><td>550.9</td><td>3.16</td><td>550.9 (100.0%)</td><td>374.0 (67.9%)</td></tr>
+                                <tr><td>800</td><td>41.71</td><td>10.54</td><td>439.4</td><td>3.96</td><td>384.6 (87.5%)</td><td>298.7 (68.0%)</td></tr>
+                                <tr><td>600</td><td>41.55</td><td>7.87</td><td>327.1</td><td>5.28</td><td>216.8 (66.3%)</td><td>223.4 (68.3%)</td></tr>
+                                <tr><td>400</td><td>41.17</td><td>5.21</td><td>214.4</td><td>7.90</td><td>96.4 (44.9%)</td><td>148.2 (69.1%)</td></tr>
+                                <tr><td>200</td><td>40.21</td><td>2.54</td><td>102.3</td><td>15.82</td><td>24.1 (23.6%)</td><td>72.9 (71.3%)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>At 600 W/m&sup2; the resistor settles at 26.19 V and 8.28 A, far left of <math><semantics><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">V_{mp}</annotation></semantics></math>. Check: <math><semantics><mrow><msup><mi>I</mi><mn>2</mn></msup><mi>R</mi><mo>=</mo><msup><mn>8.28</mn><mn>2</mn></msup><mo>×</mo><mn>3.16</mn><mo>≈</mo><mn>217</mn></mrow><annotation encoding="application/x-tex">I^2 R = 8.28^2 \times 3.16 \approx 217</annotation></semantics></math> W, matching the table. The battery clamps the module at 27 V whatever the light, so at 1,000 W/m&sup2; it runs on the flat part of the curve at 13.85 A and delivers <math><semantics><mrow><mn>27</mn><mo>×</mo><mn>13.85</mn><mo>≈</mo><mn>374</mn></mrow><annotation encoding="application/x-tex">27 \times 13.85 \approx 374</annotation></semantics></math> W, 67.9% of the possible. The 14.75 V of headroom above 27 V is wasted. Neither load can choose its own operating point. A DC-DC converter can.</p>
+
+                    <h2 id="maximum-power-condition">The maximum power condition from calculus</h2>
+
+                    <p>A load line through the MPP has slope <math><semantics><mrow><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mi>/</mi><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub></mrow><annotation encoding="application/x-tex">I_{mp}/V_{mp}</annotation></semantics></math>, so the optimal load is:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>R</mi><mrow><mi>o</mi><mi>p</mi><mi>t</mi></mrow></msub><mo>=</mo><mfrac><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">R_{opt} = \frac{V_{mp}}{I_{mp}}</annotation></semantics></math></div>
+
+                    <p>It moves. Photocurrent follows irradiance, so <math><semantics><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">I_{mp}</annotation></semantics></math> falls almost in step with <math><semantics><mi>G</mi><annotation encoding="application/x-tex">G</annotation></semantics></math>, while <math><semantics><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">V_{mp}</annotation></semantics></math> falls only logarithmically. From 1,000 to 200 W/m&sup2;, <math><semantics><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">I_{mp}</annotation></semantics></math> drops to 19.3% but <math><semantics><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">V_{mp}</annotation></semantics></math> by just 3.7%, so <math><semantics><msub><mi>R</mi><mrow><mi>o</mi><mi>p</mi><mi>t</mi></mrow></msub><annotation encoding="application/x-tex">R_{opt}</annotation></semantics></math> rises five-fold, from 3.16 to 15.82 <math><semantics><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><annotation encoding="application/x-tex">\Omega</annotation></semantics></math>. Heat acts the other way. At a cell temperature of 65 &deg;C, <math><semantics><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">V_{mp}</annotation></semantics></math> is 36.56 V (about <math><semantics><mrow><mo>−</mo><mn>0.31</mn></mrow><annotation encoding="application/x-tex">-0.31</annotation></semantics></math>% per kelvin) and <math><semantics><msub><mi>R</mi><mrow><mi>o</mi><mi>p</mi><mi>t</mi></mrow></msub><annotation encoding="application/x-tex">R_{opt}</annotation></semantics></math> is 2.75 <math><semantics><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><annotation encoding="application/x-tex">\Omega</annotation></semantics></math>, 13% lower.</p>
+
+                    <h3>Deriving the condition</h3>
+                    <p>Treat current as a function of voltage, <math><semantics><mrow><mi>I</mi><mo form="prefix" stretchy="false">(</mo><mi>V</mi><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">I(V)</annotation></semantics></math>. Notation: <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>P</mi><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>V</mi></mrow><annotation encoding="application/x-tex">\mathrm{d}P/\mathrm{d}V</annotation></semantics></math> is the slope of the power curve (W/V); <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>I</mi><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>V</mi></mrow><annotation encoding="application/x-tex">\mathrm{d}I/\mathrm{d}V</annotation></semantics></math> is the slope of the I-V curve, the incremental conductance, in siemens (S); and <math><semantics><mrow><mi>I</mi><mi>/</mi><mi>V</mi></mrow><annotation encoding="application/x-tex">I/V</annotation></semantics></math> is the instantaneous conductance of the operating point, also in S. The product rule gives:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mi>P</mi><mo form="prefix" stretchy="false">(</mo><mi>V</mi><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mi>V</mi><mspace width="0.1667em"></mspace><mi>I</mi><mo form="prefix" stretchy="false">(</mo><mi>V</mi><mo form="postfix" stretchy="false">)</mo><mspace width="2em"></mspace><mo stretchy="false">⇒</mo><mspace width="2em"></mspace><mfrac><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>P</mi></mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>V</mi></mrow></mfrac><mo>=</mo><mi>I</mi><mo>+</mo><mi>V</mi><mspace width="0.1667em"></mspace><mfrac><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>I</mi></mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>V</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">P(V) = V\,I(V) \qquad\Rightarrow\qquad \frac{\mathrm{d}P}{\mathrm{d}V} = I + V\,\frac{\mathrm{d}I}{\mathrm{d}V}</annotation></semantics></math></div>
+
+                    <p>At a maximum the slope is zero, so dividing by <math><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math>:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mfrac><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>I</mi></mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>V</mi></mrow></mfrac><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mfrac><mi>I</mi><mi>V</mi></mfrac></mrow><annotation encoding="application/x-tex">\frac{\mathrm{d}I}{\mathrm{d}V} = -\frac{I}{V}</annotation></semantics></math></div>
+
+                    <p>The curve's slope at the MPP is exactly the negative of the load line's slope. Since <math><semantics><mrow><mi>V</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">V \gt 0</annotation></semantics></math>, <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>P</mi><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>V</mi></mrow><annotation encoding="application/x-tex">\mathrm{d}P/\mathrm{d}V</annotation></semantics></math> has the sign of <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>I</mi><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>V</mi><mo>+</mo><mi>I</mi><mi>/</mi><mi>V</mi></mrow><annotation encoding="application/x-tex">\mathrm{d}I/\mathrm{d}V + I/V</annotation></semantics></math>, which gives a direction finder:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mfrac><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>P</mi></mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>V</mi></mrow></mfrac><mo>&gt;</mo><mn>0</mn><mspace width="0.2778em"></mspace><mo stretchy="false">⟺</mo><mspace width="0.2778em"></mspace><mfrac><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>I</mi></mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>V</mi></mrow></mfrac><mo>&gt;</mo><mo form="prefix" stretchy="false">−</mo><mfrac><mi>I</mi><mi>V</mi></mfrac><mo separator="true">,</mo><mspace width="2em"></mspace><mfrac><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>P</mi></mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>V</mi></mrow></mfrac><mo>&lt;</mo><mn>0</mn><mspace width="0.2778em"></mspace><mo stretchy="false">⟺</mo><mspace width="0.2778em"></mspace><mfrac><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>I</mi></mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>V</mi></mrow></mfrac><mo>&lt;</mo><mo form="prefix" stretchy="false">−</mo><mfrac><mi>I</mi><mi>V</mi></mfrac></mrow><annotation encoding="application/x-tex">\frac{\mathrm{d}P}{\mathrm{d}V} \gt 0 \iff \frac{\mathrm{d}I}{\mathrm{d}V} \gt -\frac{I}{V}, \qquad \frac{\mathrm{d}P}{\mathrm{d}V} \lt 0 \iff \frac{\mathrm{d}I}{\mathrm{d}V} \lt -\frac{I}{V}</annotation></semantics></math></div>
+
+                    <p>Positive slope means left of the MPP, so voltage should rise. Negative means right, so it should fall. The table checks this at 1,000 W/m&sup2; and 25 &deg;C.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>V (V)</th>
+                                    <th>I (A)</th>
+                                    <th>P (W)</th>
+                                    <th>dI/dV (S)</th>
+                                    <th>&minus;I/V (S)</th>
+                                    <th>dP/dV (W/V)</th>
+                                    <th>Position</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>36.00</td><td>13.79</td><td>496.6</td><td>&minus;0.019</td><td>&minus;0.383</td><td>+13.12</td><td>Left: raise V</td></tr>
+                                <tr><td>41.75</td><td>13.20</td><td>550.9</td><td>&minus;0.316</td><td>&minus;0.316</td><td>0.00</td><td>At the MPP</td></tr>
+                                <tr><td>44.00</td><td>11.94</td><td>525.4</td><td>&minus;0.875</td><td>&minus;0.271</td><td>&minus;26.55</td><td>Right: lower V</td></tr>
+                                <tr><td>47.00</td><td>7.33</td><td>344.3</td><td>&minus;2.294</td><td>&minus;0.156</td><td>&minus;100.49</td><td>Right: lower V</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>Check at 36 V: <math><semantics><mrow><mi>I</mi><mo>+</mo><mi>V</mi><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>I</mi><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>V</mi><mo>=</mo><mn>13.79</mn><mo>−</mo><mn>36</mn><mo>×</mo><mn>0.019</mn><mo>≈</mo><mn>13.1</mn></mrow><annotation encoding="application/x-tex">I + V\,\mathrm{d}I/\mathrm{d}V = 13.79 - 36 \times 0.019 \approx 13.1</annotation></semantics></math> W/V, matching. The slope is far steeper on the right (<math><semantics><mrow><mo>−</mo><mn>100.49</mn></mrow><annotation encoding="application/x-tex">-100.49</annotation></semantics></math> W/V at 47 V) than on the left, so the peak is lopsided. The second derivative confirms a maximum:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mfrac><mrow><msup><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mn>2</mn></msup><mi>P</mi></mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><msup><mi>V</mi><mn>2</mn></msup></mrow></mfrac><mo>=</mo><mn>2</mn><mspace width="0.1667em"></mspace><mfrac><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>I</mi></mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>V</mi></mrow></mfrac><mo>+</mo><mi>V</mi><mspace width="0.1667em"></mspace><mfrac><mrow><msup><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mn>2</mn></msup><mi>I</mi></mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><msup><mi>V</mi><mn>2</mn></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{\mathrm{d}^2P}{\mathrm{d}V^2} = 2\,\frac{\mathrm{d}I}{\mathrm{d}V} + V\,\frac{\mathrm{d}^2I}{\mathrm{d}V^2}</annotation></semantics></math></div>
+
+                    <p>Numerically <math><semantics><mrow><msup><mi>P</mi><mrow><mo lspace="0em" rspace="0em">′</mo><mo lspace="0em" rspace="0em">′</mo></mrow></msup><mo form="prefix" stretchy="false">(</mo><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>7.04</mn></mrow><annotation encoding="application/x-tex">P&#x27;&#x27;(V_{mp}) = -7.04</annotation></semantics></math> W/V&sup2; for our module. It is negative, and it returns below.</p>
+
+                    <h2 id="dc-dc-converters-impedance">DC-DC converters as adjustable impedance transformers</h2>
+
+                    <p>Calculus says where the peak is. A DC-DC converter puts the array there. It switches current on and off thousands of times a second so that the array sees a different resistance from the one the load really has. The inverter's DC stage does this ahead of the H-bridge described in <a href="how-inverters-make-ac-pwm.html">How a Solar Inverter Makes AC</a>. Notation:</p>
+                    <ul>
+                        <li><math><semantics><mrow><msub><mi>V</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mo separator="true">,</mo><msub><mi>I</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{in}, I_{in}</annotation></semantics></math> and <math><semantics><mrow><msub><mi>V</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub><mo separator="true">,</mo><msub><mi>I</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{out}, I_{out}</annotation></semantics></math>: voltage (V) and current (A) at the array side and the load side</li>
+                        <li><math><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math>: duty ratio, the fraction of each period the switch is on (dimensionless); <math><semantics><msub><mi>f</mi><mi>s</mi></msub><annotation encoding="application/x-tex">f_s</annotation></semantics></math>: switching frequency (Hz); <math><semantics><mrow><mi>T</mi><mo>=</mo><mn>1</mn><mi>/</mi><msub><mi>f</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">T = 1/f_s</annotation></semantics></math>: period (s)</li>
+                        <li><math><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>: inductance (H); <math><semantics><msub><mi>v</mi><mi>L</mi></msub><annotation encoding="application/x-tex">v_L</annotation></semantics></math>, <math><semantics><msub><mi>i</mi><mi>L</mi></msub><annotation encoding="application/x-tex">i_L</annotation></semantics></math>: inductor voltage and current</li>
+                        <li><math><semantics><msub><mi>R</mi><mrow><mi>l</mi><mi>o</mi><mi>a</mi><mi>d</mi></mrow></msub><annotation encoding="application/x-tex">R_{load}</annotation></semantics></math>: load resistance; <math><semantics><mrow><msub><mi>R</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mo>=</mo><msub><mi>V</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mi>/</mi><msub><mi>I</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub></mrow><annotation encoding="application/x-tex">R_{in} = V_{in}/I_{in}</annotation></semantics></math>: resistance seen by the array (<math><semantics><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><annotation encoding="application/x-tex">\Omega</annotation></semantics></math>)</li>
+                    </ul>
+
+                    <p>Assumptions: ideal switch and diode, lossless inductor, continuous conduction (inductor current never reaches zero), steady state (each period repeats the last), and capacitors large enough to hold <math><semantics><msub><mi>V</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><annotation encoding="application/x-tex">V_{in}</annotation></semantics></math> and <math><semantics><msub><mi>V</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub><annotation encoding="application/x-tex">V_{out}</annotation></semantics></math> constant within a period.</p>
+
+                    <h3>Volt-second balance</h3>
+                    <p>An inductor obeys <math><semantics><mrow><msub><mi>v</mi><mi>L</mi></msub><mo>=</mo><mi>L</mi><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><msub><mi>i</mi><mi>L</mi></msub><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>t</mi></mrow><annotation encoding="application/x-tex">v_L = L\,\mathrm{d}i_L/\mathrm{d}t</annotation></semantics></math>. In steady state its current returns to its starting value each period, so:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><msub><mi>i</mi><mi>L</mi></msub><mo>=</mo><mfrac><mn>1</mn><mi>L</mi></mfrac><msubsup><mo movablelimits="false">∫</mo><mn>0</mn><mi>T</mi></msubsup><msub><mi>v</mi><mi>L</mi></msub><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>t</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\Delta i_L = \frac{1}{L}\int_0^T v_L\,\mathrm{d}t = 0</annotation></semantics></math></div>
+
+                    <p>Positive volt-seconds while the switch is on cancel negative volt-seconds while it is off. In a buck converter the inductor sees <math><semantics><mrow><msub><mi>V</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mo>−</mo><msub><mi>V</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{in} - V_{out}</annotation></semantics></math> for <math><semantics><mrow><mi>D</mi><mi>T</mi></mrow><annotation encoding="application/x-tex">DT</annotation></semantics></math> and <math><semantics><mrow><mo>−</mo><msub><mi>V</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">-V_{out}</annotation></semantics></math> for <math><semantics><mrow><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>D</mi><mo form="postfix" stretchy="false">)</mo><mi>T</mi></mrow><annotation encoding="application/x-tex">(1-D)T</annotation></semantics></math>:</p>
+
+                    <div class="equation"><math display="block"><semantics><mtable displaystyle="true"><mtr><mtd><mrow><mo form="prefix" stretchy="false">(</mo><msub><mi>V</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mo>−</mo><msub><mi>V</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><mi>D</mi><mi>T</mi><mo>−</mo><msub><mi>V</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>D</mi><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><mi>T</mi></mrow></mtd><mtd><mrow><mo>=</mo><mn>0</mn></mrow></mtd></mtr><mtr><mtd><msub><mi>V</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub></mtd><mtd><mrow><mo>=</mo><mi>D</mi><mspace width="0.1667em"></mspace><msub><mi>V</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub></mrow></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned} (V_{in} - V_{out})\,D T - V_{out}\,(1-D)\,T &amp;= 0 \\ V_{out} &amp;= D\,V_{in} \end{aligned}</annotation></semantics></math></div>
+
+                    <p>In a boost converter the inductor sees <math><semantics><msub><mi>V</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><annotation encoding="application/x-tex">V_{in}</annotation></semantics></math> for <math><semantics><mrow><mi>D</mi><mi>T</mi></mrow><annotation encoding="application/x-tex">DT</annotation></semantics></math> and <math><semantics><mrow><msub><mi>V</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mo>−</mo><msub><mi>V</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{in} - V_{out}</annotation></semantics></math>, which is negative, for <math><semantics><mrow><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>D</mi><mo form="postfix" stretchy="false">)</mo><mi>T</mi></mrow><annotation encoding="application/x-tex">(1-D)T</annotation></semantics></math>:</p>
+
+                    <div class="equation"><math display="block"><semantics><mtable displaystyle="true"><mtr><mtd><mrow><msub><mi>V</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mspace width="0.1667em"></mspace><mi>D</mi><mi>T</mi><mo>+</mo><mo form="prefix" stretchy="false">(</mo><msub><mi>V</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mo>−</mo><msub><mi>V</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>D</mi><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><mi>T</mi></mrow></mtd><mtd><mrow><mo>=</mo><mn>0</mn></mrow></mtd></mtr><mtr><mtd><msub><mi>V</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub></mtd><mtd><mrow><mo>=</mo><mfrac><msub><mi>V</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mrow><mn>1</mn><mo>−</mo><mi>D</mi></mrow></mfrac></mrow></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned} V_{in}\,D T + (V_{in} - V_{out})\,(1-D)\,T &amp;= 0 \\ V_{out} &amp;= \frac{V_{in}}{1-D} \end{aligned}</annotation></semantics></math></div>
+
+                    <p>Sanity check: at <math><semantics><mrow><mi>D</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">D = 0</annotation></semantics></math> the boost passes <math><semantics><msub><mi>V</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><annotation encoding="application/x-tex">V_{in}</annotation></semantics></math> through unchanged, and the output grows as <math><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math> rises. Real diode drops and resistances shift these ratios by a percent or two.</p>
+
+                    <h3>The impedance the array sees</h3>
+                    <p>For a lossless converter, power in equals power out, and the load draws <math><semantics><mrow><msubsup><mi>V</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow><mn>2</mn></msubsup><mi>/</mi><msub><mi>R</mi><mrow><mi>l</mi><mi>o</mi><mi>a</mi><mi>d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{out}^2/R_{load}</annotation></semantics></math>:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>V</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><msub><mi>I</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mo>=</mo><mfrac><msubsup><mi>V</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow><mn>2</mn></msubsup><msub><mi>R</mi><mrow><mi>l</mi><mi>o</mi><mi>a</mi><mi>d</mi></mrow></msub></mfrac><mspace width="1em"></mspace><mo stretchy="false">⇒</mo><mspace width="1em"></mspace><msub><mi>R</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mo>=</mo><mfrac><msubsup><mi>V</mi><mrow><mi>i</mi><mi>n</mi></mrow><mn>2</mn></msubsup><msubsup><mi>V</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow><mn>2</mn></msubsup></mfrac><mspace width="0.1667em"></mspace><msub><mi>R</mi><mrow><mi>l</mi><mi>o</mi><mi>a</mi><mi>d</mi></mrow></msub><mo>=</mo><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>D</mi><msup><mo form="postfix" stretchy="false">)</mo><mn>2</mn></msup><mspace width="0.1667em"></mspace><msub><mi>R</mi><mrow><mi>l</mi><mi>o</mi><mi>a</mi><mi>d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{in} I_{in} = \frac{V_{out}^2}{R_{load}} \quad\Rightarrow\quad R_{in} = \frac{V_{in}^2}{V_{out}^2}\,R_{load} = (1-D)^2\,R_{load}</annotation></semantics></math></div>
+
+                    <p>The last step substitutes <math><semantics><mrow><msub><mi>V</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mo>=</mo><msub><mi>V</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>D</mi><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">V_{in} = V_{out}(1-D)</annotation></semantics></math>. The same steps for a buck give <math><semantics><mrow><msub><mi>R</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mo>=</mo><msub><mi>R</mi><mrow><mi>l</mi><mi>o</mi><mi>a</mi><mi>d</mi></mrow></msub><mi>/</mi><msup><mi>D</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">R_{in} = R_{load}/D^2</annotation></semantics></math>. A boost can only lower the resistance the array sees, and a buck can only raise it. With a real efficiency <math><semantics><mi>η</mi><annotation encoding="application/x-tex">\eta</annotation></semantics></math> near 98% to 99%, the boost result becomes <math><semantics><mrow><mi>η</mi><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>D</mi><msup><mo form="postfix" stretchy="false">)</mo><mn>2</mn></msup><msub><mi>R</mi><mrow><mi>l</mi><mi>o</mi><mi>a</mi><mi>d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\eta(1-D)^2 R_{load}</annotation></semantics></math>, a shift of 1% to 2%.</p>
+
+                    <figure>
+                        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200&amp;h=675&amp;fit=crop&amp;auto=format" alt="Electrical equipment and monitoring hardware for a solar inverter installation" loading="lazy" width="1200" height="675">
+                        <figcaption>The MPPT stage of an inverter is a DC-DC converter plus a control loop that adjusts the duty ratio.</figcaption>
+                    </figure>
+
+                    <h3>Worked example: ten modules into a 650 V bus</h3>
+                    <p>Ten of our modules in series give ten times the module <math><semantics><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">V_{mp}</annotation></semantics></math> at the same current. The inverter holds the bus at 650 V, so the equivalent <math><semantics><msub><mi>R</mi><mrow><mi>l</mi><mi>o</mi><mi>a</mi><mi>d</mi></mrow></msub><annotation encoding="application/x-tex">R_{load}</annotation></semantics></math> is <math><semantics><mrow><msup><mn>650</mn><mn>2</mn></msup><mi>/</mi><mi>P</mi></mrow><annotation encoding="application/x-tex">650^2/P</annotation></semantics></math> and changes with power. At each condition's MPP, <math><semantics><mrow><mi>D</mi><mo>=</mo><mn>1</mn><mo>−</mo><msub><mi>V</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mi>/</mi><msub><mi>V</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">D = 1 - V_{in}/V_{out}</annotation></semantics></math>:</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Condition</th>
+                                    <th>String V<sub>mp</sub> (V)</th>
+                                    <th>I<sub>mp</sub> (A)</th>
+                                    <th>P<sub>mp</sub> (W)</th>
+                                    <th>R<sub>in</sub> (&Omega;)</th>
+                                    <th>R<sub>load</sub> (&Omega;)</th>
+                                    <th>D</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>1000 W/m&sup2;, 25 &deg;C</td><td>417.5</td><td>13.20</td><td>5509</td><td>31.63</td><td>76.69</td><td>0.358</td></tr>
+                                <tr><td>1000 W/m&sup2;, 45 &deg;C</td><td>391.5</td><td>13.25</td><td>5189</td><td>29.54</td><td>81.42</td><td>0.398</td></tr>
+                                <tr><td>1000 W/m&sup2;, 65 &deg;C</td><td>365.6</td><td>13.30</td><td>4863</td><td>27.49</td><td>86.88</td><td>0.437</td></tr>
+                                <tr><td>400 W/m&sup2;, 25 &deg;C</td><td>411.7</td><td>5.21</td><td>2144</td><td>79.05</td><td>197.08</td><td>0.367</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>Check row one: <math><semantics><mrow><mn>1</mn><mo>−</mo><mi>D</mi><mo>=</mo><mn>417.5</mn><mi>/</mi><mn>650</mn><mo>=</mo><mn>0.642</mn></mrow><annotation encoding="application/x-tex">1 - D = 417.5/650 = 0.642</annotation></semantics></math>, and <math><semantics><mrow><msup><mn>0.642</mn><mn>2</mn></msup><mo>×</mo><mn>76.69</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><mo>=</mo><mn>31.6</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><mo>=</mo><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mi>/</mi><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub></mrow><annotation encoding="application/x-tex">0.642^2 \times 76.69\ \Omega = 31.6\ \Omega = V_{mp}/I_{mp}</annotation></semantics></math>. The controller never handles "resistance". It raises <math><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math> from 0.358 to 0.437 as the cells heat, and the array slides to its new peak. A boost cannot step down, so the bus must stay above the string's coldest-morning voltage, a question treated in <a href="solar-string-sizing-temperature.html">String Sizing for Inverters</a>.</p>
+
+                    <p>A buck serves battery chargers. Our module at its MPP into the 27 V battery needs <math><semantics><mrow><mi>D</mi><mo>=</mo><mn>27</mn><mi>/</mi><mn>41.75</mn><mo>=</mo><mn>0.647</mn></mrow><annotation encoding="application/x-tex">D = 27/41.75 = 0.647</annotation></semantics></math> and delivers <math><semantics><mrow><mn>550.9</mn><mi>/</mi><mn>27</mn><mo>=</mo><mn>20.40</mn></mrow><annotation encoding="application/x-tex">550.9/27 = 20.40</annotation></semantics></math> A, so 550.9 W instead of 374.0 W, a 47% gain. Check: <math><semantics><mrow><msub><mi>R</mi><mrow><mi>l</mi><mi>o</mi><mi>a</mi><mi>d</mi></mrow></msub><mo>=</mo><mn>1.323</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded></mrow><annotation encoding="application/x-tex">R_{load} = 1.323\ \Omega</annotation></semantics></math> and <math><semantics><mrow><mn>1.323</mn><mi>/</mi><msup><mn>0.647</mn><mn>2</mn></msup><mo>=</mo><mn>3.16</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><mo>=</mo><msub><mi>R</mi><mrow><mi>o</mi><mi>p</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">1.323/0.647^2 = 3.16\ \Omega = R_{opt}</annotation></semantics></math>.</p>
+
+                    <div class="callout callout--warning">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        <p><strong>Safety:</strong> PV strings are live whenever light falls on them, and 400 V to 650 V can kill. Work on strings, isolators and converters is for qualified, licensed electricians only. DC arcs do not extinguish themselves, so never open a connector or isolator under load unless it is rated for that duty.</p>
+                    </div>
+
+                    <h2 id="boost-inductor-ripple">Sizing the boost inductor</h2>
+
+                    <p>Let <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><msub><mi>I</mi><mi>L</mi></msub></mrow><annotation encoding="application/x-tex">\Delta I_L</annotation></semantics></math> be the peak-to-peak inductor current ripple (A). While the switch is on, the inductor sees a constant <math><semantics><msub><mi>V</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><annotation encoding="application/x-tex">V_{in}</annotation></semantics></math>, so its current rises at <math><semantics><mrow><msub><mi>V</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mi>/</mi><mi>L</mi></mrow><annotation encoding="application/x-tex">V_{in}/L</annotation></semantics></math> for a time <math><semantics><mrow><mi>D</mi><mi>/</mi><msub><mi>f</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">D/f_s</annotation></semantics></math>:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><msub><mi>I</mi><mi>L</mi></msub><mo>=</mo><mfrac><mrow><msub><mi>V</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mspace width="0.1667em"></mspace><mi>D</mi></mrow><mrow><mi>L</mi><mspace width="0.1667em"></mspace><msub><mi>f</mi><mi>s</mi></msub></mrow></mfrac><mspace width="2em"></mspace><mo stretchy="false">⟺</mo><mspace width="2em"></mspace><mi>L</mi><mo>=</mo><mfrac><mrow><msub><mi>V</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mspace width="0.1667em"></mspace><mi>D</mi></mrow><mrow><msub><mi>f</mi><mi>s</mi></msub><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><msub><mi>I</mi><mi>L</mi></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">\Delta I_L = \frac{V_{in}\,D}{L\,f_s} \qquad\Longleftrightarrow\qquad L = \frac{V_{in}\,D}{f_s\,\Delta I_L}</annotation></semantics></math></div>
+
+                    <p>Take an illustrative stage: <math><semantics><mrow><msub><mi>V</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mo>=</mo><mn>400</mn></mrow><annotation encoding="application/x-tex">V_{in} = 400</annotation></semantics></math> V (near the 391.5 V of our string at 45 &deg;C), <math><semantics><mrow><msub><mi>V</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub><mo>=</mo><mn>650</mn></mrow><annotation encoding="application/x-tex">V_{out} = 650</annotation></semantics></math> V, <math><semantics><mrow><msub><mi>f</mi><mi>s</mi></msub><mo>=</mo><mn>20</mn></mrow><annotation encoding="application/x-tex">f_s = 20</annotation></semantics></math> kHz, <math><semantics><mrow><mi>P</mi><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">P = 10</annotation></semantics></math> kW. Then:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mi>D</mi><mo>=</mo><mn>1</mn><mo>−</mo><mfrac><mn>400</mn><mn>650</mn></mfrac><mo>=</mo><mn>0.3846</mn><mo separator="true">,</mo><mspace width="2em"></mspace><msub><mi>I</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mo>=</mo><mfrac><mn>10,000</mn><mn>400</mn></mfrac><mo>=</mo><mn>25</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded></mrow><annotation encoding="application/x-tex">D = 1 - \frac{400}{650} = 0.3846, \qquad I_{in} = \frac{10{,}000}{400} = 25\ \mathrm{A}</annotation></semantics></math></div>
+
+                    <p>Designers often accept a ripple of 20% to 40% of the average current. At 20%, <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><msub><mi>I</mi><mi>L</mi></msub><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">\Delta I_L = 5</annotation></semantics></math> A, so:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mi>L</mi><mo>=</mo><mfrac><mrow><mn>400</mn><mo>×</mo><mn>0.3846</mn></mrow><mrow><mn>20,000</mn><mo>×</mo><mn>5</mn></mrow></mfrac><mo>=</mo><mfrac><mn>153.8</mn><mn>100,000</mn></mfrac><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">H</mi></mpadded><mo>=</mo><mn>1.54</mn><mtext> </mtext><mpadded lspace="0"><mi>mH</mi></mpadded></mrow><annotation encoding="application/x-tex">L = \frac{400 \times 0.3846}{20{,}000 \times 5} = \frac{153.8}{100{,}000}\ \mathrm{H} = 1.54\ \mathrm{mH}</annotation></semantics></math></div>
+
+                    <p>Choose 1.5 mH, giving <math><semantics><mrow><mn>400</mn><mo>×</mo><mn>0.3846</mn><mi>/</mi><mo form="prefix" stretchy="false">(</mo><mn>1.5</mn><mo>×</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>3</mn></mrow></msup><mo>×</mo><mn>20,000</mn><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mn>5.13</mn></mrow><annotation encoding="application/x-tex">400 \times 0.3846/(1.5\times10^{-3} \times 20{,}000) = 5.13</annotation></semantics></math> A (20.5%). The current swings from 22.4 A to 27.6 A, so the inductor must not saturate below about 28 A. Check: the off-time is 30.8 <math><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>s and the current falls at <math><semantics><mrow><mo form="prefix" stretchy="false">(</mo><mn>650</mn><mo>−</mo><mn>400</mn><mo form="postfix" stretchy="false">)</mo><mi>/</mi><mn>1.5</mn><mtext> </mtext><mpadded lspace="0"><mi>mH</mi></mpadded><mo>=</mo><mn>166,667</mn></mrow><annotation encoding="application/x-tex">(650-400)/1.5\ \mathrm{mH} = 166{,}667</annotation></semantics></math> A/s, a fall of 5.13 A, equal to the rise. Halving the ripple target doubles <math><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>, as does halving <math><semantics><msub><mi>f</mi><mi>s</mi></msub><annotation encoding="application/x-tex">f_s</annotation></semantics></math>: 10% ripple at 20 kHz needs 3.08 mH, 30% at 40 kHz only 0.51 mH. Higher frequency shrinks the inductor but raises switching loss. Below an average current of half the ripple, 2.56 A or about 10% of full power, the converter enters discontinuous conduction, where <math><semantics><mrow><msub><mi>V</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mi>V</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mi>/</mi><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>D</mi><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">V_{out} = V_{in}/(1-D)</annotation></semantics></math> no longer holds.</p>
+
+                    <h2 id="perturb-and-observe">Perturb and observe</h2>
+
+                    <p>Perturb and observe, written P&amp;O, needs only a voltage and a current sensor. It nudges the operating voltage, checks whether power rose, and keeps going if it did. Notation: <math><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> is the sample index; <math><semantics><mrow><msub><mi>V</mi><mi>k</mi></msub><mo separator="true">,</mo><msub><mi>I</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">V_k, I_k</annotation></semantics></math> and <math><semantics><mrow><msub><mi>P</mi><mi>k</mi></msub><mo>=</mo><msub><mi>V</mi><mi>k</mi></msub><msub><mi>I</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">P_k = V_k I_k</annotation></semantics></math> are measured voltage, current and power; <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>V</mi></mrow><annotation encoding="application/x-tex">\Delta V</annotation></semantics></math> is the step in the voltage reference (V); <math><semantics><msub><mi>T</mi><mi>a</mi></msub><annotation encoding="application/x-tex">T_a</annotation></semantics></math> is the time between steps (s), longer than the converter's settling time. The algorithm, in order:</p>
+                    <ol>
+                        <li>Measure the array voltage and current, and compute <math><semantics><mrow><msub><mi>P</mi><mi>k</mi></msub><mo>=</mo><msub><mi>V</mi><mi>k</mi></msub><msub><mi>I</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">P_k = V_k I_k</annotation></semantics></math>.</li>
+                        <li>Compare <math><semantics><msub><mi>P</mi><mi>k</mi></msub><annotation encoding="application/x-tex">P_k</annotation></semantics></math> with the stored previous power <math><semantics><msub><mi>P</mi><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msub><annotation encoding="application/x-tex">P_{k-1}</annotation></semantics></math>.</li>
+                        <li>If the power rose, keep the direction of the last step. If it fell, reverse the direction.</li>
+                        <li>Move the voltage reference by <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>V</mi></mrow><annotation encoding="application/x-tex">\Delta V</annotation></semantics></math> in that direction, by changing the duty ratio.</li>
+                        <li>Store <math><semantics><msub><mi>V</mi><mi>k</mi></msub><annotation encoding="application/x-tex">V_k</annotation></semantics></math> and <math><semantics><msub><mi>P</mi><mi>k</mi></msub><annotation encoding="application/x-tex">P_k</annotation></semantics></math>, wait <math><semantics><msub><mi>T</mi><mi>a</mi></msub><annotation encoding="application/x-tex">T_a</annotation></semantics></math> for the converter to settle, and return to step 1.</li>
+                    </ol>
+
+                    <h3>The three-point dither</h3>
+                    <p>Suppose the tracker sits at the MPP, point B, with A one step to the left and C one step to the right. Any step lowers power, so it cannot rest. From B it steps to C, power falls, so it reverses to B, power rises, so it continues to A, power falls, so it reverses to B, and so on: B, C, B, A, repeating. It spends half its time at B and a quarter each at A and C. To find the cost, expand the power curve to second order about <math><semantics><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">V_{mp}</annotation></semantics></math>, where <math><semantics><msup><mi>P</mi><mrow><mo lspace="0em" rspace="0em">′</mo><mo lspace="0em" rspace="0em">′</mo></mrow></msup><annotation encoding="application/x-tex">P&#x27;&#x27;</annotation></semantics></math> is the curvature (W/V&sup2;):</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mi>P</mi><mo form="prefix" stretchy="false">(</mo><mi>V</mi><mo form="postfix" stretchy="false">)</mo><mo>≈</mo><msub><mi>P</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo>+</mo><msup><mi>P</mi><mo lspace="0em" rspace="0em">′</mo></msup><mo form="prefix" stretchy="false">(</mo><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><mi>V</mi><mo>−</mo><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo form="postfix" stretchy="false">)</mo><mo>+</mo><mstyle displaystyle="false" scriptlevel="0"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mspace width="0.1667em"></mspace><msup><mi>P</mi><mrow><mo lspace="0em" rspace="0em">′</mo><mo lspace="0em" rspace="0em">′</mo></mrow></msup><mo form="prefix" stretchy="false">(</mo><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><mi>V</mi><mo>−</mo><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><msup><mo form="postfix" stretchy="false">)</mo><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">P(V) \approx P_{mp} + P&#x27;(V_{mp})\,(V - V_{mp}) + \tfrac{1}{2}\,P&#x27;&#x27;(V_{mp})\,(V - V_{mp})^2</annotation></semantics></math></div>
+
+                    <p>At the maximum <math><semantics><mrow><msup><mi>P</mi><mo lspace="0em" rspace="0em">′</mo></msup><mo form="prefix" stretchy="false">(</mo><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">P&#x27;(V_{mp}) = 0</annotation></semantics></math> and <math><semantics><mrow><msup><mi>P</mi><mrow><mo lspace="0em" rspace="0em">′</mo><mo lspace="0em" rspace="0em">′</mo></mrow></msup><mo>&lt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">P&#x27;&#x27; \lt 0</annotation></semantics></math>. One step away the loss is <math><semantics><mrow><mstyle displaystyle="false" scriptlevel="0"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mi>|</mi><msup><mi>P</mi><mrow><mo lspace="0em" rspace="0em">′</mo><mo lspace="0em" rspace="0em">′</mo></mrow></msup><mi>|</mi><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><msup><mi>V</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\tfrac{1}{2}|P&#x27;&#x27;|\,\Delta V^2</annotation></semantics></math>, and the four-step cycle averages half of that, shown by the bar below. With the dimensionless curvature <math><semantics><mrow><mi>κ</mi><mo>=</mo><mi>|</mi><msup><mi>P</mi><mrow><mo lspace="0em" rspace="0em">′</mo><mo lspace="0em" rspace="0em">′</mo></mrow></msup><mi>|</mi><mspace width="0.1667em"></mspace><msubsup><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow><mn>2</mn></msubsup><mi>/</mi><msub><mi>P</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\kappa = |P&#x27;&#x27;|\,V_{mp}^2/P_{mp}</annotation></semantics></math>:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>P</mi><mo>≈</mo><mstyle displaystyle="false" scriptlevel="0"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mspace width="0.1667em"></mspace><msup><mi>P</mi><mrow><mo lspace="0em" rspace="0em">′</mo><mo lspace="0em" rspace="0em">′</mo></mrow></msup><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><msup><mi>V</mi><mn>2</mn></msup><mo separator="true">,</mo><mspace width="2em"></mspace><mfrac><menclose notation="top"><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>P</mi></mrow></menclose><msub><mi>P</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub></mfrac><mo>≈</mo><mfrac><mrow><mi>|</mi><msup><mi>P</mi><mrow><mo lspace="0em" rspace="0em">′</mo><mo lspace="0em" rspace="0em">′</mo></mrow></msup><mi>|</mi><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><msup><mi>V</mi><mn>2</mn></msup></mrow><mrow><mn>4</mn><mspace width="0.1667em"></mspace><msub><mi>P</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub></mrow></mfrac><mo>=</mo><mfrac><mi>κ</mi><mn>4</mn></mfrac><msup><mrow><mo fence="true" form="prefix">(</mo><mfrac><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>V</mi></mrow><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub></mfrac><mo fence="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\Delta P \approx \tfrac{1}{2}\,P&#x27;&#x27;\,\Delta V^2, \qquad \frac{\overline{\Delta P}}{P_{mp}} \approx \frac{|P&#x27;&#x27;|\,\Delta V^2}{4\,P_{mp}} = \frac{\kappa}{4}\left(\frac{\Delta V}{V_{mp}}\right)^2</annotation></semantics></math></div>
+
+                    <p>The loss is quadratic in the step. The approximation drops the third-order term, which makes the peak lopsided. For our module <math><semantics><mrow><mi>κ</mi><mo>=</mo><mn>22.3</mn></mrow><annotation encoding="application/x-tex">\kappa = 22.3</annotation></semantics></math>. A ten-module string has <math><semantics><mrow><msup><mi>P</mi><mrow><mo lspace="0em" rspace="0em">′</mo><mo lspace="0em" rspace="0em">′</mo></mrow></msup><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>0.704</mn></mrow><annotation encoding="application/x-tex">P&#x27;&#x27; = -0.704</annotation></semantics></math> W/V&sup2;, <math><semantics><mrow><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo>=</mo><mn>417.5</mn></mrow><annotation encoding="application/x-tex">V_{mp} = 417.5</annotation></semantics></math> V and <math><semantics><mrow><msub><mi>P</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo>=</mo><mn>5,509</mn></mrow><annotation encoding="application/x-tex">P_{mp} = 5{,}509</annotation></semantics></math> W, and the same <math><semantics><mi>κ</mi><annotation encoding="application/x-tex">\kappa</annotation></semantics></math>, since with <math><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math> modules in series <math><semantics><msup><mi>P</mi><mrow><mo lspace="0em" rspace="0em">′</mo><mo lspace="0em" rspace="0em">′</mo></mrow></msup><annotation encoding="application/x-tex">P&#x27;&#x27;</annotation></semantics></math> scales as <math><semantics><mrow><mn>1</mn><mi>/</mi><mi>N</mi></mrow><annotation encoding="application/x-tex">1/N</annotation></semantics></math> and <math><semantics><mrow><msubsup><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow><mn>2</mn></msubsup><mi>/</mi><msub><mi>P</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{mp}^2/P_{mp}</annotation></semantics></math> as <math><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Step &Delta;V (V)</th>
+                                    <th>Taylor loss at A or C (W)</th>
+                                    <th>Exact loss left / right (W)</th>
+                                    <th>Mean dither loss (%)</th>
+                                    <th>Time to climb 217 V at 20 ms (s)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>1</td><td>0.35</td><td>0.35 / 0.36</td><td>0.0032</td><td>4.35</td></tr>
+                                <tr><td>2</td><td>1.41</td><td>1.36 / 1.45</td><td>0.0128</td><td>2.17</td></tr>
+                                <tr><td>5</td><td>8.80</td><td>8.15 / 9.52</td><td>0.0799</td><td>0.87</td></tr>
+                                <tr><td>10</td><td>35.20</td><td>30.21 / 41.22</td><td>0.3195</td><td>0.43</td></tr>
+                                <tr><td>20</td><td>140.81</td><td>104.46 / 193.01</td><td>1.2780</td><td>0.22</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>Doubling the step from 1 V to 2 V multiplies the loss by four, as predicted. The Taylor estimate is within about 8% to 5 V, but at 20 V it is 35% high on the left and 27% low on the right. A direct simulation at 1,000 W/m&sup2; gave mean losses of 0.0045%, 0.11% and 0.41% for 1, 5 and 10 V, slightly above the table because the voltage grid seldom puts B exactly on <math><semantics><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">V_{mp}</annotation></semantics></math>.</p>
+
+                    <p>The last column is the price of small steps. Climbing from 200 V to the 417.5 V peak, after start-up or after shade clears, takes <math><semantics><mrow><mn>217</mn><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>V</mi></mrow><annotation encoding="application/x-tex">217/\Delta V</annotation></semantics></math> steps of <math><semantics><msub><mi>T</mi><mi>a</mi></msub><annotation encoding="application/x-tex">T_a</annotation></semantics></math>. A large step is quick but dithers expensively. A small step is accurate but slow. Halving the step cuts the dither loss to a quarter and doubles the climb time, which is why variable-step designs take large steps far from the peak and small ones near it.</p>
+
+                    <h3>Drift under rapidly rising irradiance</h3>
+                    <p>P&amp;O assumes any power change followed from its step. When light is changing, the change in one sample combines both effects:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>P</mi><mo>≈</mo><mfrac><mrow><mi>∂</mi><mi>P</mi></mrow><mrow><mi>∂</mi><mi>V</mi></mrow></mfrac><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>V</mi><mo>+</mo><mfrac><mrow><mi>∂</mi><mi>P</mi></mrow><mrow><mi>∂</mi><mi>G</mi></mrow></mfrac><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>G</mi><mo separator="true">,</mo><mspace width="2em"></mspace><mfrac><mrow><mi>∂</mi><mi>P</mi></mrow><mrow><mi>∂</mi><mi>V</mi></mrow></mfrac><mo>≈</mo><msup><mi>P</mi><mrow><mo lspace="0em" rspace="0em">′</mo><mo lspace="0em" rspace="0em">′</mo></mrow></msup><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><mi>V</mi><mo>−</mo><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\Delta P \approx \frac{\partial P}{\partial V}\,\Delta V + \frac{\partial P}{\partial G}\,\Delta G, \qquad \frac{\partial P}{\partial V} \approx P&#x27;&#x27;\,(V - V_{mp})</annotation></semantics></math></div>
+
+                    <p>Near the peak the first term is tiny. Take a ramp of 100 W/m&sup2; per second near 600 W/m&sup2;. In one 20 ms sample <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>G</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">\Delta G = 2</annotation></semantics></math> W/m&sup2;, and with <math><semantics><mrow><mi>∂</mi><mi>P</mi><mi>/</mi><mi>∂</mi><mi>G</mi><mo>≈</mo><msub><mi>P</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mi>/</mi><mi>G</mi><mo>=</mo><mn>5.45</mn></mrow><annotation encoding="application/x-tex">\partial P/\partial G \approx P_{mp}/G = 5.45</annotation></semantics></math> W per W/m&sup2; the light adds about 10.9 W. A wrong 1 V step near the peak costs only about 0.2 W at that irradiance. The tracker sees power rise, keeps going, and drifts from the peak until the slope term grows enough to cancel the 10.9 W. We simulated the ten-module string ramped from 300 to 900 W/m&sup2; with an instantaneous converter and 20 ms steps:</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Ramp (W/m&sup2; per s)</th>
+                                    <th>0.5 V step</th>
+                                    <th>1 V step</th>
+                                    <th>5 V step</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>50</td><td>91.5%</td><td>99.1%</td><td>99.8%</td></tr>
+                                <tr><td>100</td><td>93.4%</td><td>91.4%</td><td>99.7%</td></tr>
+                                <tr><td>200</td><td>94.6%</td><td>93.3%</td><td>99.3%</td></tr>
+                                <tr><td>400</td><td>97.3%</td><td>94.6%</td><td>95.1%</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>Read the pattern, not the individual figures, which depend on where the ramp starts. Small steps are vulnerable because their own effect is swamped. A larger step helps at moderate ramps but fails at 400 W/m&sup2; per second. These ramps are severe, like a moving cloud edge, and are not typical of a whole day. Remedies include sampling faster than the light changes, adapting the step, and comparing three points to separate the irradiance trend from the step.</p>
+
+                    <h2 id="incremental-conductance">Incremental conductance</h2>
+
+                    <p>Incremental conductance applies the derived condition directly. With <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>V</mi><mo>=</mo><msub><mi>V</mi><mi>k</mi></msub><mo>−</mo><msub><mi>V</mi><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">\Delta V = V_k - V_{k-1}</annotation></semantics></math> and <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>I</mi><mo>=</mo><msub><mi>I</mi><mi>k</mi></msub><mo>−</mo><msub><mi>I</mi><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">\Delta I = I_k - I_{k-1}</annotation></semantics></math>, the ratio <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>I</mi><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>V</mi></mrow><annotation encoding="application/x-tex">\Delta I/\Delta V</annotation></semantics></math> approximates <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>I</mi><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>V</mi></mrow><annotation encoding="application/x-tex">\mathrm{d}I/\mathrm{d}V</annotation></semantics></math>, and there are three cases:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mfrac><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>I</mi></mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>V</mi></mrow></mfrac><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mfrac><mi>I</mi><mi>V</mi></mfrac><mtext> </mtext><mtext>(at the MPP)</mtext><mo separator="true">,</mo><mspace width="2em"></mspace><mfrac><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>I</mi></mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>V</mi></mrow></mfrac><mo>&gt;</mo><mo form="prefix" stretchy="false">−</mo><mfrac><mi>I</mi><mi>V</mi></mfrac><mtext> </mtext><mtext>(left)</mtext><mo separator="true">,</mo><mspace width="2em"></mspace><mfrac><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>I</mi></mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>V</mi></mrow></mfrac><mo>&lt;</mo><mo form="prefix" stretchy="false">−</mo><mfrac><mi>I</mi><mi>V</mi></mfrac><mtext> </mtext><mtext>(right)</mtext></mrow><annotation encoding="application/x-tex">\frac{\Delta I}{\Delta V} = -\frac{I}{V}\ \text{(at the MPP)}, \qquad \frac{\Delta I}{\Delta V} \gt -\frac{I}{V}\ \text{(left)}, \qquad \frac{\Delta I}{\Delta V} \lt -\frac{I}{V}\ \text{(right)}</annotation></semantics></math></div>
+
+                    <p>The algorithm, in order:</p>
+                    <ol>
+                        <li>Measure <math><semantics><msub><mi>V</mi><mi>k</mi></msub><annotation encoding="application/x-tex">V_k</annotation></semantics></math> and <math><semantics><msub><mi>I</mi><mi>k</mi></msub><annotation encoding="application/x-tex">I_k</annotation></semantics></math>, then compute <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>V</mi></mrow><annotation encoding="application/x-tex">\Delta V</annotation></semantics></math> and <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>I</mi></mrow><annotation encoding="application/x-tex">\Delta I</annotation></semantics></math> against the previous sample.</li>
+                        <li>If <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>V</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\Delta V = 0</annotation></semantics></math>: hold if <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>I</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\Delta I = 0</annotation></semantics></math>, raise the voltage reference if <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>I</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\Delta I \gt 0</annotation></semantics></math> (light has risen), and lower it if <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>I</mi><mo>&lt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\Delta I \lt 0</annotation></semantics></math>.</li>
+                        <li>Otherwise compare <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>I</mi><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>V</mi></mrow><annotation encoding="application/x-tex">\Delta I/\Delta V</annotation></semantics></math> with <math><semantics><mrow><mo>−</mo><msub><mi>I</mi><mi>k</mi></msub><mi>/</mi><msub><mi>V</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">-I_k/V_k</annotation></semantics></math>. If equal within a small tolerance <math><semantics><mi>ε</mi><annotation encoding="application/x-tex">\varepsilon</annotation></semantics></math>, hold: the MPP has been reached.</li>
+                        <li>If <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>I</mi><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>V</mi><mo>&gt;</mo><mo form="prefix" stretchy="false">−</mo><msub><mi>I</mi><mi>k</mi></msub><mi>/</mi><msub><mi>V</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">\Delta I/\Delta V \gt -I_k/V_k</annotation></semantics></math>, the point is left of the MPP, so raise the voltage reference by one step.</li>
+                        <li>If <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>I</mi><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>V</mi><mo>&lt;</mo><mo form="prefix" stretchy="false">−</mo><msub><mi>I</mi><mi>k</mi></msub><mi>/</mi><msub><mi>V</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">\Delta I/\Delta V \lt -I_k/V_k</annotation></semantics></math>, the point is right of the MPP, so lower it by one step.</li>
+                        <li>Store <math><semantics><msub><mi>V</mi><mi>k</mi></msub><annotation encoding="application/x-tex">V_k</annotation></semantics></math> and <math><semantics><msub><mi>I</mi><mi>k</mi></msub><annotation encoding="application/x-tex">I_k</annotation></semantics></math>, wait <math><semantics><msub><mi>T</mi><mi>a</mi></msub><annotation encoding="application/x-tex">T_a</annotation></semantics></math>, and repeat.</li>
+                    </ol>
+
+                    <p>It can stop at the peak instead of dithering, and it knows the direction from the slope. In practice it compares two noisy differences, so <math><semantics><mi>ε</mi><annotation encoding="application/x-tex">\varepsilon</annotation></semantics></math> needs care. A common improvement scales the step with the slope, using a gain <math><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math> in V&sup2;/W:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><msub><mi>V</mi><mrow><mi>s</mi><mi>t</mi><mi>e</mi><mi>p</mi></mrow></msub><mo>=</mo><mi>M</mi><mspace width="0.1667em"></mspace><mrow><mo fence="true" form="prefix">|</mo><mfrac><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>P</mi></mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>V</mi></mrow></mfrac><mo fence="true" form="postfix">|</mo></mrow></mrow><annotation encoding="application/x-tex">\Delta V_{step} = M\,\left|\frac{\mathrm{d}P}{\mathrm{d}V}\right|</annotation></semantics></math></div>
+
+                    <p>With <math><semantics><mrow><mi>M</mi><mo>=</mo><mn>0.05</mn></mrow><annotation encoding="application/x-tex">M = 0.05</annotation></semantics></math> V&sup2;/W on our module, the step is 0.66 V at 36 V (slope 13.12 W/V) and 1.33 V at 44 V (slope <math><semantics><mrow><mo>−</mo><mn>26.55</mn></mrow><annotation encoding="application/x-tex">-26.55</annotation></semantics></math> W/V), and it shrinks to nothing at the peak. One caution: using the same sample-to-sample differences, the plain algorithm gave efficiencies within about one percentage point of P&amp;O in our ramp simulation, because <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>I</mi></mrow><annotation encoding="application/x-tex">\Delta I</annotation></semantics></math> also contains the effect of changing light.</p>
+
+                    <h2 id="partial-shading-global-search">Partial shading and the search for the global peak</h2>
+
+                    <p>Hill-climbing works on a single hump. Partial shading breaks that. As <a href="solar-module-iv-curve-explained.html">the module I-V curve guide</a> explains, a module is divided into substrings, commonly three, each with a bypass diode. When a substring is shaded and the string current exceeds what it can carry, its bypass diode conducts and it contributes about <math><semantics><mrow><mo>−</mo><msub><mi>V</mi><mi>d</mi></msub></mrow><annotation encoding="application/x-tex">-V_d</annotation></semantics></math> to the string voltage, where <math><semantics><msub><mi>V</mi><mi>d</mi></msub><annotation encoding="application/x-tex">V_d</annotation></semantics></math> is the diode drop, taken as 0.5 V. The power curve then has more than one maximum.</p>
+
+                    <h3>Worked example: two shaded substrings in ten modules</h3>
+                    <p>Take ten modules, so 30 substrings in series. A tank shadow lowers two substrings to 300 W/m&sup2;. The other 28 stay at 1,000 W/m&sup2; and 25 &deg;C. Summing each substring's voltage at a given string current gives:</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Point on the string P-V curve</th>
+                                    <th>V (V)</th>
+                                    <th>I (A)</th>
+                                    <th>P (W)</th>
+                                    <th>Share of unshaded P<sub>mp</sub></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Unshaded MPP</td><td>417.5</td><td>13.20</td><td>5,509</td><td>100%</td></tr>
+                                <tr><td>Local maximum, nothing bypassed</td><td>472.5</td><td>4.07</td><td>1,922</td><td>34.9%</td></tr>
+                                <tr><td>Valley between the peaks</td><td>448.9</td><td>4.19</td><td>1,881</td><td>34.1%</td></tr>
+                                <tr><td>Global maximum, two bypassed</td><td>388.7</td><td>13.19</td><td>5,129</td><td>93.1%</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>Check the global peak: 28 of 30 substrings at full current give <math><semantics><mrow><mn>5,509</mn><mo>×</mo><mn>28</mn><mi>/</mi><mn>30</mn><mo>=</mo><mn>5,142</mn></mrow><annotation encoding="application/x-tex">5{,}509 \times 28/30 = 5{,}142</annotation></semantics></math> W, less <math><semantics><mrow><mn>2</mn><mo>×</mo><mn>0.5</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded><mo>×</mo><mn>13.2</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded><mo>=</mo><mn>13</mn></mrow><annotation encoding="application/x-tex">2 \times 0.5\ \mathrm{V} \times 13.2\ \mathrm{A} = 13</annotation></semantics></math> W in the diodes, so 5,129 W. The local peak keeps every substring active but is limited to about 4.1 A, so it yields only 37.5% of the global peak.</p>
+
+                    <p>The two peaks are 24 V apart with a valley only 2% deep. A P&amp;O tracker with a 2 V step that starts at 480 V, near open circuit, settles between 470 and 474 V at 1,922 W. Started at 440 V or 300 V, it settles near 388 V at 5,128 W. The local slope cannot show which peak is better, so hill-climbing gets stuck.</p>
+
+                    <h3>Periodic global sweeps</h3>
+                    <p>The remedy is to measure the whole curve. Every <math><semantics><msub><mi>t</mi><mi>i</mi></msub><annotation encoding="application/x-tex">t_i</annotation></semantics></math> seconds the tracker sweeps the voltage across its MPPT window in <math><semantics><msub><mi>t</mi><mi>s</mi></msub><annotation encoding="application/x-tex">t_s</annotation></semantics></math> seconds, records the highest power, jumps there and resumes local tracking. If <math><semantics><mover><mi>p</mi><mo stretchy="false" class="chr-med wbk-med-acc">‾</mo></mover><annotation encoding="application/x-tex">\bar{p}</annotation></semantics></math> is the mean power during the sweep as a fraction of <math><semantics><msub><mi>P</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">P_{mp}</annotation></semantics></math>, the energy lost is:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mtext>loss fraction</mtext><mo>≈</mo><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mover><mi>p</mi><mo stretchy="false" class="chr-med wbk-med-acc">‾</mo></mover><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><mfrac><msub><mi>t</mi><mi>s</mi></msub><msub><mi>t</mi><mi>i</mi></msub></mfrac></mrow><annotation encoding="application/x-tex">\text{loss fraction} \approx (1 - \bar{p})\,\frac{t_s}{t_i}</annotation></semantics></math></div>
+
+                    <p>Sweeping our unshaded string from 495 V down to 150 V gives <math><semantics><mrow><mover><mi>p</mi><mo stretchy="false" class="chr-med wbk-med-acc">‾</mo></mover><mo>=</mo><mn>0.71</mn></mrow><annotation encoding="application/x-tex">\bar{p} = 0.71</annotation></semantics></math>, so a 2 s sweep every 600 s costs <math><semantics><mrow><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mn>0.71</mn><mo form="postfix" stretchy="false">)</mo><mo>×</mo><mn>2</mn><mi>/</mi><mn>600</mn><mo>≈</mo><mn>0.097</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">(1 - 0.71) \times 2/600 \approx 0.097\%</annotation></semantics></math> of energy. Finding the global peak above recovers about 3,200 W, so one sweep's cost is repaid in about a second. Where shading is routine, better remedies are layout changes, separate MPPT inputs, or module-level electronics, as the inverter overview describes.</p>
+
+                    <h2 id="mppt-efficiency-overall">MPPT efficiency and the whole inverter</h2>
+
+                    <p>MPPT efficiency is the energy harvested divided by the energy available at the true maximum power point over the same period. Here <math><semantics><msub><mi>P</mi><mrow><mi>a</mi><mi>c</mi><mi>t</mi><mi>u</mi><mi>a</mi><mi>l</mi></mrow></msub><annotation encoding="application/x-tex">P_{actual}</annotation></semantics></math> is the power drawn from the array and <math><semantics><msub><mi>P</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">P_{max}</annotation></semantics></math> the power at its true MPP, both in W and integrated over time <math><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>η</mi><mrow><mi>M</mi><mi>P</mi><mi>P</mi><mi>T</mi></mrow></msub><mo>=</mo><mfrac><mrow><mo movablelimits="false" lspace="0em" rspace="0em">∫</mo><msub><mi>P</mi><mrow><mi>a</mi><mi>c</mi><mi>t</mi><mi>u</mi><mi>a</mi><mi>l</mi></mrow></msub><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>t</mi></mrow><mrow><mo movablelimits="false" lspace="0em" rspace="0em">∫</mo><msub><mi>P</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>t</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\eta_{MPPT} = \frac{\int P_{actual}\,\mathrm{d}t}{\int P_{max}\,\mathrm{d}t}</annotation></semantics></math></div>
+
+                    <p>EN 50530 defines static tests at steady irradiance levels and dynamic tests with changing irradiance profiles. Check the current edition for details. Both matter: in steady light our 1 V, 5 V and 10 V steps gave 99.9955%, 99.89% and 99.59%, yet under severe ramps the figure ranged from 91% to 99.8%. A datasheet figure above 99% is realistic for steady light and says little about cloud edges.</p>
+
+                    <p>MPPT is the first stage. The energy then passes through the DC-DC converter and the inverter bridge, so overall efficiency is a product. With illustrative values of 99.8%, 99.3% and 98.8%:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>η</mi><mrow><mi>t</mi><mi>o</mi><mi>t</mi><mi>a</mi><mi>l</mi></mrow></msub><mo>=</mo><msub><mi>η</mi><mrow><mi>M</mi><mi>P</mi><mi>P</mi><mi>T</mi></mrow></msub><mspace width="0.1667em"></mspace><msub><mi>η</mi><mrow><mi>D</mi><mi>C</mi><mtext>-</mtext><mi>D</mi><mi>C</mi></mrow></msub><mspace width="0.1667em"></mspace><msub><mi>η</mi><mrow><mi>i</mi><mi>n</mi><mi>v</mi></mrow></msub><mo>=</mo><mn>0.998</mn><mo>×</mo><mn>0.993</mn><mo>×</mo><mn>0.988</mn><mo>=</mo><mn>0.979</mn></mrow><annotation encoding="application/x-tex">\eta_{total} = \eta_{MPPT}\,\eta_{DC\text{-}DC}\,\eta_{inv} = 0.998 \times 0.993 \times 0.988 = 0.979</annotation></semantics></math></div>
+
+                    <p>The 97.9% is lower than any single stage. One percentage point on a 100 kW plant making roughly 1,500 units per kW per year, an approximate figure to confirm in a site audit, is about 1,500 units a year. Ray2Volt can run this analysis for your own site, checking the string layout against the inverter's MPPT window, assessing shading and reading your inverter logs. Start with a <a href="../book-power-audit.html">free power audit</a>.</p>
+
+                    <h2 id="faq">Frequently asked questions</h2>
+                    <div class="faq-list">
+                        <details class="faq-item">
+                            <summary>What is the difference between MPPT and a DC-DC converter?</summary>
+                            <div class="faq-answer">
+                                <p>The DC-DC converter is the hardware: switches, an inductor and capacitors that change the voltage and current between the array and the DC bus. MPPT is the control algorithm that sets the converter's duty ratio so the array stays at its maximum power point. The two work together inside the inverter.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>Why does the operating point oscillate even in steady sunlight?</summary>
+                            <div class="faq-answer">
+                                <p>Perturb and observe cannot know it has reached the peak, because any step away lowers the power slightly. It therefore dithers among three voltages. The average loss grows with the square of the step, so a step of about 1% of the maximum power voltage costs roughly 0.06% of array power.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>Does MPPT create extra power?</summary>
+                            <div class="faq-answer">
+                                <p>No. It cannot exceed what the modules produce at the prevailing irradiance and temperature. It only avoids the loss of a badly matched load. In our example a direct 27 V battery connection captured about 68% of the available power, while an ideal buck converter at the maximum power point delivered all of it, before converter losses.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>Do I need more than one MPPT input?</summary>
+                            <div class="faq-answer">
+                                <p>Two inputs help when parts of the array differ in orientation, tilt or shading, because each input finds its own peak instead of compromising. One input is fine for an array facing a single direction without shade. Check the inverter datasheet for the number of inputs and the MPPT voltage window.</p>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- Author box -->
+                    <div class="author-box">
+                        <img src="../images/logo.png" alt="Ray2Volt Solar" width="52" height="52" loading="lazy">
+                        <div>
+                            <h2>Ray2Volt Solar Private Limited</h2>
+                            <p>We design, install, and service rooftop solar for homes and businesses across Tirupati district and Andhra Pradesh, from PM Surya Ghar residential systems to commercial and industrial plants. Every enquiry starts with a free power audit.</p>
+                        </div>
+                    </div>
+
+                    <!-- End-of-post CTA -->
+                    <div class="post-cta">
+                        <h2>Have your plant's tracking and string layout checked</h2>
+                        <p>Share your inverter model and a month of generation data. Our engineers can review the MPPT window, string layout and shading at your site.</p>
+                        <div class="post-cta-buttons">
+                            <a href="../get-quote.html" class="btn btn-primary">Get a free quote</a>
+                            <a href="https://wa.me/919666068140" class="btn btn-outline">Chat on WhatsApp</a>
+                        </div>
+                    </div>
+
+                </article>
+
+                <!-- Sidebar -->
+                <aside class="post-sidebar">
+                    <nav class="toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#load-sets-operating-point">Why the load sets the operating point</a></li>
+                            <li><a href="#maximum-power-condition">The maximum power condition from calculus</a></li>
+                            <li><a href="#dc-dc-converters-impedance">DC-DC converters as adjustable impedance transformers</a></li>
+                            <li><a href="#boost-inductor-ripple">Sizing the boost inductor</a></li>
+                            <li><a href="#perturb-and-observe">Perturb and observe</a></li>
+                            <li><a href="#incremental-conductance">Incremental conductance</a></li>
+                            <li><a href="#partial-shading-global-search">Partial shading and the search for the global peak</a></li>
+                            <li><a href="#mppt-efficiency-overall">MPPT efficiency and the whole inverter</a></li>
+                            <li><a href="#faq">Frequently asked questions</a></li>
+                        </ol>
+                    </nav>
+
+                    <div class="sidebar-cta">
+                        <h2>Free power audit</h2>
+                        <p>Share your latest electricity bill and we will size a system and show your real payback. No cost, no obligation.</p>
+                        <a href="../get-quote.html" class="btn btn-white btn-sm">Book my audit</a>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- Related posts -->
+            <section class="related-posts">
+                <h2>Related reading</h2>
+                <div class="related-grid">
+                    <a href="how-a-solar-cell-works-physics.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/how-a-solar-cell-works-physics-800w.webp 800w, ../images/blog/how-a-solar-cell-works-physics-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/how-a-solar-cell-works-physics.jpg" alt="How a solar cell works" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>How a Solar Cell Works: The Physics from Photons to Current</h3>
+                            <p>Technology</p>
+                        </div>
+                    </a>
+                    <a href="how-inverters-make-ac-pwm.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/how-inverters-make-ac-pwm-800w.webp 800w, ../images/blog/how-inverters-make-ac-pwm-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/how-inverters-make-ac-pwm.jpg" alt="How a solar inverter makes AC" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>How a Solar Inverter Makes AC: H-Bridges, PWM, Harmonics and Grid Synchronisation</h3>
+                            <p>Technology</p>
+                        </div>
+                    </a>
+                    <a href="what-is-a-solar-inverter.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/what-is-a-solar-inverter-800w.webp 800w, ../images/blog/what-is-a-solar-inverter-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/what-is-a-solar-inverter.jpg" alt="What is a solar inverter" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>What Is a Solar Inverter? String, Micro, and Hybrid Inverters Compared</h3>
+                            <p>Technology</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid footer-grid--5">
+                <div class="footer-brand">
+                    <p>Powering businesses and homes in Tirupati district and across Andhra Pradesh with clean, affordable solar energy.</p>
+                    <!-- r2v:social-footer:start -->
+                    <!-- r2v:social-footer:end -->
+                    <!-- r2v:vendor-id:start -->
+                    <!-- r2v:vendor-id:end -->
+                </div>
+
+                <div class="footer-col">
+                    <h4>For Businesses</h4>
+                    <ul>
+                        <li><a href="../commercial.html">Commercial &amp; industrial solar</a></li>
+                        <li><a href="../business-solar-finance.html">Finance options</a></li>
+                        <li><a href="../solar-roi-calculator.html">ROI calculator</a></li>
+                        <li><a href="../solar-quote-check.html">Free quote check</a></li>
+                        <li><a href="../book-power-audit.html">Book a free power audit</a></li>
+                        <li><a href="../upload-electricity-bill.html">Send your electricity bill</a></li>
+                        <li><a href="../tender-rfq.html">Tenders and RFQs</a></li>
+                        <li><a href="https://3d.ray2voltsolar.com/">Ray2Volt 3D for solar EPCs</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>For Homes</h4>
+                    <ul>
+                        <li><a href="../residential.html">Home solar</a></li>
+                        <li><a href="../residential.html#subsidy">PM Surya Ghar subsidy</a></li>
+                        <li><a href="../solar-emi-calculator.html">Solar loan EMI calculator</a></li>
+                        <li><a href="../apartment-solar.html">Apartments &amp; societies</a></li>
+                        <li><a href="../avoid-solar-fraud.html">Pay safely: avoid subsidy fraud</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="../about.html">About us</a></li>
+                        <li><a href="../team.html">Our team</a></li>
+                        <li><a href="../locations.html">Where we work</a></li>
+                        <li><a href="../investor.html">Investors</a></li>
+                        <li><a href="../blog.html">Guides</a></li>
+                        <li><a href="../careers.html">Careers</a></li>
+                        <li><a href="../channel-partner.html">Channel partners</a></li>
+                        <li><a href="../raycare.html">RayCare service and warranty</a></li>
+                        <li><a href="../service-request.html">Request a service visit</a></li>
+                        <li><a href="../privacy-policy.html">Privacy policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li>1-278, J.K.Nagar, Revenue Ward No-1, Pichatur Road, Srikalahasti, 517644, Andhra Pradesh.</li>
+                        <li><a href="tel:+919666068140">+91 96660 68140</a></li>
+                        <li><a href="mailto:sales@ray2voltsolar.com">sales@ray2voltsolar.com</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ray2Volt Solar Private Limited. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" aria-label="Scroll to top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <script src="../script.js"></script>
+    <script src="../blog.js"></script>
+</body>
+
+</html>
