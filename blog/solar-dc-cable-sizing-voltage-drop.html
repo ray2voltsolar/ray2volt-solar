@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-theme-fixed>
+
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18014889887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-18014889887');
+        gtag('config', 'G-WZJ1CXHSG9');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Blog pages are always light: the theme is fixed on <html> and has no toggle -->
+    <meta name="description" content="Derive solar cable sizing from Ohm's law: resistance, temperature, voltage drop, annual energy loss, ampacity, connectors, AC runs and economic cable size.">
+    <meta name="keywords" content="solar cable sizing, DC voltage drop solar, solar string cable, voltage drop formula, copper vs aluminium cable, cable ampacity derating, Kelvin's law, MC4 connector resistance">
+    <title>Solar Wiring from First Principles: Resistance, Voltage Drop and Cable Sizing</title>
+    <link rel="canonical" href="https://ray2voltsolar.com/blog/solar-dc-cable-sizing-voltage-drop.html">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap"
+        rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap" rel="stylesheet">
+    </noscript>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../blog.css">
+    <link rel="stylesheet" href="../theme.css">
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Ray2Volt Solar">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Solar Wiring from First Principles: Resistance, Voltage Drop and Cable Sizing">
+    <meta property="og:description" content="Derive solar cable sizing from Ohm's law: resistance, temperature, voltage drop, annual energy loss, ampacity, connectors, AC runs and economic cable size.">
+    <meta property="og:url" content="https://ray2voltsolar.com/blog/solar-dc-cable-sizing-voltage-drop.html">
+    <meta property="og:image" content="https://ray2voltsolar.com/images/blog/solar-dc-cable-sizing-voltage-drop.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Solar Wiring from First Principles: Resistance, Voltage Drop and Cable Sizing",
+      "description": "Derive solar cable sizing from Ohm's law: resistance, temperature, voltage drop, annual energy loss, ampacity, connectors, AC runs and economic cable size.",
+      "image": "https://ray2voltsolar.com/images/blog/solar-dc-cable-sizing-voltage-drop.jpg",
+      "author": { "@type": "Organization", "name": "Ray2Volt Solar Private Limited", "url": "https://ray2voltsolar.com" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Ray2Volt Solar Private Limited",
+        "logo": { "@type": "ImageObject", "url": "https://ray2voltsolar.com/images/logo.png" }
+      },
+      "datePublished": "2026-10-16",
+      "dateModified": "2026-10-16",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ray2voltsolar.com/blog/solar-dc-cable-sizing-voltage-drop.html" },
+      "articleSection": "Technology"
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ray2voltsolar.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://ray2voltsolar.com/blog.html" },
+        { "@type": "ListItem", "position": 3, "name": "Solar Wiring from First Principles", "item": "https://ray2voltsolar.com/blog/solar-dc-cable-sizing-voltage-drop.html" }
+      ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What voltage drop is acceptable on the DC side of a solar plant?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Many designers aim for roughly 1% to 2% on DC string cables, but the project specification and the current edition of the applicable standard decide. The annual energy loss is smaller than the peak percentage, typically 0.4 to 0.6 of it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is annual energy loss lower than the peak-hour percentage?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Loss depends on the square of current, and most hours carry less than peak current. Averaged over a sinusoidal day, the loss is about 0.79 of the peak-hour percentage. Over a year, with the daily peak also below its standard-test value, a factor of about 0.4 to 0.6 is typical."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why size string cable on 1.25 times Isc rather than Imp?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Imp is the normal operating current, but the cable must tolerate the worst credible current. Short-circuit current rises with irradiance and temperature, and sunlight can briefly exceed the standard 1,000 W per square metre. A factor of 1.25 on Isc is common practice, with extra margins in some codes. Check the current edition."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I mix MC4-type connectors from different manufacturers?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The contact force, plating, dimensions and seal of a connector are matched to its own counterpart, and the maker's ratings apply only to that pair. A mixed pair can have higher contact resistance, which heats the joint by I squared times R. Use one maker's connectors and its specified crimp tool."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is aluminium cable suitable for solar plants?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Aluminium is common on larger AC feeders. It needs about 1.65 times the area of copper for the same resistance but weighs about half as much. Rooftop DC string cable is normally copper, so follow the cable standard and datasheet for your project."
+          }
+        }
+      ]
+    }
+    </script>
+</head>
+
+<body class="blog">
+    <!-- Header / Navigation -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="logo">
+                <img src="../images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'">
+                <div class="logo-text">
+                    Ray2Volt Solar
+                    <span>Private Limited</span>
+                </div>
+            </a>
+
+            <ul class="nav-menu">
+                <li class="dropdown dropdown-wide">
+                    <a href="../commercial.html" class="nav-link" aria-haspopup="true" aria-expanded="false">For Businesses <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Plan your project</span>
+                            <ul>
+                                <li><a href="../commercial.html">Commercial solar overview</a></li>
+                                <li><a href="../business-solar-finance.html">Finance options</a></li>
+                                <li><a href="../resco-solar-for-business.html">RESCO: pay per unit</a></li>
+                                <li><a href="../solar-roi-calculator.html">ROI calculator</a></li>
+                                <li><a href="../ground-mounted-solar-open-access.html">Ground-mounted &amp; open access</a></li>
+                                <li><a href="../solar-battery-vs-diesel.html">Solar + battery vs diesel</a></li>
+                                <li><a href="../solar-quote-check.html">Free quote check</a></li>
+                                <li><a href="../book-power-audit.html">Book a free power audit</a></li>
+                                <li><a href="../tender-rfq.html">Tenders and RFQs</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Industries</span>
+                            <ul>
+                                <li><a href="../industry-manufacturing.html">Manufacturing &amp; factories</a></li>
+                                <li><a href="../industry-healthcare.html">Hospitals &amp; healthcare</a></li>
+                                <li><a href="../industry-hotels.html">Hotels &amp; resorts</a></li>
+                                <li><a href="../industry-cold-storage.html">Cold storage &amp; food processing</a></li>
+                                <li><a href="../industry-education.html">Schools &amp; colleges</a></li>
+                                <li><a href="../industry-warehousing.html">Warehousing &amp; logistics</a></li>
+                                <li><a href="../industry-retail.html">Retail &amp; malls</a></li>
+                                <li><a href="../industry-offices.html">Offices &amp; IT parks</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">For solar EPCs</span>
+                            <ul>
+                                <li><a href="https://3d.ray2voltsolar.com/">Ray2Volt 3D: 3D plant viewers</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="../residential.html" class="nav-link" aria-haspopup="true" aria-expanded="false">For Homes <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../residential.html">Home solar overview</a></li>
+                        <li><a href="../residential-ongrid.html">On-grid systems</a></li>
+                        <li><a href="../residential-hybrid.html">Hybrid systems with battery</a></li>
+                        <li><a href="../apartment-solar.html">Apartments &amp; housing societies</a></li>
+                        <li><a href="../solar-emi-calculator.html">Solar loan EMI calculator</a></li>
+                        <li><a href="../blog/pm-surya-ghar-subsidy-guide.html">PM Surya Ghar subsidy guide</a></li>
+                        <li><a href="../raycare.html">RayCare: service plans</a></li>
+                    </ul>
+                </li>
+                <li><a href="../investor.html" class="nav-link">Investors</a></li>
+                <li><a href="../blog.html" class="nav-link active">Guides</a></li>
+                <li><a href="../about.html" class="nav-link">About</a></li>
+                <li><a href="../contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="blog-main">
+        <div class="container">
+
+            <!-- Breadcrumbs -->
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="/">Home</a>
+                <span class="sep">/</span>
+                <a href="../blog.html">Blog</a>
+                <span class="sep">/</span>
+                <span aria-current="page">Solar Wiring from First Principles</span>
+            </nav>
+
+            <!-- Post header -->
+            <header class="post-header">
+                <div class="post-meta">
+                    <span class="category-pill" data-cat="Technology">Technology</span>
+                    <time datetime="2026-10-16">16 October 2026</time>
+                    <span class="dot">&middot;</span>
+                    <span>16 min read</span>
+                </div>
+                <h1>Solar Wiring from First Principles: Resistance, Voltage Drop and Cable Sizing</h1>
+                <p class="post-standfirst">Why a cable is a resistor, how heat and distance set the voltage drop and energy loss, and how to choose a cross-section from first principles.</p>
+            </header>
+
+            <!-- Hero image -->
+            <figure class="post-hero">
+                <picture>
+                    <source type="image/webp" srcset="../images/blog/solar-dc-cable-sizing-voltage-drop-800w.webp 800w, ../images/blog/solar-dc-cable-sizing-voltage-drop-1600w.webp 1600w" sizes="(max-width: 900px) 100vw, 800px">
+                    <img src="../images/blog/solar-dc-cable-sizing-voltage-drop.jpg" alt="Solar module strings on a flat rooftop with DC cables and connectors routed along the mounting rails" width="1600" height="900" fetchpriority="high">
+                </picture>
+                <figcaption>Every string conductor on a roof is a resistor: its size, temperature and terminations decide how much energy is lost as heat.</figcaption>
+            </figure>
+
+            <div class="post-shell">
+                <article class="post-body">
+
+                    <div class="key-takeaways">
+                        <h2>Four facts about solar cable sizing</h2>
+                        <ul>
+                            <li>Resistance is R = ρL/A. Copper at 70 to 90 °C on a hot roof resists 20% to 28% more than its 20 °C datasheet value.</li>
+                            <li>For a series loss, fractional power loss equals fractional voltage drop. A 45 m run at 13.2 A and 600 V drops 1.02% in 4 mm² copper and 0.68% in 6 mm².</li>
+                            <li>Loss grows as I², so the mean of the square matters: for a sinusoidal day it is π²/8 times the square of the mean, and the annual percentage loss is roughly 0.4 to 0.6 of the peak-hour percentage.</li>
+                            <li>A 5 mΩ crimp carries the same 13.2 A as a healthy 0.5 mΩ one but dissipates ten times the heat, about 0.87 W, inside a small plastic housing.</li>
+                        </ul>
+                    </div>
+
+                    <p>A solar string works at several hundred volts and more than ten amperes, through copper lying on a roof that can be 25 °C or more hotter than the air. The cable looks passive, yet it is a resistor in series with your array. It wastes energy every sunny hour, and if it is undersized or badly terminated it heats the insulation and the connectors.</p>
+
+                    <p>This post builds cable sizing from the ground up: charge, current and Ohm's law, then resistance, voltage drop, annual energy loss, ampacity, connector heating, three-phase AC runs and finally Kelvin's law for the most economical size. Every symbol is defined before use, and every number was computed with Python before it was written.</p>
+
+                    <p>Module and inverter values are typical datasheet figures chosen for illustration, so use your own datasheets. The work is for qualified, licensed electricians. For context, read <a href="what-is-a-solar-inverter.html">what a solar inverter does</a> first, and keep the <a href="solar-string-sizing-temperature.html">string sizing mathematics for Voc, Vmp and MPPT windows</a> nearby, since the voltage you size against comes from there.</p>
+
+                    <h2 id="charge-current-voltage-power">Charge, current, voltage and power</h2>
+                    <p>Symbols for this section:</p>
+                    <ul>
+                        <li><math><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math>: electric charge, in coulombs (C)</li>
+                        <li><math><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>: time, in seconds (s)</li>
+                        <li><math><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>: current, in amperes (A)</li>
+                        <li><math><semantics><mi>W</mi><annotation encoding="application/x-tex">W</annotation></semantics></math>: energy, in joules (J)</li>
+                        <li><math><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math>: potential difference, or voltage, in volts (V)</li>
+                        <li><math><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math>: power, in watts (W)</li>
+                        <li><math><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>: resistance, in ohms (Ω)</li>
+                    </ul>
+                    <p>Current is the rate at which charge crosses a section of conductor. Potential difference is the energy given up per unit of charge moved between two points.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>I</mi><mo>=</mo><mfrac><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>Q</mi></mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>t</mi></mrow></mfrac><mo separator="true">,</mo><mspace width="2em"></mspace><mi>V</mi><mo>=</mo><mfrac><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>W</mi></mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>Q</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">I = \frac{\mathrm{d}Q}{\mathrm{d}t}, \qquad V = \frac{\mathrm{d}W}{\mathrm{d}Q}</annotation></semantics></math></div>
+                    <p>Moving a small charge <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>Q</mi></mrow><annotation encoding="application/x-tex">\mathrm{d}Q</annotation></semantics></math> through <math><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math> transfers energy <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>W</mi><mo>=</mo><mi>V</mi><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>Q</mi></mrow><annotation encoding="application/x-tex">\mathrm{d}W = V\,\mathrm{d}Q</annotation></semantics></math>. Power is energy per unit time, so dividing by <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>t</mi></mrow><annotation encoding="application/x-tex">\mathrm{d}t</annotation></semantics></math> gives the most used equation in electrical engineering.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>P</mi><mo>=</mo><mfrac><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>W</mi></mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>t</mi></mrow></mfrac><mo>=</mo><mi>V</mi><mspace width="0.1667em"></mspace><mfrac><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>Q</mi></mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>t</mi></mrow></mfrac><mo>=</mo><mi>V</mi><mspace width="0.1667em"></mspace><mi>I</mi></mrow><annotation encoding="application/x-tex">P = \frac{\mathrm{d}W}{\mathrm{d}t} = V\,\frac{\mathrm{d}Q}{\mathrm{d}t} = V\,I</annotation></semantics></math></div>
+                    <p>In a metal at constant temperature, current is proportional to the voltage across it, and the constant is the resistance (Ohm's law). Substituting it into the power equation gives the heat produced in a resistance.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>V</mi><mo>=</mo><mi>I</mi><mspace width="0.1667em"></mspace><mi>R</mi><mo separator="true">,</mo><mspace width="2em"></mspace><mi>P</mi><mo>=</mo><msup><mi>I</mi><mn>2</mn></msup><mi>R</mi><mo>=</mo><mfrac><msup><mi>V</mi><mn>2</mn></msup><mi>R</mi></mfrac></mrow><annotation encoding="application/x-tex">V = I\,R, \qquad P = I^{2}R = \frac{V^{2}}{R}</annotation></semantics></math></div>
+                    <p>Sanity check: a string at 600 V and 13.2 A delivers 600 × 13.2 = 7,920 W. The form <math><semantics><mrow><msup><mi>I</mi><mn>2</mn></msup><mi>R</mi></mrow><annotation encoding="application/x-tex">I^{2}R</annotation></semantics></math> is the one this post leans on. Doubling the current quadruples the heat in a wire.</p>
+
+                    <h2 id="resistance-temperature">Resistance from geometry and temperature</h2>
+                    <p>Symbols for this section:</p>
+                    <ul>
+                        <li><math><semantics><mi>ρ</mi><annotation encoding="application/x-tex">\rho</annotation></semantics></math>: resistivity, in Ω·mm²/m, which lets <math><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math> be written in mm²</li>
+                        <li><math><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>: conductor length, in metres (m)</li>
+                        <li><math><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>: conducting cross-section, in mm²</li>
+                        <li><math><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>: temperature coefficient of resistivity, per kelvin (1/K)</li>
+                        <li><math><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>: conductor temperature, in °C; <math><semantics><msub><mi>R</mi><mn>20</mn></msub><annotation encoding="application/x-tex">R_{20}</annotation></semantics></math>: resistance at 20 °C, in Ω</li>
+                    </ul>
+                    <p>Assume a uniform conductor at a uniform temperature, and picture identical parallel filaments of metal. Doubling the length puts two lengths in series, so resistance doubles. Doubling the area adds a parallel path, so resistance halves.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>R</mi><mo>=</mo><mfrac><mrow><mi>ρ</mi><mi>L</mi></mrow><mi>A</mi></mfrac></mrow><annotation encoding="application/x-tex">R = \frac{\rho L}{A}</annotation></semantics></math></div>
+                    <p>For copper at 20 °C, <math><semantics><mrow><msub><mi>ρ</mi><mn>20</mn></msub><mo>=</mo><mn>0.0172</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">\rho_{20} = 0.0172\ \Omega\,\mathrm{mm^{2}/m}</annotation></semantics></math>, the same as <math><semantics><mrow><mn>1.72</mn><mo>×</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>8</mn></mrow></msup><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded></mrow><annotation encoding="application/x-tex">1.72\times10^{-8}\ \Omega\,\mathrm{m}</annotation></semantics></math>. One metre of 6 mm² copper therefore has <math><semantics><mrow><mi>R</mi><mo>=</mo><mn>0.0172</mn><mo>×</mo><mn>1</mn><mi>/</mi><mn>6</mn><mo>=</mo><mn>2.87</mn><mtext> </mtext><mpadded lspace="0"><mi>mΩ</mi></mpadded></mrow><annotation encoding="application/x-tex">R = 0.0172 \times 1 / 6 = 2.87\ \mathrm{m\Omega}</annotation></semantics></math>. Aluminium has <math><semantics><mrow><msub><mi>ρ</mi><mn>20</mn></msub><mo>=</mo><mn>0.0282</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">\rho_{20} = 0.0282\ \Omega\,\mathrm{mm^{2}/m}</annotation></semantics></math>, about 1.64 times higher.</p>
+
+                    <h3>Why a hot roof matters</h3>
+                    <p>Resistivity rises as the lattice vibrates harder. Over a cable's working range the rise is close to linear, good to about one percent.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>R</mi><mo form="prefix" stretchy="false">(</mo><mi>T</mi><mo form="postfix" stretchy="false">)</mo><mo>=</mo><msub><mi>R</mi><mn>20</mn></msub><mspace width="0.1667em"></mspace><mo fence="true" symmetric="true" minsize="1.2em" maxsize="1.2em">[</mo><mspace width="0.1667em"></mspace><mn>1</mn><mo>+</mo><mi>α</mi><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><mi>T</mi><mo>−</mo><mn>20</mn><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><mo fence="true" symmetric="true" minsize="1.2em" maxsize="1.2em">]</mo></mrow><annotation encoding="application/x-tex">R(T) = R_{20}\,\bigl[\,1 + \alpha\,(T - 20)\,\bigr]</annotation></semantics></math></div>
+                    <p>For copper, <math><semantics><mrow><mi>α</mi><mo>=</mo><mn>0.00393</mn><mtext> </mtext><msup><mpadded lspace="0"><mi mathvariant="normal">K</mi></mpadded><mrow><mo lspace="0em" rspace="0em">−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\alpha = 0.00393\ \mathrm{K^{-1}}</annotation></semantics></math>. Datasheets usually quote resistance at 20 °C, but a conductor under hot modules can sit at 70 to 90 °C.</p>
+                    <div class="equation"><math display="block"><semantics><mtable displaystyle="true"><mtr><mtd><mrow><mi>R</mi><mo form="prefix" stretchy="false">(</mo><mn>70</mn><msup><mspace width="0.1667em"></mspace><mo lspace="0em" rspace="0em">∘</mo></msup><mpadded lspace="0"><mi mathvariant="normal">C</mi></mpadded><mo form="postfix" stretchy="false">)</mo></mrow></mtd><mtd><mrow><mo>=</mo><msub><mi>R</mi><mn>20</mn></msub><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">[</mo><mn>1</mn><mo>+</mo><mn>0.00393</mn><mo>×</mo><mn>50</mn><mo form="postfix" stretchy="false">]</mo><mo>=</mo><mn>1.1965</mn><mspace width="0.1667em"></mspace><msub><mi>R</mi><mn>20</mn></msub></mrow></mtd></mtr><mtr><mtd><mrow><mi>R</mi><mo form="prefix" stretchy="false">(</mo><mn>90</mn><msup><mspace width="0.1667em"></mspace><mo lspace="0em" rspace="0em">∘</mo></msup><mpadded lspace="0"><mi mathvariant="normal">C</mi></mpadded><mo form="postfix" stretchy="false">)</mo></mrow></mtd><mtd><mrow><mo>=</mo><msub><mi>R</mi><mn>20</mn></msub><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">[</mo><mn>1</mn><mo>+</mo><mn>0.00393</mn><mo>×</mo><mn>70</mn><mo form="postfix" stretchy="false">]</mo><mo>=</mo><mn>1.2751</mn><mspace width="0.1667em"></mspace><msub><mi>R</mi><mn>20</mn></msub></mrow></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned} R(70\,^{\circ}\mathrm{C}) &amp;= R_{20}\,[1 + 0.00393 \times 50] = 1.1965\,R_{20} \\ R(90\,^{\circ}\mathrm{C}) &amp;= R_{20}\,[1 + 0.00393 \times 70] = 1.2751\,R_{20} \end{aligned}</annotation></semantics></math></div>
+                    <p>A designer who uses the 20 °C value understates both drop and loss by 20% to 28%. We use 70 °C for the string examples, which is slightly conservative for a cable that is cooler for much of the day.</p>
+
+                    <h2 id="voltage-drop-power-loss">The loop, voltage drop and power loss</h2>
+                    <p>Additional symbols:</p>
+                    <ul>
+                        <li><math><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>: one-way route length from array to inverter, in metres (m)</li>
+                        <li><math><semantics><msub><mi>ρ</mi><mi>T</mi></msub><annotation encoding="application/x-tex">\rho_T</annotation></semantics></math>: resistivity at conductor temperature <math><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>, in Ω·mm²/m</li>
+                        <li><math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>V</mi></mrow><annotation encoding="application/x-tex">\Delta V</annotation></semantics></math>: voltage lost along the cable, in volts (V); <math><semantics><msub><mi>V</mi><mi>s</mi></msub><annotation encoding="application/x-tex">V_s</annotation></semantics></math>: voltage at the source end, in volts (V)</li>
+                        <li><math><semantics><mi>ε</mi><annotation encoding="application/x-tex">\varepsilon</annotation></semantics></math>: voltage drop as a percentage of <math><semantics><msub><mi>V</mi><mi>s</mi></msub><annotation encoding="application/x-tex">V_s</annotation></semantics></math></li>
+                        <li><math><semantics><msub><mi>P</mi><mpadded lspace="0"><mi>loss</mi></mpadded></msub><annotation encoding="application/x-tex">P_{\mathrm{loss}}</annotation></semantics></math>: power dissipated as heat in the cable, in watts (W)</li>
+                    </ul>
+                    <p>A DC circuit is a closed loop. Current leaves on the positive conductor and returns on the negative one, so it passes through two lengths of cable. Assume both conductors share material, area and temperature.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>R</mi><mpadded lspace="0"><mi>loop</mi></mpadded></msub><mo>=</mo><mfrac><mrow><msub><mi>ρ</mi><mi>T</mi></msub><mo>⋅</mo><mn>2</mn><mi>L</mi></mrow><mi>A</mi></mfrac><mo separator="true">,</mo><mspace width="2em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>V</mi><mo>=</mo><mi>I</mi><mspace width="0.1667em"></mspace><msub><mi>R</mi><mpadded lspace="0"><mi>loop</mi></mpadded></msub><mo>=</mo><mfrac><mrow><mn>2</mn><mspace width="0.1667em"></mspace><mi>L</mi><mspace width="0.1667em"></mspace><mi>I</mi><mspace width="0.1667em"></mspace><msub><mi>ρ</mi><mi>T</mi></msub></mrow><mi>A</mi></mfrac><mo separator="true">,</mo><mspace width="2em"></mspace><mi>ε</mi><mo>=</mo><mfrac><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>V</mi></mrow><msub><mi>V</mi><mi>s</mi></msub></mfrac><mo>×</mo><mn>100</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">R_{\mathrm{loop}} = \frac{\rho_T \cdot 2L}{A}, \qquad \Delta V = I\,R_{\mathrm{loop}} = \frac{2\,L\,I\,\rho_T}{A}, \qquad \varepsilon = \frac{\Delta V}{V_s} \times 100\%</annotation></semantics></math></div>
+                    <p>The heat produced is the power equation applied to the same resistance.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>P</mi><mpadded lspace="0"><mi>loss</mi></mpadded></msub><mo>=</mo><msup><mi>I</mi><mn>2</mn></msup><msub><mi>R</mi><mpadded lspace="0"><mi>loop</mi></mpadded></msub><mo>=</mo><mi>I</mi><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>V</mi></mrow><annotation encoding="application/x-tex">P_{\mathrm{loss}} = I^{2}R_{\mathrm{loop}} = I\,\Delta V</annotation></semantics></math></div>
+                    <p>Now the identity that makes percentages so convenient. The source delivers <math><semantics><mrow><msub><mi>P</mi><mi>s</mi></msub><mo>=</mo><msub><mi>V</mi><mi>s</mi></msub><mi>I</mi></mrow><annotation encoding="application/x-tex">P_s = V_s I</annotation></semantics></math> into the series circuit. Dividing the loss by it cancels the current.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mfrac><msub><mi>P</mi><mpadded lspace="0"><mi>loss</mi></mpadded></msub><msub><mi>P</mi><mi>s</mi></msub></mfrac><mo>=</mo><mfrac><mrow><mi>I</mi><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>V</mi></mrow><mrow><msub><mi>V</mi><mi>s</mi></msub><mspace width="0.1667em"></mspace><mi>I</mi></mrow></mfrac><mo>=</mo><mfrac><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>V</mi></mrow><msub><mi>V</mi><mi>s</mi></msub></mfrac></mrow><annotation encoding="application/x-tex">\frac{P_{\mathrm{loss}}}{P_s} = \frac{I\,\Delta V}{V_s\,I} = \frac{\Delta V}{V_s}</annotation></semantics></math></div>
+                    <p>The proof needs only that the loss is in series, so one current flows through cable and source. A 1% voltage drop is a 1% power loss at that instant. Dividing by the far-end voltage instead changes the figure by a factor of 1/(1 − ε), about 1% of its value for a 1% drop. The same relation shows why higher voltage helps. At fixed power <math><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math>, <math><semantics><mrow><mi>I</mi><mo>=</mo><mi>P</mi><mi>/</mi><mi>V</mi></mrow><annotation encoding="application/x-tex">I = P/V</annotation></semantics></math>, so:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mfrac><msub><mi>P</mi><mpadded lspace="0"><mi>loss</mi></mpadded></msub><mi>P</mi></mfrac><mo>=</mo><mfrac><mrow><msup><mi>I</mi><mn>2</mn></msup><mi>R</mi></mrow><mi>P</mi></mfrac><mo>=</mo><mfrac><mrow><mi>P</mi><mspace width="0.1667em"></mspace><mi>R</mi></mrow><msup><mi>V</mi><mn>2</mn></msup></mfrac></mrow><annotation encoding="application/x-tex">\frac{P_{\mathrm{loss}}}{P} = \frac{I^{2}R}{P} = \frac{P\,R}{V^{2}}</annotation></semantics></math></div>
+                    <p>Raising string voltage from 600 V to 1,500 V in the same cable cuts the percentage loss to (600/1,500)² = 0.16 of its former value, one reason large plants moved to 1.5 kV DC.</p>
+
+                    <h2 id="sizing-formula-worked-example">The sizing formula and a worked string</h2>
+                    <p>Set a maximum permitted drop <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><msub><mi>V</mi><mrow><mi>max</mi><mo>⁡</mo></mrow></msub></mrow><annotation encoding="application/x-tex">\Delta V_{\max}</annotation></semantics></math> and rearrange the drop equation for area.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>A</mi><mrow><mi>min</mi><mo>⁡</mo></mrow></msub><mo>=</mo><mfrac><mrow><mn>2</mn><mspace width="0.1667em"></mspace><mi>L</mi><mspace width="0.1667em"></mspace><msub><mi>ρ</mi><mi>T</mi></msub><mspace width="0.1667em"></mspace><mi>I</mi></mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><msub><mi>V</mi><mrow><mi>max</mi><mo>⁡</mo></mrow></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">A_{\min} = \frac{2\,L\,\rho_T\,I}{\Delta V_{\max}}</annotation></semantics></math></div>
+                    <p>Here <math><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math> is the current that normally flows, the maximum-power current <math><semantics><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">I_{mp}</annotation></semantics></math>, not the short-circuit current. Choose the next standard size above <math><semantics><msub><mi>A</mi><mrow><mi>min</mi><mo>⁡</mo></mrow></msub><annotation encoding="application/x-tex">A_{\min}</annotation></semantics></math>. Solar cable commonly comes in 4, 6 and 10 mm², with 2.5 and 16 mm² on either side.</p>
+                    <p><strong>Worked example 1.</strong> A string has <math><semantics><mrow><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo>=</mo><mn>13.2</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded></mrow><annotation encoding="application/x-tex">I_{mp} = 13.2\ \mathrm{A}</annotation></semantics></math> and <math><semantics><mrow><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo>=</mo><mn>600</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">V_{mp} = 600\ \mathrm{V}</annotation></semantics></math>, with a 45 m one-way run. Take the conductor at 70 °C, so <math><semantics><mrow><msub><mi>ρ</mi><mi>T</mi></msub><mo>=</mo><mn>0.0172</mn><mo>×</mo><mn>1.1965</mn><mo>=</mo><mn>0.02058</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">\rho_T = 0.0172 \times 1.1965 = 0.02058\ \Omega\,\mathrm{mm^{2}/m}</annotation></semantics></math>, and allow 1% drop, so <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><msub><mi>V</mi><mrow><mi>max</mi><mo>⁡</mo></mrow></msub><mo>=</mo><mn>6</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">\Delta V_{\max} = 6\ \mathrm{V}</annotation></semantics></math>.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>A</mi><mrow><mi>min</mi><mo>⁡</mo></mrow></msub><mo>=</mo><mfrac><mrow><mn>2</mn><mo>×</mo><mn>45</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mo>×</mo><mn>0.02058</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded></mrow><mo>×</mo><mn>13.2</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded></mrow><mrow><mn>6</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow></mfrac><mo>=</mo><mn>4.07</mn><mtext> </mtext><mrow><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup></mrow></mrow><annotation encoding="application/x-tex">A_{\min} = \frac{2 \times 45\ \mathrm{m} \times 0.02058\ \Omega\,\mathrm{mm^{2}/m} \times 13.2\ \mathrm{A}}{6\ \mathrm{V}} = 4.07\ \mathrm{mm^{2}}</annotation></semantics></math></div>
+                    <p>That is just above 4 mm², so the next standard size is 6 mm². To see what 4 mm² would do, compute directly.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>R</mi><mpadded lspace="0"><mi>loop</mi></mpadded></msub><mo>=</mo><mfrac><mrow><mn>0.02058</mn><mo>×</mo><mn>90</mn></mrow><mn>4</mn></mfrac><mo>=</mo><mn>0.463</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><mo separator="true">,</mo><mspace width="2em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>V</mi><mo>=</mo><mn>13.2</mn><mo>×</mo><mn>0.463</mn><mo>=</mo><mn>6.11</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">R_{\mathrm{loop}} = \frac{0.02058 \times 90}{4} = 0.463\ \Omega, \qquad \Delta V = 13.2 \times 0.463 = 6.11\ \mathrm{V}</annotation></semantics></math></div>
+                    <p>That is 1.02% of 600 V, marginally over target, with a loss of 13.2² × 0.463 = 80.7 W. With 6 mm² the loop resistance is 0.309 Ω, the drop 4.07 V (0.68%) and the loss 53.8 W. The 6 mm² drop would be 0.57% at 20 °C and 0.72% at 90 °C. Sanity check: 6 mm² is 1.5 times the area, and 1.02% divided by 1.5 is 0.68%.</p>
+                    <p>The percentage you accept is a design choice. Many designers aim for about 1% to 2% on the DC side, but the project specification and the current edition of the applicable standard decide. The cable must also pass the thermal check described later.</p>
+
+                    <h2 id="annual-energy-loss">Annual energy loss: the mean of the square</h2>
+                    <p>The percentage at peak sun is not the percentage over a year. New symbols:</p>
+                    <ul>
+                        <li><math><semantics><mrow><mi>I</mi><mo form="prefix" stretchy="false">(</mo><mi>t</mi><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">I(t)</annotation></semantics></math>: string current over time, in amperes (A); <math><semantics><msub><mi>I</mi><mrow><mi>p</mi><mi>k</mi></mrow></msub><annotation encoding="application/x-tex">I_{pk}</annotation></semantics></math>: its peak, in amperes (A)</li>
+                        <li><math><semantics><msub><mi>T</mi><mpadded lspace="0"><mi>day</mi></mpadded></msub><annotation encoding="application/x-tex">T_{\mathrm{day}}</annotation></semantics></math>: length of the generating day, in hours (h)</li>
+                        <li><math><semantics><mrow><mo form="prefix" stretchy="false">⟨</mo><mo form="prefix" stretchy="false">⋅</mo><mo form="postfix" stretchy="false">⟩</mo></mrow><annotation encoding="application/x-tex">\langle \cdot \rangle</annotation></semantics></math>: the time average over the generating day</li>
+                        <li><math><semantics><mi>H</mi><annotation encoding="application/x-tex">H</annotation></semantics></math>: generating hours in a year, in hours (h)</li>
+                        <li><math><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math>: energy delivered, and <math><semantics><msub><mi>E</mi><mpadded lspace="0"><mi>loss</mi></mpadded></msub><annotation encoding="application/x-tex">E_{\mathrm{loss}}</annotation></semantics></math>: energy lost in the cable, in kilowatt-hours (kWh)</li>
+                    </ul>
+                    <p>Assume the string voltage stays near <math><semantics><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">V_{mp}</annotation></semantics></math>, the resistance <math><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math> is constant, and the current over a day is a half sine wave.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>I</mi><mo form="prefix" stretchy="false">(</mo><mi>t</mi><mo form="postfix" stretchy="false">)</mo><mo>=</mo><msub><mi>I</mi><mrow><mi>p</mi><mi>k</mi></mrow></msub><mspace width="0.1667em"></mspace><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mfrac><mrow><mi>π</mi><mi>t</mi></mrow><msub><mi>T</mi><mpadded lspace="0"><mi>day</mi></mpadded></msub></mfrac><mo fence="true" form="postfix">)</mo></mrow><mo separator="true">,</mo><mspace width="2em"></mspace><mn>0</mn><mo>≤</mo><mi>t</mi><mo>≤</mo><msub><mi>T</mi><mpadded lspace="0"><mi>day</mi></mpadded></msub></mrow><annotation encoding="application/x-tex">I(t) = I_{pk}\,\sin\!\left(\frac{\pi t}{T_{\mathrm{day}}}\right), \qquad 0 \le t \le T_{\mathrm{day}}</annotation></semantics></math></div>
+                    <p>Energy delivered follows the average current, <math><semantics><mrow><mi>E</mi><mo>=</mo><mi>V</mi><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">⟨</mo><mi>I</mi><mo form="postfix" stretchy="false">⟩</mo><mspace width="0.1667em"></mspace><msub><mi>T</mi><mpadded lspace="0"><mi>day</mi></mpadded></msub></mrow><annotation encoding="application/x-tex">E = V\,\langle I \rangle\, T_{\mathrm{day}}</annotation></semantics></math>. Energy lost follows the average of the square, <math><semantics><mrow><msub><mi>E</mi><mpadded lspace="0"><mi>loss</mi></mpadded></msub><mo>=</mo><mi>R</mi><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">⟨</mo><msup><mi>I</mi><mn>2</mn></msup><mo form="postfix" stretchy="false">⟩</mo><mspace width="0.1667em"></mspace><msub><mi>T</mi><mpadded lspace="0"><mi>day</mi></mpadded></msub></mrow><annotation encoding="application/x-tex">E_{\mathrm{loss}} = R\,\langle I^{2} \rangle\, T_{\mathrm{day}}</annotation></semantics></math>, because instantaneous loss is <math><semantics><mrow><mi>I</mi><mo form="prefix" stretchy="false">(</mo><mi>t</mi><msup><mo form="postfix" stretchy="false">)</mo><mn>2</mn></msup><mi>R</mi></mrow><annotation encoding="application/x-tex">I(t)^{2}R</annotation></semantics></math>. Integrating the half sine wave:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mo form="prefix" stretchy="false">⟨</mo><mi>I</mi><mo form="postfix" stretchy="false">⟩</mo><mo>=</mo><mfrac><mn>1</mn><msub><mi>T</mi><mpadded lspace="0"><mi>day</mi></mpadded></msub></mfrac><msubsup><mo movablelimits="false">∫</mo><mn>0</mn><msub><mi>T</mi><mpadded lspace="0"><mi>day</mi></mpadded></msub></msubsup><msub><mi>I</mi><mrow><mi>p</mi><mi>k</mi></mrow></msub><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mfrac><mrow><mi>π</mi><mi>t</mi></mrow><msub><mi>T</mi><mpadded lspace="0"><mi>day</mi></mpadded></msub></mfrac><mo fence="true" form="postfix">)</mo></mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>t</mi><mo>=</mo><mfrac><mn>2</mn><mi>π</mi></mfrac><mspace width="0.1667em"></mspace><msub><mi>I</mi><mrow><mi>p</mi><mi>k</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\langle I \rangle = \frac{1}{T_{\mathrm{day}}}\int_{0}^{T_{\mathrm{day}}} I_{pk}\sin\!\left(\frac{\pi t}{T_{\mathrm{day}}}\right)\mathrm{d}t = \frac{2}{\pi}\,I_{pk}</annotation></semantics></math></div>
+                    <div class="equation"><math display="block"><semantics><mrow><mo form="prefix" stretchy="false">⟨</mo><msup><mi>I</mi><mn>2</mn></msup><mo form="postfix" stretchy="false">⟩</mo><mo>=</mo><mfrac><mn>1</mn><msub><mi>T</mi><mpadded lspace="0"><mi>day</mi></mpadded></msub></mfrac><msubsup><mo movablelimits="false">∫</mo><mn>0</mn><msub><mi>T</mi><mpadded lspace="0"><mi>day</mi></mpadded></msub></msubsup><msubsup><mi>I</mi><mrow><mi>p</mi><mi>k</mi></mrow><mn>2</mn></msubsup><msup><mi>sin</mi><mn>2</mn></msup><mo>⁡</mo><mspace width="0.1667em"></mspace><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mfrac><mrow><mi>π</mi><mi>t</mi></mrow><msub><mi>T</mi><mpadded lspace="0"><mi>day</mi></mpadded></msub></mfrac><mo fence="true" form="postfix">)</mo></mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>t</mi><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mspace width="0.1667em"></mspace><msubsup><mi>I</mi><mrow><mi>p</mi><mi>k</mi></mrow><mn>2</mn></msubsup></mrow><annotation encoding="application/x-tex">\langle I^{2} \rangle = \frac{1}{T_{\mathrm{day}}}\int_{0}^{T_{\mathrm{day}}} I_{pk}^{2}\sin^{2}\!\left(\frac{\pi t}{T_{\mathrm{day}}}\right)\mathrm{d}t = \frac{1}{2}\,I_{pk}^{2}</annotation></semantics></math></div>
+                    <div class="equation"><math display="block"><semantics><mrow><mfrac><mrow><mo form="prefix" stretchy="false" lspace="0em" rspace="0em">⟨</mo><msup><mi>I</mi><mn>2</mn></msup><mo form="postfix" stretchy="false" lspace="0em" rspace="0em">⟩</mo></mrow><mrow><mo form="prefix" stretchy="false" lspace="0em" rspace="0em">⟨</mo><mi>I</mi><msup><mo form="postfix" stretchy="false">⟩</mo><mn>2</mn></msup></mrow></mfrac><mo>=</mo><mfrac><mrow><mn>1</mn><mi>/</mi><mn>2</mn></mrow><mrow><mn>4</mn><mi>/</mi><msup><mi>π</mi><mn>2</mn></msup></mrow></mfrac><mo>=</mo><mfrac><msup><mi>π</mi><mn>2</mn></msup><mn>8</mn></mfrac><mo>≈</mo><mn>1.234</mn></mrow><annotation encoding="application/x-tex">\frac{\langle I^{2} \rangle}{\langle I \rangle^{2}} = \frac{1/2}{4/\pi^{2}} = \frac{\pi^{2}}{8} \approx 1.234</annotation></semantics></math></div>
+                    <p>Squaring the mean current therefore understates the true loss by about 19%. Any varying current gives a ratio of at least one, which is why you must average the square. Compare with the peak-hour percentage <math><semantics><mrow><msub><mi>f</mi><mrow><mi>p</mi><mi>k</mi></mrow></msub><mo>=</mo><mi>R</mi><mspace width="0.1667em"></mspace><msub><mi>I</mi><mrow><mi>p</mi><mi>k</mi></mrow></msub><mi>/</mi><mi>V</mi></mrow><annotation encoding="application/x-tex">f_{pk} = R\,I_{pk}/V</annotation></semantics></math>. The fraction lost over the day is:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>f</mi><mpadded lspace="0"><mi>day</mi></mpadded></msub><mo>=</mo><mfrac><mrow><mi>R</mi><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">⟨</mo><msup><mi>I</mi><mn>2</mn></msup><mo form="postfix" stretchy="false" lspace="0em" rspace="0em">⟩</mo></mrow><mrow><mi>V</mi><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">⟨</mo><mi>I</mi><mo form="postfix" stretchy="false" lspace="0em" rspace="0em">⟩</mo></mrow></mfrac><mo>=</mo><mfrac><mrow><mi>R</mi><mspace width="0.1667em"></mspace><msub><mi>I</mi><mrow><mi>p</mi><mi>k</mi></mrow></msub></mrow><mi>V</mi></mfrac><mo>⋅</mo><mfrac><mi>π</mi><mn>4</mn></mfrac><mo>=</mo><mn>0.785</mn><mspace width="0.1667em"></mspace><msub><mi>f</mi><mrow><mi>p</mi><mi>k</mi></mrow></msub></mrow><annotation encoding="application/x-tex">f_{\mathrm{day}} = \frac{R\,\langle I^{2} \rangle}{V\,\langle I \rangle} = \frac{R\,I_{pk}}{V}\cdot\frac{\pi}{4} = 0.785\,f_{pk}</annotation></semantics></math></div>
+                    <p>Over a year the daily peak is itself well below the standard-test <math><semantics><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">I_{mp}</annotation></semantics></math>, because of irradiance, temperature and soiling. Use energy matching. Assume 1,500 kWh per kWp per year, an approximation within the usual range for this region, and a 12 h day, so <math><semantics><mrow><mi>H</mi><mo>=</mo><mn>4,380</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">h</mi></mpadded></mrow><annotation encoding="application/x-tex">H = 4{,}380\ \mathrm{h}</annotation></semantics></math>. The 7.92 kWp string produces 11,880 kWh. Matching <math><semantics><mrow><mi>E</mi><mo>=</mo><mi>V</mi><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><mn>2</mn><mi>/</mi><mi>π</mi><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><msub><mi>I</mi><mrow><mi>p</mi><mi>k</mi></mrow></msub><mspace width="0.1667em"></mspace><mi>H</mi></mrow><annotation encoding="application/x-tex">E = V\,(2/\pi)\,I_{pk}\,H</annotation></semantics></math> gives an equivalent peak current:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>I</mi><mrow><mi>p</mi><mi>k</mi><mo separator="true">,</mo><mpadded lspace="0"><mi>eff</mi></mpadded></mrow></msub><mo>=</mo><mfrac><mrow><mi>π</mi><mspace width="0.1667em"></mspace><mi>E</mi></mrow><mrow><mn>2</mn><mspace width="0.1667em"></mspace><mi>V</mi><mspace width="0.1667em"></mspace><mi>H</mi></mrow></mfrac><mo>=</mo><mfrac><mrow><mi>π</mi><mo>×</mo><mn>11,880,000</mn><mtext> </mtext><mpadded lspace="0"><mi>Wh</mi></mpadded></mrow><mrow><mn>2</mn><mo>×</mo><mn>600</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded><mo>×</mo><mn>4,380</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">h</mi></mpadded></mrow></mfrac><mo>=</mo><mn>7.10</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded></mrow><annotation encoding="application/x-tex">I_{pk,\mathrm{eff}} = \frac{\pi\,E}{2\,V\,H} = \frac{\pi \times 11{,}880{,}000\ \mathrm{Wh}}{2 \times 600\ \mathrm{V} \times 4{,}380\ \mathrm{h}} = 7.10\ \mathrm{A}</annotation></semantics></math></div>
+                    <p>That is 0.54 of <math><semantics><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">I_{mp}</annotation></semantics></math>, so the annual loss fraction is <math><semantics><mrow><mn>0.54</mn><mo>×</mo><mn>0.785</mn><mo>=</mo><mn>0.42</mn></mrow><annotation encoding="application/x-tex">0.54 \times 0.785 = 0.42</annotation></semantics></math> times the peak-hour percentage. Day-to-day variation raises the mean square, so treat 0.42 as central and expect about 0.4 to 0.6 in practice.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>E</mi><mpadded lspace="0"><mi>loss</mi></mpadded></msub><mo>=</mo><mi>R</mi><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">⟨</mo><msup><mi>I</mi><mn>2</mn></msup><mo form="postfix" stretchy="false">⟩</mo><mspace width="0.1667em"></mspace><mi>H</mi><mo>=</mo><mi>R</mi><mo>×</mo><mfrac><msubsup><mi>I</mi><mrow><mi>p</mi><mi>k</mi><mo separator="true">,</mo><mpadded lspace="0"><mi>eff</mi></mpadded></mrow><mn>2</mn></msubsup><mn>2</mn></mfrac><mo>×</mo><mi>H</mi></mrow><annotation encoding="application/x-tex">E_{\mathrm{loss}} = R\,\langle I^{2} \rangle\,H = R \times \frac{I_{pk,\mathrm{eff}}^{2}}{2} \times H</annotation></semantics></math></div>
+                    <p><strong>Worked example 1, continued.</strong> With <math><semantics><mrow><msubsup><mi>I</mi><mrow><mi>p</mi><mi>k</mi><mo separator="true">,</mo><mpadded lspace="0"><mi>eff</mi></mpadded></mrow><mn>2</mn></msubsup><mi>/</mi><mn>2</mn><mo>=</mo><mn>25.2</mn><mtext> </mtext><msup><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">I_{pk,\mathrm{eff}}^{2}/2 = 25.2\ \mathrm{A^{2}}</annotation></semantics></math>, the 4 mm² loop of 0.463 Ω loses 0.463 × 25.2 × 4,380 / 1,000 = 51.1 kWh a year. The table gathers the results.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Copper cable (45 m one way, 70 °C)</th>
+                                    <th>R loop (Ω)</th>
+                                    <th>Peak drop (V)</th>
+                                    <th>Peak drop (% of 600 V)</th>
+                                    <th>Peak loss (W)</th>
+                                    <th>Annual loss (kWh)</th>
+                                    <th>Annual loss (% of 11,880 kWh)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>4 mm²</strong></td><td>0.463</td><td>6.11</td><td>1.02</td><td>80.7</td><td>51.1</td><td>0.43</td></tr>
+                                <tr><td><strong>6 mm²</strong></td><td>0.309</td><td>4.07</td><td>0.68</td><td>53.8</td><td>34.1</td><td>0.29</td></tr>
+                                <tr><td><strong>10 mm²</strong></td><td>0.185</td><td>2.44</td><td>0.41</td><td>32.3</td><td>20.5</td><td>0.17</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>The annual percentage is 0.42 of the peak percentage in every row, as it must be, since both scale with <math><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>. Going from 4 to 6 mm² saves 17 kWh a year, about ₹100 at an illustrative ₹6 per kWh. That is small, but it never stops.</p>
+
+                    <h2 id="ampacity-derating">Ampacity, derating and design current</h2>
+                    <p>Voltage drop protects your yield. Ampacity protects the insulation. Symbols for the heat balance:</p>
+                    <ul>
+                        <li><math><semantics><msup><mi>R</mi><mo lspace="0em" rspace="0em">′</mo></msup><annotation encoding="application/x-tex">R&#x27;</annotation></semantics></math>: resistance per metre of one conductor, in Ω/m</li>
+                        <li><math><semantics><mi>h</mi><annotation encoding="application/x-tex">h</annotation></semantics></math>: effective heat transfer coefficient from the cable surface to its surroundings, in W/(m²·K), lumping insulation, convection and radiation</li>
+                        <li><math><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>: cable perimeter, in metres (m)</li>
+                        <li><math><semantics><msub><mi>T</mi><mi>c</mi></msub><annotation encoding="application/x-tex">T_c</annotation></semantics></math>: conductor temperature, and <math><semantics><msub><mi>T</mi><mi>a</mi></msub><annotation encoding="application/x-tex">T_a</annotation></semantics></math>: ambient temperature, both in °C</li>
+                        <li><math><semantics><msub><mi>I</mi><mrow><mi>max</mi><mo>⁡</mo></mrow></msub><annotation encoding="application/x-tex">I_{\max}</annotation></semantics></math>: the steady current that holds the conductor at <math><semantics><msub><mi>T</mi><mi>c</mi></msub><annotation encoding="application/x-tex">T_c</annotation></semantics></math>, in amperes (A)</li>
+                    </ul>
+                    <p>In steady state, heat generated per metre equals heat lost per metre. Generation is <math><semantics><mrow><msup><mi>I</mi><mn>2</mn></msup><msup><mi>R</mi><mo lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">I^{2}R&#x27;</annotation></semantics></math>. Loss is proportional to surface area per metre, <math><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>, and the temperature difference.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msup><mi>I</mi><mn>2</mn></msup><msup><mi>R</mi><mo lspace="0em" rspace="0em">′</mo></msup><mo>=</mo><mi>h</mi><mspace width="0.1667em"></mspace><mi>p</mi><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><msub><mi>T</mi><mi>c</mi></msub><mo>−</mo><msub><mi>T</mi><mi>a</mi></msub><mo form="postfix" stretchy="false">)</mo><mspace width="1em"></mspace><mo stretchy="false">⇒</mo><mspace width="1em"></mspace><msub><mi>I</mi><mrow><mi>max</mi><mo>⁡</mo></mrow></msub><mo>=</mo><msqrt><mfrac><mrow><mi>h</mi><mspace width="0.1667em"></mspace><mi>p</mi><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><msub><mi>T</mi><mi>c</mi></msub><mo>−</mo><msub><mi>T</mi><mi>a</mi></msub><mo form="postfix" stretchy="false" lspace="0em" rspace="0em">)</mo></mrow><msup><mi>R</mi><mo lspace="0em" rspace="0em">′</mo></msup></mfrac></msqrt></mrow><annotation encoding="application/x-tex">I^{2}R&#x27; = h\,p\,(T_c - T_a) \quad\Rightarrow\quad I_{\max} = \sqrt{\frac{h\,p\,(T_c - T_a)}{R&#x27;}}</annotation></semantics></math></div>
+                    <p>For a round conductor of area <math><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>, the diameter is <math><semantics><mrow><mi>d</mi><mo>=</mo><msqrt><mrow><mn>4</mn><mi>A</mi><mi>/</mi><mi>π</mi></mrow></msqrt></mrow><annotation encoding="application/x-tex">d = \sqrt{4A/\pi}</annotation></semantics></math>, so <math><semantics><mrow><mi>p</mi><mo>=</mo><mi>π</mi><mi>d</mi><mo>=</mo><mn>2</mn><msqrt><mrow><mi>π</mi><mi>A</mi></mrow></msqrt></mrow><annotation encoding="application/x-tex">p = \pi d = 2\sqrt{\pi A}</annotation></semantics></math>, and <math><semantics><mrow><msup><mi>R</mi><mo lspace="0em" rspace="0em">′</mo></msup><mo>=</mo><mi>ρ</mi><mi>/</mi><mi>A</mi></mrow><annotation encoding="application/x-tex">R&#x27; = \rho/A</annotation></semantics></math>. For this derivation use SI units, with <math><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math> in m² and <math><semantics><mi>ρ</mi><annotation encoding="application/x-tex">\rho</annotation></semantics></math> in Ω·m. Substituting:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>I</mi><mrow><mi>max</mi><mo>⁡</mo></mrow></msub><mo>=</mo><msqrt><mfrac><mrow><mn>2</mn><msqrt><mrow><mi>π</mi><mspace width="0pt" height="0.5em"></mspace></mrow></msqrt><mspace width="0.1667em"></mspace><mi>h</mi><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><msub><mi>T</mi><mi>c</mi></msub><mo>−</mo><msub><mi>T</mi><mi>a</mi></msub><mo form="postfix" stretchy="false" lspace="0em" rspace="0em">)</mo></mrow><mi>ρ</mi></mfrac></msqrt><mspace width="0.2778em"></mspace><msup><mi>A</mi><mrow><mn>3</mn><mi>/</mi><mn>4</mn></mrow></msup><mspace width="0.2778em"></mspace><mo>∝</mo><mspace width="0.2778em"></mspace><msup><mi>A</mi><mrow><mn>3</mn><mi>/</mi><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">I_{\max} = \sqrt{\frac{2\sqrt{\pi}\,h\,(T_c - T_a)}{\rho}}\;A^{3/4} \;\propto\; A^{3/4}</annotation></semantics></math></div>
+                    <p>Current capacity grows more slowly than area, because heat is made throughout the volume (proportional to <math><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>) but escapes through the surface (proportional to <math><semantics><msqrt><mi>A</mi></msqrt><annotation encoding="application/x-tex">\sqrt{A}</annotation></semantics></math>). If a 4 mm² cable has some rating in an installation, an otherwise identical 6 mm² is rated near (6/4)^0.75 = 1.36 times that, not 1.5 times, and 10 mm² near 1.99 times.</p>
+
+                    <h3>Why derating factors exist</h3>
+                    <p>Each derating factor changes <math><semantics><mi>h</mi><annotation encoding="application/x-tex">h</annotation></semantics></math> or <math><semantics><mrow><msub><mi>T</mi><mi>c</mi></msub><mo>−</mo><msub><mi>T</mi><mi>a</mi></msub></mrow><annotation encoding="application/x-tex">T_c - T_a</annotation></semantics></math>. With the insulation limit <math><semantics><msub><mi>T</mi><mrow><mi>max</mi><mo>⁡</mo></mrow></msub><annotation encoding="application/x-tex">T_{\max}</annotation></semantics></math>, a reference ambient <math><semantics><msub><mi>T</mi><mrow><mi>r</mi><mi>e</mi><mi>f</mi></mrow></msub><annotation encoding="application/x-tex">T_{ref}</annotation></semantics></math> and an actual ambient <math><semantics><msub><mi>T</mi><mi>a</mi></msub><annotation encoding="application/x-tex">T_a</annotation></semantics></math>, the heat balance gives:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>k</mi><mi>T</mi></msub><mo>=</mo><msqrt><mfrac><mrow><msub><mi>T</mi><mrow><mi>max</mi><mo>⁡</mo></mrow></msub><mo>−</mo><msub><mi>T</mi><mi>a</mi></msub></mrow><mrow><msub><mi>T</mi><mrow><mi>max</mi><mo>⁡</mo></mrow></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>r</mi><mi>e</mi><mi>f</mi></mrow></msub></mrow></mfrac></msqrt></mrow><annotation encoding="application/x-tex">k_T = \sqrt{\frac{T_{\max} - T_a}{T_{\max} - T_{ref}}}</annotation></semantics></math></div>
+                    <p>Illustration: with <math><semantics><mrow><msub><mi>T</mi><mrow><mi>max</mi><mo>⁡</mo></mrow></msub><mo>=</mo><mn>90</mn><msup><mtext> </mtext><mo lspace="0em" rspace="0em">∘</mo></msup><mpadded lspace="0"><mi mathvariant="normal">C</mi></mpadded></mrow><annotation encoding="application/x-tex">T_{\max} = 90\ ^{\circ}\mathrm{C}</annotation></semantics></math> and a 30 °C reference, a 60 °C ambient gives <math><semantics><mrow><msub><mi>k</mi><mi>T</mi></msub><mo>=</mo><msqrt><mrow><mn>30</mn><mi>/</mi><mn>60</mn></mrow></msqrt><mo>=</mo><mn>0.71</mn></mrow><annotation encoding="application/x-tex">k_T = \sqrt{30/60} = 0.71</annotation></semantics></math>. Bundling cables or running them in conduit lowers <math><semantics><mi>h</mi><annotation encoding="application/x-tex">h</annotation></semantics></math>, because neighbours heat each other and trapped air resists heat flow. If <math><semantics><mi>h</mi><annotation encoding="application/x-tex">h</annotation></semantics></math> halves, the rating falls to <math><semantics><mrow><msqrt><mn>0.5</mn></msqrt><mo>=</mo><mn>0.71</mn></mrow><annotation encoding="application/x-tex">\sqrt{0.5} = 0.71</annotation></semantics></math>. This is first-order physics. The factors in standards are measured and tabulated, and differ in detail.</p>
+
+                    <div class="callout">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        <p><strong>Use the datasheet and the standards for ratings:</strong> this post gives the physics, not a rating table. Take current ratings and derating factors from the cable datasheet and the applicable standards, such as IEC 62548 and IEC 60364-7-712 for PV installations, and EN 50618 or IEC 62930 for 1.5 kV DC solar cable. Check the current edition.</p>
+                    </div>
+
+                    <h3>Design current: why not just Imp?</h3>
+                    <p>For drop and loss we used <math><semantics><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">I_{mp}</annotation></semantics></math>, the current that normally flows. For ampacity we cover the worst credible current. The short-circuit current <math><semantics><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">I_{sc}</annotation></semantics></math> is the most a healthy module delivers. It rises with temperature and with irradiance, and brief irradiance above 1,000 W/m² can occur. Common practice sizes string conductors on a multiple of <math><semantics><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">I_{sc}</annotation></semantics></math>, most often 1.25 times, with further margins for irradiance and temperature where the code asks.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>I</mi><mpadded lspace="0"><mi>design</mi></mpadded></msub><mo>=</mo><mn>1.25</mn><mo>×</mo><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub></mrow><annotation encoding="application/x-tex">I_{\mathrm{design}} = 1.25 \times I_{sc}</annotation></semantics></math></div>
+                    <p>With a typical <math><semantics><mrow><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub><mo>=</mo><mn>14.0</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded></mrow><annotation encoding="application/x-tex">I_{sc} = 14.0\ \mathrm{A}</annotation></semantics></math>, <math><semantics><mrow><msub><mi>I</mi><mpadded lspace="0"><mi>design</mi></mpadded></msub><mo>=</mo><mn>17.5</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded></mrow><annotation encoding="application/x-tex">I_{\mathrm{design}} = 17.5\ \mathrm{A}</annotation></semantics></math>. The cable's rating, after derating for ambient temperature and grouping, must be at least this. Some practices apply a second 1.25, giving 21.9 A, so check the current edition of the standard for your project. Protection around the cable is covered in <a href="solar-earthing-surge-protection.html">earthing and surge protection for solar plants</a>.</p>
+
+                    <h2 id="connectors-contact-resistance">Connectors and contact resistance</h2>
+                    <p>Each MC4-type connector adds a small resistance where two contacts press together. With <math><semantics><msub><mi>R</mi><mi>c</mi></msub><annotation encoding="application/x-tex">R_c</annotation></semantics></math> the contact resistance in ohms and <math><semantics><msub><mi>P</mi><mi>c</mi></msub><annotation encoding="application/x-tex">P_c</annotation></semantics></math> the heat there in watts, the rule is the same as for the cable.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>P</mi><mi>c</mi></msub><mo>=</mo><msup><mi>I</mi><mn>2</mn></msup><msub><mi>R</mi><mi>c</mi></msub></mrow><annotation encoding="application/x-tex">P_c = I^{2}R_c</annotation></semantics></math></div>
+                    <p><strong>Illustrative example.</strong> At 13.2 A, a healthy 0.5 mΩ crimp dissipates <math><semantics><mrow><msup><mn>13.2</mn><mn>2</mn></msup><mo>×</mo><mn>0.0005</mn><mo>=</mo><mn>0.087</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded></mrow><annotation encoding="application/x-tex">13.2^{2} \times 0.0005 = 0.087\ \mathrm{W}</annotation></semantics></math>. A poor 5 mΩ crimp dissipates <math><semantics><mrow><msup><mn>13.2</mn><mn>2</mn></msup><mo>×</mo><mn>0.005</mn><mo>=</mo><mn>0.87</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded></mrow><annotation encoding="application/x-tex">13.2^{2} \times 0.005 = 0.87\ \mathrm{W}</annotation></semantics></math>, ten times as much. Beside the 80 W lost along a 4 mm² cable that looks small, but the cable spreads its heat over 90 m of conductor while the connector concentrates it in a few cubic centimetres of plastic. With an illustrative thermal resistance of 40 K/W to air, the healthy contact warms by about 3.5 K and the bad one by about 35 K, on a roof that is already hot.</p>
+                    <p>The danger is feedback. A hot, poor contact oxidises, its resistance rises and so does the heat. At 50 mΩ the same current would dissipate 8.7 W. A DC arc also has no natural zero crossing, so once struck it does not stop by itself.</p>
+
+                    <figure>
+                        <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1200&h=675&fit=crop&auto=format" alt="Electrical technician testing equipment" loading="lazy" width="1200" height="675">
+                        <figcaption>Terminations are inspected and tested because contact heating is invisible until it has already done damage.</figcaption>
+                    </figure>
+
+                    <h3>Why you do not mix connector brands</h3>
+                    <p>A male and female pair is designed as a system. Contact spring force, plating, barrel dimensions and seal tolerances are matched, and the maker's current rating, ingress protection and contact resistance apply only to that pair. Connectors of different makes may click together yet mate loosely, with higher <math><semantics><msub><mi>R</mi><mi>c</mi></msub><annotation encoding="application/x-tex">R_c</annotation></semantics></math> and a weaker seal. The crimp tool must also match the contact and conductor size. Use one maker's connectors and its specified tool throughout.</p>
+
+                    <div class="callout callout--warning">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        <p><strong>Safety:</strong> this work is for qualified, licensed electricians only. PV strings are live whenever light falls on the modules, and you cannot simply switch them off at the source. Opening a connector under load can strike a sustained DC arc. Isolate and test by the proper procedure before touching any DC wiring.</p>
+                    </div>
+
+                    <h2 id="ac-side-three-phase">The AC side: three-phase drop, copper and aluminium</h2>
+                    <p>After the inverter, reactance joins resistance. Symbols:</p>
+                    <ul>
+                        <li><math><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math>: real power, in watts (W); <math><semantics><msub><mi>V</mi><mrow><mi>L</mi><mi>L</mi></mrow></msub><annotation encoding="application/x-tex">V_{LL}</annotation></semantics></math>: line-to-line voltage, 415 V; <math><semantics><mrow><msub><mi>V</mi><mrow><mi>p</mi><mi>h</mi></mrow></msub><mo>=</mo><msub><mi>V</mi><mrow><mi>L</mi><mi>L</mi></mrow></msub><mi>/</mi><msqrt><mn>3</mn></msqrt></mrow><annotation encoding="application/x-tex">V_{ph} = V_{LL}/\sqrt{3}</annotation></semantics></math>: phase voltage</li>
+                        <li><math><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>: line current, in amperes (A)</li>
+                        <li><math><semantics><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi></mrow><annotation encoding="application/x-tex">\cos\varphi</annotation></semantics></math>: power factor, with <math><semantics><mi>φ</mi><annotation encoding="application/x-tex">\varphi</annotation></semantics></math> the angle between voltage and current</li>
+                        <li><math><semantics><msup><mi>R</mi><mo lspace="0em" rspace="0em">′</mo></msup><annotation encoding="application/x-tex">R&#x27;</annotation></semantics></math>, <math><semantics><msup><mi>X</mi><mo lspace="0em" rspace="0em">′</mo></msup><annotation encoding="application/x-tex">X&#x27;</annotation></semantics></math>: resistance and reactance per metre of one conductor, in Ω/m</li>
+                        <li><math><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>: one-way cable length, in metres (m)</li>
+                    </ul>
+                    <p>For a balanced three-phase load, the line current is:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>I</mi><mo>=</mo><mfrac><mi>P</mi><mrow><msqrt><mn>3</mn></msqrt><mspace width="0.1667em"></mspace><msub><mi>V</mi><mrow><mi>L</mi><mi>L</mi></mrow></msub><mspace width="0.1667em"></mspace><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">I = \frac{P}{\sqrt{3}\,V_{LL}\,\cos\varphi}</annotation></semantics></math></div>
+                    <p>Take one phase, with the receiving-end voltage as the reference direction. The current lags by <math><semantics><mi>φ</mi><annotation encoding="application/x-tex">\varphi</annotation></semantics></math>, so <math><semantics><mrow><mi>𝐈</mi><mo>=</mo><mi>I</mi><mo form="prefix" stretchy="false">(</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mo>−</mo><mi>j</mi><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\mathbf{I} = I(\cos\varphi - j\sin\varphi)</annotation></semantics></math>. The cable impedance is <math><semantics><mrow><mi>R</mi><mo>+</mo><mi>j</mi><mi>X</mi></mrow><annotation encoding="application/x-tex">R + jX</annotation></semantics></math>, with <math><semantics><mrow><mi>R</mi><mo>=</mo><msup><mi>R</mi><mo lspace="0em" rspace="0em">′</mo></msup><mi>L</mi></mrow><annotation encoding="application/x-tex">R = R&#x27;L</annotation></semantics></math> and <math><semantics><mrow><mi>X</mi><mo>=</mo><msup><mi>X</mi><mo lspace="0em" rspace="0em">′</mo></msup><mi>L</mi></mrow><annotation encoding="application/x-tex">X = X&#x27;L</annotation></semantics></math>. The phase drop is:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>𝐕</mi><mo>=</mo><mi>I</mi><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">[</mo><mo form="prefix" stretchy="false">(</mo><mi>R</mi><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mo>+</mo><mi>X</mi><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mo form="postfix" stretchy="false">)</mo><mo>+</mo><mi>j</mi><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><mi>X</mi><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mo>−</mo><mi>R</mi><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mo form="postfix" stretchy="false">)</mo><mo form="postfix" stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">\Delta\mathbf{V} = I\,[(R\cos\varphi + X\sin\varphi) + j\,(X\cos\varphi - R\sin\varphi)]</annotation></semantics></math></div>
+                    <p>The first term lies along the voltage and changes its size. The second is at right angles and mainly turns the phasor. A perpendicular part <math><semantics><msub><mi>δ</mi><mo lspace="0em" rspace="0em">⟂</mo></msub><annotation encoding="application/x-tex">\delta_{\perp}</annotation></semantics></math> changes the magnitude by only about <math><semantics><mrow><msubsup><mi>δ</mi><mo lspace="0em" rspace="0em">⟂</mo><mn>2</mn></msubsup><mi>/</mi><mn>2</mn><msub><mi>V</mi><mrow><mi>p</mi><mi>h</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\delta_{\perp}^{2}/2V_{ph}</annotation></semantics></math>, which is negligible, so the phase drop is approximately <math><semantics><mrow><mi>I</mi><mi>L</mi><mo form="prefix" stretchy="false">(</mo><msup><mi>R</mi><mo lspace="0em" rspace="0em">′</mo></msup><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mo>+</mo><msup><mi>X</mi><mo lspace="0em" rspace="0em">′</mo></msup><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">I L (R&#x27;\cos\varphi + X&#x27;\sin\varphi)</annotation></semantics></math>.</p>
+                    <p>The <math><semantics><msqrt><mn>3</mn></msqrt><annotation encoding="application/x-tex">\sqrt{3}</annotation></semantics></math> comes from the geometry. A line-to-line voltage is the difference of two phase voltages whose phasors are 120° apart: <math><semantics><mrow><mn>2</mn><msub><mi>V</mi><mrow><mi>p</mi><mi>h</mi></mrow></msub><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msup><mn>60</mn><mo lspace="0em" rspace="0em">∘</mo></msup><mo>=</mo><msqrt><mn>3</mn></msqrt><mspace width="0.1667em"></mspace><msub><mi>V</mi><mrow><mi>p</mi><mi>h</mi></mrow></msub></mrow><annotation encoding="application/x-tex">2V_{ph}\sin 60^{\circ} = \sqrt{3}\,V_{ph}</annotation></semantics></math>. In a balanced system every phase has the same drop relative to its own voltage, so the whole triangle scales together and the line-to-line drop is <math><semantics><msqrt><mn>3</mn></msqrt><annotation encoding="application/x-tex">\sqrt{3}</annotation></semantics></math> times the phase drop.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><msub><mi>V</mi><mrow><mi>L</mi><mi>L</mi></mrow></msub><mo>≈</mo><msqrt><mn>3</mn></msqrt><mspace width="0.1667em"></mspace><mi>I</mi><mspace width="0.1667em"></mspace><mi>L</mi><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><msup><mi>R</mi><mo lspace="0em" rspace="0em">′</mo></msup><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mo>+</mo><msup><mi>X</mi><mo lspace="0em" rspace="0em">′</mo></msup><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\Delta V_{LL} \approx \sqrt{3}\,I\,L\,(R&#x27;\cos\varphi + X&#x27;\sin\varphi)</annotation></semantics></math></div>
+                    <p>In DC or single-phase the go and return paths give a factor of 2. Balanced three-phase has no neutral current, so the factor is <math><semantics><mrow><msqrt><mn>3</mn></msqrt><mo>=</mo><mn>1.73</mn></mrow><annotation encoding="application/x-tex">\sqrt{3} = 1.73</annotation></semantics></math>.</p>
+                    <p><strong>Worked example 2.</strong> A 50 kW inverter output at 415 V and <math><semantics><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mo>=</mo><mn>0.95</mn></mrow><annotation encoding="application/x-tex">\cos\varphi = 0.95</annotation></semantics></math> feeds a panel 60 m away. Many inverters run near unity, where the <math><semantics><msup><mi>X</mi><mo lspace="0em" rspace="0em">′</mo></msup><annotation encoding="application/x-tex">X&#x27;</annotation></semantics></math> term vanishes, but 0.95 shows both terms. The current is <math><semantics><mrow><mi>I</mi><mo>=</mo><mn>50,000</mn><mi>/</mi><mo form="prefix" stretchy="false">(</mo><msqrt><mn>3</mn></msqrt><mo>×</mo><mn>415</mn><mo>×</mo><mn>0.95</mn><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mn>73.2</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded></mrow><annotation encoding="application/x-tex">I = 50{,}000 / (\sqrt{3} \times 415 \times 0.95) = 73.2\ \mathrm{A}</annotation></semantics></math>. Take a conductor at 90 °C, which is conservative, and an illustrative multicore <math><semantics><mrow><msup><mi>X</mi><mo lspace="0em" rspace="0em">′</mo></msup><mo>=</mo><mn>0.08</mn><mtext> </mtext><mrow><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">X&#x27; = 0.08\ \mathrm{m\Omega/m}</annotation></semantics></math>. For 25 mm² copper, <math><semantics><mrow><msup><mi>R</mi><mo lspace="0em" rspace="0em">′</mo></msup><mo>=</mo><mn>0.0172</mn><mo>×</mo><mn>1.2751</mn><mi>/</mi><mn>25</mn><mo>=</mo><mn>0.877</mn><mtext> </mtext><mrow><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">R&#x27; = 0.0172 \times 1.2751 / 25 = 0.877\ \mathrm{m\Omega/m}</annotation></semantics></math>.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><msub><mi>V</mi><mrow><mi>L</mi><mi>L</mi></mrow></msub><mo>=</mo><msqrt><mn>3</mn></msqrt><mo>×</mo><mn>73.2</mn><mo>×</mo><mn>60</mn><mo>×</mo><mo form="prefix" stretchy="false">(</mo><mn>0.877</mn><mo>×</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>3</mn></mrow></msup><mo>×</mo><mn>0.95</mn><mo>+</mo><mn>0.08</mn><mo>×</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>3</mn></mrow></msup><mo>×</mo><mn>0.312</mn><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mn>6.53</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">\Delta V_{LL} = \sqrt{3} \times 73.2 \times 60 \times (0.877\times10^{-3} \times 0.95 + 0.08\times10^{-3} \times 0.312) = 6.53\ \mathrm{V}</annotation></semantics></math></div>
+                    <p>That is 1.57% of 415 V. The loss is <math><semantics><mrow><mn>3</mn><msup><mi>I</mi><mn>2</mn></msup><msup><mi>R</mi><mo lspace="0em" rspace="0em">′</mo></msup><mi>L</mi><mo>=</mo><mn>3</mn><mo>×</mo><msup><mn>73.2</mn><mn>2</mn></msup><mo>×</mo><mn>0.877</mn><mo>×</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>3</mn></mrow></msup><mo>×</mo><mn>60</mn><mo>=</mo><mn>847</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded></mrow><annotation encoding="application/x-tex">3I^{2}R&#x27;L = 3 \times 73.2^{2} \times 0.877\times10^{-3} \times 60 = 847\ \mathrm{W}</annotation></semantics></math>, or 1.69% of 50 kW. At unity power factor the current is 69.6 A, and the same cable gives 6.34 V (1.53%) and 764 W (1.53%), so the earlier identity holds exactly when only resistance acts.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Four-core cable, 60 m, 73.2 A</th>
+                                    <th>R′ at 90 °C (mΩ/m)</th>
+                                    <th>Line-to-line drop (V)</th>
+                                    <th>Drop (% of 415 V)</th>
+                                    <th>Loss (W)</th>
+                                    <th>Loss (% of 50 kW)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Copper 16 mm²</strong></td><td>1.371</td><td>10.10</td><td>2.43</td><td>1,323</td><td>2.65</td></tr>
+                                <tr><td><strong>Copper 25 mm²</strong></td><td>0.877</td><td>6.53</td><td>1.57</td><td>847</td><td>1.69</td></tr>
+                                <tr><td><strong>Copper 35 mm²</strong></td><td>0.627</td><td>4.72</td><td>1.14</td><td>605</td><td>1.21</td></tr>
+                                <tr><td><strong>Aluminium 35 mm²</strong></td><td>1.031</td><td>7.65</td><td>1.84</td><td>995</td><td>1.99</td></tr>
+                                <tr><td><strong>Aluminium 50 mm²</strong></td><td>0.722</td><td>5.41</td><td>1.30</td><td>697</td><td>1.39</td></tr>
+                                <tr><td><strong>Aluminium 70 mm²</strong></td><td>0.516</td><td>3.92</td><td>0.94</td><td>498</td><td>1.00</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>The table assumes <math><semantics><mrow><msup><mi>X</mi><mo lspace="0em" rspace="0em">′</mo></msup><mo>=</mo><mn>0.08</mn><mtext> </mtext><mrow><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">X&#x27; = 0.08\ \mathrm{m\Omega/m}</annotation></semantics></math> for every row and an aluminium coefficient of about 0.0040 per kelvin. Each option still needs its ampacity checked against the datasheet.</p>
+                    <h3>Copper versus aluminium</h3>
+                    <p>At 90 °C aluminium resistance is about 1.65 times that of copper of equal area, so 25 mm² of copper corresponds to about 41 mm² of aluminium, and the next standard size is 50 mm². Even so, the aluminium conductor weighs about half as much, since the densities are 2.70 and 8.96 g/cm³, which is why it is common on larger AC feeders. It needs compatible lugs, joint compound and torque checks, because it creeps under pressure. Rooftop DC string cable is normally copper, so follow the cable standard you work to.</p>
+
+                    <h2 id="kelvins-law">Economic optimisation: Kelvin's law</h2>
+                    <p>A thicker cable costs more upfront but wastes less, so there is an optimum. Symbols:</p>
+                    <ul>
+                        <li><math><semantics><mi>c</mi><annotation encoding="application/x-tex">c</annotation></semantics></math>: conductor cost per mm² per metre, in ₹/(mm²·m); <math><semantics><mrow><mi>a</mi><mo>=</mo><mn>2</mn><mi>L</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">a = 2Lc</annotation></semantics></math>: capital cost per mm² for the whole run, in ₹/mm²</li>
+                        <li><math><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math>: present value of lost energy multiplied by area, in ₹·mm²</li>
+                        <li><math><semantics><mrow><mi>C</mi><mo form="prefix" stretchy="false">(</mo><mi>A</mi><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">C(A)</annotation></semantics></math>: total cost over the cable's life, in ₹</li>
+                        <li><math><semantics><msup><mi>A</mi><mo lspace="0em" rspace="0em">∗</mo></msup><annotation encoding="application/x-tex">A^{*}</annotation></semantics></math>: the cross-section that minimises <math><semantics><mi>C</mi><annotation encoding="application/x-tex">C</annotation></semantics></math>, in mm²</li>
+                    </ul>
+                    <p>Assume capital cost is proportional to area, and the value of lost energy is proportional to <math><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>, hence to <math><semantics><mrow><mn>1</mn><mi>/</mi><mi>A</mi></mrow><annotation encoding="application/x-tex">1/A</annotation></semantics></math>.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>C</mi><mo form="prefix" stretchy="false">(</mo><mi>A</mi><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mi>a</mi><mspace width="0.1667em"></mspace><mi>A</mi><mo>+</mo><mfrac><mi>b</mi><mi>A</mi></mfrac></mrow><annotation encoding="application/x-tex">C(A) = a\,A + \frac{b}{A}</annotation></semantics></math></div>
+                    <p>Setting the slope to zero finds the minimum. The second derivative, <math><semantics><mrow><mn>2</mn><mi>b</mi><mi>/</mi><msup><mi>A</mi><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">2b/A^{3}</annotation></semantics></math>, is positive, so it is a minimum.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mfrac><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>C</mi></mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>A</mi></mrow></mfrac><mo>=</mo><mi>a</mi><mo>−</mo><mfrac><mi>b</mi><msup><mi>A</mi><mn>2</mn></msup></mfrac><mo>=</mo><mn>0</mn><mspace width="1em"></mspace><mo stretchy="false">⇒</mo><mspace width="1em"></mspace><msup><mi>A</mi><mo lspace="0em" rspace="0em">∗</mo></msup><mo>=</mo><msqrt><mfrac><mi>b</mi><mi>a</mi></mfrac></msqrt></mrow><annotation encoding="application/x-tex">\frac{\mathrm{d}C}{\mathrm{d}A} = a - \frac{b}{A^{2}} = 0 \quad\Rightarrow\quad A^{*} = \sqrt{\frac{b}{a}}</annotation></semantics></math></div>
+                    <p>At the optimum the two cost terms are equal. Fixed costs per metre, such as the jacket, add a constant to <math><semantics><mi>C</mi><annotation encoding="application/x-tex">C</annotation></semantics></math> and do not move the minimum. Both <math><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math> and <math><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math> are proportional to <math><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>, so the length cancels: the optimum depends on current, energy value and cable price, not distance.</p>
+                    <p><strong>Worked example (illustrative assumptions, not quotes).</strong> Take the 45 m string, copper at <math><semantics><mrow><mi>c</mi><mo>=</mo><mtext>₹</mtext><mn>12</mn></mrow><annotation encoding="application/x-tex">c = ₹12</annotation></semantics></math> per mm² per conductor-metre, energy worth ₹6 per kWh, a 25-year life at an 8% discount rate. The present value of a yearly cost is the annuity factor:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>F</mi><mo>=</mo><mfrac><mrow><mn>1</mn><mo>−</mo><msup><mn>1.08</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>25</mn></mrow></msup></mrow><mn>0.08</mn></mfrac><mo>=</mo><mn>10.67</mn></mrow><annotation encoding="application/x-tex">F = \frac{1 - 1.08^{-25}}{0.08} = 10.67</annotation></semantics></math></div>
+                    <p>One metre of 1 mm² conductor at 70 °C would lose <math><semantics><mrow><mn>0.02058</mn><mo>×</mo><mn>25.2</mn><mo>×</mo><mn>4,380</mn><mi>/</mi><mn>1,000</mn><mo>=</mo><mn>2.27</mn><mtext> </mtext><mpadded lspace="0"><mi>kWh</mi></mpadded></mrow><annotation encoding="application/x-tex">0.02058 \times 25.2 \times 4{,}380 / 1{,}000 = 2.27\ \mathrm{kWh}</annotation></semantics></math> a year. A loop of length <math><semantics><mrow><mn>2</mn><mi>L</mi></mrow><annotation encoding="application/x-tex">2L</annotation></semantics></math> and area <math><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math> loses that figure multiplied by <math><semantics><mrow><mn>2</mn><mi>L</mi><mi>/</mi><mi>A</mi></mrow><annotation encoding="application/x-tex">2L/A</annotation></semantics></math>, so <math><semantics><mrow><mi>b</mi><mo>=</mo><mn>90</mn><mo>×</mo><mn>2.27</mn><mo>×</mo><mn>6</mn><mo>×</mo><mn>10.67</mn><mo>≈</mo><mn>13,100</mn><mtext> </mtext><mtext>₹</mtext><mo>⋅</mo><mrow><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup></mrow></mrow><annotation encoding="application/x-tex">b = 90 \times 2.27 \times 6 \times 10.67 \approx 13{,}100\ ₹\cdot\mathrm{mm^{2}}</annotation></semantics></math>, and <math><semantics><mrow><mi>a</mi><mo>=</mo><mn>90</mn><mo>×</mo><mn>12</mn><mo>=</mo><mtext>₹</mtext><mn>1,080</mn></mrow><annotation encoding="application/x-tex">a = 90 \times 12 = ₹1{,}080</annotation></semantics></math> per mm².</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msup><mi>A</mi><mo lspace="0em" rspace="0em">∗</mo></msup><mo>=</mo><msqrt><mfrac><mn>13,100</mn><mn>1,080</mn></mfrac></msqrt><mo>=</mo><mn>3.48</mn><mtext> </mtext><mrow><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup></mrow></mrow><annotation encoding="application/x-tex">A^{*} = \sqrt{\frac{13{,}100}{1{,}080}} = 3.48\ \mathrm{mm^{2}}</annotation></semantics></math></div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Copper size</th>
+                                    <th>Capital cost (₹)</th>
+                                    <th>Present value of lost energy (₹)</th>
+                                    <th>Total (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>2.5 mm²</strong></td><td>2,700</td><td>5,240</td><td>7,940</td></tr>
+                                <tr><td><strong>4 mm²</strong></td><td>4,320</td><td>3,275</td><td>7,595</td></tr>
+                                <tr><td><strong>6 mm²</strong></td><td>6,480</td><td>2,183</td><td>8,663</td></tr>
+                                <tr><td><strong>10 mm²</strong></td><td>10,800</td><td>1,310</td><td>12,110</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>At <math><semantics><msup><mi>A</mi><mo lspace="0em" rspace="0em">∗</mo></msup><annotation encoding="application/x-tex">A^{*}</annotation></semantics></math> the total is ₹7,523, with both terms at ₹3,761. The curve is flat, and 4 mm² is within about 1% of the minimum. The optimum scales with the square root of the energy price: at ₹12 per kWh it moves to 4.9 mm², and about ₹18 per kWh would be needed to favour 6 mm². Substitute your own cable quotes, tariff and life.</p>
+                    <p>Kelvin's law ignores the drop limit. In Example 1 the 1% limit pushed the answer to 6 mm² although the economic minimum is near 4 mm². The constraint sets the floor, and the economics tells you whether going higher pays.</p>
+
+                    <p>Ray2Volt can run this analysis for your own site, using your layout, cable lengths and datasheets. Start with a <a href="../book-power-audit.html">free power audit</a>, or see our approach to <a href="../commercial.html">commercial and industrial solar</a>. The I-V curve behind <math><semantics><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">I_{mp}</annotation></semantics></math> and <math><semantics><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">V_{mp}</annotation></semantics></math> is explained in <a href="solar-module-iv-curve-explained.html">how a solar module works</a>.</p>
+
+                    <h2 id="faq">Frequently asked questions</h2>
+                    <div class="faq-list">
+                        <details class="faq-item">
+                            <summary>What voltage drop is acceptable on the DC side of a solar plant?</summary>
+                            <div class="faq-answer">
+                                <p>Many designers aim for roughly 1% to 2% on DC string cables, but the project specification and the current edition of the applicable standard decide. The annual energy loss is smaller than the peak percentage, typically 0.4 to 0.6 of it.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>Why is annual energy loss lower than the peak-hour percentage?</summary>
+                            <div class="faq-answer">
+                                <p>Loss depends on the square of current, and most hours carry less than peak current. Averaged over a sinusoidal day, the loss is about 0.79 of the peak-hour percentage. Over a year, with the daily peak also below its standard-test value, a factor of about 0.4 to 0.6 is typical.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>Why size string cable on 1.25 times Isc rather than Imp?</summary>
+                            <div class="faq-answer">
+                                <p>Imp is the normal operating current, but the cable must tolerate the worst credible current. Short-circuit current rises with irradiance and temperature, and sunlight can briefly exceed the standard 1,000 W per square metre. A factor of 1.25 on Isc is common practice, with extra margins in some codes. Check the current edition.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>Can I mix MC4-type connectors from different manufacturers?</summary>
+                            <div class="faq-answer">
+                                <p>No. The contact force, plating, dimensions and seal of a connector are matched to its own counterpart, and the maker's ratings apply only to that pair. A mixed pair can have higher contact resistance, which heats the joint by I squared times R. Use one maker's connectors and its specified crimp tool.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>Is aluminium cable suitable for solar plants?</summary>
+                            <div class="faq-answer">
+                                <p>Aluminium is common on larger AC feeders. It needs about 1.65 times the area of copper for the same resistance but weighs about half as much. Rooftop DC string cable is normally copper, so follow the cable standard and datasheet for your project.</p>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- Author box -->
+                    <div class="author-box">
+                        <img src="../images/logo.png" alt="Ray2Volt Solar" width="52" height="52" loading="lazy">
+                        <div>
+                            <h2>Ray2Volt Solar Private Limited</h2>
+                            <p>We design, install, and service rooftop solar for homes and businesses across Tirupati
+                                district and Andhra Pradesh — from PM Surya Ghar residential systems to commercial and
+                                industrial plants. Every enquiry starts with a free power audit.</p>
+                        </div>
+                    </div>
+
+                    <!-- End-of-post CTA -->
+                    <div class="post-cta">
+                        <h2>Have your own cable runs checked</h2>
+                        <p>Send Ray2Volt your layout and cable lengths. Our engineers can check voltage drop, loss and terminations on your plant and explain the result.</p>
+                        <div class="post-cta-buttons">
+                            <a href="../get-quote.html" class="btn btn-primary">Get a free quote</a>
+                            <a href="https://wa.me/919666068140" class="btn btn-outline">Chat on WhatsApp</a>
+                        </div>
+                    </div>
+
+                </article>
+
+                <!-- Sidebar -->
+                <aside class="post-sidebar">
+                    <nav class="toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#charge-current-voltage-power">Charge, current, voltage and power</a></li>
+                            <li><a href="#resistance-temperature">Resistance from geometry and temperature</a></li>
+                            <li><a href="#voltage-drop-power-loss">The loop, voltage drop and power loss</a></li>
+                            <li><a href="#sizing-formula-worked-example">The sizing formula and a worked string</a></li>
+                            <li><a href="#annual-energy-loss">Annual energy loss: the mean of the square</a></li>
+                            <li><a href="#ampacity-derating">Ampacity, derating and design current</a></li>
+                            <li><a href="#connectors-contact-resistance">Connectors and contact resistance</a></li>
+                            <li><a href="#ac-side-three-phase">The AC side: three-phase drop, copper and aluminium</a></li>
+                            <li><a href="#kelvins-law">Economic optimisation: Kelvin's law</a></li>
+                            <li><a href="#faq">Frequently asked questions</a></li>
+                        </ol>
+                    </nav>
+
+                    <div class="sidebar-cta">
+                        <h2>Free power audit</h2>
+                        <p>Share your latest electricity bill and we will size a system and show your real payback — no
+                            cost, no obligation.</p>
+                        <a href="../get-quote.html" class="btn btn-white btn-sm">Book my audit</a>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- Related posts -->
+            <section class="related-posts">
+                <h2>Related reading</h2>
+                <div class="related-grid">
+                    <a href="solar-string-sizing-temperature.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/solar-string-sizing-temperature-800w.webp 800w, ../images/blog/solar-string-sizing-temperature-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/solar-string-sizing-temperature.jpg" alt="String sizing and temperature" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>String Sizing for Solar Inverters: The Temperature Mathematics of Voc, Vmp and MPPT Windows</h3>
+                            <p>Technology</p>
+                        </div>
+                    </a>
+                    <a href="solar-earthing-surge-protection.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/solar-earthing-surge-protection-800w.webp 800w, ../images/blog/solar-earthing-surge-protection-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/solar-earthing-surge-protection.jpg" alt="Earthing and surge protection" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>Earthing and Surge Protection for Solar Plants: The Physics of Fault Currents and Lightning</h3>
+                            <p>Technology</p>
+                        </div>
+                    </a>
+                    <a href="what-is-a-solar-inverter.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/what-is-a-solar-inverter-800w.webp 800w, ../images/blog/what-is-a-solar-inverter-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/what-is-a-solar-inverter.jpg" alt="What is a solar inverter" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>What Is a Solar Inverter? String, Micro, and Hybrid Inverters Compared</h3>
+                            <p>Technology</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid footer-grid--5">
+                <div class="footer-brand">
+                    <p>Powering businesses and homes in Tirupati district and across Andhra Pradesh with clean, affordable solar energy.</p>
+                    <!-- r2v:social-footer:start -->
+                    <!-- r2v:social-footer:end -->
+                    <!-- r2v:vendor-id:start -->
+                    <!-- r2v:vendor-id:end -->
+                </div>
+
+                <div class="footer-col">
+                    <h4>For Businesses</h4>
+                    <ul>
+                        <li><a href="../commercial.html">Commercial &amp; industrial solar</a></li>
+                        <li><a href="../business-solar-finance.html">Finance options</a></li>
+                        <li><a href="../solar-roi-calculator.html">ROI calculator</a></li>
+                        <li><a href="../solar-quote-check.html">Free quote check</a></li>
+                        <li><a href="../book-power-audit.html">Book a free power audit</a></li>
+                        <li><a href="../upload-electricity-bill.html">Send your electricity bill</a></li>
+                        <li><a href="../tender-rfq.html">Tenders and RFQs</a></li>
+                        <li><a href="https://3d.ray2voltsolar.com/">Ray2Volt 3D for solar EPCs</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>For Homes</h4>
+                    <ul>
+                        <li><a href="../residential.html">Home solar</a></li>
+                        <li><a href="../residential.html#subsidy">PM Surya Ghar subsidy</a></li>
+                        <li><a href="../solar-emi-calculator.html">Solar loan EMI calculator</a></li>
+                        <li><a href="../apartment-solar.html">Apartments &amp; societies</a></li>
+                        <li><a href="../avoid-solar-fraud.html">Pay safely: avoid subsidy fraud</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="../about.html">About us</a></li>
+                        <li><a href="../team.html">Our team</a></li>
+                        <li><a href="../locations.html">Where we work</a></li>
+                        <li><a href="../investor.html">Investors</a></li>
+                        <li><a href="../blog.html">Guides</a></li>
+                        <li><a href="../careers.html">Careers</a></li>
+                        <li><a href="../channel-partner.html">Channel partners</a></li>
+                        <li><a href="../raycare.html">RayCare service and warranty</a></li>
+                        <li><a href="../service-request.html">Request a service visit</a></li>
+                        <li><a href="../privacy-policy.html">Privacy policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li>1-278, J.K.Nagar, Revenue Ward No-1, Pichatur Road, Srikalahasti, 517644, Andhra Pradesh.</li>
+                        <li><a href="tel:+919666068140">+91 96660 68140</a></li>
+                        <li><a href="mailto:sales@ray2voltsolar.com">sales@ray2voltsolar.com</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ray2Volt Solar Private Limited. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" aria-label="Scroll to top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <script src="../script.js"></script>
+    <script src="../blog.js"></script>
+</body>
+
+</html>
