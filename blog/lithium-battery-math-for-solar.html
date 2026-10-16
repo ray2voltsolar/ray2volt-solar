@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-theme-fixed>
+
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18014889887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-18014889887');
+        gtag('config', 'G-WZJ1CXHSG9');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Blog pages are always light: the theme is fixed on <html> and has no toggle -->
+    <meta name="description" content="How lithium batteries store energy: Faraday's law, C-rate, internal resistance, Peukert, SOC drift, Arrhenius ageing, and how to size a home backup system.">
+    <meta name="keywords" content="lithium battery mathematics, LFP battery capacity, C-rate, battery round-trip efficiency, Peukert law, battery backup sizing India">
+    <title>Lithium Battery Mathematics for Solar: Capacity, C-Rate, Efficiency and Cycle Life | Ray2Volt Solar</title>
+    <link rel="canonical" href="https://ray2voltsolar.com/blog/lithium-battery-math-for-solar.html">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap"
+        rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap" rel="stylesheet">
+    </noscript>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../blog.css">
+    <link rel="stylesheet" href="../theme.css">
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Ray2Volt Solar">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Lithium Battery Mathematics for Solar: Capacity, C-Rate, Efficiency and Cycle Life | Ray2Volt Solar">
+    <meta property="og:description" content="How lithium batteries store energy: Faraday's law, C-rate, internal resistance, Peukert, SOC drift, Arrhenius ageing, and how to size a home backup system.">
+    <meta property="og:url" content="https://ray2voltsolar.com/blog/lithium-battery-math-for-solar.html">
+    <meta property="og:image" content="https://ray2voltsolar.com/images/blog/lithium-battery-math-for-solar.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Lithium Battery Mathematics for Solar: Capacity, C-Rate, Efficiency and Cycle Life | Ray2Volt Solar",
+      "description": "How lithium batteries store energy: Faraday's law, C-rate, internal resistance, Peukert, SOC drift, Arrhenius ageing, and how to size a home backup system.",
+      "image": "https://ray2voltsolar.com/images/blog/lithium-battery-math-for-solar.jpg",
+      "author": { "@type": "Organization", "name": "Ray2Volt Solar Private Limited", "url": "https://ray2voltsolar.com" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Ray2Volt Solar Private Limited",
+        "logo": { "@type": "ImageObject", "url": "https://ray2voltsolar.com/images/logo.png" }
+      },
+      "datePublished": "2026-10-16",
+      "dateModified": "2026-10-16",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ray2voltsolar.com/blog/lithium-battery-math-for-solar.html" },
+      "articleSection": "Technology"
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ray2voltsolar.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://ray2voltsolar.com/blog.html" },
+        { "@type": "ListItem", "position": 3, "name": "Lithium Battery Mathematics", "item": "https://ray2voltsolar.com/blog/lithium-battery-math-for-solar.html" }
+      ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the theoretical capacity of LFP cathode material?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "From Faraday's law, one mole of lithium moves 96,485 coulombs. Dividing by the molar mass of LiFePO4 (157.76 g/mol) and by 3.6 to convert coulombs to milliamp-hours gives about 170 mAh/g. Real cells deliver less per kilogram, because they also contain graphite, electrolyte, current collectors and casing."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does a 5 kWh battery not deliver 5 kWh to my appliances?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Usable energy is nominal energy times depth of discharge, resistive heating and the inverter take further shares, and capacity fades with age. With an illustrative 90% depth of discharge and 90% inverter efficiency, a new 5.12 kWh pack delivers about 4.15 kWh to AC loads."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does a higher C-rate always damage a lithium battery?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not automatically, but it has costs. In the simple model, heat rises with the square of current, so 1C produces 25 times the heat of 0.2C. Datasheet cycle-life figures are quoted at a stated C-rate and temperature, so check that your use stays within those conditions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does the battery percentage jump when it reaches full charge?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most battery management systems estimate state of charge by counting current, and a small sensor offset accumulates into drift. At full charge the cell voltage reaches its limit and the current tapers, which is a reliable reference, so the system resets the percentage to 100%."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much does temperature affect battery life?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The Arrhenius law links ageing rate to temperature. For an illustrative activation energy of 50 kJ/mol, the rate at 35 °C is about 1.9 times that at 25 °C. The exact factor depends on the cell, so keep the battery in a shaded, ventilated place within the manufacturer's temperature limits."
+          }
+        }
+      ]
+    }
+    </script>
+</head>
+
+<body class="blog">
+    <!-- Header / Navigation -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="logo">
+                <img src="../images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'">
+                <div class="logo-text">
+                    Ray2Volt Solar
+                    <span>Private Limited</span>
+                </div>
+            </a>
+
+            <ul class="nav-menu">
+                <li class="dropdown dropdown-wide">
+                    <a href="../commercial.html" class="nav-link" aria-haspopup="true" aria-expanded="false">For Businesses <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Plan your project</span>
+                            <ul>
+                                <li><a href="../commercial.html">Commercial solar overview</a></li>
+                                <li><a href="../business-solar-finance.html">Finance options</a></li>
+                                <li><a href="../resco-solar-for-business.html">RESCO: pay per unit</a></li>
+                                <li><a href="../solar-roi-calculator.html">ROI calculator</a></li>
+                                <li><a href="../ground-mounted-solar-open-access.html">Ground-mounted &amp; open access</a></li>
+                                <li><a href="../solar-battery-vs-diesel.html">Solar + battery vs diesel</a></li>
+                                <li><a href="../solar-quote-check.html">Free quote check</a></li>
+                                <li><a href="../book-power-audit.html">Book a free power audit</a></li>
+                                <li><a href="../tender-rfq.html">Tenders and RFQs</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Industries</span>
+                            <ul>
+                                <li><a href="../industry-manufacturing.html">Manufacturing &amp; factories</a></li>
+                                <li><a href="../industry-healthcare.html">Hospitals &amp; healthcare</a></li>
+                                <li><a href="../industry-hotels.html">Hotels &amp; resorts</a></li>
+                                <li><a href="../industry-cold-storage.html">Cold storage &amp; food processing</a></li>
+                                <li><a href="../industry-education.html">Schools &amp; colleges</a></li>
+                                <li><a href="../industry-warehousing.html">Warehousing &amp; logistics</a></li>
+                                <li><a href="../industry-retail.html">Retail &amp; malls</a></li>
+                                <li><a href="../industry-offices.html">Offices &amp; IT parks</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">For solar EPCs</span>
+                            <ul>
+                                <li><a href="https://3d.ray2voltsolar.com/">Ray2Volt 3D: 3D plant viewers</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="../residential.html" class="nav-link" aria-haspopup="true" aria-expanded="false">For Homes <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../residential.html">Home solar overview</a></li>
+                        <li><a href="../residential-ongrid.html">On-grid systems</a></li>
+                        <li><a href="../residential-hybrid.html">Hybrid systems with battery</a></li>
+                        <li><a href="../apartment-solar.html">Apartments &amp; housing societies</a></li>
+                        <li><a href="../solar-emi-calculator.html">Solar loan EMI calculator</a></li>
+                        <li><a href="../blog/pm-surya-ghar-subsidy-guide.html">PM Surya Ghar subsidy guide</a></li>
+                        <li><a href="../raycare.html">RayCare: service plans</a></li>
+                    </ul>
+                </li>
+                <li><a href="../investor.html" class="nav-link">Investors</a></li>
+                <li><a href="../blog.html" class="nav-link active">Guides</a></li>
+                <li><a href="../about.html" class="nav-link">About</a></li>
+                <li><a href="../contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="blog-main">
+        <div class="container">
+
+            <!-- Breadcrumbs -->
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="/">Home</a>
+                <span class="sep">/</span>
+                <a href="../blog.html">Blog</a>
+                <span class="sep">/</span>
+                <span aria-current="page">Lithium Battery Mathematics</span>
+            </nav>
+
+            <!-- Post header -->
+            <header class="post-header">
+                <div class="post-meta">
+                    <span class="category-pill" data-cat="Technology">Technology</span>
+                    <time datetime="2026-10-16">16 October 2026</time>
+                    <span class="dot">&middot;</span>
+                    <span>17 min read</span>
+                </div>
+                <h1>Lithium Battery Mathematics for Solar: Capacity, C-Rate, Efficiency and Cycle Life</h1>
+                <p class="post-standfirst">Follow a lithium iron phosphate battery from Faraday's law to the kilowatt-hours in a home backup system, with every formula derived and every number worked.</p>
+            </header>
+
+            <!-- Hero image -->
+            <figure class="post-hero">
+                <picture>
+                    <source type="image/webp" srcset="../images/blog/lithium-battery-math-for-solar-800w.webp 800w, ../images/blog/lithium-battery-math-for-solar-1600w.webp 1600w" sizes="(max-width: 900px) 100vw, 800px">
+                    <img src="../images/blog/lithium-battery-math-for-solar.jpg" alt="Wall-mounted lithium battery pack beside a hybrid solar inverter in a shaded utility room" width="1600" height="900" fetchpriority="high">
+                </picture>
+                <figcaption>A battery pack stores chemical energy and releases it as electrical work. The mathematics of capacity, resistance and temperature decides how much you get.</figcaption>
+            </figure>
+
+            <div class="post-shell">
+                <article class="post-body">
+
+                    <div class="key-takeaways">
+                        <h2>Four battery facts to check</h2>
+                        <ul>
+                            <li>Faraday's law gives LFP a theoretical capacity of about 170 mAh/g. Sixteen 3.2 V, 100 Ah cells in series make a 51.2 V, 5.12 kWh pack.</li>
+                            <li>Losses grow with the square of current. With an illustrative 15 mΩ pack, battery round-trip efficiency falls from about 98.8% at 0.2C to 94.3% at 1C.</li>
+                            <li>Coulomb counting drifts: a 0.1 A sensor offset adds 2.4 Ah of error a day on a 100 Ah pack, and the flat LFP voltage curve makes voltage a poor fuel gauge.</li>
+                            <li>A four-hour outage for an illustrative home needs about 2.6 kWh at the loads and 3.2 kWh of nominal battery. With Ea = 50 kJ/mol, ageing runs about 1.9 times faster per 10 °C.</li>
+                        </ul>
+                    </div>
+
+<p>A battery quotation usually reads something like "5 kWh, 6,000 cycles, 95% efficiency". Each number hides a calculation, and the conditions behind it decide whether it holds on your roof. This guide builds the mathematics of a lithium iron phosphate (LFP) battery from first principles, so that you can read a datasheet critically and size a backup system without guessing.</p>
+
+<p>We move from electrochemistry and Faraday's law to amp-hours, C-rate, internal resistance, Peukert's law, state of charge and ageing, and end with a backup-sizing example for an Indian home. Symbols are defined with SI units before each idea. Every equipment value is an illustrative "typical datasheet" figure, so use the datasheet of the battery you are buying. Whether a battery is worth buying is a financial question, covered in <a href="solar-battery-storage-worth-it.html">Solar Plus Battery Storage in 2026</a>, and system types are compared in <a href="on-grid-vs-off-grid-vs-hybrid-solar.html">On-Grid vs Off-Grid vs Hybrid Solar</a>.</p>
+
+<h2 id="chemistry-faraday">Chemistry and Faraday's law: what a cell can store</h2>
+
+<p>A battery stores energy as chemical potential. Lithium ions sit at a higher energy in one electrode than in the other. Charging pushes ions through the electrolyte from the positive electrode into the negative one, while the electrons travel through the external circuit. Discharging lets the ions fall back spontaneously, and the electrons do electrical work on the way round.</p>
+
+<p>In an LFP cell the positive electrode (cathode, during discharge) is lithium iron phosphate and the negative electrode (anode) is graphite. Reading left to right as charging, the half-reactions are:</p>
+
+<div class="equation"><math display="block"><semantics><mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">L</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">i</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">F</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">e</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">P</mi></mpadded><msub><mpadded lspace="0"><mi mathvariant="normal">O</mi></mpadded><mn>4</mn></msub></mrow><mspace width="0.2778em"></mspace><mo stretchy="false">⇌</mo><mspace width="0.2778em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">F</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">e</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">P</mi></mpadded><msub><mpadded lspace="0"><mi mathvariant="normal">O</mi></mpadded><mn>4</mn></msub></mrow><mo>+</mo><mrow><mpadded lspace="0"><mi mathvariant="normal">L</mi></mpadded><msup><mpadded lspace="0"><mi mathvariant="normal">i</mi></mpadded><mo>+</mo></msup></mrow><mo>+</mo><msup><mi>e</mi><mo form="prefix" stretchy="false">−</mo></msup><mspace width="1em"></mspace><mtext>(cathode)</mtext></mrow><annotation encoding="application/x-tex">\mathrm{LiFePO_4} \;\rightleftharpoons\; \mathrm{FePO_4} + \mathrm{Li^+} + e^- \quad \text{(cathode)}</annotation></semantics></math></div>
+
+<div class="equation"><math display="block"><semantics><mrow><mn>6</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">C</mi></mpadded><mo>+</mo><mrow><mpadded lspace="0"><mi mathvariant="normal">L</mi></mpadded><msup><mpadded lspace="0"><mi mathvariant="normal">i</mi></mpadded><mo>+</mo></msup></mrow><mo>+</mo><msup><mi>e</mi><mo form="prefix" stretchy="false">−</mo></msup><mspace width="0.2778em"></mspace><mo stretchy="false">⇌</mo><mspace width="0.2778em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">L</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">i</mi></mpadded><msub><mpadded lspace="0"><mi mathvariant="normal">C</mi></mpadded><mn>6</mn></msub></mrow><mspace width="1em"></mspace><mtext>(anode)</mtext></mrow><annotation encoding="application/x-tex">6\,\mathrm{C} + \mathrm{Li^+} + e^- \;\rightleftharpoons\; \mathrm{LiC_6} \quad \text{(anode)}</annotation></semantics></math></div>
+
+<p>The first line is lithium leaving the iron phosphate as iron changes between Fe<sup>2+</sup> and Fe<sup>3+</sup>. The second is lithium entering the layers of graphite (intercalation, meaning inserted between layers without destroying them). The iron couple sits at roughly 3.4 V against lithium metal and graphite at roughly 0.1 V, so the cell is about 3.3 V at rest. Datasheets print the nominal value, 3.2 V, closer to the average under load. Because the cathode changes between two distinct phases, LiFePO<sub>4</sub> and FePO<sub>4</sub>, the voltage barely moves during charge or discharge. This flat plateau delivers steady power, but it will cause trouble when we estimate state of charge.</p>
+
+<h3>Faraday's law and the theoretical capacity</h3>
+
+<p>How much charge can a given mass of cathode hold? Each formula unit of LiFePO<sub>4</sub> releases one lithium ion and one electron, so counting electrons counts charge. Faraday's law says the charge moved is proportional to the amount of substance reacted. The symbols are:</p>
+
+<ul>
+<li><math><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math>: charge passed, in coulombs (C)</li>
+<li><math><semantics><mi>z</mi><annotation encoding="application/x-tex">z</annotation></semantics></math>: electrons transferred per formula unit, here <math><semantics><mrow><mi>z</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">z = 1</annotation></semantics></math> (dimensionless)</li>
+<li><math><semantics><mi>F</mi><annotation encoding="application/x-tex">F</annotation></semantics></math>: the Faraday constant, the charge of one mole of electrons, <math><semantics><mrow><mi>F</mi><mo>=</mo><msub><mi>N</mi><mi>A</mi></msub><mi>q</mi><mo>=</mo><mn>96,485.33</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">C</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">o</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">l</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">F = N_A q = 96{,}485.33\,\mathrm{C/mol}</annotation></semantics></math></li>
+<li><math><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>: amount of substance, in moles (mol)</li>
+<li><math><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math>: mass of active material, in grams (g)</li>
+<li><math><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math>: molar mass, in grams per mole (g/mol)</li>
+</ul>
+
+<div class="equation"><math display="block"><semantics><mrow><mi>Q</mi><mo>=</mo><mi>z</mi><mspace width="0.1667em"></mspace><mi>F</mi><mspace width="0.1667em"></mspace><mi>n</mi><mo>=</mo><mi>z</mi><mspace width="0.1667em"></mspace><mi>F</mi><mspace width="0.1667em"></mspace><mfrac><mi>m</mi><mi>M</mi></mfrac></mrow><annotation encoding="application/x-tex">Q = z\,F\,n = z\,F\,\frac{m}{M}</annotation></semantics></math></div>
+
+<p>Dividing by the mass gives <math><semantics><mrow><mi>F</mi><mi>/</mi><mi>M</mi></mrow><annotation encoding="application/x-tex">F/M</annotation></semantics></math> in C/g when <math><semantics><mrow><mi>z</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">z = 1</annotation></semantics></math>. Capacity is quoted in milliamp-hours, and <math><semantics><mrow><mn>1</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>mAh</mi></mpadded><mo>=</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>3</mn></mrow></msup><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded><mo>×</mo><mn>3600</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">s</mi></mpadded><mo>=</mo><mn>3.6</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">C</mi></mpadded></mrow><annotation encoding="application/x-tex">1\,\mathrm{mAh} = 10^{-3}\,\mathrm{A} \times 3600\,\mathrm{s} = 3.6\,\mathrm{C}</annotation></semantics></math>. That is the origin of the factor 3.6: dividing coulombs by 3.6 gives mAh. The molar mass of LiFePO<sub>4</sub> is one Li, one Fe, one P and four O atoms:</p>
+
+<div class="equation"><math display="block"><semantics><mrow><mi>M</mi><mo>=</mo><mn>6.94</mn><mo>+</mo><mn>55.85</mn><mo>+</mo><mn>30.97</mn><mo>+</mo><mn>4</mn><mo>×</mo><mn>16.00</mn><mo>=</mo><mn>157.76</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">g</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">o</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">l</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">M = 6.94 + 55.85 + 30.97 + 4 \times 16.00 = 157.76\,\mathrm{g/mol}</annotation></semantics></math></div>
+
+<div class="equation"><math display="block"><semantics><mrow><msub><mi>q</mi><mtext>th</mtext></msub><mo>=</mo><mfrac><mi>F</mi><mrow><mn>3.6</mn><mspace width="0.1667em"></mspace><mi>M</mi></mrow></mfrac><mo>=</mo><mfrac><mrow><mn>96,485</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">C</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">o</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">l</mi></mpadded></mrow></mrow><mrow><mn>3.6</mn><mo>×</mo><mn>157.76</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">g</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">o</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">l</mi></mpadded></mrow></mrow></mfrac><mo>≈</mo><mn>170</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">h</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">g</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">q_{\text{th}} = \frac{F}{3.6\,M} = \frac{96{,}485\,\mathrm{C/mol}}{3.6 \times 157.76\,\mathrm{g/mol}} \approx 170\,\mathrm{mAh/g}</annotation></semantics></math></div>
+
+<p>Sanity check: the often-quoted theoretical capacity of LFP is about 170 mAh/g, so the derivation agrees with the literature. At 3.2 V this is <math><semantics><mrow><mn>170</mn><mo>×</mo><mn>3.2</mn><mo>≈</mo><mn>544</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">h</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">k</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">g</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">170 \times 3.2 \approx 544\,\mathrm{Wh/kg}</annotation></semantics></math> of cathode material alone. A finished cell stores far less per kilogram, because its mass also includes graphite, electrolyte, current collectors and casing, and not every lithium ion is used. A 100 Ah cell moves <math><semantics><mrow><mn>100</mn><mo>×</mo><mn>3600</mn><mi>/</mi><mn>96,485</mn><mo>=</mo><mn>3.73</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>mol</mi></mpadded></mrow><annotation encoding="application/x-tex">100 \times 3600 / 96{,}485 = 3.73\,\mathrm{mol}</annotation></semantics></math> of lithium, needing at least 589 g of LiFePO<sub>4</sub> at theoretical capacity. The 170 mAh/g figure is a ceiling, not a datasheet value.</p>
+
+<h2 id="ah-wh-pack">From amp-hours to watt-hours: cells, strings and packs</h2>
+
+<p>Amp-hours count charge, while loads and bills count energy. The bridge is the voltage at which the charge is delivered. The symbols are:</p>
+
+<ul>
+<li><math><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math>: terminal voltage, in volts (V), which changes as the cell discharges</li>
+<li><math><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>: charge discharged so far, in amp-hours (Ah)</li>
+<li><math><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math>: energy, in watt-hours (Wh)</li>
+<li><math><semantics><msub><mi>V</mi><mtext>nom</mtext></msub><annotation encoding="application/x-tex">V_{\text{nom}}</annotation></semantics></math>: nominal voltage, a single representative value (3.2 V per LFP cell)</li>
+<li><math><semantics><msub><mi>Q</mi><mtext>nom</mtext></msub><annotation encoding="application/x-tex">Q_{\text{nom}}</annotation></semantics></math>: rated capacity, in Ah</li>
+</ul>
+
+<p>Energy is power integrated over time, and since current is the rate of flow of charge, the integral becomes one over charge:</p>
+
+<div class="equation"><math display="block"><semantics><mrow><mi>E</mi><mo>=</mo><mo movablelimits="false">∫</mo><mi>V</mi><mspace width="0.1667em"></mspace><mi>i</mi><mspace width="0.1667em"></mspace><mi>d</mi><mi>t</mi><mo>=</mo><msubsup><mo movablelimits="false">∫</mo><mn>0</mn><mi>Q</mi></msubsup><mi>V</mi><mo form="prefix" stretchy="false">(</mo><mi>q</mi><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><mi>d</mi><mi>q</mi><mspace width="0.2778em"></mspace><mo>≈</mo><mspace width="0.2778em"></mspace><msub><mi>V</mi><mtext>nom</mtext></msub><mspace width="0.1667em"></mspace><msub><mi>Q</mi><mtext>nom</mtext></msub></mrow><annotation encoding="application/x-tex">E = \int V\,i\,dt = \int_0^{Q} V(q)\,dq \;\approx\; V_{\text{nom}}\,Q_{\text{nom}}</annotation></semantics></math></div>
+
+<p>The approximation replaces the voltage curve by its average. To see the error, take an illustrative discharge curve for a 100 Ah LFP cell and add up the area under it segment by segment (trapezoidal rule).</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Segment (Ah)</th><th>Mean voltage (V)</th><th>Charge in segment (Ah)</th><th>Energy (Wh)</th></tr></thead>
+<tbody>
+<tr><td>0 to 10</td><td>3.325</td><td>10</td><td>33.25</td></tr>
+<tr><td>10 to 30</td><td>3.290</td><td>20</td><td>65.80</td></tr>
+<tr><td>30 to 50</td><td>3.270</td><td>20</td><td>65.40</td></tr>
+<tr><td>50 to 70</td><td>3.240</td><td>20</td><td>64.80</td></tr>
+<tr><td>70 to 90</td><td>3.160</td><td>20</td><td>63.20</td></tr>
+<tr><td>90 to 100</td><td>2.950</td><td>10</td><td>29.50</td></tr>
+<tr><td><strong>Total</strong></td><td><strong>3.22 average</strong></td><td><strong>100</strong></td><td><strong>321.95</strong></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>The integral gives 321.95 Wh against <math><semantics><mrow><mn>3.2</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded><mo>×</mo><mn>100</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>Ah</mi></mpadded><mo>=</mo><mn>320</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>Wh</mi></mpadded></mrow><annotation encoding="application/x-tex">3.2\,\mathrm{V} \times 100\,\mathrm{Ah} = 320\,\mathrm{Wh}</annotation></semantics></math>, a difference of 0.6%. Because LFP is flat, the shortcut is accurate to about a percent, which is why it is used everywhere.</p>
+
+<h3>Series and parallel</h3>
+
+<p>Let <math><semantics><msub><mi>N</mi><mi>s</mi></msub><annotation encoding="application/x-tex">N_s</annotation></semantics></math> be the number of cells in series and <math><semantics><msub><mi>N</mi><mi>p</mi></msub><annotation encoding="application/x-tex">N_p</annotation></semantics></math> the number of parallel groups (both counts). Cells in series carry the same current and their voltages add. Cells in parallel share the current and their capacities add:</p>
+
+<div class="equation"><math display="block"><semantics><mrow><msub><mi>V</mi><mtext>pack</mtext></msub><mo>=</mo><msub><mi>N</mi><mi>s</mi></msub><mspace width="0.1667em"></mspace><msub><mi>V</mi><mtext>cell</mtext></msub><mo separator="true">,</mo><mspace width="2em"></mspace><msub><mi>Q</mi><mtext>pack</mtext></msub><mo>=</mo><msub><mi>N</mi><mi>p</mi></msub><mspace width="0.1667em"></mspace><msub><mi>Q</mi><mtext>cell</mtext></msub><mo separator="true">,</mo><mspace width="2em"></mspace><msub><mi>E</mi><mtext>pack</mtext></msub><mo>=</mo><msub><mi>N</mi><mi>s</mi></msub><mspace width="0.1667em"></mspace><msub><mi>N</mi><mi>p</mi></msub><mspace width="0.1667em"></mspace><msub><mi>V</mi><mtext>cell</mtext></msub><mspace width="0.1667em"></mspace><msub><mi>Q</mi><mtext>cell</mtext></msub></mrow><annotation encoding="application/x-tex">V_{\text{pack}} = N_s\,V_{\text{cell}}, \qquad Q_{\text{pack}} = N_p\,Q_{\text{cell}}, \qquad E_{\text{pack}} = N_s\,N_p\,V_{\text{cell}}\,Q_{\text{cell}}</annotation></semantics></math></div>
+
+<div class="equation"><math display="block"><semantics><mrow><mtext>16s1p of 100 Ah cells:</mtext><mspace width="1em"></mspace><mi>V</mi><mo>=</mo><mn>16</mn><mo>×</mo><mn>3.2</mn><mo>=</mo><mn>51.2</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded><mo separator="true">,</mo><mspace width="1em"></mspace><mi>E</mi><mo>=</mo><mn>51.2</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded><mo>×</mo><mn>100</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>Ah</mi></mpadded><mo>=</mo><mn>5.12</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>kWh</mi></mpadded></mrow><annotation encoding="application/x-tex">\text{16s1p of 100 Ah cells:}\quad V = 16 \times 3.2 = 51.2\,\mathrm{V},\quad E = 51.2\,\mathrm{V} \times 100\,\mathrm{Ah} = 5.12\,\mathrm{kWh}</annotation></semantics></math></div>
+
+<p>Sanity check: sixteen cells of 320 Wh each is 5,120 Wh, the same answer. A 16s2p pack gives 200 Ah and 10.24 kWh at the same 51.2 V. With typical cell limits of 3.65 V full and 2.5 V empty (check your datasheet), the pack swings between 58.4 V and 40 V, which is why this class is called a "48 V" system.</p>
+
+<p>At 51.2 V a 1 kW load draws <math><semantics><mrow><mn>1000</mn><mi>/</mi><mn>51.2</mn><mo>=</mo><mn>19.5</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded></mrow><annotation encoding="application/x-tex">1000/51.2 = 19.5\,\mathrm{A}</annotation></semantics></math> and a 5 kW load draws 97.7 A, so cable size, fuse rating and connection quality matter. Conductor sizing is worked through in <a href="solar-dc-cable-sizing-voltage-drop.html">Solar Wiring from First Principles</a>. In a series string the weakest cell limits the whole pack, so the battery management system (BMS) monitors and balances every cell.</p>
+
+<h2 id="c-rate-dod">C-rate, discharge time and depth of discharge</h2>
+
+<p>A 100 Ah and a 200 Ah battery behave differently at the same 50 A. C-rate expresses current relative to capacity. The symbols are:</p>
+
+<ul>
+<li><math><semantics><mi>C</mi><annotation encoding="application/x-tex">C</annotation></semantics></math>: C-rate, in units of 1/h, usually written as "0.5C" or "1C"</li>
+<li><math><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>: current, in amperes (A)</li>
+<li><math><semantics><msub><mi>Q</mi><mtext>nom</mtext></msub><annotation encoding="application/x-tex">Q_{\text{nom}}</annotation></semantics></math>: rated capacity, in Ah</li>
+<li><math><semantics><msub><mi>t</mi><mtext>dis</mtext></msub><annotation encoding="application/x-tex">t_{\text{dis}}</annotation></semantics></math>: time to discharge from full to empty, in hours (h)</li>
+</ul>
+
+<div class="equation"><math display="block"><semantics><mrow><mi>I</mi><mo>=</mo><mi>C</mi><mo>⋅</mo><msub><mi>Q</mi><mtext>nom</mtext></msub><mspace width="2em"></mspace><mo stretchy="false">⟹</mo><mspace width="2em"></mspace><msub><mi>t</mi><mtext>dis</mtext></msub><mo>=</mo><mfrac><msub><mi>Q</mi><mtext>nom</mtext></msub><mi>I</mi></mfrac><mo>=</mo><mfrac><mn>1</mn><mi>C</mi></mfrac></mrow><annotation encoding="application/x-tex">I = C \cdot Q_{\text{nom}} \qquad\Longrightarrow\qquad t_{\text{dis}} = \frac{Q_{\text{nom}}}{I} = \frac{1}{C}</annotation></semantics></math></div>
+
+<p>The time formula is the ideal case, assuming the full rated charge is available at that current. Peukert's law and internal resistance qualify it shortly. For our 16s1p, 100 Ah, 51.2 V pack:</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>C-rate</th><th>Current (A)</th><th>Power at 51.2 V (kW)</th><th>Ideal time to empty (h)</th></tr></thead>
+<tbody>
+<tr><td>0.2C</td><td>20</td><td>1.02</td><td>5.0</td></tr>
+<tr><td>0.5C</td><td>50</td><td>2.56</td><td>2.0</td></tr>
+<tr><td>1C</td><td>100</td><td>5.12</td><td>1.0</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Depth of discharge and usable energy</h3>
+
+<p>Depth of discharge (DoD, a fraction from 0 to 1) is the share of rated capacity you draw before recharging. Limiting it protects the battery and leaves a reserve:</p>
+
+<div class="equation"><math display="block"><semantics><mrow><msub><mi>E</mi><mtext>usable</mtext></msub><mo>=</mo><msub><mi>E</mi><mtext>nom</mtext></msub><mo>×</mo><mtext>DoD</mtext></mrow><annotation encoding="application/x-tex">E_{\text{usable}} = E_{\text{nom}} \times \text{DoD}</annotation></semantics></math></div>
+
+<p>At 90% DoD our pack gives <math><semantics><mrow><mn>5.12</mn><mo>×</mo><mn>0.9</mn><mo>=</mo><mn>4.61</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>kWh</mi></mpadded></mrow><annotation encoding="application/x-tex">5.12 \times 0.9 = 4.61\,\mathrm{kWh}</annotation></semantics></math>, and at 80% DoD 4.10 kWh. Check whether a quoted kWh figure is nominal or already usable. Power matters too: a 3 kW inverter at full load on this pack draws <math><semantics><mrow><mn>3000</mn><mi>/</mi><mn>5120</mn><mo>=</mo><mn>0.59</mn><mi>C</mi></mrow><annotation encoding="application/x-tex">3000/5120 = 0.59C</annotation></semantics></math>, so the pack must be rated for that continuous rate.</p>
+
+<h2 id="resistance-efficiency">Internal resistance and round-trip efficiency</h2>
+
+<p>Real cells waste some energy as heat. The simplest useful model is an ideal voltage source in series with a resistance. We assume constant open-circuit voltage, constant resistance, steady current, and every coulomb that goes in comes back out. The symbols are:</p>
+
+<ul>
+<li><math><semantics><msub><mi>V</mi><mtext>oc</mtext></msub><annotation encoding="application/x-tex">V_{\text{oc}}</annotation></semantics></math>: open-circuit voltage, in volts (V), here the mean pack voltage 51.2 V</li>
+<li><math><semantics><msub><mi>R</mi><mtext>int</mtext></msub><annotation encoding="application/x-tex">R_{\text{int}}</annotation></semantics></math>: total DC internal resistance of the pack, in ohms (<math><semantics><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><annotation encoding="application/x-tex">\Omega</annotation></semantics></math>), including cells, busbars, fuse and the BMS switch</li>
+<li><math><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>: magnitude of the current, in amperes (A)</li>
+<li><math><semantics><mrow><mi>x</mi><mo>=</mo><mi>I</mi><msub><mi>R</mi><mtext>int</mtext></msub><mi>/</mi><msub><mi>V</mi><mtext>oc</mtext></msub></mrow><annotation encoding="application/x-tex">x = I R_{\text{int}} / V_{\text{oc}}</annotation></semantics></math>: the fractional voltage drop (dimensionless)</li>
+</ul>
+
+<p>By Ohm's law the terminal voltage sags when current is drawn and rises when current is forced in:</p>
+
+<div class="equation"><math display="block"><semantics><mrow><msub><mi>V</mi><mtext>dis</mtext></msub><mo>=</mo><msub><mi>V</mi><mtext>oc</mtext></msub><mo>−</mo><mi>I</mi><msub><mi>R</mi><mtext>int</mtext></msub><mo separator="true">,</mo><mspace width="2em"></mspace><msub><mi>V</mi><mtext>chg</mtext></msub><mo>=</mo><msub><mi>V</mi><mtext>oc</mtext></msub><mo>+</mo><mi>I</mi><msub><mi>R</mi><mtext>int</mtext></msub></mrow><annotation encoding="application/x-tex">V_{\text{dis}} = V_{\text{oc}} - I R_{\text{int}}, \qquad V_{\text{chg}} = V_{\text{oc}} + I R_{\text{int}}</annotation></semantics></math></div>
+
+<p>On discharge, the fraction of chemical power reaching the terminals is <math><semantics><mrow><msub><mi>V</mi><mtext>dis</mtext></msub><mi>/</mi><msub><mi>V</mi><mtext>oc</mtext></msub></mrow><annotation encoding="application/x-tex">V_{\text{dis}}/V_{\text{oc}}</annotation></semantics></math>. On charge, the fraction stored is <math><semantics><mrow><msub><mi>V</mi><mtext>oc</mtext></msub><mi>/</mi><msub><mi>V</mi><mtext>chg</mtext></msub></mrow><annotation encoding="application/x-tex">V_{\text{oc}}/V_{\text{chg}}</annotation></semantics></math>. The rest is <math><semantics><mrow><msup><mi>I</mi><mn>2</mn></msup><msub><mi>R</mi><mtext>int</mtext></msub></mrow><annotation encoding="application/x-tex">I^2 R_{\text{int}}</annotation></semantics></math> heat:</p>
+
+<div class="equation"><math display="block"><semantics><mrow><msub><mi>η</mi><mtext>one-way</mtext></msub><mo>=</mo><mn>1</mn><mo>−</mo><mfrac><mrow><mi>I</mi><msub><mi>R</mi><mtext>int</mtext></msub></mrow><msub><mi>V</mi><mtext>oc</mtext></msub></mfrac><mo>=</mo><mn>1</mn><mo>−</mo><mi>x</mi><mo separator="true">,</mo><mspace width="2em"></mspace><msub><mi>P</mi><mtext>loss</mtext></msub><mo>=</mo><msup><mi>I</mi><mn>2</mn></msup><msub><mi>R</mi><mtext>int</mtext></msub></mrow><annotation encoding="application/x-tex">\eta_{\text{one-way}} = 1 - \frac{I R_{\text{int}}}{V_{\text{oc}}} = 1 - x, \qquad P_{\text{loss}} = I^2 R_{\text{int}}</annotation></semantics></math></div>
+
+<p>For the round trip, push charge <math><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math> in and take the same charge out. Energy in is <math><semantics><mrow><mo form="prefix" stretchy="false">(</mo><msub><mi>V</mi><mtext>oc</mtext></msub><mo>+</mo><mi>I</mi><msub><mi>R</mi><mtext>int</mtext></msub><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><mi>Q</mi></mrow><annotation encoding="application/x-tex">(V_{\text{oc}} + I R_{\text{int}})\,Q</annotation></semantics></math> and energy out is <math><semantics><mrow><mo form="prefix" stretchy="false">(</mo><msub><mi>V</mi><mtext>oc</mtext></msub><mo>−</mo><mi>I</mi><msub><mi>R</mi><mtext>int</mtext></msub><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><mi>Q</mi></mrow><annotation encoding="application/x-tex">(V_{\text{oc}} - I R_{\text{int}})\,Q</annotation></semantics></math>, so:</p>
+
+<div class="equation"><math display="block"><semantics><mrow><msub><mi>η</mi><mtext>RT</mtext></msub><mo>=</mo><mfrac><mrow><msub><mi>V</mi><mtext>oc</mtext></msub><mo>−</mo><mi>I</mi><msub><mi>R</mi><mtext>int</mtext></msub></mrow><mrow><msub><mi>V</mi><mtext>oc</mtext></msub><mo>+</mo><mi>I</mi><msub><mi>R</mi><mtext>int</mtext></msub></mrow></mfrac><mo>=</mo><mfrac><mrow><mn>1</mn><mo>−</mo><mi>x</mi></mrow><mrow><mn>1</mn><mo>+</mo><mi>x</mi></mrow></mfrac><mo>≈</mo><mn>1</mn><mo>−</mo><mn>2</mn><mi>x</mi></mrow><annotation encoding="application/x-tex">\eta_{\text{RT}} = \frac{V_{\text{oc}} - I R_{\text{int}}}{V_{\text{oc}} + I R_{\text{int}}} = \frac{1 - x}{1 + x} \approx 1 - 2x</annotation></semantics></math></div>
+
+<p>Each direction loses about <math><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>, so the round trip loses about twice that. Since <math><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math> is proportional to current, efficiency falls as C-rate rises, and the heat rises with the square of current. Take an illustrative pack resistance of 15 m<math><semantics><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><annotation encoding="application/x-tex">\Omega</annotation></semantics></math> (sixteen cells of roughly 0.5 m<math><semantics><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><annotation encoding="application/x-tex">\Omega</annotation></semantics></math>, plus about 7 m<math><semantics><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><annotation encoding="application/x-tex">\Omega</annotation></semantics></math> for busbars, fuse and BMS switch), a charger efficiency of 97% and an inverter efficiency of 95%.</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>C-rate</th><th>Current (A)</th><th>Voltage drop I·R (V)</th><th>Heat I²R (W)</th><th>One-way efficiency</th><th>Battery round trip</th><th>System round trip</th></tr></thead>
+<tbody>
+<tr><td>0.2C</td><td>20</td><td>0.30</td><td>6.0</td><td>99.41%</td><td>98.83%</td><td>91.1%</td></tr>
+<tr><td>0.5C</td><td>50</td><td>0.75</td><td>37.5</td><td>98.54%</td><td>97.11%</td><td>89.5%</td></tr>
+<tr><td>1C</td><td>100</td><td>1.50</td><td>150</td><td>97.07%</td><td>94.31%</td><td>86.9%</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Moving from 0.2C to 1C multiplies the current by five and the heat by twenty-five, from 6 W to 150 W. The shortcut <math><semantics><mrow><mn>1</mn><mo>−</mo><mn>2</mn><mi>x</mi></mrow><annotation encoding="application/x-tex">1 - 2x</annotation></semantics></math> gives 94.14% at 1C against the exact 94.31%. Real cells also show polarisation and a resistance that rises in the cold and at low state of charge, so datasheet round-trip figures depend on the stated test conditions.</p>
+
+<h3>Stages multiply</h3>
+
+<p>Energy passing through several stages loses a fraction at each, so system efficiency is the product of stage efficiencies. For solar energy stored and later used by an AC load:</p>
+
+<div class="equation"><math display="block"><semantics><mrow><msub><mi>η</mi><mtext>sys</mtext></msub><mo>=</mo><msub><mi>η</mi><mtext>ch</mtext></msub><mo>×</mo><msub><mi>η</mi><mtext>RT</mtext></msub><mo>×</mo><msub><mi>η</mi><mtext>inv</mtext></msub><mo>=</mo><mn>0.97</mn><mo>×</mo><mn>0.9711</mn><mo>×</mo><mn>0.95</mn><mo>≈</mo><mn>0.895</mn></mrow><annotation encoding="application/x-tex">\eta_{\text{sys}} = \eta_{\text{ch}} \times \eta_{\text{RT}} \times \eta_{\text{inv}} = 0.97 \times 0.9711 \times 0.95 \approx 0.895</annotation></semantics></math></div>
+
+<p>That is the 0.5C row of the table: about one-tenth of the stored solar energy is lost before it reaches your fan. Inverter efficiency varies with load because switching and conduction losses do not scale with output power, as explained in <a href="how-inverters-make-ac-pwm.html">How Inverters Make AC</a>. There is also a fixed cost. An inverter and BMS consuming an illustrative 30 W around the clock use <math><semantics><mrow><mn>30</mn><mo>×</mo><mn>24</mn><mo>=</mo><mn>720</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>Wh</mi></mpadded></mrow><annotation encoding="application/x-tex">30 \times 24 = 720\,\mathrm{Wh}</annotation></semantics></math> a day, more than the roughly 0.47 kWh lost in conversion when 4 kWh a day is delivered at 89.5%. For a lightly cycled battery, standby consumption can dominate.</p>
+
+<h2 id="peukert">Peukert's law: why lead-acid shrinks and lithium barely does</h2>
+
+<p>Lead-acid sheets state capacity at a slow rate, for example 100 Ah over 20 hours. Draw current faster and fewer amp-hours come out. Peukert's law is an empirical fit for this. The symbols are:</p>
+
+<ul>
+<li><math><semantics><mi>H</mi><annotation encoding="application/x-tex">H</annotation></semantics></math>: the rated discharge time, in hours (h), for example 20 h</li>
+<li><math><semantics><msub><mi>C</mi><mi>p</mi></msub><annotation encoding="application/x-tex">C_p</annotation></semantics></math>: the capacity at that rating, in Ah</li>
+<li><math><semantics><mrow><msub><mi>I</mi><mi>p</mi></msub><mo>=</mo><msub><mi>C</mi><mi>p</mi></msub><mi>/</mi><mi>H</mi></mrow><annotation encoding="application/x-tex">I_p = C_p/H</annotation></semantics></math>: the rated current, in A</li>
+<li><math><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>: the actual discharge current, in A</li>
+<li><math><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>: the Peukert exponent (dimensionless), 1 for an ideal battery</li>
+<li><math><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>: the actual runtime, in hours (h)</li>
+</ul>
+
+<div class="equation"><math display="block"><semantics><mrow><mi>t</mi><mo>=</mo><mi>H</mi><msup><mrow><mo fence="true" form="prefix">(</mo><mfrac><msub><mi>C</mi><mi>p</mi></msub><mrow><mi>I</mi><mspace width="0.1667em"></mspace><mi>H</mi></mrow></mfrac><mo fence="true" form="postfix">)</mo></mrow><mi>k</mi></msup></mrow><annotation encoding="application/x-tex">t = H\left(\frac{C_p}{I\,H}\right)^{k}</annotation></semantics></math></div>
+
+<p>Multiplying by <math><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math> gives the delivered capacity, <math><semantics><mrow><msub><mi>C</mi><mtext>eff</mtext></msub><mo>=</mo><mi>I</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">C_{\text{eff}} = I t</annotation></semantics></math>. Using <math><semantics><mrow><msub><mi>I</mi><mi>p</mi></msub><mo>=</mo><msub><mi>C</mi><mi>p</mi></msub><mi>/</mi><mi>H</mi></mrow><annotation encoding="application/x-tex">I_p = C_p/H</annotation></semantics></math>:</p>
+
+<div class="equation"><math display="block"><semantics><mrow><msub><mi>C</mi><mtext>eff</mtext></msub><mo>=</mo><mi>I</mi><mspace width="0.1667em"></mspace><mi>t</mi><mo>=</mo><msub><mi>C</mi><mi>p</mi></msub><msup><mrow><mo fence="true" form="prefix">(</mo><mfrac><msub><mi>I</mi><mi>p</mi></msub><mi>I</mi></mfrac><mo fence="true" form="postfix">)</mo></mrow><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">C_{\text{eff}} = I\,t = C_p\left(\frac{I_p}{I}\right)^{k-1}</annotation></semantics></math></div>
+
+<p>At <math><semantics><mrow><mi>I</mi><mo>=</mo><msub><mi>I</mi><mi>p</mi></msub></mrow><annotation encoding="application/x-tex">I = I_p</annotation></semantics></math>, <math><semantics><mrow><msub><mi>C</mi><mtext>eff</mtext></msub><mo>=</mo><msub><mi>C</mi><mi>p</mi></msub></mrow><annotation encoding="application/x-tex">C_{\text{eff}} = C_p</annotation></semantics></math>, as it must. For larger <math><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math> and <math><semantics><mrow><mi>k</mi><mo>&gt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k \gt 1</annotation></semantics></math>, the bracket is below one and capacity shrinks. Typical exponents are about 1.1 to 1.3 for lead-acid and about 1.0 to 1.05 for lithium-ion. These are typical ranges, not guarantees. Compare two 100 Ah batteries both rated at 5 A (20 hours), with <math><semantics><mrow><mi>k</mi><mo>=</mo><mn>1.2</mn></mrow><annotation encoding="application/x-tex">k = 1.2</annotation></semantics></math> for lead-acid and <math><semantics><mrow><mi>k</mi><mo>=</mo><mn>1.02</mn></mrow><annotation encoding="application/x-tex">k = 1.02</annotation></semantics></math> for lithium:</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Current (A)</th><th>Ideal runtime (h)</th><th>Lead-acid capacity (Ah)</th><th>Lead-acid runtime (h)</th><th>Lithium capacity (Ah)</th><th>Lithium runtime (h)</th></tr></thead>
+<tbody>
+<tr><td>20</td><td>5.00</td><td>75.8</td><td>3.79</td><td>97.3</td><td>4.86</td></tr>
+<tr><td>50</td><td>2.00</td><td>63.1</td><td>1.26</td><td>95.5</td><td>1.91</td></tr>
+<tr><td>100</td><td>1.00</td><td>54.9</td><td>0.55</td><td>94.2</td><td>0.94</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>At 50 A the lead-acid battery delivers only 63% of rated capacity, so a 2-hour ideal runtime becomes 1.26 hours, while the lithium battery delivers over 95%. Peukert's law is a fit over a limited current range, not a law of nature. For lithium, the remaining shortfall mostly comes from the resistive drop described earlier and the low-voltage cut-off.</p>
+
+<h2 id="soc-coulomb">State of charge by coulomb counting</h2>
+
+<p>State of charge (SOC) is the fuel gauge: the fraction of present capacity still stored. Coulomb counting integrates the current measured by a sensor. The symbols are:</p>
+
+<ul>
+<li><math><semantics><mtext>SOC</mtext><annotation encoding="application/x-tex">\text{SOC}</annotation></semantics></math>: state of charge, between 0 and 1 (dimensionless)</li>
+<li><math><semantics><msub><mtext>SOC</mtext><mn>0</mn></msub><annotation encoding="application/x-tex">\text{SOC}_0</annotation></semantics></math>: the state of charge at the start of counting</li>
+<li><math><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math>: present full capacity, in Ah</li>
+<li><math><semantics><mrow><mi>i</mi><mo form="prefix" stretchy="false">(</mo><mi>τ</mi><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">i(\tau)</annotation></semantics></math>: measured current, in A, positive on discharge and negative on charge</li>
+<li><math><semantics><msub><mi>η</mi><mi>c</mi></msub><annotation encoding="application/x-tex">\eta_c</annotation></semantics></math>: charge (coulombic) efficiency, slightly below 1, applied to charging current only</li>
+</ul>
+
+<div class="equation"><math display="block"><semantics><mrow><mtext>SOC</mtext><mo form="prefix" stretchy="false">(</mo><mi>t</mi><mo form="postfix" stretchy="false">)</mo><mo>=</mo><msub><mtext>SOC</mtext><mn>0</mn></msub><mo>−</mo><mfrac><mn>1</mn><mi>Q</mi></mfrac><msubsup><mo movablelimits="false">∫</mo><mn>0</mn><mi>t</mi></msubsup><mi>η</mi><mo form="prefix" stretchy="false">(</mo><mi>i</mi><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><mi>i</mi><mo form="prefix" stretchy="false">(</mo><mi>τ</mi><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><mi>d</mi><mi>τ</mi><mo separator="true">,</mo><mspace width="2em"></mspace><mi>η</mi><mo form="prefix" stretchy="false">(</mo><mi>i</mi><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mrow><mo fence="true" form="prefix">{</mo><mtable><mtr><mtd><mn>1</mn></mtd><mtd><mrow><mi>i</mi><mo>≥</mo><mn>0</mn></mrow></mtd></mtr><mtr><mtd><msub><mi>η</mi><mi>c</mi></msub></mtd><mtd><mrow><mi>i</mi><mo>&lt;</mo><mn>0</mn></mrow></mtd></mtr></mtable><mo fence="true" form="postfix"></mo></mrow></mrow><annotation encoding="application/x-tex">\text{SOC}(t) = \text{SOC}_0 - \frac{1}{Q}\int_0^{t} \eta(i)\, i(\tau)\, d\tau, \qquad \eta(i) = \begin{cases} 1 &amp; i \ge 0 \\ \eta_c &amp; i \lt 0 \end{cases}</annotation></semantics></math></div>
+
+<p>With <math><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math> in Ah, time is in hours. The method is smooth, but integrals accumulate error. Suppose the sensor reads <math><semantics><mrow><mi>i</mi><mo>+</mo><mi>ε</mi></mrow><annotation encoding="application/x-tex">i + \varepsilon</annotation></semantics></math>, where <math><semantics><mi>ε</mi><annotation encoding="application/x-tex">\varepsilon</annotation></semantics></math> is a constant offset in amperes. The SOC error then grows linearly with time:</p>
+
+<div class="equation"><math display="block"><semantics><mrow><mi>δ</mi><mspace width="0.1667em"></mspace><mtext>SOC</mtext><mo form="prefix" stretchy="false">(</mo><mi>t</mi><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mfrac><mrow><mi>ε</mi><mspace width="0.1667em"></mspace><mi>t</mi></mrow><mi>Q</mi></mfrac><mo>=</mo><mfrac><mrow><mn>0.1</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded><mo>×</mo><mn>24</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">h</mi></mpadded></mrow><mrow><mn>100</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>Ah</mi></mpadded></mrow></mfrac><mo>=</mo><mn>0.024</mn></mrow><annotation encoding="application/x-tex">\delta\,\text{SOC}(t) = \frac{\varepsilon\,t}{Q} = \frac{0.1\,\mathrm{A} \times 24\,\mathrm{h}}{100\,\mathrm{Ah}} = 0.024</annotation></semantics></math></div>
+
+<p>An illustrative offset of 0.1 A, plausible for a Hall-effect sensor, produces 2.4 Ah, or 2.4% of a 100 Ah pack per day and 24% after ten days. A shunt with a 10 mA offset gives 0.24% per day. Temperature drift and the approximate value of <math><semantics><msub><mi>η</mi><mi>c</mi></msub><annotation encoding="application/x-tex">\eta_c</annotation></semantics></math> add further error.</p>
+
+<h3>Recalibration and the flat LFP curve</h3>
+
+<p>A BMS therefore resets the count whenever it gets a trustworthy signal. When cells reach the charge-limit voltage and the current tapers below a small threshold, the pack is physically full. The BMS sets SOC to 100% and may update its estimate of <math><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math> from the charge counted since the last empty state. This is why the displayed percentage can jump at full charge.</p>
+
+<p>Why not read the voltage instead? For LFP, open-circuit voltage maps poorly to SOC because of the flat plateau. If the plateau rises by an illustrative 0.08 V between 20% and 80%, the slope is <math><semantics><mrow><mn>0.08</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded><mi>/</mi><mn>60</mn><mo>=</mo><mn>1.3</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>mV</mi></mpadded></mrow><annotation encoding="application/x-tex">0.08\,\mathrm{V} / 60 = 1.3\,\mathrm{mV}</annotation></semantics></math> per percentage point. A 10 mV measurement error then means a 7.5% SOC error. A 0.5 m<math><semantics><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><annotation encoding="application/x-tex">\Omega</annotation></semantics></math> cell carrying 50 A drops 25 mV, which looks like a 19% error unless the BMS compensates. So an LFP BMS combines coulomb counting in the middle of the range with voltage corrections at the steep ends.</p>
+
+<div class="callout callout--success">
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+<p><strong>Practical reading:</strong> an LFP percentage is an estimate, most reliable just after a full charge. If backup runtime matters, size with margin and let the pack reach full charge regularly.</p>
+</div>
+
+<h2 id="cycle-life-ageing">Cycle life, throughput and the Arrhenius law</h2>
+
+<p>Batteries age through cycling and through calendar time and temperature. We treat the first as a throughput calculation and the second with the Arrhenius law. The symbols for throughput are:</p>
+
+<ul>
+<li><math><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>: number of cycles to end of life (a count)</li>
+<li><math><semantics><msub><mi>E</mi><mtext>usable</mtext></msub><annotation encoding="application/x-tex">E_{\text{usable}}</annotation></semantics></math>: usable energy per cycle when new, in kWh</li>
+<li><math><semantics><mrow><mi>f</mi><mo form="prefix" stretchy="false">(</mo><mi>n</mi><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f(n)</annotation></semantics></math>: capacity fraction at cycle <math><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>, 1 when new (dimensionless)</li>
+<li><math><semantics><msub><mi>f</mi><mtext>end</mtext></msub><annotation encoding="application/x-tex">f_{\text{end}}</annotation></semantics></math>: the capacity fraction defining end of life, commonly 0.8</li>
+<li><math><semantics><mover><mi>f</mi><mo stretchy="false" class="chr-lrg wbk-lrg-acc">‾</mo></mover><annotation encoding="application/x-tex">\bar{f}</annotation></semantics></math>: the average capacity fraction over life</li>
+</ul>
+
+<p>Each cycle delivers energy proportional to the remaining capacity, so lifetime energy is a sum over cycles. If capacity fades linearly from 1 to <math><semantics><msub><mi>f</mi><mtext>end</mtext></msub><annotation encoding="application/x-tex">f_{\text{end}}</annotation></semantics></math>, the average is the midpoint:</p>
+
+<div class="equation"><math display="block"><semantics><mrow><msub><mi>E</mi><mtext>life</mtext></msub><mo>=</mo><mrow><munderover><mo movablelimits="false">∑</mo><mrow><mi>n</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></munderover></mrow><msub><mi>E</mi><mtext>usable</mtext></msub><mspace width="0.1667em"></mspace><mi>f</mi><mo form="prefix" stretchy="false">(</mo><mi>n</mi><mo form="postfix" stretchy="false">)</mo><mo>≈</mo><mi>N</mi><mspace width="0.1667em"></mspace><msub><mi>E</mi><mtext>usable</mtext></msub><mspace width="0.1667em"></mspace><mover><mi>f</mi><mo stretchy="false" class="chr-lrg wbk-lrg-acc">‾</mo></mover></mrow><annotation encoding="application/x-tex">E_{\text{life}} = \sum_{n=1}^{N} E_{\text{usable}}\,f(n) \approx N\,E_{\text{usable}}\,\bar{f}</annotation></semantics></math></div>
+
+<div class="equation"><math display="block"><semantics><mrow><mi>f</mi><mo form="prefix" stretchy="false">(</mo><mi>n</mi><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mn>1</mn><mo>−</mo><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><msub><mi>f</mi><mtext>end</mtext></msub><mo form="postfix" stretchy="false">)</mo><mfrac><mi>n</mi><mi>N</mi></mfrac><mspace width="1em"></mspace><mo stretchy="false">⇒</mo><mspace width="1em"></mspace><mover><mi>f</mi><mo stretchy="false" class="chr-lrg wbk-lrg-acc">‾</mo></mover><mo>=</mo><mfrac><mn>1</mn><mi>N</mi></mfrac><msubsup><mo movablelimits="false">∫</mo><mn>0</mn><mi>N</mi></msubsup><mi>f</mi><mo form="prefix" stretchy="false">(</mo><mi>n</mi><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><mi>d</mi><mi>n</mi><mo>=</mo><mfrac><mrow><mn>1</mn><mo>+</mo><msub><mi>f</mi><mtext>end</mtext></msub></mrow><mn>2</mn></mfrac><mo>=</mo><mn>0.9</mn></mrow><annotation encoding="application/x-tex">f(n) = 1 - (1 - f_{\text{end}})\frac{n}{N} \quad\Rightarrow\quad \bar{f} = \frac{1}{N}\int_0^N f(n)\,dn = \frac{1 + f_{\text{end}}}{2} = 0.9</annotation></semantics></math></div>
+
+<p>Suppose, purely as an illustration and not a promise for any product, a datasheet shows 6,000 cycles at 80% DoD to 80% capacity. Our 5.12 kWh pack at 80% DoD has <math><semantics><mrow><msub><mi>E</mi><mtext>usable</mtext></msub><mo>=</mo><mn>4.096</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>kWh</mi></mpadded></mrow><annotation encoding="application/x-tex">E_{\text{usable}} = 4.096\,\mathrm{kWh}</annotation></semantics></math>, so <math><semantics><mrow><msub><mi>E</mi><mtext>life</mtext></msub><mo>≈</mo><mn>6000</mn><mo>×</mo><mn>4.096</mn><mo>×</mo><mn>0.9</mn><mo>=</mo><mn>22,118</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>kWh</mi></mpadded></mrow><annotation encoding="application/x-tex">E_{\text{life}} \approx 6000 \times 4.096 \times 0.9 = 22{,}118\,\mathrm{kWh}</annotation></semantics></math>, about 22 MWh. Without the 0.9 factor the figure would be overstated by 11%. Real fade is rarely linear, and cycle counts depend on the test temperature, C-rate and DoD. Check against time as well: one cycle a day for 10 years is only 3,650 cycles, so a lightly cycled home battery is more likely limited by calendar ageing than by cycle count.</p>
+
+<h3>Temperature and the Arrhenius law</h3>
+
+<p>Many ageing reactions, such as growth of the solid-electrolyte layer on graphite, speed up with temperature. The Arrhenius law describes a thermally activated rate. The symbols are:</p>
+
+<ul>
+<li><math><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>: reaction rate (1/s)</li>
+<li><math><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>: pre-exponential factor, same units as <math><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math></li>
+<li><math><semantics><msub><mi>E</mi><mi>a</mi></msub><annotation encoding="application/x-tex">E_a</annotation></semantics></math>: activation energy, in joules per mole (J/mol)</li>
+<li><math><semantics><mrow><mi>R</mi><mo>=</mo><mn>8.314</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">J</mi></mpadded><mi>/</mi><mo form="prefix" stretchy="false">(</mo><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">o</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">l</mi></mpadded><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">K</mi></mpadded><mo form="postfix" stretchy="false" lspace="0em" rspace="0em">)</mo></mrow></mrow><annotation encoding="application/x-tex">R = 8.314\,\mathrm{J/(mol\,K)}</annotation></semantics></math>: the gas constant, <math><semantics><mrow><msub><mi>k</mi><mi>B</mi></msub><msub><mi>N</mi><mi>A</mi></msub></mrow><annotation encoding="application/x-tex">k_B N_A</annotation></semantics></math></li>
+<li><math><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>: absolute temperature, in kelvin (K)</li>
+</ul>
+
+<div class="equation"><math display="block"><semantics><mrow><mi>k</mi><mo>=</mo><mi>A</mi><mspace width="0.1667em"></mspace><msup><mi>e</mi><mrow><mo lspace="0em" rspace="0em">−</mo><msub><mi>E</mi><mi>a</mi></msub><mi>/</mi><mo form="prefix" stretchy="false">(</mo><mi>R</mi><mi>T</mi><mo form="postfix" stretchy="false" lspace="0em" rspace="0em">)</mo></mrow></msup><mspace width="2em"></mspace><mo stretchy="false">⇒</mo><mspace width="2em"></mspace><mfrac><msub><mi>k</mi><mn>2</mn></msub><msub><mi>k</mi><mn>1</mn></msub></mfrac><mo>=</mo><mrow><mi>exp</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">[</mo><mfrac><msub><mi>E</mi><mi>a</mi></msub><mi>R</mi></mfrac><mrow><mo fence="true" form="prefix">(</mo><mfrac><mn>1</mn><msub><mi>T</mi><mn>1</mn></msub></mfrac><mo>−</mo><mfrac><mn>1</mn><msub><mi>T</mi><mn>2</mn></msub></mfrac><mo fence="true" form="postfix">)</mo></mrow><mo fence="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">k = A\,e^{-E_a/(R T)} \qquad\Rightarrow\qquad \frac{k_2}{k_1} = \exp\!\left[\frac{E_a}{R}\left(\frac{1}{T_1} - \frac{1}{T_2}\right)\right]</annotation></semantics></math></div>
+
+<p>Dividing the rates cancels <math><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>. For an illustrative <math><semantics><mrow><msub><mi>E</mi><mi>a</mi></msub><mo>=</mo><mn>50</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">k</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">J</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">o</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">l</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">E_a = 50\,\mathrm{kJ/mol}</annotation></semantics></math>, from 25 °C (298.15 K) to 35 °C (308.15 K):</p>
+
+<div class="equation"><math display="block"><semantics><mrow><mfrac><msub><mi>E</mi><mi>a</mi></msub><mi>R</mi></mfrac><mo>=</mo><mn>6014</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">K</mi></mpadded><mo separator="true">,</mo><mspace width="2em"></mspace><mfrac><mn>1</mn><mn>298.15</mn></mfrac><mo>−</mo><mfrac><mn>1</mn><mn>308.15</mn></mfrac><mo>=</mo><mn>1.088</mn><mo>×</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>4</mn></mrow></msup><mspace width="0.1667em"></mspace><msup><mpadded lspace="0"><mi mathvariant="normal">K</mi></mpadded><mrow><mo lspace="0em" rspace="0em">−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\frac{E_a}{R} = 6014\,\mathrm{K}, \qquad \frac{1}{298.15} - \frac{1}{308.15} = 1.088\times 10^{-4}\,\mathrm{K^{-1}}</annotation></semantics></math></div>
+
+<div class="equation"><math display="block"><semantics><mrow><mfrac><msub><mi>k</mi><mn>35</mn></msub><msub><mi>k</mi><mn>25</mn></msub></mfrac><mo>=</mo><mrow><mi>exp</mi><mo>⁡</mo></mrow><mo form="prefix" stretchy="false">(</mo><mn>6014</mn><mo>×</mo><mn>1.088</mn><mo>×</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>4</mn></mrow></msup><mo form="postfix" stretchy="false">)</mo><mo>=</mo><msup><mi>e</mi><mn>0.6545</mn></msup><mo>=</mo><mn>1.92</mn></mrow><annotation encoding="application/x-tex">\frac{k_{35}}{k_{25}} = \exp(6014 \times 1.088\times 10^{-4}) = e^{0.6545} = 1.92</annotation></semantics></math></div>
+
+<p>So the rate nearly doubles. A small-step expansion gives <math><semantics><mrow><mrow><mi>exp</mi><mo>⁡</mo></mrow><mo form="prefix" stretchy="false">[</mo><msub><mi>E</mi><mi>a</mi></msub><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>T</mi><mi>/</mi><mo form="prefix" stretchy="false">(</mo><mi>R</mi><msup><mi>T</mi><mn>2</mn></msup><mo form="postfix" stretchy="false">)</mo><mo form="postfix" stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">\exp[E_a \Delta T/(R T^2)]</annotation></semantics></math>, about 1.97 here. But the ratio depends strongly on <math><semantics><msub><mi>E</mi><mi>a</mi></msub><annotation encoding="application/x-tex">E_a</annotation></semantics></math>, so "doubling per 10 °C" is only a rough rule.</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Activation energy (kJ/mol)</th><th>Rate ratio 25 to 35 °C</th><th>Rate ratio 35 to 45 °C</th></tr></thead>
+<tbody>
+<tr><td>30</td><td>1.48</td><td>1.44</td></tr>
+<tr><td>50</td><td>1.92</td><td>1.85</td></tr>
+<tr><td>70</td><td>2.50</td><td>2.36</td></tr>
+<tr><td>90</td><td>3.25</td><td>3.02</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Exactly doubling from 25 to 35 °C needs <math><semantics><mrow><msub><mi>E</mi><mi>a</mi></msub><mo>≈</mo><mn>53</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">k</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">J</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">o</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">l</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">E_a \approx 53\,\mathrm{kJ/mol}</annotation></semantics></math>, and the ratio shrinks slightly at higher temperature. Real activation energies are empirical fits that mix several mechanisms, so treat these as illustrations. The practical message holds: a cabinet at 45 °C instead of 30 °C ages about 2.5 times faster with <math><semantics><mrow><msub><mi>E</mi><mi>a</mi></msub><mo>=</mo><mn>50</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">k</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">J</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">o</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">l</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">E_a = 50\,\mathrm{kJ/mol}</annotation></semantics></math>, since <math><semantics><mrow><mrow><mi>exp</mi><mo>⁡</mo></mrow><mo form="prefix" stretchy="false">[</mo><mn>6014</mn><mo>×</mo><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mi>/</mi><mn>303.15</mn><mo>−</mo><mn>1</mn><mi>/</mi><mn>318.15</mn><mo form="postfix" stretchy="false">)</mo><mo form="postfix" stretchy="false">]</mo><mo>=</mo><mn>2.55</mn></mrow><annotation encoding="application/x-tex">\exp[6014 \times (1/303.15 - 1/318.15)] = 2.55</annotation></semantics></math>. Batteries therefore belong in a shaded, ventilated place, away from direct sun and inverter exhaust. Cold has limits too: charging below freezing can damage cells, so a BMS may restrict it.</p>
+
+<h2 id="backup-sizing">Sizing a backup battery for a four-hour outage</h2>
+
+<p>Now we combine the pieces to find the battery energy needed to carry a home's critical loads through an outage. The symbols are:</p>
+
+<ul>
+<li><math><semantics><msub><mi>P</mi><mi>i</mi></msub><annotation encoding="application/x-tex">P_i</annotation></semantics></math>: power drawn by load <math><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>, in watts (W)</li>
+<li><math><semantics><msub><mi>t</mi><mi>i</mi></msub><annotation encoding="application/x-tex">t_i</annotation></semantics></math>: hours that load <math><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math> runs, in hours (h)</li>
+<li><math><semantics><mtext>DoD</mtext><annotation encoding="application/x-tex">\text{DoD}</annotation></semantics></math>: the depth of discharge allowed (fraction)</li>
+<li><math><semantics><msub><mi>η</mi><mtext>inv</mtext></msub><annotation encoding="application/x-tex">\eta_{\text{inv}}</annotation></semantics></math>: inverter efficiency (fraction)</li>
+<li><math><semantics><msub><mi>E</mi><mtext>req</mtext></msub><annotation encoding="application/x-tex">E_{\text{req}}</annotation></semantics></math>: required nominal battery energy, in Wh</li>
+</ul>
+
+<div class="equation"><math display="block"><semantics><mrow><msub><mi>E</mi><mtext>req</mtext></msub><mo>=</mo><mfrac><mrow><msub><mo movablelimits="false">∑</mo><mi>i</mi></msub><msub><mi>P</mi><mi>i</mi></msub><mspace width="0.1667em"></mspace><msub><mi>t</mi><mi>i</mi></msub></mrow><mrow><mtext>DoD</mtext><mo>×</mo><msub><mi>η</mi><mtext>inv</mtext></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">E_{\text{req}} = \frac{\sum_i P_i\,t_i}{\text{DoD} \times \eta_{\text{inv}}}</annotation></semantics></math></div>
+
+<p>The numerator is the energy the loads consume, and the denominator corrects for inverter loss and the share of the battery we agree to use. Below is an illustrative Indian home in a four-hour evening outage with only critical circuits on. Wattages are typical values, so measure your own appliances.</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Load</th><th>Quantity and power each</th><th>Hours</th><th>Energy (Wh)</th></tr></thead>
+<tbody>
+<tr><td>Ceiling fans</td><td>4 at 55 W</td><td>4</td><td>880</td></tr>
+<tr><td>LED lights</td><td>6 at 10 W</td><td>4</td><td>240</td></tr>
+<tr><td>Refrigerator (average, compressor cycling)</td><td>1 at 100 W</td><td>4</td><td>400</td></tr>
+<tr><td>Wi-Fi router and ONT</td><td>1 at 15 W</td><td>4</td><td>60</td></tr>
+<tr><td>Television</td><td>1 at 100 W</td><td>4</td><td>400</td></tr>
+<tr><td>Laptop and phone charging</td><td>1 at 60 W</td><td>4</td><td>240</td></tr>
+<tr><td>Water pump (0.5 h in total)</td><td>1 at 750 W</td><td>0.5</td><td>375</td></tr>
+<tr><td><strong>Total</strong></td><td></td><td></td><td><strong>2,595</strong></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>The loads total 2,595 Wh, or 2.6 kWh, an average of 649 W over four hours. With an illustrative DoD of 0.9 and inverter efficiency of 0.90 (small loads on a larger inverter run at modest efficiency, and the small battery discharge loss at these low rates is folded into the same factor):</p>
+
+<div class="equation"><math display="block"><semantics><mrow><msub><mi>E</mi><mtext>req</mtext></msub><mo>=</mo><mfrac><mrow><mn>2.595</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>kWh</mi></mpadded></mrow><mrow><mn>0.9</mn><mo>×</mo><mn>0.90</mn></mrow></mfrac><mo>=</mo><mn>3.20</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>kWh</mi></mpadded></mrow><annotation encoding="application/x-tex">E_{\text{req}} = \frac{2.595\,\mathrm{kWh}}{0.9 \times 0.90} = 3.20\,\mathrm{kWh}</annotation></semantics></math></div>
+
+<p>Now allow for ageing. If the battery must still do the job at 80% of its original capacity, divide again: <math><semantics><mrow><mn>3.20</mn><mi>/</mi><mn>0.8</mn><mo>=</mo><mn>4.0</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>kWh</mi></mpadded></mrow><annotation encoding="application/x-tex">3.20/0.8 = 4.0\,\mathrm{kWh}</annotation></semantics></math>. Our 5.12 kWh pack delivers <math><semantics><mrow><mn>5.12</mn><mo>×</mo><mn>0.9</mn><mo>×</mo><mn>0.9</mn><mo>=</mo><mn>4.15</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>kWh</mi></mpadded></mrow><annotation encoding="application/x-tex">5.12 \times 0.9 \times 0.9 = 4.15\,\mathrm{kWh}</annotation></semantics></math> to AC loads when new, enough for the average 649 W for about 6.4 hours. Sanity check: 3.20 kWh exceeds the 2.6 kWh consumed, as it should once reserve and inverter loss are included, and the pack has margin above the 4.0 kWh end-of-life figure.</p>
+
+<figure>
+<img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1200&amp;h=675&amp;fit=crop&amp;auto=format" alt="Electrical technician testing equipment" loading="lazy" width="1200" height="675">
+<figcaption>Energy is half the check. The battery, inverter, fuses and cables must also deliver the peak power.</figcaption>
+</figure>
+
+<h3>The power check</h3>
+
+<p>The system must also supply the peak power. With everything on, the running peak is <math><semantics><mrow><mn>220</mn><mo>+</mo><mn>60</mn><mo>+</mo><mn>150</mn><mo>+</mo><mn>15</mn><mo>+</mo><mn>100</mn><mo>+</mo><mn>60</mn><mo>+</mo><mn>750</mn><mo>=</mo><mn>1355</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded></mrow><annotation encoding="application/x-tex">220 + 60 + 150 + 15 + 100 + 60 + 750 = 1355\,\mathrm{W}</annotation></semantics></math>, counting the fridge at its running power. Induction motors draw several times their running current at start. An illustrative factor of 4 on the 750 W pump gives 3,000 W briefly. If the pump starts while the other loads (605 W) run, the peak is:</p>
+
+<div class="equation"><math display="block"><semantics><mrow><msub><mi>P</mi><mtext>peak</mtext></msub><mo>=</mo><mn>605</mn><mo>+</mo><mn>4</mn><mo>×</mo><mn>750</mn><mo>=</mo><mn>3605</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded><mspace width="1em"></mspace><mo stretchy="false">⇒</mo><mspace width="1em"></mspace><msub><mi>I</mi><mtext>DC</mtext></msub><mo>=</mo><mfrac><mn>3605</mn><mrow><mn>0.90</mn><mo>×</mo><mn>51.2</mn></mrow></mfrac><mo>=</mo><mn>78</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded><mo>≈</mo><mn>0.78</mn><mi>C</mi></mrow><annotation encoding="application/x-tex">P_{\text{peak}} = 605 + 4 \times 750 = 3605\,\mathrm{W} \quad\Rightarrow\quad I_{\text{DC}} = \frac{3605}{0.90 \times 51.2} = 78\,\mathrm{A} \approx 0.78C</annotation></semantics></math></div>
+
+<p>The inverter needs a surge rating covering about 3.6 kW for a few seconds, and the battery and BMS must permit about 78 A for the same period. A battery that is adequate on energy can fail on power. A soft-starter, or keeping the pump off the backup circuit, reduces the demand. The 78 A figure also drives fuse and cable sizing, as in the <a href="solar-dc-cable-sizing-voltage-drop.html">cable sizing article</a>.</p>
+
+<h3>Recharging from solar</h3>
+
+<p>The battery must be refilled by solar, and every stage loses some energy. With an illustrative 0.97 for the charger, 0.97 for the battery round trip and 0.90 for the inverter:</p>
+
+<div class="equation"><math display="block"><semantics><mrow><msub><mi>E</mi><mtext>solar</mtext></msub><mo>=</mo><mfrac><msub><mi>E</mi><mtext>load</mtext></msub><mrow><msub><mi>η</mi><mtext>inv</mtext></msub><mspace width="0.1667em"></mspace><msub><mi>η</mi><mtext>RT</mtext></msub><mspace width="0.1667em"></mspace><msub><mi>η</mi><mtext>ch</mtext></msub></mrow></mfrac><mo>=</mo><mfrac><mn>2.595</mn><mrow><mn>0.90</mn><mo>×</mo><mn>0.97</mn><mo>×</mo><mn>0.97</mn></mrow></mfrac><mo>=</mo><mn>3.06</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>kWh</mi></mpadded></mrow><annotation encoding="application/x-tex">E_{\text{solar}} = \frac{E_{\text{load}}}{\eta_{\text{inv}}\,\eta_{\text{RT}}\,\eta_{\text{ch}}} = \frac{2.595}{0.90 \times 0.97 \times 0.97} = 3.06\,\mathrm{kWh}</annotation></semantics></math></div>
+
+<p>As a rule of thumb, rooftop solar in this part of Andhra Pradesh generates roughly 4 to 4.5 units (kWh) per kW per day on annual average. Recharging one such outage then needs <math><semantics><mrow><mn>3.06</mn><mi>/</mi><mn>4.5</mn></mrow><annotation encoding="application/x-tex">3.06/4.5</annotation></semantics></math> to <math><semantics><mrow><mn>3.06</mn><mi>/</mi><mn>4.0</mn></mrow><annotation encoding="application/x-tex">3.06/4.0</annotation></semantics></math>, roughly 0.7 to 0.8 kW of panels. These are approximations that a site audit refines. This is on top of your daytime consumption, and monsoon months generate less, so leave margin.</p>
+
+<div class="callout callout--warning">
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+<p><strong>Safety:</strong> battery installation is work for qualified, licensed electricians. PV strings are live whenever light falls on them, and battery terminals are live all the time. With our illustrative 15 m<math><semantics><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><annotation encoding="application/x-tex">\Omega</annotation></semantics></math>, a terminal short circuit could drive roughly <math><semantics><mrow><mn>51.2</mn><mi>/</mi><mn>0.015</mn><mo>≈</mo><mn>3.4</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>kA</mi></mpadded></mrow><annotation encoding="application/x-tex">51.2/0.015 \approx 3.4\,\mathrm{kA}</annotation></semantics></math>, which is why correctly rated DC fuses matter. LFP is a comparatively stable chemistry, but a proper BMS, correct fusing and ventilation still matter.</p>
+</div>
+
+<p>Ray2Volt can run this analysis for your own site, from your measured loads, outage pattern and the battery datasheet. The lithium-ion batteries we supply carry a 10-year product warranty. See our <a href="../residential-hybrid.html">hybrid systems with battery</a> page and book a <a href="../book-power-audit.html">free power audit</a>.</p>
+
+
+                    <h2 id="faq">Frequently asked questions</h2>
+                    <div class="faq-list">
+                        <details class="faq-item">
+                            <summary>What is the theoretical capacity of LFP cathode material?</summary>
+                            <div class="faq-answer">
+                                <p>From Faraday's law, one mole of lithium moves 96,485 coulombs. Dividing by the molar mass of LiFePO4 (157.76 g/mol) and by 3.6 to convert coulombs to milliamp-hours gives about 170 mAh/g. Real cells deliver less per kilogram, because they also contain graphite, electrolyte, current collectors and casing.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>Why does a 5 kWh battery not deliver 5 kWh to my appliances?</summary>
+                            <div class="faq-answer">
+                                <p>Usable energy is nominal energy times depth of discharge, resistive heating and the inverter take further shares, and capacity fades with age. With an illustrative 90% depth of discharge and 90% inverter efficiency, a new 5.12 kWh pack delivers about 4.15 kWh to AC loads.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>Does a higher C-rate always damage a lithium battery?</summary>
+                            <div class="faq-answer">
+                                <p>Not automatically, but it has costs. In the simple model, heat rises with the square of current, so 1C produces 25 times the heat of 0.2C. Datasheet cycle-life figures are quoted at a stated C-rate and temperature, so check that your use stays within those conditions.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>Why does the battery percentage jump when it reaches full charge?</summary>
+                            <div class="faq-answer">
+                                <p>Most battery management systems estimate state of charge by counting current, and a small sensor offset accumulates into drift. At full charge the cell voltage reaches its limit and the current tapers, which is a reliable reference, so the system resets the percentage to 100%.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>How much does temperature affect battery life?</summary>
+                            <div class="faq-answer">
+                                <p>The Arrhenius law links ageing rate to temperature. For an illustrative activation energy of 50 kJ/mol, the rate at 35 °C is about 1.9 times that at 25 °C. The exact factor depends on the cell, so keep the battery in a shaded, ventilated place within the manufacturer's temperature limits.</p>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- Author box -->
+                    <div class="author-box">
+                        <img src="../images/logo.png" alt="Ray2Volt Solar" width="52" height="52" loading="lazy">
+                        <div>
+                            <h2>Ray2Volt Solar Private Limited</h2>
+                            <p>We design, install, and service rooftop solar for homes and businesses across Tirupati
+                                district and Andhra Pradesh, from PM Surya Ghar residential systems to commercial and
+                                industrial plants. Every enquiry starts with a free power audit.</p>
+                        </div>
+                    </div>
+
+                    <!-- End-of-post CTA -->
+                    <div class="post-cta">
+                        <h2>Size a battery on your own loads</h2>
+                        <p>Share your outage pattern and your appliance list, and we will work through the energy and power checks for your home or business.</p>
+                        <div class="post-cta-buttons">
+                            <a href="../get-quote.html" class="btn btn-primary">Get a free quote</a>
+                            <a href="https://wa.me/919666068140" class="btn btn-outline">Chat on WhatsApp</a>
+                        </div>
+                    </div>
+
+                </article>
+
+                <!-- Sidebar -->
+                <aside class="post-sidebar">
+                    <nav class="toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#chemistry-faraday">Chemistry and Faraday's law: what a cell can store</a></li>
+                            <li><a href="#ah-wh-pack">From amp-hours to watt-hours: cells, strings and packs</a></li>
+                            <li><a href="#c-rate-dod">C-rate, discharge time and depth of discharge</a></li>
+                            <li><a href="#resistance-efficiency">Internal resistance and round-trip efficiency</a></li>
+                            <li><a href="#peukert">Peukert's law: why lead-acid shrinks and lithium barely does</a></li>
+                            <li><a href="#soc-coulomb">State of charge by coulomb counting</a></li>
+                            <li><a href="#cycle-life-ageing">Cycle life, throughput and the Arrhenius law</a></li>
+                            <li><a href="#backup-sizing">Sizing a backup battery for a four-hour outage</a></li>
+                            <li><a href="#faq">Frequently asked questions</a></li>
+                        </ol>
+                    </nav>
+
+                    <div class="sidebar-cta">
+                        <h2>Free power audit</h2>
+                        <p>Share your latest electricity bill and we will size a system and show your real payback, at no
+                            cost and no obligation.</p>
+                        <a href="../get-quote.html" class="btn btn-white btn-sm">Book my audit</a>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- Related posts -->
+            <section class="related-posts">
+                <h2>Related reading</h2>
+                <div class="related-grid">
+                    <a href="solar-battery-storage-worth-it.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/solar-battery-storage-worth-it-800w.webp 800w, ../images/blog/solar-battery-storage-worth-it-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/solar-battery-storage-worth-it.jpg" alt="Solar Plus Battery Storage in 2026" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>Solar Plus Battery Storage in 2026: Is a Hybrid System Worth It Yet?</h3>
+                            <p>Technology</p>
+                        </div>
+                    </a>
+                    <a href="on-grid-vs-off-grid-vs-hybrid-solar.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/on-grid-vs-off-grid-vs-hybrid-solar-800w.webp 800w, ../images/blog/on-grid-vs-off-grid-vs-hybrid-solar-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/on-grid-vs-off-grid-vs-hybrid-solar.jpg" alt="On-Grid vs Off-Grid vs Hybrid Solar" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>On-Grid vs Off-Grid vs Hybrid Solar: Which System Is Right for You?</h3>
+                            <p>Solar Basics</p>
+                        </div>
+                    </a>
+                    <a href="how-inverters-make-ac-pwm.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/how-inverters-make-ac-pwm-800w.webp 800w, ../images/blog/how-inverters-make-ac-pwm-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/how-inverters-make-ac-pwm.jpg" alt="How a Solar Inverter Makes AC" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>How a Solar Inverter Makes AC: H-Bridges, PWM, Harmonics and Grid Synchronisation</h3>
+                            <p>Technology</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid footer-grid--5">
+                <div class="footer-brand">
+                    <p>Powering businesses and homes in Tirupati district and across Andhra Pradesh with clean, affordable solar energy.</p>
+                    <!-- r2v:social-footer:start -->
+                    <!-- r2v:social-footer:end -->
+                    <!-- r2v:vendor-id:start -->
+                    <!-- r2v:vendor-id:end -->
+                </div>
+
+                <div class="footer-col">
+                    <h4>For Businesses</h4>
+                    <ul>
+                        <li><a href="../commercial.html">Commercial &amp; industrial solar</a></li>
+                        <li><a href="../business-solar-finance.html">Finance options</a></li>
+                        <li><a href="../solar-roi-calculator.html">ROI calculator</a></li>
+                        <li><a href="../solar-quote-check.html">Free quote check</a></li>
+                        <li><a href="../book-power-audit.html">Book a free power audit</a></li>
+                        <li><a href="../upload-electricity-bill.html">Send your electricity bill</a></li>
+                        <li><a href="../tender-rfq.html">Tenders and RFQs</a></li>
+                        <li><a href="https://3d.ray2voltsolar.com/">Ray2Volt 3D for solar EPCs</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>For Homes</h4>
+                    <ul>
+                        <li><a href="../residential.html">Home solar</a></li>
+                        <li><a href="../residential.html#subsidy">PM Surya Ghar subsidy</a></li>
+                        <li><a href="../solar-emi-calculator.html">Solar loan EMI calculator</a></li>
+                        <li><a href="../apartment-solar.html">Apartments &amp; societies</a></li>
+                        <li><a href="../avoid-solar-fraud.html">Pay safely: avoid subsidy fraud</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="../about.html">About us</a></li>
+                        <li><a href="../team.html">Our team</a></li>
+                        <li><a href="../locations.html">Where we work</a></li>
+                        <li><a href="../investor.html">Investors</a></li>
+                        <li><a href="../blog.html">Guides</a></li>
+                        <li><a href="../careers.html">Careers</a></li>
+                        <li><a href="../channel-partner.html">Channel partners</a></li>
+                        <li><a href="../raycare.html">RayCare service and warranty</a></li>
+                        <li><a href="../service-request.html">Request a service visit</a></li>
+                        <li><a href="../privacy-policy.html">Privacy policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li>1-278, J.K.Nagar, Revenue Ward No-1, Pichatur Road, Srikalahasti, 517644, Andhra Pradesh.</li>
+                        <li><a href="tel:+919666068140">+91 96660 68140</a></li>
+                        <li><a href="mailto:sales@ray2voltsolar.com">sales@ray2voltsolar.com</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ray2Volt Solar Private Limited. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" aria-label="Scroll to top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <script src="../script.js"></script>
+    <script src="../blog.js"></script>
+</body>
+
+</html>
