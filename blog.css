@@ -717,6 +717,7 @@ body.blog::after {
 /* Equations in the technical guides are native MathML; a long display
    equation scrolls sideways on a phone instead of widening the page. */
 .post-body math {
+    font-family: "STIX Two Math", "Cambria Math", "Latin Modern Math", math;
     font-size: 1.08em;
     color: var(--ink);
 }

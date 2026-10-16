@@ -203,7 +203,7 @@
       "category": "Subsidy & Policy",
       "date": "2026-07-03",
       "readTime": 9,
-      "excerpt": "Compare DCR and non-DCR solar panels, ALMM List-I and List-II rules, the ₹9 to ₹12 per Wp premium, and what to verify before ordering for your roof.",
+      "excerpt": "Compare DCR and non-DCR solar panels, ALMM List-I and List-II rules, the \u20b99 to \u20b912 per Wp premium, and what to verify before ordering for your roof.",
       "keywords": "ALMM List-II 2026, DCR vs non DCR solar panels, ALMM compliance India, domestic content requirement solar",
       "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. Rows of brand-new solar modules standing upright in shipping racks inside a clean, brightly lit warehouse staging area, shallow depth of field down the row, neutral concrete floor. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
       "related": [
@@ -535,6 +535,176 @@
         "read-your-electricity-bill"
       ],
       "imageScene": "An aerial three-quarter view of a massive modern textile yarn spinning and weaving mill complex with thousands of solar panels neatly mounted across north-light and flat industrial roofs, transformer yard and utility substation visible in the perimeter, sunny clear sky, flat inland industrial corridor."
+    },
+    {
+      "slug": "how-a-solar-cell-works-physics",
+      "title": "How a Solar Cell Works: The Physics from Photons to Current",
+      "shortTitle": "How a Solar Cell Works",
+      "category": "Technology",
+      "date": "2026-10-16",
+      "readTime": 16,
+      "excerpt": "Follow sunlight through a silicon cell: photons, band gap, p-n junction, diode equation, Voc, fill factor and efficiency, with a worked M10 cell example.",
+      "keywords": "how a solar cell works, solar cell physics, silicon band gap, p-n junction, diode equation, open-circuit voltage, fill factor, Shockley-Queisser limit, solar cell efficiency",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A low-angle daylight view of an unbranded monocrystalline module on a whitewashed Indian flat roof, with thin cell fingers and busbars sharp in the foreground, a plain water tank and clear sky behind, no people. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "solar-module-iv-curve-explained",
+        "solar-panel-types-explained",
+        "mppt-and-dc-dc-converters-explained"
+      ],
+      "imageScene": "A low-angle daylight view of an unbranded monocrystalline module on a whitewashed Indian flat roof, with thin cell fingers and busbars sharp in the foreground, a plain water tank and clear sky behind, no people."
+    },
+    {
+      "slug": "solar-module-iv-curve-explained",
+      "title": "How a Solar Module Works: Cells, Bypass Diodes and the I-V Curve",
+      "shortTitle": "How a Solar Module Works",
+      "category": "Technology",
+      "date": "2026-10-16",
+      "readTime": 16,
+      "excerpt": "Follow a solar module from cell to curve: series maths, half-cut cells, the I-V maximum power point, bypass diodes, heat effects and warranty arithmetic.",
+      "keywords": "solar module I-V curve, bypass diode explained, half-cut solar cells, fill factor, NOCT cell temperature, solar panel degradation, maximum power point",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. Rows of unbranded, unlabelled solar modules on a flat concrete rooftop in an ordinary Indian industrial setting, shot in clear daylight at a slight angle so the cell grid, silver busbars and plain aluminium frames show. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "how-a-solar-cell-works-physics",
+        "solar-string-sizing-temperature",
+        "tier-1-solar-panel-brands-india"
+      ],
+      "imageScene": "Rows of unbranded, unlabelled solar modules on a flat concrete rooftop in an ordinary Indian industrial setting, shot in clear daylight at a slight angle so the cell grid, silver busbars and plain aluminium frames show."
+    },
+    {
+      "slug": "solar-dc-cable-sizing-voltage-drop",
+      "title": "Solar Wiring from First Principles: Resistance, Voltage Drop and Cable Sizing",
+      "shortTitle": "Solar Wiring from First Principles",
+      "category": "Technology",
+      "date": "2026-10-16",
+      "readTime": 16,
+      "excerpt": "Derive solar cable sizing from Ohm's law: resistance, temperature, voltage drop, annual energy loss, ampacity, connectors, AC runs and economic cable size.",
+      "keywords": "solar cable sizing, DC voltage drop solar, solar string cable, voltage drop formula, copper vs aluminium cable, cable ampacity derating, Kelvin's law, MC4 connector resistance",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A flat concrete industrial rooftop in Andhra Pradesh in clear daylight, with rows of unbranded solar modules and black DC string cables clipped neatly along the galvanised mounting rails, a few connectors visible at the module junctions, no people. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "solar-string-sizing-temperature",
+        "solar-earthing-surge-protection",
+        "what-is-a-solar-inverter"
+      ],
+      "imageScene": "A flat concrete industrial rooftop in Andhra Pradesh in clear daylight, with rows of unbranded solar modules and black DC string cables clipped neatly along the galvanised mounting rails, a few connectors visible at the module junctions, no people."
+    },
+    {
+      "slug": "solar-string-sizing-temperature",
+      "title": "String Sizing for Solar Inverters: The Temperature Mathematics of Voc, Vmp and MPPT Windows",
+      "shortTitle": "String Sizing for Inverters",
+      "category": "Technology",
+      "date": "2026-10-16",
+      "readTime": 17,
+      "excerpt": "Size solar strings correctly: temperature-corrected Voc and Vmp, MPPT windows, reverse current and DC/AC clipping, with a worked 50 kW inverter example.",
+      "keywords": "solar string sizing, Voc temperature coefficient, MPPT voltage window, DC AC ratio clipping, string inverter design",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A flat concrete industrial rooftop in daylight with several long rows of unbranded solar modules, bundled DC cables running neatly along the frames to a plain wall-mounted inverter and combiner box, no people. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "solar-module-iv-curve-explained",
+        "solar-dc-cable-sizing-voltage-drop",
+        "how-to-size-a-solar-system"
+      ],
+      "imageScene": "A flat concrete industrial rooftop in daylight with several long rows of unbranded solar modules, bundled DC cables running neatly along the frames to a plain wall-mounted inverter and combiner box, no people."
+    },
+    {
+      "slug": "sun-path-tilt-angle-shading-geometry",
+      "title": "Sun Path Geometry for Solar: Tilt, Azimuth and Row Spacing from First Principles",
+      "shortTitle": "Sun Path Geometry",
+      "category": "Technology",
+      "date": "2026-10-16",
+      "readTime": 17,
+      "excerpt": "Derive solar declination, solar time, sun altitude, tilt and row spacing from first principles, with worked Tirupati examples that you can check yourself.",
+      "keywords": "sun path geometry, solar tilt angle India, solar declination formula, solar row spacing, ground coverage ratio, solar altitude and azimuth, Tirupati solar tilt",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. Low-angle morning view along a plain flat concrete terrace roof in an inland Indian town, with several parallel rows of unbranded dark solar modules at a gentle tilt facing south, each row casting a short, clear shadow onto the roof surface behind it, a low painted parapet and a small plain water tank in the background, no people. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "solar-energy-yield-performance-ratio",
+        "solar-in-tirupati-guide",
+        "how-to-size-a-solar-system"
+      ],
+      "imageScene": "Low-angle morning view along a plain flat concrete terrace roof in an inland Indian town, with several parallel rows of unbranded dark solar modules at a gentle tilt facing south, each row casting a short, clear shadow onto the roof surface behind it, a low painted parapet and a small plain water tank in the background, no people."
+    },
+    {
+      "slug": "solar-energy-yield-performance-ratio",
+      "title": "From Sunlight to Units: The Mathematics of Solar Energy Yield and Performance Ratio",
+      "shortTitle": "Solar Energy Yield Mathematics",
+      "category": "Technology",
+      "date": "2026-10-16",
+      "readTime": 16,
+      "excerpt": "Derive solar energy yield from first principles: irradiance, plane-of-array transposition, the loss chain, performance ratio, CUF and 25-year degradation.",
+      "keywords": "solar energy yield, performance ratio, peak sun hours, plane of array irradiance, capacity utilisation factor, specific yield kWh/kWp, solar degradation",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A tilted array of unbranded blue-black solar modules on a flat concrete roof in an ordinary Indian town, seen from a slight elevation in clear mid-morning daylight with a low water tank and distant rooftops behind, no people. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "sun-path-tilt-angle-shading-geometry",
+        "how-to-size-a-solar-system",
+        "rooftop-solar-roi-payback"
+      ],
+      "imageScene": "A tilted array of unbranded blue-black solar modules on a flat concrete roof in an ordinary Indian town, seen from a slight elevation in clear mid-morning daylight with a low water tank and distant rooftops behind, no people."
+    },
+    {
+      "slug": "mppt-and-dc-dc-converters-explained",
+      "title": "MPPT Explained: The Calculus and Power Electronics Behind Maximum Power Point Tracking",
+      "shortTitle": "MPPT Explained",
+      "category": "Technology",
+      "date": "2026-10-16",
+      "readTime": 17,
+      "excerpt": "How MPPT works: the calculus of dP/dV = 0, buck and boost derivations, inductor sizing, perturb and observe, incremental conductance and partial shading.",
+      "keywords": "MPPT explained, maximum power point tracking, perturb and observe, incremental conductance, boost converter inductor, solar DC-DC converter, partial shading MPPT",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. Daylight view across an ordinary flat concrete industrial rooftop with neat rows of unbranded solar modules, and beside a plain painted plant-room wall a wall-mounted unbranded inverter enclosure with tidy conduit runs, no people. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "how-a-solar-cell-works-physics",
+        "how-inverters-make-ac-pwm",
+        "what-is-a-solar-inverter"
+      ],
+      "imageScene": "Daylight view across an ordinary flat concrete industrial rooftop with neat rows of unbranded solar modules, and beside a plain painted plant-room wall a wall-mounted unbranded inverter enclosure with tidy conduit runs, no people."
+    },
+    {
+      "slug": "how-inverters-make-ac-pwm",
+      "title": "How a Solar Inverter Makes AC: H-Bridges, PWM, Harmonics and Grid Synchronisation",
+      "shortTitle": "How Inverters Make AC",
+      "category": "Technology",
+      "date": "2026-10-16",
+      "readTime": 17,
+      "excerpt": "How a solar inverter makes AC: H-bridge switching, sinusoidal PWM, DC-link voltage, THD, LC filters, PLL grid sync and capacitor sizing, with worked examples.",
+      "keywords": "how solar inverter works, H-bridge inverter, sinusoidal PWM, THD harmonics, DC link capacitor sizing, inverter grid synchronisation PLL, LCL filter",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A wall-mounted, unbranded grey string inverter with neat conduit and cable runs on a whitewashed plant-room wall beside an AC distribution board at an Indian industrial site, in soft daylight, no people. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "mppt-and-dc-dc-converters-explained",
+        "what-is-a-solar-inverter",
+        "top-solar-inverter-brands-india"
+      ],
+      "imageScene": "A wall-mounted, unbranded grey string inverter with neat conduit and cable runs on a whitewashed plant-room wall beside an AC distribution board at an Indian industrial site, in soft daylight, no people."
+    },
+    {
+      "slug": "solar-earthing-surge-protection",
+      "title": "Earthing and Surge Protection for Solar Plants: The Physics of Fault Currents and Lightning",
+      "shortTitle": "Earthing and Surge Protection",
+      "category": "Technology",
+      "date": "2026-10-16",
+      "readTime": 17,
+      "excerpt": "Earthing and surge protection from first principles: fault loops, rod resistance, Wenner soil tests, induced surge voltage, SPD leads and the rolling sphere.",
+      "keywords": "solar earthing, earth electrode resistance, Wenner method soil resistivity, solar surge protection device, lightning protection solar plant, rolling sphere method, insulation resistance Riso, IEC 62305",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A daylight view of an ordinary Indian flat concrete roof with a low-angle row of unbranded solar modules on galvanised steel structures, a green-yellow earthing strip running along the rails to a small brick earth-pit cover, and a slim lightning air terminal mast at the roof edge, no people. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "solar-dc-cable-sizing-voltage-drop",
+        "solar-panel-maintenance-guide",
+        "how-to-choose-a-solar-installer"
+      ],
+      "imageScene": "A daylight view of an ordinary Indian flat concrete roof with a low-angle row of unbranded solar modules on galvanised steel structures, a green-yellow earthing strip running along the rails to a small brick earth-pit cover, and a slim lightning air terminal mast at the roof edge, no people."
+    },
+    {
+      "slug": "lithium-battery-math-for-solar",
+      "title": "Lithium Battery Mathematics for Solar: Capacity, C-Rate, Efficiency and Cycle Life",
+      "shortTitle": "Lithium Battery Mathematics",
+      "category": "Technology",
+      "date": "2026-10-16",
+      "readTime": 17,
+      "excerpt": "How lithium batteries store energy: Faraday's law, C-rate, internal resistance, Peukert, SOC drift, Arrhenius ageing, and how to size a home backup system.",
+      "keywords": "lithium battery mathematics, LFP battery capacity, C-rate, battery round-trip efficiency, Peukert law, battery backup sizing India",
+      "imagePrompt": "Photorealistic editorial photograph, 16:9 landscape, shot on a full-frame camera with a 35mm lens. A wall-mounted unbranded lithium battery pack with a hybrid inverter beside it, mounted on a plain concrete wall in a shaded, ventilated utility room of an ordinary Indian house in soft daylight, with neat unlabelled cable runs and conduits. Natural daylight, bright clean exposure, crisp detail, medium depth of field, straight documentary framing. Cool blue and cyan tones with warm sunlight accents; bright, airy, uncluttered composition with generous clean negative space. Ordinary contemporary middle-market architecture and current-generation equipment in a flat inland setting - plain painted concrete, render and glass, practical and unglamorous. Absolutely no coastline, no sea, no mountains behind buildings, no pine forest, no resort or luxury villa styling, no infinity pool. Absolutely no text, letters, numbers, digits, display readouts, labels, logos, watermarks, brand names or signage anywhere in the frame; all equipment must be completely unbranded and unlabelled. No visible human faces. Must look like a genuine professional photograph, not an illustration, not a 3D render, not stylised.",
+      "related": [
+        "solar-battery-storage-worth-it",
+        "on-grid-vs-off-grid-vs-hybrid-solar",
+        "how-inverters-make-ac-pwm"
+      ],
+      "imageScene": "A wall-mounted unbranded lithium battery pack with a hybrid inverter beside it, mounted on a plain concrete wall in a shaded, ventilated utility room of an ordinary Indian house in soft daylight, with neat unlabelled cable runs and conduits."
     }
   ],
   "imageStyle": {

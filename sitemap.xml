@@ -181,6 +181,12 @@
         <priority>0.3</priority>
     </url>
     <url>
+        <loc>https://ray2voltsolar.com/raycare.html</loc>
+        <lastmod>2026-10-08</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://ray2voltsolar.com/resco-solar-for-business.html</loc>
         <lastmod>2026-09-23</lastmod>
         <changefreq>monthly</changefreq>
@@ -265,9 +271,63 @@
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://ray2voltsolar.com/raycare.html</loc>
-        <lastmod>2026-10-08</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://ray2voltsolar.com/blog/how-a-solar-cell-works-physics.html</loc>
+        <lastmod>2026-10-16</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ray2voltsolar.com/blog/solar-module-iv-curve-explained.html</loc>
+        <lastmod>2026-10-16</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ray2voltsolar.com/blog/solar-dc-cable-sizing-voltage-drop.html</loc>
+        <lastmod>2026-10-16</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ray2voltsolar.com/blog/solar-string-sizing-temperature.html</loc>
+        <lastmod>2026-10-16</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ray2voltsolar.com/blog/sun-path-tilt-angle-shading-geometry.html</loc>
+        <lastmod>2026-10-16</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ray2voltsolar.com/blog/solar-energy-yield-performance-ratio.html</loc>
+        <lastmod>2026-10-16</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ray2voltsolar.com/blog/mppt-and-dc-dc-converters-explained.html</loc>
+        <lastmod>2026-10-16</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ray2voltsolar.com/blog/how-inverters-make-ac-pwm.html</loc>
+        <lastmod>2026-10-16</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ray2voltsolar.com/blog/solar-earthing-surge-protection.html</loc>
+        <lastmod>2026-10-16</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ray2voltsolar.com/blog/lithium-battery-math-for-solar.html</loc>
+        <lastmod>2026-10-16</lastmod>
+        <changefreq>yearly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
