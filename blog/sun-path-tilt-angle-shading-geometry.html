@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-theme-fixed>
+
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18014889887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-18014889887');
+        gtag('config', 'G-WZJ1CXHSG9');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Blog pages are always light: the theme is fixed on <html> and has no toggle -->
+    <meta name="description" content="Derive solar declination, solar time, sun altitude, tilt and row spacing from first principles, with worked Tirupati examples that you can check yourself.">
+    <meta name="keywords" content="sun path geometry, solar tilt angle India, solar declination formula, solar row spacing, ground coverage ratio, solar altitude and azimuth, Tirupati solar tilt">
+    <title>Sun Path Geometry for Solar: Tilt, Azimuth and Row Spacing from First Principles</title>
+    <link rel="canonical" href="https://ray2voltsolar.com/blog/sun-path-tilt-angle-shading-geometry.html">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap"
+        rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap" rel="stylesheet">
+    </noscript>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../blog.css">
+    <link rel="stylesheet" href="../theme.css">
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Ray2Volt Solar">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Sun Path Geometry for Solar: Tilt, Azimuth and Row Spacing from First Principles">
+    <meta property="og:description" content="Derive solar declination, solar time, sun altitude, tilt and row spacing from first principles, with worked Tirupati examples that you can check yourself.">
+    <meta property="og:url" content="https://ray2voltsolar.com/blog/sun-path-tilt-angle-shading-geometry.html">
+    <meta property="og:image" content="https://ray2voltsolar.com/images/blog/sun-path-tilt-angle-shading-geometry.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Sun Path Geometry for Solar: Tilt, Azimuth and Row Spacing from First Principles",
+      "description": "Derive solar declination, solar time, sun altitude, tilt and row spacing from first principles, with worked Tirupati examples that you can check yourself.",
+      "image": "https://ray2voltsolar.com/images/blog/sun-path-tilt-angle-shading-geometry.jpg",
+      "author": { "@type": "Organization", "name": "Ray2Volt Solar Private Limited", "url": "https://ray2voltsolar.com" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Ray2Volt Solar Private Limited",
+        "logo": { "@type": "ImageObject", "url": "https://ray2voltsolar.com/images/logo.png" }
+      },
+      "datePublished": "2026-10-16",
+      "dateModified": "2026-10-16",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ray2voltsolar.com/blog/sun-path-tilt-angle-shading-geometry.html" },
+      "articleSection": "Technology"
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ray2voltsolar.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://ray2voltsolar.com/blog.html" },
+        { "@type": "ListItem", "position": 3, "name": "Sun Path Geometry", "item": "https://ray2voltsolar.com/blog/sun-path-tilt-angle-shading-geometry.html" }
+      ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the best tilt angle for solar panels in Tirupati?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Under a clear-sky beam model, the annual maximum for a fixed south-facing plane at Tirupati lies near 12 degrees, just below the 13.63 degree latitude. The curve is flat: every tilt from 8 to 16 degrees is within 0.3% of it. Designers therefore choose 10 to 15 degrees for rain cleaning, lower wind load and closer rows."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is solar noon not at 12:00 on my clock?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Indian Standard Time is set for the 82.5 degrees east meridian, while Tirupati is at 79.42 degrees east. At 4 minutes per degree, the sun crosses the Tirupati meridian 12.32 minutes after clock noon. The equation of time then adds between minus 14 and plus 16 minutes, so solar noon falls between about 11:56 and 12:26 IST."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I calculate the sun's height above the horizon?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use sin(altitude) = sin(latitude) × sin(declination) + cos(latitude) × cos(declination) × cos(hour angle), with the hour angle at 15 degrees per hour from solar noon, negative in the morning. At Tirupati on 16 October at 10:02 solar time this gives 52.46 degrees."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How far apart should rows of solar panels be on a flat roof?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The pitch is module length × cos(tilt) plus the shadow reach of the top edge, module length × sin(tilt) × cos(azimuth) / tan(altitude). With 9:00 to 15:00 solar time on 21 December as the design window, a 2.28 m module at 10 degrees tilt needs a pitch of about 2.64 m, a ground coverage ratio of 0.86."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much roof clearance does a parapet or water tank need?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Clearance is the obstruction height × cos(azimuth) / tan(altitude) at the sun position that sets your design window. For Tirupati on 21 December at 9:00 and 15:00, a 1 m parapet shades about 1.0 m to its north and a 1.8 m tank about 1.8 m to its north, plus up to 2.2 m sideways. Confirm heights with a site survey."
+          }
+        }
+      ]
+    }
+    </script>
+</head>
+
+<body class="blog">
+    <!-- Header / Navigation -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="logo">
+                <img src="../images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'">
+                <div class="logo-text">
+                    Ray2Volt Solar
+                    <span>Private Limited</span>
+                </div>
+            </a>
+
+            <ul class="nav-menu">
+                <li class="dropdown dropdown-wide">
+                    <a href="../commercial.html" class="nav-link" aria-haspopup="true" aria-expanded="false">For Businesses <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Plan your project</span>
+                            <ul>
+                                <li><a href="../commercial.html">Commercial solar overview</a></li>
+                                <li><a href="../business-solar-finance.html">Finance options</a></li>
+                                <li><a href="../resco-solar-for-business.html">RESCO: pay per unit</a></li>
+                                <li><a href="../solar-roi-calculator.html">ROI calculator</a></li>
+                                <li><a href="../ground-mounted-solar-open-access.html">Ground-mounted &amp; open access</a></li>
+                                <li><a href="../solar-battery-vs-diesel.html">Solar + battery vs diesel</a></li>
+                                <li><a href="../solar-quote-check.html">Free quote check</a></li>
+                                <li><a href="../book-power-audit.html">Book a free power audit</a></li>
+                                <li><a href="../tender-rfq.html">Tenders and RFQs</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Industries</span>
+                            <ul>
+                                <li><a href="../industry-manufacturing.html">Manufacturing &amp; factories</a></li>
+                                <li><a href="../industry-healthcare.html">Hospitals &amp; healthcare</a></li>
+                                <li><a href="../industry-hotels.html">Hotels &amp; resorts</a></li>
+                                <li><a href="../industry-cold-storage.html">Cold storage &amp; food processing</a></li>
+                                <li><a href="../industry-education.html">Schools &amp; colleges</a></li>
+                                <li><a href="../industry-warehousing.html">Warehousing &amp; logistics</a></li>
+                                <li><a href="../industry-retail.html">Retail &amp; malls</a></li>
+                                <li><a href="../industry-offices.html">Offices &amp; IT parks</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">For solar EPCs</span>
+                            <ul>
+                                <li><a href="https://3d.ray2voltsolar.com/">Ray2Volt 3D: 3D plant viewers</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="../residential.html" class="nav-link" aria-haspopup="true" aria-expanded="false">For Homes <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../residential.html">Home solar overview</a></li>
+                        <li><a href="../residential-ongrid.html">On-grid systems</a></li>
+                        <li><a href="../residential-hybrid.html">Hybrid systems with battery</a></li>
+                        <li><a href="../apartment-solar.html">Apartments &amp; housing societies</a></li>
+                        <li><a href="../solar-emi-calculator.html">Solar loan EMI calculator</a></li>
+                        <li><a href="../blog/pm-surya-ghar-subsidy-guide.html">PM Surya Ghar subsidy guide</a></li>
+                        <li><a href="../raycare.html">RayCare: service plans</a></li>
+                    </ul>
+                </li>
+                <li><a href="../investor.html" class="nav-link">Investors</a></li>
+                <li><a href="../blog.html" class="nav-link active">Guides</a></li>
+                <li><a href="../about.html" class="nav-link">About</a></li>
+                <li><a href="../contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="blog-main">
+        <div class="container">
+
+            <!-- Breadcrumbs -->
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="/">Home</a>
+                <span class="sep">/</span>
+                <a href="../blog.html">Blog</a>
+                <span class="sep">/</span>
+                <span aria-current="page">Sun Path Geometry</span>
+            </nav>
+
+            <!-- Post header -->
+            <header class="post-header">
+                <div class="post-meta">
+                    <span class="category-pill" data-cat="Technology">Technology</span>
+                    <time datetime="2026-10-16">16 October 2026</time>
+                    <span class="dot">&middot;</span>
+                    <span>17 min read</span>
+                </div>
+                <h1>Sun Path Geometry for Solar: Tilt, Azimuth and Row Spacing from First Principles</h1>
+                <p class="post-standfirst">How the sun moves, how that fixes the best tilt, and how far apart to put rows, derived step by step with Tirupati numbers you can check yourself.</p>
+            </header>
+
+            <!-- Hero image -->
+            <figure class="post-hero">
+                <picture>
+                    <source type="image/webp" srcset="../images/blog/sun-path-tilt-angle-shading-geometry-800w.webp 800w, ../images/blog/sun-path-tilt-angle-shading-geometry-1600w.webp 1600w" sizes="(max-width: 900px) 100vw, 800px">
+                    <img src="../images/blog/sun-path-tilt-angle-shading-geometry.jpg" alt="Rows of solar modules at a low tilt on a flat concrete terrace roof, with short morning shadows falling behind each row" width="1600" height="900" fetchpriority="high">
+                </picture>
+                <figcaption>Row spacing, tilt and parapet setbacks all come from one calculation: where the sun is on the worst winter day.</figcaption>
+            </figure>
+
+            <div class="post-shell">
+                <article class="post-body">
+
+                    <div class="key-takeaways">
+                        <h2>Four sun-path facts for Tirupati</h2>
+                        <ul>
+                            <li>At 13.63&deg; N the sun at solar noon stands 52.9&deg; above the horizon on 21 December and 76.4&deg; at the equinoxes. Around 21 June it is 80.2&deg; up but to the north of you.</li>
+                            <li>Solar noon in Tirupati falls between about 11:56 and 12:26 on an IST clock. The 82.5&deg; E reference meridian adds 12.3 minutes, and the equation of time moves it by &minus;14 to +16 minutes.</li>
+                            <li>Under a clear-sky beam model, every south-facing tilt from 5&deg; to 20&deg; is within 1% of the 13.6&deg; yield. Flat panels lose about 2.2%, so wind, cleaning and row spacing decide the tilt.</li>
+                            <li>Modules 2.28 m long at 10&deg; tilt need a 2.64 m row pitch to stay unshaded from 9:00 to 15:00 on 21 December. That is a ground coverage ratio of 0.86.</li>
+                        </ul>
+                    </div>
+
+                    <p>A flat-roof layout drawing carries numbers that look arbitrary: a tilt of 10&deg;, a row pitch of 2.7 m, a 1.2 m setback from the parapet. Each follows from where the sun is on a given day and hour, and that can be calculated from latitude, date and time with a few trigonometric formulas.</p>
+
+                    <p>This guide builds those formulas from first principles. We fix the conventions first, derive the sun's altitude and azimuth from one vector dot product, and from it get day length, the angle at which light meets a tilted module, the effect of tilt on annual beam energy and the spacing between rows. The worked examples use Tirupati (about 13.63&deg; N, 79.42&deg; E) and every figure was computed in Python. For the energy side, continue to our guide to <a href="solar-energy-yield-performance-ratio.html">solar energy yield and performance ratio</a>.</p>
+
+                    <h2 id="conventions-and-notation">Angles, symbols and sign conventions</h2>
+                    <p>Solar geometry usually goes wrong through sign conventions, not trigonometry. They are fixed here, and every symbol is defined before use.</p>
+                    <ul>
+                        <li><math><semantics><mi>φ</mi><annotation encoding="application/x-tex">\varphi</annotation></semantics></math> is the latitude in degrees, positive north. For Tirupati, <math><semantics><mrow><mi>φ</mi><mo>=</mo><msup><mn>13.63</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\varphi = 13.63^{\circ}</annotation></semantics></math>.</li>
+                        <li><math><semantics><msub><mi>L</mi><mtext>loc</mtext></msub><annotation encoding="application/x-tex">L_{\text{loc}}</annotation></semantics></math> is the site longitude in degrees east (79.42&deg; for Tirupati). <math><semantics><msub><mi>L</mi><mtext>st</mtext></msub><annotation encoding="application/x-tex">L_{\text{st}}</annotation></semantics></math> is the reference meridian of the time zone: 82.5&deg; E for Indian Standard Time (IST).</li>
+                        <li><math><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math> is the day number of the year, with 1 January as 1.</li>
+                        <li><math><semantics><mi>δ</mi><annotation encoding="application/x-tex">\delta</annotation></semantics></math> is the solar declination in degrees: the angle between the sun's rays and the equatorial plane, positive when the sun is north of the equator.</li>
+                        <li><math><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math> is the hour angle in degrees: zero at solar noon, negative before it, positive after it, changing 15&deg; every hour.</li>
+                        <li><math><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math> is the solar altitude above the horizontal. The zenith angle is <math><semantics><mrow><msub><mi>θ</mi><mi>z</mi></msub><mo>=</mo><msup><mn>90</mn><mo lspace="0em" rspace="0em">∘</mo></msup><mo>−</mo><mi>α</mi></mrow><annotation encoding="application/x-tex">\theta_z = 90^{\circ} - \alpha</annotation></semantics></math>.</li>
+                        <li><math><semantics><msub><mi>γ</mi><mi>s</mi></msub><annotation encoding="application/x-tex">\gamma_s</annotation></semantics></math> is the solar azimuth from due south, east negative and west positive. A south-east sun has <math><semantics><msub><mi>γ</mi><mi>s</mi></msub><annotation encoding="application/x-tex">\gamma_s</annotation></semantics></math> near &minus;45&deg;. Add 180&deg; for a compass bearing.</li>
+                        <li><math><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math> is the module tilt from horizontal and <math><semantics><mi>γ</mi><annotation encoding="application/x-tex">\gamma</annotation></semantics></math> the azimuth it faces, with the same signs as <math><semantics><msub><mi>γ</mi><mi>s</mi></msub><annotation encoding="application/x-tex">\gamma_s</annotation></semantics></math>. A module facing due south has <math><semantics><mrow><mi>γ</mi><mo>=</mo><msup><mn>0</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\gamma = 0^{\circ}</annotation></semantics></math>.</li>
+                        <li><math><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math> is the angle of incidence between a sun ray and the perpendicular (normal) to the module.</li>
+                    </ul>
+                    <p>We assume a point sun with parallel rays, no atmospheric bending (under 0.6&deg; even at the horizon) and a flat, level roof. The resulting angles are accurate to a fraction of a degree.</p>
+
+                    <h2 id="declination-and-the-sun-path">Why the sun's path changes: declination</h2>
+                    <p>The Earth's axis is tilted about 23.44&deg; from the perpendicular to its orbit and points in a nearly fixed direction in space, so over a year the sun moves north and south of the equatorial plane. On about 20 March and 23 September <math><semantics><mrow><mi>δ</mi><mo>=</mo><msup><mn>0</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\delta = 0^{\circ}</annotation></semantics></math>; on 21 June <math><semantics><mrow><mi>δ</mi><mo>=</mo><mo form="prefix" stretchy="false">+</mo><msup><mn>23.44</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\delta = +23.44^{\circ}</annotation></semantics></math>; on 21 December <math><semantics><mrow><mi>δ</mi><mo>=</mo><mo form="prefix" stretchy="false">−</mo><msup><mn>23.44</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\delta = -23.44^{\circ}</annotation></semantics></math>. Cooper's approximation (1969) gives it from the day number alone:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mi>δ</mi><mo>=</mo><msup><mn>23.45</mn><mo lspace="0em" rspace="0em">∘</mo></msup><mspace width="0.1667em"></mspace><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">[</mo><mfrac><mrow><msup><mn>360</mn><mo lspace="0em" rspace="0em">∘</mo></msup><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><mn>284</mn><mo>+</mo><mi>n</mi><mo form="postfix" stretchy="false" lspace="0em" rspace="0em">)</mo></mrow><mn>365</mn></mfrac><mo fence="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">\delta = 23.45^{\circ}\,\sin\!\left[\frac{360^{\circ}\,(284+n)}{365}\right]</annotation></semantics></math></div>
+
+                    <p>The sine captures the smooth annual swing and the 284-day offset puts the zero crossing at the March equinox. Against the NOAA astronomical series, the largest difference over the year is 0.98&deg;, in mid-October, so treat it as good to about a degree.</p>
+
+                    <p><strong>Worked example.</strong> For 16 October, <math><semantics><mrow><mi>n</mi><mo>=</mo><mn>289</mn></mrow><annotation encoding="application/x-tex">n = 289</annotation></semantics></math>. The angle inside the sine is <math><semantics><mrow><msup><mn>360</mn><mo lspace="0em" rspace="0em">∘</mo></msup><mo>×</mo><mn>573</mn><mi>/</mi><mn>365</mn><mo>=</mo><msup><mn>565.15</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">360^{\circ}\times 573/365 = 565.15^{\circ}</annotation></semantics></math>, which is <math><semantics><msup><mn>205.15</mn><mo lspace="0em" rspace="0em">∘</mo></msup><annotation encoding="application/x-tex">205.15^{\circ}</annotation></semantics></math> after removing one full turn. Then <math><semantics><mrow><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msup><mn>205.15</mn><mo lspace="0em" rspace="0em">∘</mo></msup><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>0.4250</mn></mrow><annotation encoding="application/x-tex">\sin 205.15^{\circ} = -0.4250</annotation></semantics></math>, so:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mi>δ</mi><mo>=</mo><msup><mn>23.45</mn><mo lspace="0em" rspace="0em">∘</mo></msup><mo>×</mo><mo form="prefix" stretchy="false">(</mo><mo form="prefix" stretchy="false">−</mo><mn>0.4250</mn><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mo form="prefix" stretchy="false">−</mo><msup><mn>9.97</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\delta = 23.45^{\circ}\times(-0.4250) = -9.97^{\circ}</annotation></semantics></math></div>
+
+                    <p>The sun is about 10&deg; south of the equator, as expected a few weeks after the September equinox. NOAA gives &minus;8.99&deg;, which is the one-degree error mentioned. Tirupati's latitude is 13.63&deg; N, so the sun is directly overhead at noon twice a year, when <math><semantics><mrow><mi>δ</mi><mo>=</mo><mi>φ</mi></mrow><annotation encoding="application/x-tex">\delta = \varphi</annotation></semantics></math>: around 27 April and 15 August. Between those dates the noon sun is north of you, which matters for water-tank shadows later.</p>
+
+                    <h2 id="solar-time-and-clock-time">Solar time versus clock time</h2>
+                    <p>Solar time is set by the sun, with noon when it crosses your meridian. Your clock shows standard time for a whole country. Define <math><semantics><msub><mi>t</mi><mtext>clock</mtext></msub><annotation encoding="application/x-tex">t_{\text{clock}}</annotation></semantics></math> and <math><semantics><msub><mi>t</mi><mtext>solar</mtext></msub><annotation encoding="application/x-tex">t_{\text{solar}}</annotation></semantics></math> as clock and solar time in minutes after midnight, and <math><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math> as the equation of time in minutes, the difference between apparent and uniform mean time. Then:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>t</mi><mtext>solar</mtext></msub><mo>=</mo><msub><mi>t</mi><mtext>clock</mtext></msub><mo>+</mo><mn>4</mn><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><msub><mi>L</mi><mtext>loc</mtext></msub><mo>−</mo><msub><mi>L</mi><mtext>st</mtext></msub><mo form="postfix" stretchy="false">)</mo><mo>+</mo><mi>E</mi></mrow><annotation encoding="application/x-tex">t_{\text{solar}} = t_{\text{clock}} + 4\,(L_{\text{loc}} - L_{\text{st}}) + E</annotation></semantics></math></div>
+
+                    <p>The factor 4 arises because the Earth turns 15&deg; per hour, which is 4 minutes per degree. Tirupati is 3.08&deg; west of the 82.5&deg; E meridian, so the longitude term is <math><semantics><mrow><mn>4</mn><mo>×</mo><mo form="prefix" stretchy="false">(</mo><mn>79.42</mn><mo>−</mo><mn>82.5</mn><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>12.32</mn></mrow><annotation encoding="application/x-tex">4\times(79.42-82.5) = -12.32</annotation></semantics></math> minutes: solar noon comes 12.32 minutes after clock noon before the second correction.</p>
+
+                    <p>The equation of time arises because the orbit is an ellipse and the axis is tilted. Spencer's approximation (1971) uses an angle <math><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math> that advances about 1&deg; a day:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mi>B</mi><mo>=</mo><mfrac><mrow><msup><mn>360</mn><mo lspace="0em" rspace="0em">∘</mo></msup><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo form="postfix" stretchy="false" lspace="0em" rspace="0em">)</mo></mrow><mn>365</mn></mfrac></mrow><annotation encoding="application/x-tex">B = \frac{360^{\circ}\,(n-1)}{365}</annotation></semantics></math></div>
+
+                    <div class="equation"><math display="block"><semantics><mtable displaystyle="true"><mtr><mtd><mrow><mi>E</mi><mo>=</mo><mn>229.18</mn><mspace width="0.1667em"></mspace><mo fence="true" symmetric="true" minsize="1.2em" maxsize="1.2em">(</mo></mrow></mtd><mtd><mrow><mn>0.000075</mn><mo>+</mo><mn>0.001868</mn><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>B</mi><mo>−</mo><mn>0.032077</mn><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>B</mi></mrow></mtd></mtr><mtr><mtd><mrow></mrow></mtd><mtd><mrow><mo>−</mo><mn>0.014615</mn><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mn>2</mn><mi>B</mi><mo>−</mo><mn>0.04089</mn><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mn>2</mn><mi>B</mi><mo fence="true" symmetric="true" minsize="1.2em" maxsize="1.2em">)</mo></mrow></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned} E = 229.18\,\bigl(&amp;0.000075 + 0.001868\cos B - 0.032077\sin B \\ &amp;- 0.014615\cos 2B - 0.04089\sin 2B\bigr) \end{aligned}</annotation></semantics></math></div>
+
+                    <p>The result is in minutes (229.18 is 1440 minutes divided by <math><semantics><mrow><mn>2</mn><mi>π</mi></mrow><annotation encoding="application/x-tex">2\pi</annotation></semantics></math>). Against NOAA it stays within about 0.8 minutes all year.</p>
+
+                    <p>Setting <math><semantics><mrow><msub><mi>t</mi><mtext>solar</mtext></msub><mo>=</mo><mn>12</mn><mo lspace="0em" rspace="0em">:</mo><mn>00</mn></mrow><annotation encoding="application/x-tex">t_{\text{solar}} = 12{:}00</annotation></semantics></math> gives the clock time of solar noon:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>t</mi><mtext>noon</mtext></msub><mo>=</mo><mn>12</mn><mo lspace="0em" rspace="0em">:</mo><mn>00</mn><mo>−</mo><mn>4</mn><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><msub><mi>L</mi><mtext>loc</mtext></msub><mo>−</mo><msub><mi>L</mi><mtext>st</mtext></msub><mo form="postfix" stretchy="false">)</mo><mo>−</mo><mi>E</mi></mrow><annotation encoding="application/x-tex">t_{\text{noon}} = 12{:}00 - 4\,(L_{\text{loc}} - L_{\text{st}}) - E</annotation></semantics></math></div>
+
+                    <p><strong>Worked example, 16 October.</strong> With <math><semantics><mrow><mi>n</mi><mo>=</mo><mn>289</mn></mrow><annotation encoding="application/x-tex">n = 289</annotation></semantics></math>, <math><semantics><mrow><mi>B</mi><mo>=</mo><msup><mn>284.05</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">B = 284.05^{\circ}</annotation></semantics></math> and <math><semantics><mrow><mi>E</mi><mo>=</mo><mo form="prefix" stretchy="false">+</mo><mn>14.62</mn></mrow><annotation encoding="application/x-tex">E = +14.62</annotation></semantics></math> minutes. Then <math><semantics><mrow><msub><mi>t</mi><mtext>noon</mtext></msub><mo>=</mo><mn>12</mn><mo lspace="0em" rspace="0em">:</mo><mn>00</mn><mo>+</mo><mn>12.32</mn><mo>−</mo><mn>14.62</mn></mrow><annotation encoding="application/x-tex">t_{\text{noon}} = 12{:}00 + 12.32 - 14.62</annotation></semantics></math> min, which is 11:57:42 IST. A clock reading of 10:00 IST is a solar time of <math><semantics><mrow><mn>600</mn><mo>−</mo><mn>12.32</mn><mo>+</mo><mn>14.62</mn><mo>=</mo><mn>602.30</mn></mrow><annotation encoding="application/x-tex">600 - 12.32 + 14.62 = 602.30</annotation></semantics></math> minutes, or 10:02:18, so the hour angle is</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mi>ω</mi><mo>=</mo><msup><mn>15</mn><mo lspace="0em" rspace="0em">∘</mo></msup><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">h</mi></mpadded><mo>×</mo><mo form="prefix" stretchy="false">(</mo><mn>10.0384</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">h</mi></mpadded><mo>−</mo><mn>12</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">h</mi></mpadded><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mo form="prefix" stretchy="false">−</mo><msup><mn>29.42</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\omega = 15^{\circ}/\mathrm{h}\times(10.0384\,\mathrm{h} - 12\,\mathrm{h}) = -29.42^{\circ}</annotation></semantics></math></div>
+
+                    <p>The negative sign confirms that this is before solar noon. The table repeats the calculation for other dates.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Equation of time E (min)</th>
+                                    <th>Solar noon (IST clock)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>11 February</td><td>&minus;14.2</td><td>12:26:32</td></tr>
+                                <tr><td>20 March</td><td>&minus;8.2</td><td>12:20:29</td></tr>
+                                <tr><td>21 June</td><td>&minus;1.3</td><td>12:13:39</td></tr>
+                                <tr><td>16 October</td><td>+14.6</td><td>11:57:42</td></tr>
+                                <tr><td>3 November</td><td>+16.4</td><td>11:55:57</td></tr>
+                                <tr><td>21 December</td><td>+2.2</td><td>12:10:09</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>A shading study quoted in IST hours must apply both corrections, since 30 minutes of error moves the sun by 7.5&deg;. Our <a href="solar-in-tirupati-guide.html">Tirupati solar guide</a> covers the local climate and approvals.</p>
+
+                    <h2 id="solar-altitude-and-azimuth">Solar altitude and azimuth from vectors</h2>
+                    <p>We want the altitude <math><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math> from latitude, declination and hour angle. The cleanest route uses unit vectors (arrows of length 1). Use an Earth-fixed frame: <math><semantics><mi>z</mi><annotation encoding="application/x-tex">z</annotation></semantics></math> along the rotation axis towards the north pole, <math><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math> from the Earth's centre to where the observer's meridian crosses the equator, and <math><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math> towards the east. The local vertical makes angle <math><semantics><mi>φ</mi><annotation encoding="application/x-tex">\varphi</annotation></semantics></math> with the equatorial plane and has no east component. The sun makes angle <math><semantics><mi>δ</mi><annotation encoding="application/x-tex">\delta</annotation></semantics></math> with that plane and lies <math><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math> west of the meridian, so in the morning (negative <math><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>) it has a positive east component. That gives:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mover><mi>𝐮</mi><mo stretchy="false" class="wbk-acc">^</mo></mover><mo>=</mo><mrow><mo fence="true" form="prefix">(</mo><mtable><mtr><mtd><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi></mrow></mtd></mtr><mtr><mtd><mn>0</mn></mtd></mtr><mtr><mtd><mrow><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi></mrow></mtd></mtr></mtable><mo fence="true" form="postfix">)</mo></mrow><mo separator="true">,</mo><mspace width="2em"></mspace><mover><mi>𝐬</mi><mo stretchy="false" class="wbk-acc">^</mo></mover><mo>=</mo><mrow><mo fence="true" form="prefix">(</mo><mtable><mtr><mtd><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>δ</mi><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>ω</mi></mrow></mtd></mtr><mtr><mtd><mrow><mo>−</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>δ</mi><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>ω</mi></mrow></mtd></mtr><mtr><mtd><mrow><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>δ</mi></mrow></mtd></mtr></mtable><mo fence="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\hat{\mathbf{u}} = \begin{pmatrix} \cos\varphi \\ 0 \\ \sin\varphi \end{pmatrix}, \qquad \hat{\mathbf{s}} = \begin{pmatrix} \cos\delta\cos\omega \\ -\cos\delta\sin\omega \\ \sin\delta \end{pmatrix}</annotation></semantics></math></div>
+
+                    <p>Here <math><semantics><mover><mi>𝐮</mi><mo stretchy="false" class="wbk-acc">^</mo></mover><annotation encoding="application/x-tex">\hat{\mathbf{u}}</annotation></semantics></math> points up and <math><semantics><mover><mi>𝐬</mi><mo stretchy="false" class="wbk-acc">^</mo></mover><annotation encoding="application/x-tex">\hat{\mathbf{s}}</annotation></semantics></math> points to the sun. The dot product of two unit vectors is the cosine of the angle between them, and that angle is the zenith angle, with <math><semantics><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msub><mi>θ</mi><mi>z</mi></msub><mo>=</mo><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">\cos\theta_z = \sin\alpha</annotation></semantics></math>. So:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>α</mi><mo>=</mo><mover><mi>𝐬</mi><mo stretchy="false" class="wbk-acc">^</mo></mover><mo>⋅</mo><mover><mi>𝐮</mi><mo stretchy="false" class="wbk-acc">^</mo></mover><mo>=</mo><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>δ</mi><mo>+</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>δ</mi><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>ω</mi></mrow><annotation encoding="application/x-tex">\sin\alpha = \hat{\mathbf{s}}\cdot\hat{\mathbf{u}} = \sin\varphi\sin\delta + \cos\varphi\cos\delta\cos\omega</annotation></semantics></math></div>
+
+                    <p>At solar noon (<math><semantics><mrow><mi>ω</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\omega = 0</annotation></semantics></math>) this reduces to <math><semantics><mrow><mi>α</mi><mo>=</mo><msup><mn>90</mn><mo lspace="0em" rspace="0em">∘</mo></msup><mo>−</mo><mi>φ</mi><mo>+</mo><mi>δ</mi></mrow><annotation encoding="application/x-tex">\alpha = 90^{\circ} - \varphi + \delta</annotation></semantics></math>. At Tirupati on 21 December the noon altitude is <math><semantics><mrow><mn>90</mn><mo>−</mo><mn>13.63</mn><mo>−</mo><mn>23.45</mn><mo>=</mo><msup><mn>52.92</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">90 - 13.63 - 23.45 = 52.92^{\circ}</annotation></semantics></math>; at the equinoxes it is <math><semantics><msup><mn>76.37</mn><mo lspace="0em" rspace="0em">∘</mo></msup><annotation encoding="application/x-tex">76.37^{\circ}</annotation></semantics></math>.</p>
+
+                    <p>For the azimuth we need the sun's south and west components. Dotting <math><semantics><mover><mi>𝐬</mi><mo stretchy="false" class="wbk-acc">^</mo></mover><annotation encoding="application/x-tex">\hat{\mathbf{s}}</annotation></semantics></math> with the local east vector <math><semantics><mrow><mo form="prefix" stretchy="false">(</mo><mn>0,1,0</mn><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(0,1,0)</annotation></semantics></math> and north vector <math><semantics><mrow><mo form="prefix" stretchy="false">(</mo><mo form="prefix" stretchy="false">−</mo><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mo separator="true">,</mo><mn>0</mn><mo separator="true">,</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(-\sin\varphi, 0, \cos\varphi)</annotation></semantics></math>, and reversing the sign of the east and north results, gives:</p>
+
+                    <div class="equation"><math display="block"><semantics><mtable displaystyle="true"><mtr><mtd><msub><mi>s</mi><mi>S</mi></msub></mtd><mtd><mrow><mo>=</mo><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>δ</mi><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>ω</mi><mo>−</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>δ</mi></mrow></mtd></mtr><mtr><mtd><msub><mi>s</mi><mi>W</mi></msub></mtd><mtd><mrow><mo>=</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>δ</mi><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>ω</mi></mrow></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned} s_S &amp;= \sin\varphi\cos\delta\cos\omega - \cos\varphi\sin\delta \\ s_W &amp;= \cos\delta\sin\omega \end{aligned}</annotation></semantics></math></div>
+
+                    <p>These equal <math><semantics><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">\cos\alpha</annotation></semantics></math> times the cosine and sine of the azimuth. Dividing by <math><semantics><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>δ</mi></mrow><annotation encoding="application/x-tex">\cos\delta</annotation></semantics></math> gives the working form, where atan2 is the two-argument arctangent that returns the correct quadrant:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>γ</mi><mi>s</mi></msub><mo>=</mo><mi>atan2</mi><mo>⁡</mo><mo fence="true" symmetric="true" minsize="1.2em" maxsize="1.2em">(</mo><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>ω</mi><mo separator="true">,</mo><mspace width="0.2778em"></mspace><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>ω</mi><mo>−</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mrow><mspace width="0.1667em"></mspace><mi>tan</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>δ</mi><mo fence="true" symmetric="true" minsize="1.2em" maxsize="1.2em">)</mo></mrow><annotation encoding="application/x-tex">\gamma_s = \operatorname{atan2}\bigl(\sin\omega,\; \sin\varphi\cos\omega - \cos\varphi\tan\delta\bigr)</annotation></semantics></math></div>
+
+                    <p>Atan2 matters here: between late April and mid-August the noon sun at Tirupati is north of you, and an arcsine formula cannot tell a south-east sun from a north-east one.</p>
+
+                    <p><strong>Worked example.</strong> Take 16 October at 10:00 IST: <math><semantics><mrow><mi>ω</mi><mo>=</mo><mo form="prefix" stretchy="false">−</mo><msup><mn>29.42</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\omega = -29.42^{\circ}</annotation></semantics></math>, <math><semantics><mrow><mi>δ</mi><mo>=</mo><mo form="prefix" stretchy="false">−</mo><msup><mn>9.97</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\delta = -9.97^{\circ}</annotation></semantics></math>, <math><semantics><mrow><mi>φ</mi><mo>=</mo><msup><mn>13.63</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\varphi = 13.63^{\circ}</annotation></semantics></math>. Then <math><semantics><mrow><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mo>=</mo><mn>0.2357</mn></mrow><annotation encoding="application/x-tex">\sin\varphi = 0.2357</annotation></semantics></math>, <math><semantics><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mo>=</mo><mn>0.9718</mn></mrow><annotation encoding="application/x-tex">\cos\varphi = 0.9718</annotation></semantics></math>, <math><semantics><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>δ</mi><mo>=</mo><mn>0.9849</mn></mrow><annotation encoding="application/x-tex">\cos\delta = 0.9849</annotation></semantics></math>, <math><semantics><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>ω</mi><mo>=</mo><mn>0.8710</mn></mrow><annotation encoding="application/x-tex">\cos\omega = 0.8710</annotation></semantics></math>, and</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>α</mi><mo>=</mo><mn>0.2357</mn><mo>×</mo><mo form="prefix" stretchy="false">(</mo><mo form="prefix" stretchy="false">−</mo><mn>0.1731</mn><mo form="postfix" stretchy="false">)</mo><mo>+</mo><mn>0.9718</mn><mo>×</mo><mn>0.9849</mn><mo>×</mo><mn>0.8710</mn><mo>=</mo><mn>0.7929</mn></mrow><annotation encoding="application/x-tex">\sin\alpha = 0.2357\times(-0.1731) + 0.9718\times 0.9849\times 0.8710 = 0.7929</annotation></semantics></math></div>
+
+                    <p>so <math><semantics><mrow><mi>α</mi><mo>=</mo><msup><mn>52.46</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\alpha = 52.46^{\circ}</annotation></semantics></math> and <math><semantics><mrow><msub><mi>θ</mi><mi>z</mi></msub><mo>=</mo><msup><mn>37.54</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\theta_z = 37.54^{\circ}</annotation></semantics></math>. For the azimuth, <math><semantics><mrow><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>ω</mi><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>0.4913</mn></mrow><annotation encoding="application/x-tex">\sin\omega = -0.4913</annotation></semantics></math> and <math><semantics><mrow><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>ω</mi><mo>−</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mrow><mspace width="0.1667em"></mspace><mi>tan</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>δ</mi><mo>=</mo><mn>0.2053</mn><mo>+</mo><mn>0.1708</mn><mo>≈</mo><mn>0.376</mn></mrow><annotation encoding="application/x-tex">\sin\varphi\cos\omega - \cos\varphi\tan\delta = 0.2053 + 0.1708 \approx 0.376</annotation></semantics></math>, so <math><semantics><mrow><msub><mi>γ</mi><mi>s</mi></msub><mo>=</mo><mo form="prefix" stretchy="false">−</mo><msup><mn>52.57</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\gamma_s = -52.57^{\circ}</annotation></semantics></math>: a compass bearing of 127.4&deg;, south-east. A south-east sun about 52&deg; up at 10 in the morning in mid-October is what you would expect.</p>
+
+
+                    <h2 id="sunrise-and-day-length">Sunrise, sunset and day length</h2>
+                    <p>At sunrise and sunset <math><semantics><mrow><mi>α</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\alpha = 0</annotation></semantics></math>. Writing <math><semantics><msub><mi>ω</mi><mi>s</mi></msub><annotation encoding="application/x-tex">\omega_s</annotation></semantics></math> for the sunset hour angle in degrees, the altitude equation gives</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msub><mi>ω</mi><mi>s</mi></msub><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mrow><mi>tan</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mrow><mspace width="0.1667em"></mspace><mi>tan</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>δ</mi></mrow><annotation encoding="application/x-tex">\cos\omega_s = -\tan\varphi\tan\delta</annotation></semantics></math></div>
+
+                    <p>The sun is up from <math><semantics><mrow><mo>−</mo><msub><mi>ω</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">-\omega_s</annotation></semantics></math> to <math><semantics><mrow><mo>+</mo><msub><mi>ω</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">+\omega_s</annotation></semantics></math>, and at 15&deg; per hour the day length <math><semantics><msub><mi>T</mi><mi>d</mi></msub><annotation encoding="application/x-tex">T_d</annotation></semantics></math> in hours is</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>T</mi><mi>d</mi></msub><mo>=</mo><mfrac><mrow><mn>2</mn><mspace width="0.1667em"></mspace><msub><mi>ω</mi><mi>s</mi></msub></mrow><mrow><msup><mn>15</mn><mo lspace="0em" rspace="0em">∘</mo></msup><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">h</mi></mpadded></mrow></mfrac></mrow><annotation encoding="application/x-tex">T_d = \frac{2\,\omega_s}{15^{\circ}/\mathrm{h}}</annotation></semantics></math></div>
+
+                    <p>This holds when <math><semantics><mrow><mi>|</mi><mrow><mspace width="0.1667em"></mspace><mi>tan</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mrow><mspace width="0.1667em"></mspace><mi>tan</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>δ</mi><mi>|</mi><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">|\tan\varphi\tan\delta| \lt 1</annotation></semantics></math>, always true in India. For Tirupati <math><semantics><mrow><mrow><mi>tan</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mo>=</mo><mn>0.2425</mn></mrow><annotation encoding="application/x-tex">\tan\varphi = 0.2425</annotation></semantics></math>. On 21 December <math><semantics><mrow><mrow><mi>tan</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>δ</mi><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>0.4338</mn></mrow><annotation encoding="application/x-tex">\tan\delta = -0.4338</annotation></semantics></math>, so <math><semantics><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msub><mi>ω</mi><mi>s</mi></msub><mo>=</mo><mn>0.1052</mn></mrow><annotation encoding="application/x-tex">\cos\omega_s = 0.1052</annotation></semantics></math>, <math><semantics><mrow><msub><mi>ω</mi><mi>s</mi></msub><mo>=</mo><msup><mn>83.96</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\omega_s = 83.96^{\circ}</annotation></semantics></math> and <math><semantics><mrow><msub><mi>T</mi><mi>d</mi></msub><mo>=</mo><mn>2</mn><mo>×</mo><mn>83.96</mn><mi>/</mi><mn>15</mn><mo>=</mo><mn>11.19</mn></mrow><annotation encoding="application/x-tex">T_d = 2\times 83.96/15 = 11.19</annotation></semantics></math> h (11 h 12 min). The table uses the idealised <math><semantics><mrow><mi>δ</mi><mo>=</mo><msup><mn>0</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\delta = 0^{\circ}</annotation></semantics></math> and <math><semantics><mrow><mo>±</mo><msup><mn>23.45</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\pm 23.45^{\circ}</annotation></semantics></math>. The refraction column allows for atmospheric bending and the sun's disc, which add about 7 to 8 minutes.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Declination &delta;</th>
+                                    <th>cos &omega;s</th>
+                                    <th>&omega;s</th>
+                                    <th>Geometric day length</th>
+                                    <th>With refraction</th>
+                                    <th>Sunrise (solar time)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>21 December</td><td>&minus;23.45&deg;</td><td>+0.1052</td><td>83.96&deg;</td><td>11.19 h (11 h 12 min)</td><td>11.32 h (11 h 19 min)</td><td>06:24</td></tr>
+                                <tr><td>Equinox</td><td>0&deg;</td><td>0.0000</td><td>90.00&deg;</td><td>12.00 h (12 h 00 min)</td><td>12.11 h (12 h 07 min)</td><td>06:00</td></tr>
+                                <tr><td>21 June</td><td>+23.45&deg;</td><td>&minus;0.1052</td><td>96.04&deg;</td><td>12.81 h (12 h 48 min)</td><td>12.93 h (12 h 56 min)</td><td>05:36</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>Sanity check: the equinox day is 12 hours at any latitude. Summer and winter differ by only 1.6 hours at Tirupati, so the season changes the sun's height far more than the day length.</p>
+
+                    <h2 id="tilted-surface-angle-of-incidence">Tilted surfaces and the angle of incidence</h2>
+                    <p>A beam of 1 m&sup2; cross-section hitting a module at angle <math><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math> from the normal spreads over <math><semantics><mrow><mn>1</mn><mi>/</mi><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>θ</mi></mrow><annotation encoding="application/x-tex">1/\cos\theta</annotation></semantics></math> square metres, so each square metre receives <math><semantics><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>θ</mi></mrow><annotation encoding="application/x-tex">\cos\theta</annotation></semantics></math> times the intensity. With <math><semantics><msub><mi>G</mi><mrow><mi>b</mi><mi>n</mi></mrow></msub><annotation encoding="application/x-tex">G_{bn}</annotation></semantics></math> the beam irradiance on a surface square to the sun, in W/m&sup2;, the beam power per unit module area is</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>G</mi><mrow><mi>b</mi><mo separator="true">,</mo><mtext>plane</mtext></mrow></msub><mo>=</mo><msub><mi>G</mi><mrow><mi>b</mi><mi>n</mi></mrow></msub><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>θ</mi></mrow><annotation encoding="application/x-tex">G_{b,\text{plane}} = G_{bn}\cos\theta</annotation></semantics></math></div>
+
+                    <p>This is the cosine loss: 86.6% of the full beam at <math><semantics><mrow><mi>θ</mi><mo>=</mo><msup><mn>30</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\theta = 30^{\circ}</annotation></semantics></math>, 50% at <math><semantics><msup><mn>60</mn><mo lspace="0em" rspace="0em">∘</mo></msup><annotation encoding="application/x-tex">60^{\circ}</annotation></semantics></math>. In local south, west and up coordinates the sun is <math><semantics><mrow><mo form="prefix" stretchy="false">(</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>α</mi><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msub><mi>γ</mi><mi>s</mi></msub><mo separator="true">,</mo><mtext> </mtext><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>α</mi><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msub><mi>γ</mi><mi>s</mi></msub><mo separator="true">,</mo><mtext> </mtext><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>α</mi><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(\cos\alpha\cos\gamma_s,\ \cos\alpha\sin\gamma_s,\ \sin\alpha)</annotation></semantics></math> and the module normal is <math><semantics><mrow><mo form="prefix" stretchy="false">(</mo><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>β</mi><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>γ</mi><mo separator="true">,</mo><mtext> </mtext><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>β</mi><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>γ</mi><mo separator="true">,</mo><mtext> </mtext><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>β</mi><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(\sin\beta\cos\gamma,\ \sin\beta\sin\gamma,\ \cos\beta)</annotation></semantics></math>. Their dot product gives the general formula:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>θ</mi><mo>=</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>β</mi><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>α</mi><mo>+</mo><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>β</mi><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>α</mi><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo></mrow><mo form="prefix" stretchy="false">(</mo><msub><mi>γ</mi><mi>s</mi></msub><mo>−</mo><mi>γ</mi><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\cos\theta = \cos\beta\sin\alpha + \sin\beta\cos\alpha\cos(\gamma_s - \gamma)</annotation></semantics></math></div>
+
+                    <p>It holds while the sun is above the horizon and <math><semantics><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>θ</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\cos\theta \gt 0</annotation></semantics></math>; a negative value means the sun is behind the module and the beam contribution is zero.</p>
+
+                    <h3>The equivalent-latitude shortcut for south-facing modules</h3>
+                    <p>For a south-facing module there is a neater route. Tilting it by <math><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math> turns its normal from the local vertical <math><semantics><mrow><mo form="prefix" stretchy="false">(</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mo separator="true">,</mo><mn>0</mn><mo separator="true">,</mo><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>φ</mi><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(\cos\varphi, 0, \sin\varphi)</annotation></semantics></math> towards the equator, giving <math><semantics><mrow><mo form="prefix" stretchy="false">(</mo><mrow><mi>cos</mi><mo>⁡</mo></mrow><mo form="prefix" stretchy="false">(</mo><mi>φ</mi><mo>−</mo><mi>β</mi><mo form="postfix" stretchy="false">)</mo><mo separator="true">,</mo><mn>0</mn><mo separator="true">,</mo><mrow><mi>sin</mi><mo>⁡</mo></mrow><mo form="prefix" stretchy="false">(</mo><mi>φ</mi><mo>−</mo><mi>β</mi><mo form="postfix" stretchy="false">)</mo><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(\cos(\varphi-\beta), 0, \sin(\varphi-\beta))</annotation></semantics></math>: the vertical of a site at latitude <math><semantics><mrow><mi>φ</mi><mo>−</mo><mi>β</mi></mrow><annotation encoding="application/x-tex">\varphi-\beta</annotation></semantics></math>. Dotting with <math><semantics><mover><mi>𝐬</mi><mo stretchy="false" class="wbk-acc">^</mo></mover><annotation encoding="application/x-tex">\hat{\mathbf{s}}</annotation></semantics></math>:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>θ</mi><mo>=</mo><mrow><mi>sin</mi><mo>⁡</mo></mrow><mo form="prefix" stretchy="false">(</mo><mi>φ</mi><mo>−</mo><mi>β</mi><mo form="postfix" stretchy="false">)</mo><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>δ</mi><mo>+</mo><mrow><mi>cos</mi><mo>⁡</mo></mrow><mo form="prefix" stretchy="false">(</mo><mi>φ</mi><mo>−</mo><mi>β</mi><mo form="postfix" stretchy="false">)</mo><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>δ</mi><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>ω</mi></mrow><annotation encoding="application/x-tex">\cos\theta = \sin(\varphi-\beta)\sin\delta + \cos(\varphi-\beta)\cos\delta\cos\omega</annotation></semantics></math></div>
+
+                    <p>This is the altitude formula with <math><semantics><mi>φ</mi><annotation encoding="application/x-tex">\varphi</annotation></semantics></math> replaced by <math><semantics><mrow><mi>φ</mi><mo>−</mo><mi>β</mi></mrow><annotation encoding="application/x-tex">\varphi-\beta</annotation></semantics></math>. A tilt equal to the latitude makes the equivalent latitude zero, so <math><semantics><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>θ</mi><mo>=</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>δ</mi><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>ω</mi></mrow><annotation encoding="application/x-tex">\cos\theta = \cos\delta\cos\omega</annotation></semantics></math> and the noon angle of incidence is <math><semantics><mrow><mi>|</mi><mi>δ</mi><mi>|</mi></mrow><annotation encoding="application/x-tex">|\delta|</annotation></semantics></math>, never above 23.45&deg;.</p>
+
+                    <p><strong>Worked example.</strong> Same instant as before (16 October, 10:02 solar time), with <math><semantics><mrow><mi>β</mi><mo>=</mo><msup><mn>13.6</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\beta = 13.6^{\circ}</annotation></semantics></math> so <math><semantics><mrow><mi>φ</mi><mo>−</mo><mi>β</mi><mo>=</mo><msup><mn>0.03</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\varphi - \beta = 0.03^{\circ}</annotation></semantics></math>. Then <math><semantics><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>θ</mi><mo>≈</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>δ</mi><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>ω</mi><mo>=</mo><mn>0.9849</mn><mo>×</mo><mn>0.8710</mn><mo>=</mo><mn>0.858</mn></mrow><annotation encoding="application/x-tex">\cos\theta \approx \cos\delta\cos\omega = 0.9849\times 0.8710 = 0.858</annotation></semantics></math>, <math><semantics><mrow><mi>θ</mi><mo>=</mo><msup><mn>30.9</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\theta = 30.9^{\circ}</annotation></semantics></math>. The flat surface has <math><semantics><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msub><mi>θ</mi><mi>z</mi></msub><mo>=</mo><mn>0.7929</mn></mrow><annotation encoding="application/x-tex">\cos\theta_z = 0.7929</annotation></semantics></math>, so the tilted module collects <math><semantics><mrow><mn>0.858</mn><mi>/</mi><mn>0.793</mn><mo>=</mo><mn>1.082</mn></mrow><annotation encoding="application/x-tex">0.858/0.793 = 1.082</annotation></semantics></math> times as much beam per square metre, about 8% more. The general formula with <math><semantics><mrow><mi>α</mi><mo>=</mo><msup><mn>52.46</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\alpha = 52.46^{\circ}</annotation></semantics></math> and <math><semantics><mrow><msub><mi>γ</mi><mi>s</mi></msub><mo>=</mo><mo form="prefix" stretchy="false">−</mo><msup><mn>52.57</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\gamma_s = -52.57^{\circ}</annotation></semantics></math> returns the same 0.858.</p>
+
+                    <p>At noon the seasonal effect is stronger. On 21 December a flat surface has <math><semantics><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msup><mn>37.08</mn><mo lspace="0em" rspace="0em">∘</mo></msup><mo>=</mo><mn>0.798</mn></mrow><annotation encoding="application/x-tex">\cos 37.08^{\circ} = 0.798</annotation></semantics></math> and the 13.6&deg; module <math><semantics><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msup><mn>23.48</mn><mo lspace="0em" rspace="0em">∘</mo></msup><mo>=</mo><mn>0.917</mn></mrow><annotation encoding="application/x-tex">\cos 23.48^{\circ} = 0.917</annotation></semantics></math>, a gain of 15.0%. On 21 June the sun is north of the zenith: flat gives <math><semantics><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msup><mn>9.82</mn><mo lspace="0em" rspace="0em">∘</mo></msup><mo>=</mo><mn>0.985</mn></mrow><annotation encoding="application/x-tex">\cos 9.82^{\circ} = 0.985</annotation></semantics></math> and tilted <math><semantics><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msup><mn>23.42</mn><mo lspace="0em" rspace="0em">∘</mo></msup><mo>=</mo><mn>0.918</mn></mrow><annotation encoding="application/x-tex">\cos 23.42^{\circ} = 0.918</annotation></semantics></math>, a loss of 6.9%. A fixed tilt trades summer beam for winter beam.</p>
+
+                    <h2 id="choosing-the-tilt-angle">Choosing the tilt angle</h2>
+                    <p>To compare tilts we sum the beam power on the plane over every daylight minute of the year. The model is deliberately simple:</p>
+                    <ul>
+                        <li>Every day is clear and only beam light counts; diffuse light, clouds, temperature and soiling are ignored.</li>
+                        <li>Beam irradiance square to the sun is <math><semantics><mrow><msub><mi>G</mi><mrow><mi>b</mi><mi>n</mi></mrow></msub><mo>=</mo><mn>1.353</mn><mo>×</mo><msup><mn>0.7</mn><mrow><mspace width="0.1667em"></mspace><mi>A</mi><msup><mi>M</mi><mn>0.678</mn></msup></mrow></msup></mrow><annotation encoding="application/x-tex">G_{bn} = 1.353\times 0.7^{\,AM^{0.678}}</annotation></semantics></math> kW/m&sup2;, a standard clear-sky relation. Here <math><semantics><mrow><mi>A</mi><mi>M</mi><mo>=</mo><mn>1</mn><mi>/</mi><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">AM = 1/\sin\alpha</annotation></semantics></math> is the air mass, 1.353 an older value of the solar constant and 0.7 the transmittance per air mass.</li>
+                        <li>Declination comes from Cooper's formula for each day <math><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>, with one-minute steps and the sun counted above 1&deg; altitude.</li>
+                    </ul>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mi>H</mi><mo>=</mo><mrow><munderover><mo movablelimits="false">∑</mo><mrow><mi>n</mi><mo>=</mo><mn>1</mn></mrow><mn>365</mn></munderover></mrow><mtext> </mtext><msubsup><mo movablelimits="false">∫</mo><mtext>sunrise</mtext><mtext>sunset</mtext></msubsup><msub><mi>G</mi><mrow><mi>b</mi><mi>n</mi></mrow></msub><mspace width="0.1667em"></mspace><mrow><mspace width="0.1667em"></mspace><mi>max</mi><mo>⁡</mo></mrow><mo form="prefix" stretchy="false">(</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>θ</mi><mo separator="true">,</mo><mspace width="0.1667em"></mspace><mn>0</mn><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><mi>d</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">H = \sum_{n=1}^{365}\ \int_{\text{sunrise}}^{\text{sunset}} G_{bn}\,\max(\cos\theta,\,0)\,dt</annotation></semantics></math></div>
+
+                    <p><math><semantics><mi>H</mi><annotation encoding="application/x-tex">H</annotation></semantics></math> is the annual beam energy per square metre of south-facing plane, in kWh/m&sup2;. The absolute values are a clear-sky ceiling, so only the ratios between tilts carry meaning. The last column, <math><semantics><mrow><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>+</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>β</mi><mo form="postfix" stretchy="false">)</mo><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">(1+\cos\beta)/2</annotation></semantics></math>, is the share of isotropic sky-diffuse light a tilted plane keeps relative to a flat one.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tilt &beta;</th>
+                                    <th>21 Dec (kWh/m&sup2;/day)</th>
+                                    <th>21 Jun (kWh/m&sup2;/day)</th>
+                                    <th>Annual H (kWh/m&sup2;)</th>
+                                    <th>Versus 13.6&deg;</th>
+                                    <th>Diffuse factor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>0&deg;</td><td>4.62</td><td>6.86</td><td>2,210</td><td>&minus;2.2%</td><td>1.000</td></tr>
+                                <tr><td>5&deg;</td><td>4.98</td><td>6.64</td><td>2,242</td><td>&minus;0.7%</td><td>0.998</td></tr>
+                                <tr><td>10&deg;</td><td>5.30</td><td>6.36</td><td>2,258</td><td>0.0%</td><td>0.992</td></tr>
+                                <tr><td>13.6&deg;</td><td>5.51</td><td>6.14</td><td>2,258</td><td>0.0%</td><td>0.986</td></tr>
+                                <tr><td>20&deg;</td><td>5.82</td><td>5.68</td><td>2,238</td><td>&minus;0.9%</td><td>0.970</td></tr>
+                                <tr><td>30&deg;</td><td>6.17</td><td>4.83</td><td>2,151</td><td>&minus;4.8%</td><td>0.933</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>The curve is very flat. The model's maximum lies near 12&deg;, about 1.6&deg; below the latitude, and every tilt from 8&deg; to 16&deg; is within 0.3% of it. Moving from flat to 13.6&deg; adds 2.2% a year, raises the 21 December total by 19% and lowers the 21 June total by about 11%. A 30&deg; tilt gains 34% on 21 December, gives up 30% on 21 June and ends 4.8% behind on the year.</p>
+
+                    <h3>Why 10&deg; to 15&deg; is the usual rooftop choice</h3>
+                    <p>Because yield barely changes, other factors decide. A tilt of 8&deg; to 10&deg; or more lets rain wash dust off the glass, while lower tilts generally present less area to the wind and allow closer rows. Our <a href="solar-in-tirupati-guide.html">Tirupati guide</a> suggests 13&deg; to 15&deg; as a starting layout and our <a href="how-to-size-a-solar-system.html">system sizing guide</a> 12&deg; to 15&deg;.</p>
+
+                    <div class="callout callout--warning">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        <p><strong>This is a beam-only model:</strong> The true optimum depends on the diffuse share of light and on the cloud pattern of the south-west and north-east monsoons. Cloudier skies favour lower tilts, as the last column suggests. Use the table for the shape of the trade-off, and a site simulation with measured irradiance for yield claims.</p>
+                    </div>
+
+                    <h2 id="shadows-and-row-spacing">Shadows and row spacing</h2>
+                    <p>On a flat roof each row must avoid shading by the row in front during the hours that produce most of the energy. Define <math><semantics><mi>l</mi><annotation encoding="application/x-tex">l</annotation></semantics></math> as the module slant length in metres (the long side in portrait) and <math><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math> as the tilt. The top edge of a row then stands <math><semantics><mrow><mi>h</mi><mo>=</mo><mi>l</mi><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>β</mi></mrow><annotation encoding="application/x-tex">h = l\sin\beta</annotation></semantics></math> above its lower edge, and the row has horizontal depth <math><semantics><mrow><mi>l</mi><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>β</mi></mrow><annotation encoding="application/x-tex">l\cos\beta</annotation></semantics></math>. The row pitch <math><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math> is the north-south distance between the lower edges of successive rows.</p>
+
+                    <figure>
+                        <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200&amp;h=675&amp;fit=crop&amp;auto=format" alt="Commercial rooftop solar installation with rows of panels" loading="lazy" width="1200" height="675">
+                        <figcaption>A commercial rooftop array. On a flat roof the gap between rows follows from the geometry worked out below.</figcaption>
+                    </figure>
+
+                    <h3>The length of a shadow</h3>
+                    <p>A point at height <math><semantics><mi>h</mi><annotation encoding="application/x-tex">h</annotation></semantics></math> casts its shadow along the sun's ray, which descends at angle <math><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>. By similar triangles the shadow on level ground has length <math><semantics><mrow><mi>L</mi><mo>=</mo><mi>h</mi><mi>/</mi><mrow><mspace width="0.1667em"></mspace><mi>tan</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">L = h/\tan\alpha</annotation></semantics></math> and points away from the sun. Resolving it along north and east with the solar azimuth:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mi>L</mi><mo>=</mo><mfrac><mi>h</mi><mrow><mrow><mi>tan</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>α</mi></mrow></mfrac><mo separator="true">,</mo><mspace width="2em"></mspace><msub><mi>x</mi><mi>N</mi></msub><mo>=</mo><mi>L</mi><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msub><mi>γ</mi><mi>s</mi></msub><mo separator="true">,</mo><mspace width="2em"></mspace><msub><mi>x</mi><mi>E</mi></msub><mo>=</mo><mi>L</mi><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msub><mi>γ</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">L = \frac{h}{\tan\alpha}, \qquad x_N = L\cos\gamma_s, \qquad x_E = L\sin\gamma_s</annotation></semantics></math></div>
+
+                    <p><math><semantics><msub><mi>x</mi><mi>N</mi></msub><annotation encoding="application/x-tex">x_N</annotation></semantics></math> is how far north the shadow tip lands and <math><semantics><msub><mi>x</mi><mi>E</mi></msub><annotation encoding="application/x-tex">x_E</annotation></semantics></math> its offset to the east, negative (west) when the sun is in the east. In vector form <math><semantics><mrow><msub><mi>x</mi><mi>N</mi></msub><mo>=</mo><mi>h</mi><mspace width="0.1667em"></mspace><msub><mi>s</mi><mi>S</mi></msub><mi>/</mi><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">x_N = h\,s_S/\sin\alpha</annotation></semantics></math> and <math><semantics><mrow><msub><mi>x</mi><mi>E</mi></msub><mo>=</mo><mi>h</mi><mspace width="0.1667em"></mspace><msub><mi>s</mi><mi>W</mi></msub><mi>/</mi><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">x_E = h\,s_W/\sin\alpha</annotation></semantics></math>. A south-east or south-west sun spreads the length sideways, so the north reach is shorter than <math><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>.</p>
+
+                    <h3>Pitch for no shading from 9:00 to 15:00</h3>
+                    <p>The top edge's shadow lands <math><semantics><msub><mi>x</mi><mi>N</mi></msub><annotation encoding="application/x-tex">x_N</annotation></semantics></math> north of it, and the next row's lower edge is <math><semantics><mrow><mi>P</mi><mo>−</mo><mi>l</mi><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>β</mi></mrow><annotation encoding="application/x-tex">P - l\cos\beta</annotation></semantics></math> north of that edge. For no shading the gap must be at least <math><semantics><msub><mi>x</mi><mi>N</mi></msub><annotation encoding="application/x-tex">x_N</annotation></semantics></math> at the worst moment:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mi>P</mi><mo>=</mo><mi>l</mi><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>β</mi><mo>+</mo><mfrac><mrow><mi>h</mi><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msub><mi>γ</mi><mi>s</mi></msub></mrow><mrow><mrow><mi>tan</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>α</mi></mrow></mfrac><mo>=</mo><mi>l</mi><mrow><mo fence="true" form="prefix">(</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>β</mi><mo>+</mo><mfrac><mrow><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>β</mi><mspace width="0.1667em"></mspace><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msub><mi>γ</mi><mi>s</mi></msub></mrow><mrow><mrow><mi>tan</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>α</mi></mrow></mfrac><mo fence="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P = l\cos\beta + \frac{h\cos\gamma_s}{\tan\alpha} = l\left(\cos\beta + \frac{\sin\beta\,\cos\gamma_s}{\tan\alpha}\right)</annotation></semantics></math></div>
+
+                    <p>The reach is longest at the window edges, on the day the noon sun is lowest: the winter solstice. Using 9:00 to 15:00 solar time on 21 December is a common design rule, but it is a design choice, not a law of nature. In the beam model above, about 78% of the 21 December beam energy on a 10&deg; plane arrives inside that window; the first and last hour may see some shading.</p>
+
+                    <p>The ground coverage ratio, the fraction of the roof strip occupied by module area, is</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mpadded lspace="0"><mi>GCR</mi></mpadded><mo>=</mo><mfrac><mi>l</mi><mi>P</mi></mfrac></mrow><annotation encoding="application/x-tex">\mathrm{GCR} = \frac{l}{P}</annotation></semantics></math></div>
+
+                    <p><strong>Worked example.</strong> Modules 2.28 m long in portrait at <math><semantics><mrow><mi>β</mi><mo>=</mo><msup><mn>10</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\beta = 10^{\circ}</annotation></semantics></math>, at Tirupati on 21 December. At 9:00, <math><semantics><mrow><mi>ω</mi><mo>=</mo><mo form="prefix" stretchy="false">−</mo><msup><mn>45</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\omega = -45^{\circ}</annotation></semantics></math> and <math><semantics><mrow><mi>δ</mi><mo>=</mo><mo form="prefix" stretchy="false">−</mo><msup><mn>23.45</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\delta = -23.45^{\circ}</annotation></semantics></math>. The altitude equation gives <math><semantics><mrow><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>α</mi><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>0.0938</mn><mo>+</mo><mn>0.6304</mn><mo>=</mo><mn>0.5367</mn></mrow><annotation encoding="application/x-tex">\sin\alpha = -0.0938 + 0.6304 = 0.5367</annotation></semantics></math>, so <math><semantics><mrow><mi>α</mi><mo>=</mo><msup><mn>32.46</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\alpha = 32.46^{\circ}</annotation></semantics></math>. The azimuth is <math><semantics><mrow><msub><mi>γ</mi><mi>s</mi></msub><mo>=</mo><mo form="prefix" stretchy="false">−</mo><msup><mn>50.25</mn><mo lspace="0em" rspace="0em">∘</mo></msup></mrow><annotation encoding="application/x-tex">\gamma_s = -50.25^{\circ}</annotation></semantics></math>, so <math><semantics><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msub><mi>γ</mi><mi>s</mi></msub><mo>=</mo><mn>0.6395</mn></mrow><annotation encoding="application/x-tex">\cos\gamma_s = 0.6395</annotation></semantics></math>. The height of the top edge is</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mi>h</mi><mo>=</mo><mn>2.28</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mo>×</mo><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msup><mn>10</mn><mo lspace="0em" rspace="0em">∘</mo></msup><mo>=</mo><mn>0.396</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded></mrow><annotation encoding="application/x-tex">h = 2.28\,\mathrm{m}\times\sin 10^{\circ} = 0.396\,\mathrm{m}</annotation></semantics></math></div>
+
+                    <p>The shadow length is <math><semantics><mrow><mi>L</mi><mo>=</mo><mn>0.396</mn><mi>/</mi><mrow><mspace width="0.1667em"></mspace><mi>tan</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msup><mn>32.46</mn><mo lspace="0em" rspace="0em">∘</mo></msup><mo>=</mo><mn>0.396</mn><mi>/</mi><mn>0.6360</mn><mo>=</mo><mn>0.6225</mn></mrow><annotation encoding="application/x-tex">L = 0.396/\tan 32.46^{\circ} = 0.396/0.6360 = 0.6225</annotation></semantics></math> m, and its north reach is <math><semantics><mrow><msub><mi>x</mi><mi>N</mi></msub><mo>=</mo><mn>0.6225</mn><mo>×</mo><mn>0.6395</mn><mo>=</mo><mn>0.398</mn></mrow><annotation encoding="application/x-tex">x_N = 0.6225\times 0.6395 = 0.398</annotation></semantics></math> m. The depth of the row is <math><semantics><mrow><mn>2.28</mn><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msup><mn>10</mn><mo lspace="0em" rspace="0em">∘</mo></msup><mo>=</mo><mn>2.245</mn></mrow><annotation encoding="application/x-tex">2.28\cos 10^{\circ} = 2.245</annotation></semantics></math> m. Then:</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mi>P</mi><mo>=</mo><mn>2.245</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mo>+</mo><mn>0.398</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mo>=</mo><mn>2.643</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mo separator="true">,</mo><mspace width="2em"></mspace><mpadded lspace="0"><mi>GCR</mi></mpadded><mo>=</mo><mfrac><mn>2.28</mn><mn>2.643</mn></mfrac><mo>=</mo><mn>0.863</mn></mrow><annotation encoding="application/x-tex">P = 2.245\,\mathrm{m} + 0.398\,\mathrm{m} = 2.643\,\mathrm{m}, \qquad \mathrm{GCR} = \frac{2.28}{2.643} = 0.863</annotation></semantics></math></div>
+
+                    <p>At 12:00 the reach is only 0.299 m, so the window edges do set the pitch. Errors in <math><semantics><mi>δ</mi><annotation encoding="application/x-tex">\delta</annotation></semantics></math> matter little: Cooper's value is accurate to 0.01&deg; on 21 December, and even a full degree would change this pitch by under 2 cm. The table repeats the calculation for other tilts (2.28 m modules, 9:00 to 15:00).</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tilt &beta;</th>
+                                    <th>Top-edge height h (m)</th>
+                                    <th>Row depth l cos &beta; (m)</th>
+                                    <th>Shadow reach (m)</th>
+                                    <th>Pitch P (m)</th>
+                                    <th>GCR</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>5&deg;</td><td>0.199</td><td>2.271</td><td>0.200</td><td>2.471</td><td>0.923</td></tr>
+                                <tr><td>10&deg;</td><td>0.396</td><td>2.245</td><td>0.398</td><td>2.643</td><td>0.863</td></tr>
+                                <tr><td>13.6&deg;</td><td>0.536</td><td>2.216</td><td>0.539</td><td>2.755</td><td>0.828</td></tr>
+                                <tr><td>15&deg;</td><td>0.590</td><td>2.202</td><td>0.593</td><td>2.796</td><td>0.816</td></tr>
+                                <tr><td>20&deg;</td><td>0.780</td><td>2.143</td><td>0.784</td><td>2.927</td><td>0.779</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>Each extra 5&deg; of tilt costs about 0.13 to 0.17 m of pitch. The window matters too. At 10&deg; tilt, 10:00 to 14:00 needs a 2.58 m pitch (GCR 0.884), 9:00 to 15:00 needs 2.64 m (0.863) and 8:00 to 16:00 needs 2.80 m (0.814). Yield is flat across tilts but pitch is not, so a lower tilt packs more modules into a roof.</p>
+
+                    <p>For scale, an illustrative 1.13 m wide, 550 W module at this pitch takes 3.00 m&sup2; of roof strip, or 5.4 m&sup2; per kWp (about 59 sq ft). That is the bare array field; the 80 to 100 sq ft per kW rule in our <a href="how-to-size-a-solar-system.html">sizing guide</a> also covers walkways and setbacks. Use your own datasheet.</p>
+
+                    <div class="callout callout--success">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        <p><strong>Shading is not all-or-nothing:</strong> A shadow on a module's lower edge does not switch it off, because bypass diodes isolate shaded cell groups. The loss depends on the module's internal layout and orientation; see our guide to <a href="solar-module-iv-curve-explained.html">modules, bypass diodes and the I-V curve</a>.</p>
+                    </div>
+
+                    <h2 id="parapets-and-water-tanks">Parapets and water tanks on a terrace</h2>
+                    <p>The same shadow formulas apply to any obstruction. For one of height <math><semantics><mi>H</mi><annotation encoding="application/x-tex">H</annotation></semantics></math> above the roof, with the lower edge of the nearest module raised <math><semantics><msub><mi>z</mi><mn>0</mn></msub><annotation encoding="application/x-tex">z_0</annotation></semantics></math> above the roof, the module is shade-free at distance <math><semantics><mi>d</mi><annotation encoding="application/x-tex">d</annotation></semantics></math> north of it if</p>
+
+                    <div class="equation"><math display="block"><semantics><mrow><mi>d</mi><mo>=</mo><mfrac><mrow><mo form="prefix" stretchy="false" lspace="0em" rspace="0em">(</mo><mi>H</mi><mo>−</mo><msub><mi>z</mi><mn>0</mn></msub><mo form="postfix" stretchy="false">)</mo><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msub><mi>γ</mi><mi>s</mi></msub></mrow><mrow><mrow><mi>tan</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>α</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">d = \frac{(H - z_0)\cos\gamma_s}{\tan\alpha}</annotation></semantics></math></div>
+
+                    <p>This is the pitch equation with <math><semantics><mrow><mi>H</mi><mo>−</mo><msub><mi>z</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">H - z_0</annotation></semantics></math> in place of <math><semantics><mi>h</mi><annotation encoding="application/x-tex">h</annotation></semantics></math>. It is conservative, since the module surface rises away from its lower edge, the hardest point to clear.</p>
+
+                    <h3>A 1 m parapet</h3>
+                    <p>Take a 1 m parapet on the south edge and a module lower edge at roof level (<math><semantics><mrow><msub><mi>z</mi><mn>0</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">z_0 = 0</annotation></semantics></math>). On 21 December the formula gives 1.005 m at 9:00 and 15:00, 0.846 m at 10:00 and 14:00, 0.776 m at 11:00 and 13:00 and 0.756 m at noon. The first row therefore starts about 1.0 m north of the parapet. Raising the lower edge 0.3 m cuts the setback to about 0.70 m. East and west parapets behave differently: at 9:00 the shadow of a 1 m wall reaches 1.209 m westward (<math><semantics><msub><mi>x</mi><mi>E</mi></msub><annotation encoding="application/x-tex">x_E</annotation></semantics></math>), so keep about 1.2 m clear of the east parapet in the morning and of the west parapet at 15:00.</p>
+
+                    <h3>A 1.8 m water tank</h3>
+                    <p>A 1.8 m tank is more serious. On 21 December its shadow tip lies 1.81 m north and 2.18 m west at 9:00, 1.36 m north at noon, and 1.81 m north and 2.18 m east at 15:00. Anything in that fan, plus the tank's width, is shaded at some hour. Around 21 June the noon sun is north of the zenith and the shadow falls south, only 0.31 m long at noon and 0.58 m at 9:00. So put the tank on the north side of the array: its winter shadow then points away from the modules and its summer shadow is short.</p>
+
+                    <p>Electrically, a shadow on one module can limit the current of its whole string, so a shade survey should give measured heights, a plotted shadow envelope for the design window and strings assigned so that shaded modules sit together. Take measurements from safe positions away from unprotected terrace edges, and remember that PV strings are live whenever light falls on them.</p>
+
+                    <h2 id="using-this-on-your-own-roof">Using this on your own roof</h2>
+                    <p>The workflow is short. Fix a tilt of 10&deg; to 15&deg;, compute the winter-solstice altitude and azimuth at the edges of your window (32.46&deg; and 50.25&deg; at 9:00 and 15:00 in Tirupati), add the shadow reach of the top edge to the row depth for the pitch, and check each obstruction with the setback formula. A ten-line script reproduces every table here.</p>
+
+                    <p>These are first-order results; real designs add walkways, wind and structural limits and a loss simulation. If you would like this done for your own terrace, with the shadow envelope of your tank and parapets drawn on a layout, <a href="../book-power-audit.html">book a free power audit</a> with Ray2Volt.</p>
+
+                    <h2 id="faq">Frequently asked questions</h2>
+                    <div class="faq-list">
+                        <details class="faq-item">
+                            <summary>What is the best tilt angle for solar panels in Tirupati?</summary>
+                            <div class="faq-answer">
+                                <p>Under a clear-sky beam model, the annual maximum for a fixed south-facing plane at Tirupati lies near 12 degrees, just below the 13.63 degree latitude. The curve is flat: every tilt from 8 to 16 degrees is within 0.3% of it. Designers therefore choose 10 to 15 degrees for rain cleaning, lower wind load and closer rows.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>Why is solar noon not at 12:00 on my clock?</summary>
+                            <div class="faq-answer">
+                                <p>Indian Standard Time is set for the 82.5 degrees east meridian, while Tirupati is at 79.42 degrees east. At 4 minutes per degree, the sun crosses the Tirupati meridian 12.32 minutes after clock noon. The equation of time then adds between minus 14 and plus 16 minutes, so solar noon falls between about 11:56 and 12:26 IST.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>How do I calculate the sun's height above the horizon?</summary>
+                            <div class="faq-answer">
+                                <p>Use sin(altitude) = sin(latitude) × sin(declination) + cos(latitude) × cos(declination) × cos(hour angle), with the hour angle at 15 degrees per hour from solar noon, negative in the morning. At Tirupati on 16 October at 10:02 solar time this gives 52.46 degrees.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>How far apart should rows of solar panels be on a flat roof?</summary>
+                            <div class="faq-answer">
+                                <p>The pitch is module length × cos(tilt) plus the shadow reach of the top edge, module length × sin(tilt) × cos(azimuth) / tan(altitude). With 9:00 to 15:00 solar time on 21 December as the design window, a 2.28 m module at 10 degrees tilt needs a pitch of about 2.64 m, a ground coverage ratio of 0.86.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>How much roof clearance does a parapet or water tank need?</summary>
+                            <div class="faq-answer">
+                                <p>Clearance is the obstruction height × cos(azimuth) / tan(altitude) at the sun position that sets your design window. For Tirupati on 21 December at 9:00 and 15:00, a 1 m parapet shades about 1.0 m to its north and a 1.8 m tank about 1.8 m to its north, plus up to 2.2 m sideways. Confirm heights with a site survey.</p>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- Author box -->
+                    <div class="author-box">
+                        <img src="../images/logo.png" alt="Ray2Volt Solar" width="52" height="52" loading="lazy">
+                        <div>
+                            <h2>Ray2Volt Solar Private Limited</h2>
+                            <p>We design, install, and service rooftop solar for homes and businesses across Tirupati district and Andhra Pradesh, from PM Surya Ghar residential systems to commercial and industrial plants. Every enquiry starts with a free power audit.</p>
+                        </div>
+                    </div>
+
+                    <!-- End-of-post CTA -->
+                    <div class="post-cta">
+                        <h2>Get the shade and spacing checked on your roof</h2>
+                        <p>Send Ray2Volt your roof details. Our engineers can measure obstructions, plot the winter shadow envelope and propose a tilt and row pitch for your site.</p>
+                        <div class="post-cta-buttons">
+                            <a href="../get-quote.html" class="btn btn-primary">Get a free quote</a>
+                            <a href="https://wa.me/919666068140" class="btn btn-outline">Chat on WhatsApp</a>
+                        </div>
+                    </div>
+
+                </article>
+
+                <!-- Sidebar -->
+                <aside class="post-sidebar">
+                    <nav class="toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#conventions-and-notation">Angles, symbols and sign conventions</a></li>
+                            <li><a href="#declination-and-the-sun-path">Why the sun's path changes: declination</a></li>
+                            <li><a href="#solar-time-and-clock-time">Solar time versus clock time</a></li>
+                            <li><a href="#solar-altitude-and-azimuth">Solar altitude and azimuth from vectors</a></li>
+                            <li><a href="#sunrise-and-day-length">Sunrise, sunset and day length</a></li>
+                            <li><a href="#tilted-surface-angle-of-incidence">Tilted surfaces and the angle of incidence</a></li>
+                            <li><a href="#choosing-the-tilt-angle">Choosing the tilt angle</a></li>
+                            <li><a href="#shadows-and-row-spacing">Shadows and row spacing</a></li>
+                            <li><a href="#parapets-and-water-tanks">Parapets and water tanks on a terrace</a></li>
+                            <li><a href="#using-this-on-your-own-roof">Using this on your own roof</a></li>
+                            <li><a href="#faq">Frequently asked questions</a></li>
+                        </ol>
+                    </nav>
+
+                    <div class="sidebar-cta">
+                        <h2>Free power audit</h2>
+                        <p>Share your latest electricity bill and we will size a system and show your real payback — no
+                            cost, no obligation.</p>
+                        <a href="../get-quote.html" class="btn btn-white btn-sm">Book my audit</a>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- Related posts -->
+            <section class="related-posts">
+                <h2>Related reading</h2>
+                <div class="related-grid">
+                    <a href="solar-energy-yield-performance-ratio.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/solar-energy-yield-performance-ratio-800w.webp 800w, ../images/blog/solar-energy-yield-performance-ratio-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/solar-energy-yield-performance-ratio.jpg" alt="Solar energy yield and performance ratio" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>From Sunlight to Units: The Mathematics of Solar Energy Yield and Performance Ratio</h3>
+                            <p>Technology</p>
+                        </div>
+                    </a>
+                    <a href="solar-in-tirupati-guide.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/solar-in-tirupati-guide-800w.webp 800w, ../images/blog/solar-in-tirupati-guide-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/solar-in-tirupati-guide.jpg" alt="Going solar in Tirupati and Srikalahasti" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>Going Solar in Tirupati and Srikalahasti: A Local Homeowner's Guide</h3>
+                            <p>Local Guides</p>
+                        </div>
+                    </a>
+                    <a href="how-to-size-a-solar-system.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/how-to-size-a-solar-system-800w.webp 800w, ../images/blog/how-to-size-a-solar-system-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/how-to-size-a-solar-system.jpg" alt="How to size a solar system" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>How to Size a Solar System for Your Home: kW, Units, and Roof Space</h3>
+                            <p>Solar Basics</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid footer-grid--5">
+                <div class="footer-brand">
+                    <p>Powering businesses and homes in Tirupati district and across Andhra Pradesh with clean, affordable solar energy.</p>
+                    <!-- r2v:social-footer:start -->
+                    <!-- r2v:social-footer:end -->
+                    <!-- r2v:vendor-id:start -->
+                    <!-- r2v:vendor-id:end -->
+                </div>
+
+                <div class="footer-col">
+                    <h4>For Businesses</h4>
+                    <ul>
+                        <li><a href="../commercial.html">Commercial &amp; industrial solar</a></li>
+                        <li><a href="../business-solar-finance.html">Finance options</a></li>
+                        <li><a href="../solar-roi-calculator.html">ROI calculator</a></li>
+                        <li><a href="../solar-quote-check.html">Free quote check</a></li>
+                        <li><a href="../book-power-audit.html">Book a free power audit</a></li>
+                        <li><a href="../upload-electricity-bill.html">Send your electricity bill</a></li>
+                        <li><a href="../tender-rfq.html">Tenders and RFQs</a></li>
+                        <li><a href="https://3d.ray2voltsolar.com/">Ray2Volt 3D for solar EPCs</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>For Homes</h4>
+                    <ul>
+                        <li><a href="../residential.html">Home solar</a></li>
+                        <li><a href="../residential.html#subsidy">PM Surya Ghar subsidy</a></li>
+                        <li><a href="../solar-emi-calculator.html">Solar loan EMI calculator</a></li>
+                        <li><a href="../apartment-solar.html">Apartments &amp; societies</a></li>
+                        <li><a href="../avoid-solar-fraud.html">Pay safely: avoid subsidy fraud</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="../about.html">About us</a></li>
+                        <li><a href="../team.html">Our team</a></li>
+                        <li><a href="../locations.html">Where we work</a></li>
+                        <li><a href="../investor.html">Investors</a></li>
+                        <li><a href="../blog.html">Guides</a></li>
+                        <li><a href="../careers.html">Careers</a></li>
+                        <li><a href="../channel-partner.html">Channel partners</a></li>
+                        <li><a href="../raycare.html">RayCare service and warranty</a></li>
+                        <li><a href="../service-request.html">Request a service visit</a></li>
+                        <li><a href="../privacy-policy.html">Privacy policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li>1-278, J.K.Nagar, Revenue Ward No-1, Pichatur Road, Srikalahasti, 517644, Andhra Pradesh.</li>
+                        <li><a href="tel:+919666068140">+91 96660 68140</a></li>
+                        <li><a href="mailto:sales@ray2voltsolar.com">sales@ray2voltsolar.com</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ray2Volt Solar Private Limited. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" aria-label="Scroll to top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <script src="../script.js"></script>
+    <script src="../blog.js"></script>
+</body>
+
+</html>
