@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-theme-fixed>
+
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18014889887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-18014889887');
+        gtag('config', 'G-WZJ1CXHSG9');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Blog pages are always light: the theme is fixed on <html> and has no toggle -->
+    <meta name="description" content="Earthing and surge protection from first principles: fault loops, rod resistance, Wenner soil tests, induced surge voltage, SPD leads and the rolling sphere.">
+    <meta name="keywords" content="solar earthing, earth electrode resistance, Wenner method soil resistivity, solar surge protection device, lightning protection solar plant, rolling sphere method, insulation resistance Riso, IEC 62305">
+    <title>Earthing and Surge Protection for Solar Plants: The Physics of Fault Currents and Lightning | Ray2Volt Solar</title>
+    <link rel="canonical" href="https://ray2voltsolar.com/blog/solar-earthing-surge-protection.html">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap"
+        rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap" rel="stylesheet">
+    </noscript>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../blog.css">
+    <link rel="stylesheet" href="../theme.css">
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Ray2Volt Solar">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Earthing and Surge Protection for Solar Plants: The Physics of Fault Currents and Lightning | Ray2Volt Solar">
+    <meta property="og:description" content="Earthing and surge protection from first principles: fault loops, rod resistance, Wenner soil tests, induced surge voltage, SPD leads and the rolling sphere.">
+    <meta property="og:url" content="https://ray2voltsolar.com/blog/solar-earthing-surge-protection.html">
+    <meta property="og:image" content="https://ray2voltsolar.com/images/blog/solar-earthing-surge-protection.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Earthing and Surge Protection for Solar Plants: The Physics of Fault Currents and Lightning | Ray2Volt Solar",
+      "description": "Earthing and surge protection from first principles: fault loops, rod resistance, Wenner soil tests, induced surge voltage, SPD leads and the rolling sphere.",
+      "image": "https://ray2voltsolar.com/images/blog/solar-earthing-surge-protection.jpg",
+      "author": { "@type": "Organization", "name": "Ray2Volt Solar Private Limited", "url": "https://ray2voltsolar.com" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Ray2Volt Solar Private Limited",
+        "logo": { "@type": "ImageObject", "url": "https://ray2voltsolar.com/images/logo.png" }
+      },
+      "datePublished": "2026-10-16",
+      "dateModified": "2026-10-16",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ray2voltsolar.com/blog/solar-earthing-surge-protection.html" },
+      "articleSection": "Technology"
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ray2voltsolar.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://ray2voltsolar.com/blog.html" },
+        { "@type": "ListItem", "position": 3, "name": "Earthing and Surge Protection", "item": "https://ray2voltsolar.com/blog/solar-earthing-surge-protection.html" }
+      ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why does a floating DC array still need earthing?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Module frames are exposed metal, and a first insulation fault to them leaves the array one fault from a real short circuit. Bonding the frames to earth limits touch voltage and lets the inverter detect the fault by measuring insulation resistance. A qualified electrician must do this to the standards."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does an insulation resistance fault on my inverter mean?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The inverter measured less resistance between the array and earth than its threshold allows. Common causes are damp connectors, dew, a damaged cable or a damaged module. Leakage paths from many strings add in parallel, so one poor string can pull the total down. Do not touch the array. Ask a qualified electrician to locate the string."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does a lightning rod on the roof protect the solar panels?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It can intercept a direct strike, but the design decides how well. The rolling-sphere method sets where terminals are needed, a separation distance keeps strike current out of the PV wiring, and surge protective devices handle voltages arriving on cables. A risk assessment under IEC 62305 should drive the decision."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why must surge protector leads be short?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Every metre of lead has roughly 1 microhenry of inductance, and the voltage across it is inductance times the rate of change of current. At 10 kA per microsecond, one metre adds about 10 kV on top of the protector’s own protection level, which can exceed what the equipment withstands."
+          }
+        }
+      ]
+    }
+    </script>
+</head>
+
+<body class="blog">
+    <!-- Header / Navigation -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="logo">
+                <img src="../images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'">
+                <div class="logo-text">
+                    Ray2Volt Solar
+                    <span>Private Limited</span>
+                </div>
+            </a>
+
+            <ul class="nav-menu">
+                <li class="dropdown dropdown-wide">
+                    <a href="../commercial.html" class="nav-link" aria-haspopup="true" aria-expanded="false">For Businesses <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Plan your project</span>
+                            <ul>
+                                <li><a href="../commercial.html">Commercial solar overview</a></li>
+                                <li><a href="../business-solar-finance.html">Finance options</a></li>
+                                <li><a href="../resco-solar-for-business.html">RESCO: pay per unit</a></li>
+                                <li><a href="../solar-roi-calculator.html">ROI calculator</a></li>
+                                <li><a href="../ground-mounted-solar-open-access.html">Ground-mounted &amp; open access</a></li>
+                                <li><a href="../solar-battery-vs-diesel.html">Solar + battery vs diesel</a></li>
+                                <li><a href="../solar-quote-check.html">Free quote check</a></li>
+                                <li><a href="../book-power-audit.html">Book a free power audit</a></li>
+                                <li><a href="../tender-rfq.html">Tenders and RFQs</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Industries</span>
+                            <ul>
+                                <li><a href="../industry-manufacturing.html">Manufacturing &amp; factories</a></li>
+                                <li><a href="../industry-healthcare.html">Hospitals &amp; healthcare</a></li>
+                                <li><a href="../industry-hotels.html">Hotels &amp; resorts</a></li>
+                                <li><a href="../industry-cold-storage.html">Cold storage &amp; food processing</a></li>
+                                <li><a href="../industry-education.html">Schools &amp; colleges</a></li>
+                                <li><a href="../industry-warehousing.html">Warehousing &amp; logistics</a></li>
+                                <li><a href="../industry-retail.html">Retail &amp; malls</a></li>
+                                <li><a href="../industry-offices.html">Offices &amp; IT parks</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">For solar EPCs</span>
+                            <ul>
+                                <li><a href="https://3d.ray2voltsolar.com/">Ray2Volt 3D: 3D plant viewers</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="../residential.html" class="nav-link" aria-haspopup="true" aria-expanded="false">For Homes <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../residential.html">Home solar overview</a></li>
+                        <li><a href="../residential-ongrid.html">On-grid systems</a></li>
+                        <li><a href="../residential-hybrid.html">Hybrid systems with battery</a></li>
+                        <li><a href="../apartment-solar.html">Apartments &amp; housing societies</a></li>
+                        <li><a href="../solar-emi-calculator.html">Solar loan EMI calculator</a></li>
+                        <li><a href="../blog/pm-surya-ghar-subsidy-guide.html">PM Surya Ghar subsidy guide</a></li>
+                        <li><a href="../raycare.html">RayCare: service plans</a></li>
+                    </ul>
+                </li>
+                <li><a href="../investor.html" class="nav-link">Investors</a></li>
+                <li><a href="../blog.html" class="nav-link active">Guides</a></li>
+                <li><a href="../about.html" class="nav-link">About</a></li>
+                <li><a href="../contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="blog-main">
+        <div class="container">
+
+            <!-- Breadcrumbs -->
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="/">Home</a>
+                <span class="sep">/</span>
+                <a href="../blog.html">Blog</a>
+                <span class="sep">/</span>
+                <span aria-current="page">Earthing and Surge Protection</span>
+            </nav>
+
+            <!-- Post header -->
+            <header class="post-header">
+                <div class="post-meta">
+                    <span class="category-pill" data-cat="Technology">Technology</span>
+                    <time datetime="2026-10-16">16 October 2026</time>
+                    <span class="dot">&middot;</span>
+                    <span>17 min read</span>
+                </div>
+                <h1>Earthing and Surge Protection for Solar Plants: The Physics of Fault Currents and Lightning</h1>
+                <p class="post-standfirst">How a fault becomes a touch voltage, how soil sets electrode resistance, and why a wiring loop or a metre of lead can add kilovolts. Worked numbers throughout.</p>
+            </header>
+
+            <!-- Hero image -->
+            <figure class="post-hero">
+                <picture>
+                    <source type="image/webp" srcset="../images/blog/solar-earthing-surge-protection-800w.webp 800w, ../images/blog/solar-earthing-surge-protection-1600w.webp 1600w" sizes="(max-width: 900px) 100vw, 800px">
+                    <img src="../images/blog/solar-earthing-surge-protection.jpg" alt="Flat-roof solar array on galvanised structures with a bonded earthing strip and a lightning air terminal mast on a concrete roof" width="1600" height="900" fetchpriority="high">
+                </picture>
+                <figcaption>Frame bonding, earth electrodes, surge protection and air terminals work together as one system.</figcaption>
+            </figure>
+
+            <div class="post-shell">
+                <article class="post-body">
+
+                    <div class="key-takeaways">
+                        <h2>Four numbers to carry away</h2>
+                        <ul>
+                            <li>A 230 V fault with an illustrative loop impedance of 0.8 &Omega; drives about 290 A and trips a breaker almost at once. A PV string is limited to about its short-circuit current, near 11 A in our example, so it cannot trip a breaker the same way.</li>
+                            <li>A 3 m driven rod of 16 mm diameter has about 33 &Omega; in 100 &Omega;&middot;m soil and about 100 &Omega; in 300 &Omega;&middot;m soil. Resistance scales with soil resistivity.</li>
+                            <li>A 30 kA strike 50 m away, rising in 1 &micro;s, induces about 1.1 kV in a 10 m&sup2; wiring loop but only about 12 V in a 0.1 m&sup2; loop.</li>
+                            <li>One metre of surge-protector lead adds roughly 10 kV when current changes at 10 kA per microsecond. Keep leads short.</li>
+                        </ul>
+                    </div>
+
+                    <p>A solar plant is a large metal structure bolted to your building, wired with live DC cables and left outdoors through every thunderstorm season. Two threats follow. Internally, insulation fails and someone touches a live frame. Externally, lightning or a grid switching event drives a fast current into the structure and the wiring.</p>
+
+                    <p>Earthing answers the first threat and surge protection the second. Both rest on Ohm&rsquo;s law, on how current spreads through soil and on the voltage a changing current produces across an inductance. This guide defines every symbol before using it and works clearly labelled illustrative numbers. It is an explanation, not a design method. For questions to ask before you buy, see our guide to <a href="how-to-choose-a-solar-installer.html">choosing a solar installer</a>.</p>
+
+                    <div class="callout callout--warning">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        <p><strong>Qualified electricians only:</strong> All earthing, bonding and surge-protection design and work must be done by qualified, licensed electricians, to the applicable standards (IS 3043, IS 732, IEC 60364-7-712, IEC 62305, IEC 61643-31 and IEC 61643-32) and the CEA safety regulations. PV strings are live whenever light falls on them, and opening the DC isolator does not de-energise the cables on the array side. The values here are illustrative. Do not use them to design, test or modify a plant.</p>
+                    </div>
+
+                    <h2 id="fault-physics">Why earthing exists: touch voltage and the fault loop</h2>
+                    <p>When insulation fails, a live conductor can touch an exposed metal part such as a module frame or an inverter enclosure. Earthing gives the fault a low-resistance return path, so the metal stays near earth potential and the current is large enough to trip a protective device.</p>
+
+                    <h3>Touch voltage and body current</h3>
+                    <ul>
+                        <li><math><semantics><msub><mi>V</mi><mi>t</mi></msub><annotation encoding="application/x-tex">V_t</annotation></semantics></math> is the touch voltage in volts (V) between the exposed metal and the ground under a person&rsquo;s feet.</li>
+                        <li><math><semantics><msub><mi>I</mi><mi>f</mi></msub><annotation encoding="application/x-tex">I_f</annotation></semantics></math> is the fault current in amperes (A).</li>
+                        <li><math><semantics><msub><mi>R</mi><mtext>path</mtext></msub><annotation encoding="application/x-tex">R_{\text{path}}</annotation></semantics></math> is the resistance in ohms (&Omega;) of the protective path between the touched metal and the earth reference.</li>
+                        <li><math><semantics><msub><mi>R</mi><mtext>body</mtext></msub><annotation encoding="application/x-tex">R_{\text{body}}</annotation></semantics></math> is the resistance of the body path, including skin contact, in ohms.</li>
+                        <li><math><semantics><msub><mi>I</mi><mtext>body</mtext></msub><annotation encoding="application/x-tex">I_{\text{body}}</annotation></semantics></math> is the current through the person, in amperes.</li>
+                    </ul>
+                    <p>Assume steady current and feet at reference-earth potential. Ohm&rsquo;s law gives the touch voltage across the path, and the body current across the body.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>V</mi><mi>t</mi></msub><mo>≈</mo><msub><mi>I</mi><mi>f</mi></msub><mspace width="0.1667em"></mspace><msub><mi>R</mi><mtext>path</mtext></msub></mrow><annotation encoding="application/x-tex">V_t \approx I_f \, R_{\text{path}}</annotation></semantics></math></div>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>I</mi><mtext>body</mtext></msub><mo>=</mo><mfrac><msub><mi>V</mi><mi>t</mi></msub><msub><mi>R</mi><mtext>body</mtext></msub></mfrac></mrow><annotation encoding="application/x-tex">I_{\text{body}} = \frac{V_t}{R_{\text{body}}}</annotation></semantics></math></div>
+                    <p>Body impedance is not constant. IEC 60479 describes how it varies with voltage, current path, contact area and skin condition, and how the effect depends on current and duration. Without quoting its curves, tens of milliamperes through the chest can be dangerous, which is why a 30 mA residual current device (RCD) is the common choice for personal protection. We use a round <math><semantics><mrow><msub><mi>R</mi><mtext>body</mtext></msub><mo>=</mo><mn>1</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>kΩ</mi></mpadded></mrow><annotation encoding="application/x-tex">R_{\text{body}} = 1\,\mathrm{k\Omega}</annotation></semantics></math> for illustration only.</p>
+
+                    <h3>The fault loop: will the breaker trip fast enough?</h3>
+                    <p>Let <math><semantics><msub><mi>U</mi><mn>0</mn></msub><annotation encoding="application/x-tex">U_0</annotation></semantics></math> be the nominal line-to-earth voltage, 230 V on a single-phase Indian supply, and <math><semantics><msub><mi>Z</mi><mi>s</mi></msub><annotation encoding="application/x-tex">Z_s</annotation></semantics></math> the earth-fault loop impedance in ohms, covering the source winding, line conductor, fault and protective conductor. Ohm&rsquo;s law gives the fault current.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>I</mi><mi>f</mi></msub><mo>=</mo><mfrac><msub><mi>U</mi><mn>0</mn></msub><msub><mi>Z</mi><mi>s</mi></msub></mfrac></mrow><annotation encoding="application/x-tex">I_f = \frac{U_0}{Z_s}</annotation></semantics></math></div>
+                    <p>Take an illustrative <math><semantics><mrow><msub><mi>Z</mi><mi>s</mi></msub><mo>=</mo><mn>0.8</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded></mrow><annotation encoding="application/x-tex">Z_s = 0.8\,\Omega</annotation></semantics></math>, of which <math><semantics><mrow><msub><mi>R</mi><mtext>path</mtext></msub><mo>=</mo><mn>0.3</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded></mrow><annotation encoding="application/x-tex">R_{\text{path}} = 0.3\,\Omega</annotation></semantics></math> is the protective conductor.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>I</mi><mi>f</mi></msub><mo>=</mo><mfrac><mrow><mn>230</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><mrow><mn>0.8</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded></mrow></mfrac><mo>=</mo><mn>287.5</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded></mrow><annotation encoding="application/x-tex">I_f = \frac{230\,\mathrm{V}}{0.8\,\Omega} = 287.5\,\mathrm{A}</annotation></semantics></math></div>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>V</mi><mi>t</mi></msub><mo>≈</mo><mn>287.5</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded><mo>×</mo><mn>0.3</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><mo>=</mo><mn>86</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">V_t \approx 287.5\,\mathrm{A} \times 0.3\,\Omega = 86\,\mathrm{V}</annotation></semantics></math></div>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>I</mi><mtext>body</mtext></msub><mo>=</mo><mfrac><mrow><mn>86</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><mrow><mn>1000</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded></mrow></mfrac><mo>=</mo><mn>86</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>mA</mi></mpadded></mrow><annotation encoding="application/x-tex">I_{\text{body}} = \frac{86\,\mathrm{V}}{1000\,\Omega} = 86\,\mathrm{mA}</annotation></semantics></math></div>
+                    <p>That body current is far above the tens-of-milliamperes region, so speed protects the person. A 16 A Type B breaker trips magnetically at typically three to five times its rating, or 48 A to 80 A, so 287.5 A opens it almost at once. Standards set maximum disconnection times, so check IS 732 and the current edition.</p>
+
+                    <h3>TN and TT earthing systems</h3>
+                    <p>In a TN system the source neutral is earthed at the transformer and exposed metal is bonded back to it, so <math><semantics><msub><mi>Z</mi><mi>s</mi></msub><annotation encoding="application/x-tex">Z_s</annotation></semantics></math> is small. In a TT system the installation has its own electrode <math><semantics><msub><mi>R</mi><mi>A</mi></msub><annotation encoding="application/x-tex">R_A</annotation></semantics></math> and the fault returns through soil to the source electrode <math><semantics><msub><mi>R</mi><mi>B</mi></msub><annotation encoding="application/x-tex">R_B</annotation></semantics></math>, with conductor resistance <math><semantics><msub><mi>R</mi><mi>c</mi></msub><annotation encoding="application/x-tex">R_c</annotation></semantics></math>, all in ohms.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>I</mi><mi>f</mi></msub><mo>=</mo><mfrac><msub><mi>U</mi><mn>0</mn></msub><mrow><msub><mi>R</mi><mi>A</mi></msub><mo>+</mo><msub><mi>R</mi><mi>B</mi></msub><mo>+</mo><msub><mi>R</mi><mi>c</mi></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">I_f = \frac{U_0}{R_A + R_B + R_c}</annotation></semantics></math></div>
+                    <p>With illustrative values of 10, 2 and 0.5 &Omega;, <math><semantics><mrow><msub><mi>I</mi><mi>f</mi></msub><mo>=</mo><mn>230</mn><mi>/</mi><mn>12.5</mn><mo>=</mo><mn>18.4</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded></mrow><annotation encoding="application/x-tex">I_f = 230/12.5 = 18.4\,\mathrm{A}</annotation></semantics></math>. The frame sits at <math><semantics><mrow><mn>18.4</mn><mo>×</mo><mn>10</mn><mo>=</mo><mn>184</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">18.4 \times 10 = 184\,\mathrm{V}</annotation></semantics></math>, yet the 16 A breaker needs 48 A to 80 A and may never trip. TT systems therefore rely on an RCD of rated residual current <math><semantics><msub><mi>I</mi><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>n</mi></mrow></msub><annotation encoding="application/x-tex">I_{\Delta n}</annotation></semantics></math>. A common condition follows, where 50 V is a conventional AC touch-voltage limit to confirm in the current edition.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>R</mi><mi>A</mi></msub><mspace width="0.1667em"></mspace><msub><mi>I</mi><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>n</mi></mrow></msub><mo>≤</mo><mn>50</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">R_A \, I_{\Delta n} \le 50\,\mathrm{V}</annotation></semantics></math></div>
+                    <p>A 30 mA RCD allows <math><semantics><msub><mi>R</mi><mi>A</mi></msub><annotation encoding="application/x-tex">R_A</annotation></semantics></math> up to about <math><semantics><mrow><mn>1,667</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded></mrow><annotation encoding="application/x-tex">1{,}667\,\Omega</annotation></semantics></math>, and a 300 mA RCD about <math><semantics><mrow><mn>167</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded></mrow><annotation encoding="application/x-tex">167\,\Omega</annotation></semantics></math>. Ask which system your site uses.</p>
+
+                    <h3>A PV string is not a 230 V grid</h3>
+                    <p>A module is close to a current source. For an illustrative module with <math><semantics><mrow><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub><mo>=</mo><mn>11.0</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded></mrow><annotation encoding="application/x-tex">I_{sc} = 11.0\,\mathrm{A}</annotation></semantics></math> and <math><semantics><mrow><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo>=</mo><mn>10.4</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded></mrow><annotation encoding="application/x-tex">I_{mp} = 10.4\,\mathrm{A}</annotation></semantics></math>, the short-circuit current is only 1.06 times the operating current. A DC earth fault cannot deliver hundreds of amperes, and fuses rated above <math><semantics><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">I_{sc}</annotation></semantics></math> will not see it. DC-side safety therefore leans on bonding and insulation monitoring, covered below.</p>
+
+                    <h2 id="earth-electrode-physics">Earth electrode resistance from first principles</h2>
+                    <p>An electrode&rsquo;s resistance is not in the metal. It is in the soil around it. Start with the shape that can be solved exactly.</p>
+
+                    <h3>The hemispherical electrode</h3>
+                    <ul>
+                        <li><math><semantics><mi>ρ</mi><annotation encoding="application/x-tex">\rho</annotation></semantics></math> is the soil resistivity in ohm-metres (&Omega;&middot;m), and <math><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math> is the current leaving the electrode in amperes.</li>
+                        <li><math><semantics><msub><mi>r</mi><mn>0</mn></msub><annotation encoding="application/x-tex">r_0</annotation></semantics></math> is the electrode radius and <math><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math> the distance from its centre, in metres.</li>
+                        <li><math><semantics><mi>J</mi><annotation encoding="application/x-tex">J</annotation></semantics></math> is current density in A/m&sup2;, <math><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math> is electric field in V/m, and <math><semantics><mrow><mi>V</mi><mo form="prefix" stretchy="false">(</mo><mi>r</mi><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">V(r)</annotation></semantics></math> is potential in volts relative to remote earth.</li>
+                    </ul>
+                    <p>Assume uniform soil, a hemisphere with its flat face at the surface, current spreading evenly and radially, steady current and remote earth at 0 V. At distance <math><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math> the current crosses a hemispherical shell of area <math><semantics><mrow><mn>2</mn><mi>π</mi><msup><mi>r</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">2\pi r^2</annotation></semantics></math>, and Ohm&rsquo;s law in local form gives the field.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>J</mi><mo>=</mo><mfrac><mi>I</mi><mrow><mn>2</mn><mi>π</mi><msup><mi>r</mi><mn>2</mn></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">J = \frac{I}{2\pi r^2}</annotation></semantics></math></div>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>E</mi><mo>=</mo><mi>ρ</mi><mi>J</mi><mo>=</mo><mfrac><mrow><mi>ρ</mi><mi>I</mi></mrow><mrow><mn>2</mn><mi>π</mi><msup><mi>r</mi><mn>2</mn></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">E = \rho J = \frac{\rho I}{2\pi r^2}</annotation></semantics></math></div>
+                    <p>The potential is the integral of the field from <math><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math> out to infinity.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>V</mi><mo form="prefix" stretchy="false">(</mo><mi>r</mi><mo form="postfix" stretchy="false">)</mo><mo>=</mo><msubsup><mo movablelimits="false">∫</mo><mi>r</mi><mi>∞</mi></msubsup><mfrac><mrow><mi>ρ</mi><mi>I</mi></mrow><mrow><mn>2</mn><mi>π</mi><msup><mi>r</mi><mrow><mo lspace="0em" rspace="0em">′</mo><mn>2</mn></mrow></msup></mrow></mfrac><mspace width="0.1667em"></mspace><mi>d</mi><msup><mi>r</mi><mo lspace="0em" rspace="0em">′</mo></msup><mo>=</mo><mfrac><mrow><mi>ρ</mi><mi>I</mi></mrow><mrow><mn>2</mn><mi>π</mi><mi>r</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">V(r) = \int_r^{\infty} \frac{\rho I}{2\pi r&#x27;^2}\,dr&#x27; = \frac{\rho I}{2\pi r}</annotation></semantics></math></div>
+                    <p>At the surface <math><semantics><mrow><mi>r</mi><mo>=</mo><msub><mi>r</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">r = r_0</annotation></semantics></math> this is the ground potential rise. Dividing by the current gives the electrode resistance.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>R</mi><mo>=</mo><mfrac><mrow><mi>V</mi><mo form="prefix" stretchy="false">(</mo><msub><mi>r</mi><mn>0</mn></msub><mo form="postfix" stretchy="false" lspace="0em" rspace="0em">)</mo></mrow><mi>I</mi></mfrac><mo>=</mo><mfrac><mi>ρ</mi><mrow><mn>2</mn><mi>π</mi><msub><mi>r</mi><mn>0</mn></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">R = \frac{V(r_0)}{I} = \frac{\rho}{2\pi r_0}</annotation></semantics></math></div>
+                    <p>For <math><semantics><mrow><mi>ρ</mi><mo>=</mo><mn>100</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><mo>⋅</mo><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded></mrow><annotation encoding="application/x-tex">\rho = 100\,\Omega\cdot\mathrm{m}</annotation></semantics></math> and <math><semantics><mrow><msub><mi>r</mi><mn>0</mn></msub><mo>=</mo><mn>0.5</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded></mrow><annotation encoding="application/x-tex">r_0 = 0.5\,\mathrm{m}</annotation></semantics></math>, <math><semantics><mrow><mi>R</mi><mo>=</mo><mn>100</mn><mi>/</mi><mo form="prefix" stretchy="false">(</mo><mn>2</mn><mi>π</mi><mo>×</mo><mn>0.5</mn><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mn>31.8</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded></mrow><annotation encoding="application/x-tex">R = 100/(2\pi \times 0.5) = 31.8\,\Omega</annotation></semantics></math>, and at <math><semantics><mrow><mi>I</mi><mo>=</mo><mn>10</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded></mrow><annotation encoding="application/x-tex">I = 10\,\mathrm{A}</annotation></semantics></math> the electrode rises to 318 V. The soil between <math><semantics><msub><mi>r</mi><mn>0</mn></msub><annotation encoding="application/x-tex">r_0</annotation></semantics></math> and <math><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math> holds the fraction <math><semantics><mrow><mn>1</mn><mo>−</mo><msub><mi>r</mi><mn>0</mn></msub><mi>/</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">1 - r_0/r</annotation></semantics></math> of the resistance, so at <math><semantics><mrow><mi>r</mi><mo>=</mo><mn>10</mn><msub><mi>r</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">r = 10 r_0</annotation></semantics></math> already 90% is counted. Nearly all the resistance sits within a few electrode radii, the electrode&rsquo;s &ldquo;resistance area&rdquo;.</p>
+
+                    <h3>Step and touch voltage from the same field</h3>
+                    <p>Let <math><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math> be a stride and <math><semantics><msub><mi>r</mi><mn>1</mn></msub><annotation encoding="application/x-tex">r_1</annotation></semantics></math> the nearer foot&rsquo;s distance from the electrode centre. The step voltage is the potential difference between two points on the surface.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>V</mi><mtext>step</mtext></msub><mo>=</mo><mi>V</mi><mo form="prefix" stretchy="false">(</mo><msub><mi>r</mi><mn>1</mn></msub><mo form="postfix" stretchy="false">)</mo><mo>−</mo><mi>V</mi><mo form="prefix" stretchy="false">(</mo><msub><mi>r</mi><mn>1</mn></msub><mo>+</mo><mi>s</mi><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mfrac><mrow><mi>ρ</mi><mi>I</mi></mrow><mrow><mn>2</mn><mi>π</mi></mrow></mfrac><mrow><mo fence="true" form="prefix">(</mo><mfrac><mn>1</mn><msub><mi>r</mi><mn>1</mn></msub></mfrac><mo>−</mo><mfrac><mn>1</mn><mrow><msub><mi>r</mi><mn>1</mn></msub><mo>+</mo><mi>s</mi></mrow></mfrac><mo fence="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">V_{\text{step}} = V(r_1) - V(r_1 + s) = \frac{\rho I}{2\pi}\left(\frac{1}{r_1} - \frac{1}{r_1 + s}\right)</annotation></semantics></math></div>
+                    <p>With the same soil and current, <math><semantics><mrow><msub><mi>r</mi><mn>1</mn></msub><mo>=</mo><mn>1</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded></mrow><annotation encoding="application/x-tex">r_1 = 1\,\mathrm{m}</annotation></semantics></math> and an illustrative stride <math><semantics><mrow><mi>s</mi><mo>=</mo><mn>0.8</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded></mrow><annotation encoding="application/x-tex">s = 0.8\,\mathrm{m}</annotation></semantics></math>, <math><semantics><mrow><msub><mi>V</mi><mtext>step</mtext></msub><mo>=</mo><mn>159.2</mn><mo>×</mo><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mn>1</mn><mi>/</mi><mn>1.8</mn><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mn>70.7</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">V_{\text{step}} = 159.2 \times (1 - 1/1.8) = 70.7\,\mathrm{V}</annotation></semantics></math>. Someone touching a frame bonded to the electrode, with feet at 1 m, has <math><semantics><mrow><mn>318</mn><mo>−</mo><mn>159</mn><mo>=</mo><mn>159</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">318 - 159 = 159\,\mathrm{V}</annotation></semantics></math> across them. Such voltages from only 10 A are why electrodes belong to a bonded, equipotential system.</p>
+
+                    <div class="callout">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        <p><strong>Stay clear in storms:</strong> The same steep gradient surrounds a lightning down-conductor and its electrode, with currents thousands of times larger. Do not stand near the earthing of a plant, or touch its structure, during a thunderstorm.</p>
+                    </div>
+
+                    <h3>The driven rod</h3>
+                    <p>A real electrode is usually a vertical rod. Sum the point-source contributions along its length, include the mirror image above the surface and average the potential on the rod. The closed result, in the form usually credited to Dwight, uses rod length <math><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math> and diameter <math><semantics><mi>d</mi><annotation encoding="application/x-tex">d</annotation></semantics></math>, both in metres.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>R</mi><mo>=</mo><mfrac><mi>ρ</mi><mrow><mn>2</mn><mi>π</mi><mi>L</mi></mrow></mfrac><mrow><mo fence="true" form="prefix">[</mo><mrow><mi>ln</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mfrac><mrow><mn>8</mn><mi>L</mi></mrow><mi>d</mi></mfrac><mo fence="true" form="postfix">)</mo></mrow><mo>−</mo><mn>1</mn><mo fence="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">R = \frac{\rho}{2\pi L}\left[\ln\!\left(\frac{8L}{d}\right) - 1\right]</annotation></semantics></math></div>
+                    <p>It assumes uniform soil, a vertical rod driven flush with the surface and <math><semantics><mrow><mi>L</mi><mo>≫</mo><mi>d</mi></mrow><annotation encoding="application/x-tex">L \gg d</annotation></semantics></math>. IS 3043 and other handbooks give a closely related logarithmic form, often written with <math><semantics><mrow><mrow><mi>ln</mi><mo>⁡</mo></mrow><mo form="prefix" stretchy="false">(</mo><mn>4</mn><mi>L</mi><mi>/</mi><mi>d</mi><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\ln(4L/d)</annotation></semantics></math>, so use the form in the edition you work to. We computed both for a 3 m rod of 16 mm diameter with python3.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Soil resistivity &rho; (&Omega;&middot;m)</th>
+                                    <th>R by the form above (&Omega;)</th>
+                                    <th>R with ln(4L/d) (&Omega;)</th>
+                                    <th>Potential rise at 10 A (V)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>50 (moist)</td><td>16.7</td><td>17.6</td><td>167</td></tr>
+                                <tr><td>100 (average)</td><td>33.5</td><td>35.1</td><td>335</td></tr>
+                                <tr><td>300 (dry, stony)</td><td>100.5</td><td>105.4</td><td>1,005</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>Sanity checks. Resistance scales exactly with <math><semantics><mi>ρ</mi><annotation encoding="application/x-tex">\rho</annotation></semantics></math>, as the hemisphere predicted. The rod acts like a hemisphere of radius <math><semantics><mrow><mi>ρ</mi><mi>/</mi><mo form="prefix" stretchy="false">(</mo><mn>2</mn><mi>π</mi><mi>R</mi><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mn>0.475</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded></mrow><annotation encoding="application/x-tex">\rho/(2\pi R) = 0.475\,\mathrm{m}</annotation></semantics></math>. A hemisphere of the rod&rsquo;s own 8 mm radius would give 1,989 &Omega; at 100 &Omega;&middot;m, so length does the work: doubling it to 6 m cuts resistance by about 45%, while doubling the diameter trims only 11%. Soil varies with season, so these are illustrations. The resistance a plant must achieve comes from its design standards and DISCOM.</p>
+
+                    <h2 id="soil-resistivity-and-multiple-rods">Measuring soil resistivity and using several rods</h2>
+                    <h3>The Wenner four-pin method</h3>
+                    <p>Four small pins are driven in a line at equal spacing <math><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math> in metres. A tester passes current <math><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math> through the outer pair and reads the voltage <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>V</mi></mrow><annotation encoding="application/x-tex">\Delta V</annotation></semantics></math> across the inner pair, giving <math><semantics><mrow><mi>R</mi><mo>=</mo><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>V</mi><mi>/</mi><mi>I</mi></mrow><annotation encoding="application/x-tex">R = \Delta V/I</annotation></semantics></math>. It works through the hemisphere result and superposition. The first outer pin is a hemispherical source and the last an equal sink. The first inner pin is <math><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math> from the source and <math><semantics><mrow><mn>2</mn><mi>a</mi></mrow><annotation encoding="application/x-tex">2a</annotation></semantics></math> from the sink, and the second inner pin is its mirror image.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>V</mi><mrow><mi>P</mi><mn>1</mn></mrow></msub><mo>=</mo><mfrac><mrow><mi>ρ</mi><mi>I</mi></mrow><mrow><mn>2</mn><mi>π</mi></mrow></mfrac><mrow><mo fence="true" form="prefix">(</mo><mfrac><mn>1</mn><mi>a</mi></mfrac><mo>−</mo><mfrac><mn>1</mn><mrow><mn>2</mn><mi>a</mi></mrow></mfrac><mo fence="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>ρ</mi><mi>I</mi></mrow><mrow><mn>4</mn><mi>π</mi><mi>a</mi></mrow></mfrac><mo separator="true">,</mo><mspace width="2em"></mspace><msub><mi>V</mi><mrow><mi>P</mi><mn>2</mn></mrow></msub><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mfrac><mrow><mi>ρ</mi><mi>I</mi></mrow><mrow><mn>4</mn><mi>π</mi><mi>a</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">V_{P1} = \frac{\rho I}{2\pi}\left(\frac{1}{a} - \frac{1}{2a}\right) = \frac{\rho I}{4\pi a}, \qquad V_{P2} = -\frac{\rho I}{4\pi a}</annotation></semantics></math></div>
+                    <div class="equation"><math display="block"><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>V</mi><mo>=</mo><mfrac><mrow><mi>ρ</mi><mi>I</mi></mrow><mrow><mn>2</mn><mi>π</mi><mi>a</mi></mrow></mfrac><mspace width="1em"></mspace><mo stretchy="false">⇒</mo><mspace width="1em"></mspace><mi>ρ</mi><mo>=</mo><mn>2</mn><mi>π</mi><mi>a</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">\Delta V = \frac{\rho I}{2\pi a} \quad\Rightarrow\quad \rho = 2\pi a R</annotation></semantics></math></div>
+                    <p>This holds for uniform soil and pin depth much smaller than <math><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>. In layered soil it gives an apparent resistivity, and a spacing <math><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math> senses soil to a depth of roughly the order of <math><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>. Separate current and voltage pins also keep the current-pin contact resistance out of the voltage reading. The first row below checks directly: <math><semantics><mrow><mn>2</mn><mi>π</mi><mo>×</mo><mn>1</mn><mo>×</mo><mn>15.9</mn><mo>=</mo><mn>99.9</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded><mo>⋅</mo><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded></mrow><annotation encoding="application/x-tex">2\pi \times 1 \times 15.9 = 99.9\,\Omega\cdot\mathrm{m}</annotation></semantics></math>.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Spacing a (m)</th>
+                                    <th>Reading R (&Omega;)</th>
+                                    <th>&rho;<sub>a</sub> = 2&pi;aR (&Omega;&middot;m)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>1</td><td>15.9</td><td>99.9</td></tr>
+                                <tr><td>2</td><td>7.2</td><td>90.5</td></tr>
+                                <tr><td>4</td><td>2.9</td><td>72.9</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>The falling trend suggests more conductive soil at depth, which would favour a longer rod. One season can mislead, and the test belongs to a competent person with a calibrated instrument.</p>
+
+                    <h3>Rods in parallel</h3>
+                    <p>Ideal parallel resistors give <math><semantics><mrow><mi>R</mi><mi>/</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">R/n</annotation></semantics></math> for <math><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math> rods, but rods in soil are not independent. Each raises the potential of the soil around it, and a neighbouring rod sits inside that raised region, so it collects less current. Their resistance areas overlap. For two identical rods each carrying <math><semantics><mrow><mi>I</mi><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">I/2</annotation></semantics></math>, let <math><semantics><msub><mi>R</mi><mn>1</mn></msub><annotation encoding="application/x-tex">R_1</annotation></semantics></math> be the single-rod resistance and <math><semantics><msub><mi>R</mi><mn>12</mn></msub><annotation encoding="application/x-tex">R_{12}</annotation></semantics></math> the mutual resistance, the extra voltage one rod causes at the other per ampere.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>R</mi><mn>2</mn></msub><mo>=</mo><mfrac><mrow><msub><mi>R</mi><mn>1</mn></msub><mo>+</mo><msub><mi>R</mi><mn>12</mn></msub></mrow><mn>2</mn></mfrac></mrow><annotation encoding="application/x-tex">R_2 = \frac{R_1 + R_{12}}{2}</annotation></semantics></math></div>
+                    <p>Far apart, <math><semantics><mrow><msub><mi>R</mi><mn>12</mn></msub><mo>→</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">R_{12} \to 0</annotation></semantics></math> and <math><semantics><mrow><msub><mi>R</mi><mn>2</mn></msub><mo>→</mo><msub><mi>R</mi><mn>1</mn></msub><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">R_2 \to R_1/2</annotation></semantics></math>. Coincident, <math><semantics><mrow><msub><mi>R</mi><mn>12</mn></msub><mo>=</mo><msub><mi>R</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">R_{12} = R_1</annotation></semantics></math> and nothing is gained. A far-field estimate <math><semantics><mrow><mi>ρ</mi><mi>/</mi><mo form="prefix" stretchy="false">(</mo><mn>2</mn><mi>π</mi><mi>s</mi><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\rho/(2\pi s)</annotation></semantics></math> gives 5.3 &Omega; at <math><semantics><mrow><mi>s</mi><mo>=</mo><mn>3</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded></mrow><annotation encoding="application/x-tex">s = 3\,\mathrm{m}</annotation></semantics></math> and is crude there. Our own numerical line-source model reproduces the 33.5 &Omega; single rod and gives <math><semantics><mrow><msub><mi>R</mi><mn>12</mn></msub><mo>=</mo><mn>4.4</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded></mrow><annotation encoding="application/x-tex">R_{12} = 4.4\,\Omega</annotation></semantics></math>, so <math><semantics><mrow><msub><mi>R</mi><mn>2</mn></msub><mo>=</mo><mo form="prefix" stretchy="false">(</mo><mn>33.5</mn><mo>+</mo><mn>4.4</mn><mo form="postfix" stretchy="false">)</mo><mi>/</mi><mn>2</mn><mo>=</mo><mn>18.9</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded></mrow><annotation encoding="application/x-tex">R_2 = (33.5 + 4.4)/2 = 18.9\,\Omega</annotation></semantics></math>.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Rods in a line (3 m, 16 mm, 100 &Omega;&middot;m)</th>
+                                    <th>Ideal R/n (&Omega;)</th>
+                                    <th>3 m spacing (&Omega;)</th>
+                                    <th>6 m spacing (&Omega;)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>2</td><td>16.7</td><td>18.9</td><td>18.0</td></tr>
+                                <tr><td>3</td><td>11.2</td><td>13.7</td><td>12.6</td></tr>
+                                <tr><td>4</td><td>8.4</td><td>10.8</td><td>9.7</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>More rods always help, with diminishing returns, and wider spacing recovers more of the ideal. A common rule of thumb is a spacing of at least the rod length. It is approximate, since connecting conductors and soil layers change the answer.</p>
+
+                    <h2 id="pv-earthing-practice">Earthing and bonding practice on a PV plant</h2>
+                    <h3>Equipotential bonding</h3>
+                    <p>Every exposed metal part a person could touch together, such as frames, rails, trays and the inverter enclosure, should stay at nearly the same potential during a fault. Two bonded parts joined by resistance <math><semantics><msub><mi>R</mi><mi>b</mi></msub><annotation encoding="application/x-tex">R_b</annotation></semantics></math> carrying fault current <math><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math> differ by <math><semantics><mrow><mi>I</mi><msub><mi>R</mi><mi>b</mi></msub></mrow><annotation encoding="application/x-tex">I R_b</annotation></semantics></math> volts, so every joint matters. Conductors and clamps must follow the standards, notably IEC 60364-7-712, and the module maker&rsquo;s manual. Copper resistance follows the <math><semantics><mrow><mi>R</mi><mo>=</mo><mi>ρ</mi><mspace width="0.1667em"></mspace><mi>l</mi><mi>/</mi><mi>A</mi></mrow><annotation encoding="application/x-tex">R = \rho\,l/A</annotation></semantics></math> relation in our guide to <a href="solar-dc-cable-sizing-voltage-drop.html">solar wiring from first principles</a>, but fault-current sizing comes from the standards.</p>
+
+                    <figure>
+                        <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1200&h=675&fit=crop&auto=format" alt="Electrical technician testing equipment" loading="lazy" width="1200" height="675">
+                        <figcaption>Bonding continuity and earth resistance are measured with calibrated instruments by qualified people.</figcaption>
+                    </figure>
+
+                    <h3>Separate or interconnected electrodes</h3>
+                    <p>A plant may have an AC earth, an equipment earth and a lightning earth. Suppose 10 kA enters a lightning electrode of an illustrative <math><semantics><mrow><mn>10</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded></mrow><annotation encoding="application/x-tex">10\,\Omega</annotation></semantics></math>. By Ohm&rsquo;s law it rises to <math><semantics><mrow><mn>10,000</mn><mo>×</mo><mn>10</mn><mo>=</mo><mn>100</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>kV</mi></mpadded></mrow><annotation encoding="application/x-tex">10{,}000 \times 10 = 100\,\mathrm{kV}</annotation></semantics></math> above remote earth. If the inverter&rsquo;s earth is a separate electrode near 0 V, all 100 kV appears across any wire joining the two systems, and across the equipment between them.</p>
+                    <p>That is the physical case for bonding electrodes together, so the system rises and falls as one. Practice varies. Some plants use one interconnected grid, others keep separate lightning pits bonded directly or through an SPD. Follow IS 3043, IEC 62305 and the project design.</p>
+
+                    <h3>Insulation resistance monitoring</h3>
+                    <p>Most arrays are floating, with neither pole earthed. A first insulation fault then draws almost no current, which is safe, yet it leaves the array one fault from a short circuit through earth. Transformerless inverters have no galvanic isolation, so they measure the array&rsquo;s insulation resistance <math><semantics><msub><mi>R</mi><mrow><mi>i</mi><mi>s</mi><mi>o</mi></mrow></msub><annotation encoding="application/x-tex">R_{iso}</annotation></semantics></math> to earth before connecting, and often during operation. With <math><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math> the test voltage in volts and <math><semantics><msub><mi>I</mi><mtext>leak</mtext></msub><annotation encoding="application/x-tex">I_{\text{leak}}</annotation></semantics></math> the leakage current in amperes:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>R</mi><mrow><mi>i</mi><mi>s</mi><mi>o</mi></mrow></msub><mo>=</mo><mfrac><mi>V</mi><msub><mi>I</mi><mtext>leak</mtext></msub></mfrac></mrow><annotation encoding="application/x-tex">R_{iso} = \frac{V}{I_{\text{leak}}}</annotation></semantics></math></div>
+                    <p>Leakage paths of <math><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math> strings are in parallel, so their conductances add and the total is below any single path.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mfrac><mn>1</mn><msub><mi>R</mi><mrow><mi>i</mi><mi>s</mi><mi>o</mi></mrow></msub></mfrac><mo>=</mo><mrow><munderover><mo movablelimits="false">∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></munderover></mrow><mfrac><mn>1</mn><msub><mi>R</mi><mi>k</mi></msub></mfrac></mrow><annotation encoding="application/x-tex">\frac{1}{R_{iso}} = \sum_{k=1}^{N} \frac{1}{R_k}</annotation></semantics></math></div>
+                    <p>Take 20 strings, each leaking through an illustrative 10 M&Omega;. The total is <math><semantics><mrow><mn>10</mn><mi>/</mi><mn>20</mn><mo>=</mo><mn>0.5</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>MΩ</mi></mpadded></mrow><annotation encoding="application/x-tex">10/20 = 0.5\,\mathrm{M\Omega}</annotation></semantics></math>. Now let one flooded connector drop one string to 100 k&Omega;.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>R</mi><mrow><mi>i</mi><mi>s</mi><mi>o</mi></mrow></msub><mo>=</mo><msup><mrow><mo fence="true" form="prefix">(</mo><mfrac><mn>19</mn><mrow><mn>10</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>MΩ</mi></mpadded></mrow></mfrac><mo>+</mo><mfrac><mn>1</mn><mrow><mn>100</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>kΩ</mi></mpadded></mrow></mfrac><mo fence="true" form="postfix">)</mo></mrow><mrow><mo lspace="0em" rspace="0em">−</mo><mn>1</mn></mrow></msup><mo>≈</mo><mn>84</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>kΩ</mi></mpadded></mrow><annotation encoding="application/x-tex">R_{iso} = \left(\frac{19}{10\,\mathrm{M\Omega}} + \frac{1}{100\,\mathrm{k\Omega}}\right)^{-1} \approx 84\,\mathrm{k\Omega}</annotation></semantics></math></div>
+                    <p>At 600 V that leaks <math><semantics><mrow><mn>600</mn><mi>/</mi><mn>84,000</mn><mo>≈</mo><mn>7.1</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>mA</mi></mpadded></mrow><annotation encoding="application/x-tex">600/84{,}000 \approx 7.1\,\mathrm{mA}</annotation></semantics></math>. If the datasheet threshold is, for illustration, 100 k&Omega;, the inverter will not start although most of the array is healthy. Typical causes are damp connectors, dew, a nicked cable on a metal tray or a damaged backsheet. Capacitive leakage also matters on transformerless designs, one reason the switching in <a href="how-inverters-make-ac-pwm.html">how a solar inverter makes AC</a> is chosen with care.</p>
+                    <p>A recurring insulation alarm is a safety signal. Do not reset it repeatedly or probe the array. A qualified electrician should find the string, and checks in our <a href="solar-panel-maintenance-guide.html">solar panel maintenance guide</a> can catch damp connectors early.</p>
+
+                    <h2 id="lightning-induced-voltage">Lightning and the voltage induced in wiring loops</h2>
+                    <h3>Two impulse waveforms</h3>
+                    <p>Standard current shapes are defined in IEC 62305 and the SPD standards. A label such as 10/350 &micro;s gives the front time, roughly how fast the current reaches its peak, then the time to fall to half of peak. The 10/350 &micro;s impulse represents the partial current of a direct strike. Integrating a double-exponential shape with those times, we find a charge near 49 C for a 100 kA peak. The 8/20 &micro;s impulse represents induced surges and carries of the order of twenty times less charge.</p>
+
+                    <h3>Induced voltage from the magnetic field</h3>
+                    <p>A nearby strike need not touch your array. Its changing field through any wiring loop induces a voltage. The notation follows.</p>
+                    <ul>
+                        <li><math><semantics><mrow><msub><mi>μ</mi><mn>0</mn></msub><mo>=</mo><mn>4</mn><mi>π</mi><mo>×</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>7</mn></mrow></msup><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">H</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">\mu_0 = 4\pi \times 10^{-7}\,\mathrm{H/m}</annotation></semantics></math> is the permeability of free space, <math><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math> the strike current in amperes and <math><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math> the flux density in tesla.</li>
+                        <li><math><semantics><mi>h</mi><annotation encoding="application/x-tex">h</annotation></semantics></math> is the loop height parallel to the channel in metres. The loop&rsquo;s near and far edges are at <math><semantics><msub><mi>d</mi><mn>1</mn></msub><annotation encoding="application/x-tex">d_1</annotation></semantics></math> and <math><semantics><msub><mi>d</mi><mn>2</mn></msub><annotation encoding="application/x-tex">d_2</annotation></semantics></math> from it, and <math><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math> is its area in m&sup2;.</li>
+                        <li><math><semantics><mpadded lspace="0"><mi mathvariant="normal">Φ</mi></mpadded><annotation encoding="application/x-tex">\Phi</annotation></semantics></math> is flux in webers, <math><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math> is mutual inductance in henries and <math><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math> is the induced voltage in volts.</li>
+                    </ul>
+                    <p>Treat the channel as a long straight conductor and the loop as a rectangle in a plane containing it, the strongest coupling. Ampere&rsquo;s law gives the field at distance <math><semantics><mi>d</mi><annotation encoding="application/x-tex">d</annotation></semantics></math>.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>B</mi><mo>=</mo><mfrac><mrow><msub><mi>μ</mi><mn>0</mn></msub><mi>I</mi></mrow><mrow><mn>2</mn><mi>π</mi><mi>d</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">B = \frac{\mu_0 I}{2\pi d}</annotation></semantics></math></div>
+                    <p>Flux through a strip of height <math><semantics><mi>h</mi><annotation encoding="application/x-tex">h</annotation></semantics></math> and width <math><semantics><mrow><mi>d</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">dr</annotation></semantics></math> is <math><semantics><mrow><mi>B</mi><mspace width="0.1667em"></mspace><mi>h</mi><mspace width="0.1667em"></mspace><mi>d</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">B\,h\,dr</annotation></semantics></math>, so integrating across the loop gives the total.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Φ</mi></mpadded><mo>=</mo><msubsup><mo movablelimits="false">∫</mo><msub><mi>d</mi><mn>1</mn></msub><msub><mi>d</mi><mn>2</mn></msub></msubsup><mfrac><mrow><msub><mi>μ</mi><mn>0</mn></msub><mi>I</mi></mrow><mrow><mn>2</mn><mi>π</mi><mi>r</mi></mrow></mfrac><mspace width="0.1667em"></mspace><mi>h</mi><mspace width="0.1667em"></mspace><mi>d</mi><mi>r</mi><mo>=</mo><mfrac><mrow><msub><mi>μ</mi><mn>0</mn></msub><mi>h</mi></mrow><mrow><mn>2</mn><mi>π</mi></mrow></mfrac><mspace width="0.1667em"></mspace><mrow><mspace width="0.1667em"></mspace><mi>ln</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mfrac><msub><mi>d</mi><mn>2</mn></msub><msub><mi>d</mi><mn>1</mn></msub></mfrac><mo fence="true" form="postfix">)</mo></mrow><mi>I</mi></mrow><annotation encoding="application/x-tex">\Phi = \int_{d_1}^{d_2} \frac{\mu_0 I}{2\pi r}\,h\,dr = \frac{\mu_0 h}{2\pi}\,\ln\!\left(\frac{d_2}{d_1}\right) I</annotation></semantics></math></div>
+                    <p>Flux per ampere is <math><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math>, and Faraday&rsquo;s law gives the open-circuit voltage. The narrow-loop form follows from <math><semantics><mrow><mrow><mi>ln</mi><mo>⁡</mo></mrow><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>+</mo><mi>x</mi><mo form="postfix" stretchy="false">)</mo><mo>≈</mo><mi>x</mi></mrow><annotation encoding="application/x-tex">\ln(1+x) \approx x</annotation></semantics></math>.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>V</mi><mo>=</mo><mi>M</mi><mspace width="0.1667em"></mspace><mfrac><mrow><mi>d</mi><mi>I</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo separator="true">,</mo><mspace width="2em"></mspace><mi>M</mi><mo>=</mo><mfrac><mrow><msub><mi>μ</mi><mn>0</mn></msub><mi>h</mi></mrow><mrow><mn>2</mn><mi>π</mi></mrow></mfrac><mrow><mi>ln</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mfrac><msub><mi>d</mi><mn>2</mn></msub><msub><mi>d</mi><mn>1</mn></msub></mfrac><mo fence="true" form="postfix">)</mo></mrow><mo>≈</mo><mfrac><mrow><msub><mi>μ</mi><mn>0</mn></msub><mi>A</mi></mrow><mrow><mn>2</mn><mi>π</mi><msub><mi>d</mi><mn>1</mn></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">V = M\,\frac{dI}{dt}, \qquad M = \frac{\mu_0 h}{2\pi}\ln\!\left(\frac{d_2}{d_1}\right) \approx \frac{\mu_0 A}{2\pi d_1}</annotation></semantics></math></div>
+                    <p>Take an illustrative 30 kA strike rising in 1 &micro;s, so <math><semantics><mrow><mi>d</mi><mi>I</mi><mi>/</mi><mi>d</mi><mi>t</mi><mo>=</mo><mn>3</mn><mo>×</mo><msup><mn>10</mn><mn>10</mn></msup><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">s</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">dI/dt = 3\times10^{10}\,\mathrm{A/s}</annotation></semantics></math>, at <math><semantics><mrow><msub><mi>d</mi><mn>1</mn></msub><mo>=</mo><mn>50</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded></mrow><annotation encoding="application/x-tex">d_1 = 50\,\mathrm{m}</annotation></semantics></math> from a loop 2 m high and 5 m wide, so <math><semantics><mrow><msub><mi>d</mi><mn>2</mn></msub><mo>=</mo><mn>55</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded></mrow><annotation encoding="application/x-tex">d_2 = 55\,\mathrm{m}</annotation></semantics></math> and <math><semantics><mrow><mi>A</mi><mo>=</mo><mn>10</mn><mspace width="0.1667em"></mspace><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">A = 10\,\mathrm{m^2}</annotation></semantics></math>.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>M</mi><mo>=</mo><mn>2</mn><mo>×</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>7</mn></mrow></msup><mo>×</mo><mn>2</mn><mo>×</mo><mrow><mi>ln</mi><mo>⁡</mo></mrow><mo form="prefix" stretchy="false">(</mo><mn>1.1</mn><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mn>3.81</mn><mo>×</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>8</mn></mrow></msup><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">H</mi></mpadded></mrow><annotation encoding="application/x-tex">M = 2\times10^{-7} \times 2 \times \ln(1.1) = 3.81\times10^{-8}\,\mathrm{H}</annotation></semantics></math></div>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>V</mi><mo>=</mo><mn>3.81</mn><mo>×</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>8</mn></mrow></msup><mo>×</mo><mn>3</mn><mo>×</mo><msup><mn>10</mn><mn>10</mn></msup><mo>≈</mo><mn>1,144</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">V = 3.81\times10^{-8} \times 3\times10^{10} \approx 1{,}144\,\mathrm{V}</annotation></semantics></math></div>
+                    <p>The peak field at 50 m is 120 &micro;T, and the narrow-loop formula gives 1,200 V, about 5% high. Now a loop of 0.5 m by 0.2 m, which is 0.1 m&sup2;, at the same distance.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>M</mi><mo>=</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>7</mn></mrow></msup><mo>×</mo><mn>0.5</mn><mo>×</mo><mrow><mi>ln</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mfrac><mn>50.2</mn><mn>50</mn></mfrac><mo fence="true" form="postfix">)</mo></mrow><mo>=</mo><mn>3.99</mn><mo>×</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>10</mn></mrow></msup><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">H</mi></mpadded><mspace width="1em"></mspace><mo stretchy="false">⇒</mo><mspace width="1em"></mspace><mi>V</mi><mo>≈</mo><mn>12</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">M = 10^{-7} \times 0.5 \times \ln\!\left(\frac{50.2}{50}\right) = 3.99\times10^{-10}\,\mathrm{H} \quad\Rightarrow\quad V \approx 12\,\mathrm{V}</annotation></semantics></math></div>
+                    <p>One hundred times less area gives about one hundred times less voltage (a 1 m&sup2; loop gives about 120 V). The practical lesson is to run the positive and negative string conductors together along the same route, and to keep any bonding conductor beside them. A string whose two cables run on opposite sides of a roof encloses a large area, and the surge finds it.</p>
+
+                    
+                    <p>Treat these as orders of magnitude. A 1 &micro;s rise is deliberately steep: the 10/350 &micro;s shape peaks near 7.7 kA/&micro;s for 30 kA by our fit, inducing about 290 V in the 10 m&sup2; loop, though subsequent strokes can be faster. The model ignores screening by metal structures, and the 0.17 &micro;s propagation delay over 50 m is not negligible. The robust result is proportionality to area.</p>
+
+                    <h2 id="surge-protective-devices">Surge protective devices and why lead length matters</h2>
+                    <p>A surge protective device (SPD) is nearly an open circuit in normal use and conducts when voltage rises. Type 1 devices are tested with the 10/350 &micro;s current, for places that may carry part of a direct strike, and Type 2 with 8/20 &micro;s, for induced and switching surges. IEC 61643-31 covers SPDs on the DC side of PV systems and IEC 61643-32 their selection and application. Use only SPDs rated for PV DC, since a DC arc has no natural zero crossing. Their rated voltage must also exceed the array&rsquo;s cold-morning open-circuit voltage, as in our <a href="solar-string-sizing-temperature.html">string sizing guide</a>.</p>
+                    <ul>
+                        <li><math><semantics><msub><mi>U</mi><mi>p</mi></msub><annotation encoding="application/x-tex">U_p</annotation></semantics></math> is the voltage protection level in volts, the highest voltage across the SPD while it conducts its rated current. It is on the datasheet.</li>
+                        <li><math><semantics><msub><mi>U</mi><mi>w</mi></msub><annotation encoding="application/x-tex">U_w</annotation></semantics></math> is the impulse withstand voltage of the protected equipment, in volts, also on its datasheet.</li>
+                        <li><math><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math> is the lead inductance in henries and <math><semantics><mrow><mi>d</mi><mi>I</mi><mi>/</mi><mi>d</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">dI/dt</annotation></semantics></math> is the surge current&rsquo;s rate of change in A/s.</li>
+                    </ul>
+                    <p>The equipment sees the SPD&rsquo;s drop plus the inductive drop in the leads. Adding the peaks is conservative. Before any safety margin, the sum must stay below <math><semantics><msub><mi>U</mi><mi>w</mi></msub><annotation encoding="application/x-tex">U_w</annotation></semantics></math>.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>U</mi><mtext>equip</mtext></msub><mo>≈</mo><msub><mi>U</mi><mi>p</mi></msub><mo>+</mo><mi>L</mi><mspace width="0.1667em"></mspace><mfrac><mrow><mi>d</mi><mi>I</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mspace width="0.2778em"></mspace><mo>&lt;</mo><mspace width="0.2778em"></mspace><msub><mi>U</mi><mi>w</mi></msub></mrow><annotation encoding="application/x-tex">U_{\text{equip}} \approx U_p + L\,\frac{dI}{dt} \;\lt\; U_w</annotation></semantics></math></div>
+                    <p>A straight wire has about 1 &micro;H per metre, nearly independent of diameter because the dependence is logarithmic, so a thicker wire does not rescue you. For 1 m of lead and 10 kA/&micro;s, which is <math><semantics><mrow><msup><mn>10</mn><mn>10</mn></msup><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">s</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">10^{10}\,\mathrm{A/s}</annotation></semantics></math>:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>L</mi><mspace width="0.1667em"></mspace><mfrac><mrow><mi>d</mi><mi>I</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>6</mn></mrow></msup><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">H</mi></mpadded><mo>×</mo><msup><mn>10</mn><mn>10</mn></msup><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">s</mi></mpadded></mrow><mo>=</mo><mn>10,000</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded><mo>=</mo><mn>10</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>kV</mi></mpadded></mrow><annotation encoding="application/x-tex">L\,\frac{dI}{dt} = 10^{-6}\,\mathrm{H} \times 10^{10}\,\mathrm{A/s} = 10{,}000\,\mathrm{V} = 10\,\mathrm{kV}</annotation></semantics></math></div>
+                    <p>That is the &ldquo;keep leads short&rdquo; rule. A 10 kA, 8/20 &micro;s surge rises more gently, at about 1.25 kA/&micro;s along its front, so the same metre adds 1.25 kV. The table uses an illustrative <math><semantics><mrow><msub><mi>U</mi><mi>p</mi></msub><mo>=</mo><mn>1.5</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>kV</mi></mpadded></mrow><annotation encoding="application/x-tex">U_p = 1.5\,\mathrm{kV}</annotation></semantics></math> and <math><semantics><mrow><msub><mi>U</mi><mi>w</mi></msub><mo>=</mo><mn>4</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>kV</mi></mpadded></mrow><annotation encoding="application/x-tex">U_w = 4\,\mathrm{kV}</annotation></semantics></math>. Both the line lead and the earth lead count, so use their total length.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Total lead length (m)</th>
+                                    <th>Lead drop at 1.25 kA/&micro;s (kV)</th>
+                                    <th>Equipment voltage (kV)</th>
+                                    <th>Lead drop at 10 kA/&micro;s (kV)</th>
+                                    <th>Equipment voltage (kV)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>0.1</td><td>0.125</td><td>1.625</td><td>1.0</td><td>2.5</td></tr>
+                                <tr><td>0.5</td><td>0.625</td><td>2.125</td><td>5.0</td><td>6.5</td></tr>
+                                <tr><td>1</td><td>1.25</td><td>2.75</td><td>10.0</td><td>11.5</td></tr>
+                                <tr><td>2</td><td>2.5</td><td>4.0</td><td>20.0</td><td>21.5</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>A protector with <math><semantics><mrow><msub><mi>U</mi><mi>p</mi></msub><mo>=</mo><mn>1.5</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>kV</mi></mpadded></mrow><annotation encoding="application/x-tex">U_p = 1.5\,\mathrm{kV}</annotation></semantics></math> can leave the equipment facing 11.5 kV after one metre of lead against a steep front, almost three times this example&rsquo;s 4 kV withstand. Keep leads short and straight, mount the SPD close to the equipment and follow the maker&rsquo;s wiring instructions.</p>
+
+                    <h2 id="rolling-sphere">Air terminals and the rolling sphere</h2>
+                    <p>IEC 62305 places air terminals with the rolling-sphere method. Imagine a sphere of radius <math><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math> rolled over the structure. Wherever it can touch, a strike could attach, so terminals go there. Wherever it cannot touch, the volume is protected. The radius represents the striking distance and depends on the protection class. IEC 62305 uses classes I to IV with radii of 20, 30, 45 and 60 m.</p>
+                    <p>Let <math><semantics><mi>h</mi><annotation encoding="application/x-tex">h</annotation></semantics></math> be the mast height above the reference plane (ground or roof), with <math><semantics><mrow><mi>h</mi><mo>≤</mo><mi>R</mi></mrow><annotation encoding="application/x-tex">h \le R</annotation></semantics></math>, and <math><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math> the horizontal distance at which a sphere resting on the plane just touches the mast tip. The sphere&rsquo;s centre is at height <math><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math> and horizontal distance <math><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>, and its distance to the tip at height <math><semantics><mi>h</mi><annotation encoding="application/x-tex">h</annotation></semantics></math> must equal <math><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>. Pythagoras gives the result directly.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msup><mi>r</mi><mn>2</mn></msup><mo>+</mo><mo form="prefix" stretchy="false">(</mo><mi>R</mi><mo>−</mo><mi>h</mi><msup><mo form="postfix" stretchy="false">)</mo><mn>2</mn></msup><mo>=</mo><msup><mi>R</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">r^2 + (R - h)^2 = R^2</annotation></semantics></math></div>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>r</mi><mo>=</mo><msqrt><mrow><mn>2</mn><mi>R</mi><mi>h</mi><mo>−</mo><msup><mi>h</mi><mn>2</mn></msup></mrow></msqrt></mrow><annotation encoding="application/x-tex">r = \sqrt{2Rh - h^2}</annotation></semantics></math></div>
+                    <p>Check it geometrically. If <math><semantics><mrow><mi>h</mi><mo>=</mo><mi>R</mi></mrow><annotation encoding="application/x-tex">h = R</annotation></semantics></math>, then <math><semantics><mrow><mi>r</mi><mo>=</mo><mi>R</mi></mrow><annotation encoding="application/x-tex">r = R</annotation></semantics></math>: the centre sits level with the tip, one radius away. As <math><semantics><mrow><mi>h</mi><mo>→</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">h \to 0</annotation></semantics></math>, <math><semantics><mrow><mi>r</mi><mo>→</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">r \to 0</annotation></semantics></math>. For <math><semantics><mrow><mi>h</mi><mo>&gt;</mo><mi>R</mi></mrow><annotation encoding="application/x-tex">h \gt R</annotation></semantics></math> the sphere touches the mast&rsquo;s side and <math><semantics><mrow><mi>r</mi><mo>=</mo><mi>R</mi></mrow><annotation encoding="application/x-tex">r = R</annotation></semantics></math>. Every point closer than <math><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math> is out of the sphere&rsquo;s reach, so it is protected. The protected region is a curved surface, not a 45&deg; cone.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>IEC 62305 class (sphere radius R)</th>
+                                    <th>r, h = 2 m (m)</th>
+                                    <th>r, h = 3 m (m)</th>
+                                    <th>r, h = 5 m (m)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>I (20 m)</td><td>8.7</td><td>10.5</td><td>13.2</td></tr>
+                                <tr><td>II (30 m)</td><td>10.8</td><td>13.1</td><td>16.6</td></tr>
+                                <tr><td>III (45 m)</td><td>13.3</td><td>16.2</td><td>20.6</td></tr>
+                                <tr><td>IV (60 m)</td><td>15.4</td><td>18.7</td><td>24.0</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>As a worked check, a 3 m mast with <math><semantics><mrow><mi>R</mi><mo>=</mo><mn>45</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded></mrow><annotation encoding="application/x-tex">R = 45\,\mathrm{m}</annotation></semantics></math> gives <math><semantics><mrow><mi>r</mi><mo>=</mo><msqrt><mrow><mn>2</mn><mo>×</mo><mn>45</mn><mo>×</mo><mn>3</mn><mo>−</mo><mn>9</mn></mrow></msqrt><mo>=</mo><msqrt><mn>261</mn></msqrt><mo>=</mo><mn>16.2</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded></mrow><annotation encoding="application/x-tex">r = \sqrt{2\times45\times3 - 9} = \sqrt{261} = 16.2\,\mathrm{m}</annotation></semantics></math>. The shortcut <math><semantics><mrow><msqrt><mrow><mn>2</mn><mi>R</mi><mi>h</mi></mrow></msqrt><mo>=</mo><mn>16.4</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded></mrow><annotation encoding="application/x-tex">\sqrt{2Rh} = 16.4\,\mathrm{m}</annotation></semantics></math> is only 1.7% higher. A smaller sphere demands more terminals.</p>
+                    <p>For a PV array, treat the module plane as the reference plane. Real roofs have edges and parapets that the sphere also touches, so a full design checks them all. The standards also require a separation distance between the lightning system and PV conductors, and a terminal must not shade modules. Where separation cannot be kept, parts are bonded and Type 1 SPDs may be needed. Whether a plant needs lightning protection at all is a risk-assessment question under IEC 62305.</p>
+                    <p>Ask for the evidence on your own plant: the soil survey, measured electrode resistances, bonding records, SPD datasheets with lead lengths, and the commissioning insulation record. Ray2Volt&rsquo;s engineers can review the earthing, bonding and surge-protection arrangement of your site against those records, and ongoing inspection is part of what <a href="../raycare.html">RayCare service plans</a> are for.</p>
+
+                    <h2 id="faq">Frequently asked questions</h2>
+                    <div class="faq-list">
+                        <details class="faq-item">
+                            <summary>Why does a floating DC array still need earthing?</summary>
+                            <div class="faq-answer">
+                                <p>Module frames are exposed metal, and a first insulation fault to them leaves the array one fault from a real short circuit. Bonding the frames to earth limits touch voltage and lets the inverter detect the fault by measuring insulation resistance. A qualified electrician must do this to the standards.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>What does an insulation resistance fault on my inverter mean?</summary>
+                            <div class="faq-answer">
+                                <p>The inverter measured less resistance between the array and earth than its threshold allows. Common causes are damp connectors, dew, a damaged cable or a damaged module. Leakage paths from many strings add in parallel, so one poor string can pull the total down. Do not touch the array. Ask a qualified electrician to locate the string.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>Does a lightning rod on the roof protect the solar panels?</summary>
+                            <div class="faq-answer">
+                                <p>It can intercept a direct strike, but the design decides how well. The rolling-sphere method sets where terminals are needed, a separation distance keeps strike current out of the PV wiring, and surge protective devices handle voltages arriving on cables. A risk assessment under IEC 62305 should drive the decision.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>Why must surge protector leads be short?</summary>
+                            <div class="faq-answer">
+                                <p>Every metre of lead has roughly 1 microhenry of inductance, and the voltage across it is inductance times the rate of change of current. At 10 kA per microsecond, one metre adds about 10 kV on top of the protector&rsquo;s own protection level, which can exceed what the equipment withstands.</p>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- Author box -->
+                    <div class="author-box">
+                        <img src="../images/logo.png" alt="Ray2Volt Solar" width="52" height="52" loading="lazy">
+                        <div>
+                            <h2>Ray2Volt Solar Private Limited</h2>
+                            <p>We design, install, and service rooftop solar for homes and businesses across Tirupati district and Andhra Pradesh, from PM Surya Ghar residential systems to commercial and industrial plants. Every enquiry starts with a free power audit.</p>
+                        </div>
+                    </div>
+
+                    <!-- End-of-post CTA -->
+                    <div class="post-cta">
+                        <h2>Have your plant&rsquo;s protection reviewed</h2>
+                        <p>Send Ray2Volt your drawings, soil data and equipment datasheets. Our engineers can review the earthing, bonding and surge-protection arrangement for your site.</p>
+                        <div class="post-cta-buttons">
+                            <a href="../get-quote.html" class="btn btn-primary">Get a free quote</a>
+                            <a href="https://wa.me/919666068140" class="btn btn-outline">Chat on WhatsApp</a>
+                        </div>
+                    </div>
+
+                </article>
+
+                <!-- Sidebar -->
+                <aside class="post-sidebar">
+                    <nav class="toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#fault-physics">Why earthing exists: touch voltage and the fault loop</a></li>
+                            <li><a href="#earth-electrode-physics">Earth electrode resistance from first principles</a></li>
+                            <li><a href="#soil-resistivity-and-multiple-rods">Measuring soil resistivity and using several rods</a></li>
+                            <li><a href="#pv-earthing-practice">Earthing and bonding practice on a PV plant</a></li>
+                            <li><a href="#lightning-induced-voltage">Lightning and the voltage induced in wiring loops</a></li>
+                            <li><a href="#surge-protective-devices">Surge protective devices and why lead length matters</a></li>
+                            <li><a href="#rolling-sphere">Air terminals and the rolling sphere</a></li>
+                            <li><a href="#faq">Frequently asked questions</a></li>
+                        </ol>
+                    </nav>
+
+                    <div class="sidebar-cta">
+                        <h2>Free power audit</h2>
+                        <p>Share your latest electricity bill and we will size a system and show your real payback. No cost, no obligation.</p>
+                        <a href="../get-quote.html" class="btn btn-white btn-sm">Book my audit</a>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- Related posts -->
+            <section class="related-posts">
+                <h2>Related reading</h2>
+                <div class="related-grid">
+                    <a href="solar-dc-cable-sizing-voltage-drop.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/solar-dc-cable-sizing-voltage-drop-800w.webp 800w, ../images/blog/solar-dc-cable-sizing-voltage-drop-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/solar-dc-cable-sizing-voltage-drop.jpg" alt="Solar DC cable sizing and voltage drop" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>Solar Wiring from First Principles: Resistance, Voltage Drop and Cable Sizing</h3>
+                            <p>Technology</p>
+                        </div>
+                    </a>
+                    <a href="solar-panel-maintenance-guide.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/solar-panel-maintenance-guide-800w.webp 800w, ../images/blog/solar-panel-maintenance-guide-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/solar-panel-maintenance-guide.jpg" alt="Solar panel maintenance guide" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>Solar Panel Maintenance: A Practical Cleaning and Upkeep Guide for India</h3>
+                            <p>Solar Basics</p>
+                        </div>
+                    </a>
+                    <a href="how-to-choose-a-solar-installer.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/how-to-choose-a-solar-installer-800w.webp 800w, ../images/blog/how-to-choose-a-solar-installer-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/how-to-choose-a-solar-installer.jpg" alt="How to choose a solar installer in India" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>How to Choose a Solar Installer in India: 12 Questions Before You Sign</h3>
+                            <p>Solar Basics</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid footer-grid--5">
+                <div class="footer-brand">
+                    <p>Powering businesses and homes in Tirupati district and across Andhra Pradesh with clean, affordable solar energy.</p>
+                    <!-- r2v:social-footer:start -->
+                    <!-- r2v:social-footer:end -->
+                    <!-- r2v:vendor-id:start -->
+                    <!-- r2v:vendor-id:end -->
+                </div>
+
+                <div class="footer-col">
+                    <h4>For Businesses</h4>
+                    <ul>
+                        <li><a href="../commercial.html">Commercial &amp; industrial solar</a></li>
+                        <li><a href="../business-solar-finance.html">Finance options</a></li>
+                        <li><a href="../solar-roi-calculator.html">ROI calculator</a></li>
+                        <li><a href="../solar-quote-check.html">Free quote check</a></li>
+                        <li><a href="../book-power-audit.html">Book a free power audit</a></li>
+                        <li><a href="../upload-electricity-bill.html">Send your electricity bill</a></li>
+                        <li><a href="../tender-rfq.html">Tenders and RFQs</a></li>
+                        <li><a href="https://3d.ray2voltsolar.com/">Ray2Volt 3D for solar EPCs</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>For Homes</h4>
+                    <ul>
+                        <li><a href="../residential.html">Home solar</a></li>
+                        <li><a href="../residential.html#subsidy">PM Surya Ghar subsidy</a></li>
+                        <li><a href="../solar-emi-calculator.html">Solar loan EMI calculator</a></li>
+                        <li><a href="../apartment-solar.html">Apartments &amp; societies</a></li>
+                        <li><a href="../avoid-solar-fraud.html">Pay safely: avoid subsidy fraud</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="../about.html">About us</a></li>
+                        <li><a href="../team.html">Our team</a></li>
+                        <li><a href="../locations.html">Where we work</a></li>
+                        <li><a href="../investor.html">Investors</a></li>
+                        <li><a href="../blog.html">Guides</a></li>
+                        <li><a href="../careers.html">Careers</a></li>
+                        <li><a href="../channel-partner.html">Channel partners</a></li>
+                        <li><a href="../raycare.html">RayCare service and warranty</a></li>
+                        <li><a href="../service-request.html">Request a service visit</a></li>
+                        <li><a href="../privacy-policy.html">Privacy policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li>1-278, J.K.Nagar, Revenue Ward No-1, Pichatur Road, Srikalahasti, 517644, Andhra Pradesh.</li>
+                        <li><a href="tel:+919666068140">+91 96660 68140</a></li>
+                        <li><a href="mailto:sales@ray2voltsolar.com">sales@ray2voltsolar.com</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ray2Volt Solar Private Limited. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" aria-label="Scroll to top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <script src="../script.js"></script>
+    <script src="../blog.js"></script>
+</body>
+
+</html>
