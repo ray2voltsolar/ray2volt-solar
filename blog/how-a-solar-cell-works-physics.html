@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-theme-fixed>
+
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18014889887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-18014889887');
+        gtag('config', 'G-WZJ1CXHSG9');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Blog pages are always light: the theme is fixed on <html> and has no toggle -->
+    <meta name="description" content="Follow sunlight through a silicon cell: photons, band gap, p-n junction, diode equation, Voc, fill factor and efficiency, with a worked M10 cell example.">
+    <meta name="keywords" content="how a solar cell works, solar cell physics, silicon band gap, p-n junction, diode equation, open-circuit voltage, fill factor, Shockley-Queisser limit, solar cell efficiency">
+    <title>How a Solar Cell Works: The Physics from Photons to Current</title>
+    <link rel="canonical" href="https://ray2voltsolar.com/blog/how-a-solar-cell-works-physics.html">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap"
+        rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap" rel="stylesheet">
+    </noscript>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../blog.css">
+    <link rel="stylesheet" href="../theme.css">
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Ray2Volt Solar">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="How a Solar Cell Works: The Physics from Photons to Current">
+    <meta property="og:description" content="Follow sunlight through a silicon cell: photons, band gap, p-n junction, diode equation, Voc, fill factor and efficiency, with a worked M10 cell example.">
+    <meta property="og:url" content="https://ray2voltsolar.com/blog/how-a-solar-cell-works-physics.html">
+    <meta property="og:image" content="https://ray2voltsolar.com/images/blog/how-a-solar-cell-works-physics.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "How a Solar Cell Works: The Physics from Photons to Current",
+      "description": "Follow sunlight through a silicon cell: photons, band gap, p-n junction, diode equation, Voc, fill factor and efficiency, with a worked M10 cell example.",
+      "image": "https://ray2voltsolar.com/images/blog/how-a-solar-cell-works-physics.jpg",
+      "author": { "@type": "Organization", "name": "Ray2Volt Solar Private Limited", "url": "https://ray2voltsolar.com" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Ray2Volt Solar Private Limited",
+        "logo": { "@type": "ImageObject", "url": "https://ray2voltsolar.com/images/logo.png" }
+      },
+      "datePublished": "2026-10-16",
+      "dateModified": "2026-10-16",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ray2voltsolar.com/blog/how-a-solar-cell-works-physics.html" },
+      "articleSection": "Technology"
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ray2voltsolar.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://ray2voltsolar.com/blog.html" },
+        { "@type": "ListItem", "position": 3, "name": "How a Solar Cell Works", "item": "https://ray2voltsolar.com/blog/how-a-solar-cell-works-physics.html" }
+      ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why does a solar cell still give voltage in weak light?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The open-circuit voltage depends on the logarithm of the light-generated current. Cutting irradiance from 1000 to 200 W/m² reduces current by 80% but lowers the voltage of a typical silicon cell by only about 46 mV, from 0.70 V to 0.65 V. Power falls almost in proportion to light, while voltage stays close to full."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does a hot solar panel produce less power?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The cell saturation current grows by about 18% per kelvin, so the diode leaks more and the voltage at which it cancels the photocurrent falls. A typical silicon cell loses about 2 mV per kelvin, roughly 80 mV for a cell 40 K above 25 °C. Datasheet power coefficients of about 0.3 to 0.35 percent per kelvin follow from this."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What limits the efficiency of a silicon solar cell?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Photons below the band gap pass through, photons above it lose their excess energy as heat, and radiative recombination is unavoidable. Shockley and Queisser (1961) put the single-junction ceiling near 33 percent, and Richter, Hermle and Glunz (2013) calculated about 29.4 percent for silicon with Auger recombination. Commercial cells reach the mid-20s percent."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is a single solar cell only about 0.7 V?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Cell voltage is set by the silicon band gap of about 1.12 eV and by recombination, and it cannot exceed the built-in potential of the junction. A larger cell gives more current, not more voltage. Modules reach higher voltages by connecting many cells in series, so the string voltage is the sum of cell voltages."
+          }
+        }
+      ]
+    }
+    </script>
+</head>
+
+<body class="blog">
+    <!-- Header / Navigation -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="logo">
+                <img src="../images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'">
+                <div class="logo-text">
+                    Ray2Volt Solar
+                    <span>Private Limited</span>
+                </div>
+            </a>
+
+            <ul class="nav-menu">
+                <li class="dropdown dropdown-wide">
+                    <a href="../commercial.html" class="nav-link" aria-haspopup="true" aria-expanded="false">For Businesses <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Plan your project</span>
+                            <ul>
+                                <li><a href="../commercial.html">Commercial solar overview</a></li>
+                                <li><a href="../business-solar-finance.html">Finance options</a></li>
+                                <li><a href="../resco-solar-for-business.html">RESCO: pay per unit</a></li>
+                                <li><a href="../solar-roi-calculator.html">ROI calculator</a></li>
+                                <li><a href="../ground-mounted-solar-open-access.html">Ground-mounted &amp; open access</a></li>
+                                <li><a href="../solar-battery-vs-diesel.html">Solar + battery vs diesel</a></li>
+                                <li><a href="../solar-quote-check.html">Free quote check</a></li>
+                                <li><a href="../book-power-audit.html">Book a free power audit</a></li>
+                                <li><a href="../tender-rfq.html">Tenders and RFQs</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Industries</span>
+                            <ul>
+                                <li><a href="../industry-manufacturing.html">Manufacturing &amp; factories</a></li>
+                                <li><a href="../industry-healthcare.html">Hospitals &amp; healthcare</a></li>
+                                <li><a href="../industry-hotels.html">Hotels &amp; resorts</a></li>
+                                <li><a href="../industry-cold-storage.html">Cold storage &amp; food processing</a></li>
+                                <li><a href="../industry-education.html">Schools &amp; colleges</a></li>
+                                <li><a href="../industry-warehousing.html">Warehousing &amp; logistics</a></li>
+                                <li><a href="../industry-retail.html">Retail &amp; malls</a></li>
+                                <li><a href="../industry-offices.html">Offices &amp; IT parks</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">For solar EPCs</span>
+                            <ul>
+                                <li><a href="https://3d.ray2voltsolar.com/">Ray2Volt 3D: 3D plant viewers</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="../residential.html" class="nav-link" aria-haspopup="true" aria-expanded="false">For Homes <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../residential.html">Home solar overview</a></li>
+                        <li><a href="../residential-ongrid.html">On-grid systems</a></li>
+                        <li><a href="../residential-hybrid.html">Hybrid systems with battery</a></li>
+                        <li><a href="../apartment-solar.html">Apartments &amp; housing societies</a></li>
+                        <li><a href="../solar-emi-calculator.html">Solar loan EMI calculator</a></li>
+                        <li><a href="../blog/pm-surya-ghar-subsidy-guide.html">PM Surya Ghar subsidy guide</a></li>
+                        <li><a href="../raycare.html">RayCare: service plans</a></li>
+                    </ul>
+                </li>
+                <li><a href="../investor.html" class="nav-link">Investors</a></li>
+                <li><a href="../blog.html" class="nav-link active">Guides</a></li>
+                <li><a href="../about.html" class="nav-link">About</a></li>
+                <li><a href="../contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="blog-main">
+        <div class="container">
+
+            <!-- Breadcrumbs -->
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="/">Home</a>
+                <span class="sep">/</span>
+                <a href="../blog.html">Blog</a>
+                <span class="sep">/</span>
+                <span aria-current="page">How a Solar Cell Works</span>
+            </nav>
+
+            <!-- Post header -->
+            <header class="post-header">
+                <div class="post-meta">
+                    <span class="category-pill" data-cat="Technology">Technology</span>
+                    <time datetime="2026-10-16">16 October 2026</time>
+                    <span class="dot">&middot;</span>
+                    <span>16 min read</span>
+                </div>
+                <h1>How a Solar Cell Works: The Physics from Photons to Current</h1>
+                <p class="post-standfirst">From a photon reaching the glass to current at the terminals: the band gap, the p-n junction, the diode equation and the efficiency limits, with every step worked in numbers.</p>
+            </header>
+
+            <!-- Hero image -->
+            <figure class="post-hero">
+                <picture>
+                    <source type="image/webp" srcset="../images/blog/how-a-solar-cell-works-physics-800w.webp 800w, ../images/blog/how-a-solar-cell-works-physics-1600w.webp 1600w" sizes="(max-width: 900px) 100vw, 800px">
+                    <img src="../images/blog/how-a-solar-cell-works-physics.jpg" alt="Close view of silicon solar cells in a module on a flat rooftop in bright daylight" width="1600" height="900" fetchpriority="high">
+                </picture>
+                <figcaption>A silicon cell turns photons above its band gap into electron-hole pairs, and the p-n junction turns those pairs into current.</figcaption>
+            </figure>
+
+            <div class="post-shell">
+                <article class="post-body">
+
+                    <div class="key-takeaways">
+                        <h2>Four facts to carry away</h2>
+                        <ul>
+                            <li>Silicon has a band gap of about 1.12 eV, so light beyond about 1,107 nm is lost, and for a blackbody-like sun roughly 23% of the power is sub-gap and about 33% is thermalised as heat.</li>
+                            <li>The open-circuit voltage, Voc = (nkT/q) ln(IL/I0 + 1) with symbols defined below, depends on the logarithm of irradiance: from 1000 to 200 W/m² Voc falls only about 46 mV while Isc falls 80%.</li>
+                            <li>Warming raises I0 by roughly 18% per kelvin, so Voc falls by about 2 mV/K per cell, around 80 mV for a cell 40 K above 25 °C.</li>
+                            <li>An illustrative M10 cell (13.9 A, 0.70 V, ideality factor 1.1) gives I0 near 2.8×10⁻¹⁰ A, FF near 0.82–0.83 and about 24% efficiency, against limits of roughly 33% and 29.4%.</li>
+                        </ul>
+                    </div>
+
+                    <p>A solar cell is a diode that happens to be lit. That explains much of a datasheet: why a cell gives about 0.7 V in bright or dim light, why a hot roof loses voltage, and why no silicon cell converts all the sunlight it receives. Many explanations stop at "photons knock electrons loose"; an engineer needs the steps after that.</p>
+
+                    <p>We build the picture in order: photons and the band gap, absorption, the p-n junction, the diode equation, then open-circuit voltage, fill factor and efficiency. Symbols are defined with SI units before any equation uses them, and every number was computed. You need school algebra, logarithms and one derivative.</p>
+
+                    <p>The worked cell is illustrative, not a product. Module-level behaviour is in <a href="solar-module-iv-curve-explained.html">How a Solar Module Works: Cells, Bypass Diodes and the I-V Curve</a>. Here we use CODATA constants and 300 K, where the thermal voltage kT/q (defined below) is 25.85 mV. Standard test conditions use 25 °C (298.15 K), which gives 25.69 mV, a 0.6% difference.</p>
+
+                    <h2 id="photons">Light as photons and the silicon band gap</h2>
+
+                    <p>Sunlight arrives as photons, each carrying an energy set only by its wavelength. We need these symbols:</p>
+                    <ul>
+                        <li><math><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math>: photon energy, in joules (J) or electron-volts (eV); 1 eV = 1.602176634×10⁻¹⁹ J.</li>
+                        <li><math><semantics><mi>h</mi><annotation encoding="application/x-tex">h</annotation></semantics></math>: Planck constant, 6.62607015×10⁻³⁴ J·s.</li>
+                        <li><math><semantics><mi>c</mi><annotation encoding="application/x-tex">c</annotation></semantics></math>: speed of light, 299,792,458 m/s.</li>
+                        <li><math><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>: elementary charge, 1.602176634×10⁻¹⁹ C.</li>
+                        <li><math><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>: wavelength, in metres (nanometres, nm, in tables).</li>
+                        <li><math><semantics><msub><mi>E</mi><mi>g</mi></msub><annotation encoding="application/x-tex">E_g</annotation></semantics></math>: band gap of the semiconductor, in eV.</li>
+                    </ul>
+
+                    <p>The photon energy is</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>E</mi><mo>=</mo><mfrac><mrow><mi>h</mi><mi>c</mi></mrow><mi>λ</mi></mfrac></mrow><annotation encoding="application/x-tex">E = \frac{hc}{\lambda}</annotation></semantics></math></div>
+                    <p>In handy units, <math><semantics><mrow><mi>E</mi><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">[</mo><mpadded lspace="0"><mi>eV</mi></mpadded><mo form="postfix" stretchy="false">]</mo><mo>≈</mo><mn>1239.84</mn><mi>/</mi><mi>λ</mi><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">[</mo><mpadded lspace="0"><mi>nm</mi></mpadded><mo form="postfix" stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">E\,[\mathrm{eV}] \approx 1239.84 / \lambda\,[\mathrm{nm}]</annotation></semantics></math>, so a green photon at 550 nm carries 2.254 eV.</p>
+
+                    <p>In a crystal, electrons fill a valence band. To carry current, one must cross the band gap into the conduction band, leaving a mobile hole behind. For silicon <math><semantics><msub><mi>E</mi><mi>g</mi></msub><annotation encoding="application/x-tex">E_g</annotation></semantics></math> is about 1.12 eV at 300 K (it shrinks slightly as the cell warms). A photon creates an electron-hole pair only if <math><semantics><mrow><mi>E</mi><mo>≥</mo><msub><mi>E</mi><mi>g</mi></msub></mrow><annotation encoding="application/x-tex">E \ge E_g</annotation></semantics></math>, which sets a cutoff wavelength:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>λ</mi><mi>c</mi></msub><mo>=</mo><mfrac><mrow><mi>h</mi><mi>c</mi></mrow><msub><mi>E</mi><mi>g</mi></msub></mfrac><mo>=</mo><mfrac><mrow><mn>1239.84</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">e</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">n</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded></mrow></mrow><mrow><mn>1.12</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>eV</mi></mpadded></mrow></mfrac><mo>≈</mo><mn>1107</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>nm</mi></mpadded></mrow><annotation encoding="application/x-tex">\lambda_c = \frac{hc}{E_g} = \frac{1239.84\,\mathrm{eV\,nm}}{1.12\,\mathrm{eV}} \approx 1107\,\mathrm{nm}</annotation></semantics></math></div>
+                    <p>Light beyond about 1,107 nm passes through, which is the first loss. The second concerns absorbed light. A 3.1 eV photon and a 1.2 eV photon each make one pair, but the blue photon's excess energy is shed as heat within picoseconds as the carrier relaxes to the band edge. This is thermalisation. Each absorbed photon yields at most <math><semantics><msub><mi>E</mi><mi>g</mi></msub><annotation encoding="application/x-tex">E_g</annotation></semantics></math>, and the wasted fraction is</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mtext>thermalisation loss fraction</mtext><mo>=</mo><mfrac><mrow><mi>E</mi><mo>−</mo><msub><mi>E</mi><mi>g</mi></msub></mrow><mi>E</mi></mfrac><mspace width="2em"></mspace><mo form="prefix" stretchy="false">(</mo><mi>E</mi><mo>≥</mo><msub><mi>E</mi><mi>g</mi></msub><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\text{thermalisation loss fraction} = \frac{E - E_g}{E} \qquad (E \ge E_g)</annotation></semantics></math></div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Wavelength (nm)</th><th>Photon energy (eV)</th><th>Fate in silicon</th><th>Heat lost per photon (eV)</th><th>Share of photon energy lost</th></tr></thead>
+                            <tbody>
+                                <tr><td>400 (violet)</td><td>3.100</td><td>Absorbed</td><td>1.980</td><td>63.9%</td></tr>
+                                <tr><td>550 (green)</td><td>2.254</td><td>Absorbed</td><td>1.134</td><td>50.3%</td></tr>
+                                <tr><td>700 (red)</td><td>1.771</td><td>Absorbed</td><td>0.651</td><td>36.8%</td></tr>
+                                <tr><td>900</td><td>1.378</td><td>Absorbed</td><td>0.258</td><td>18.7%</td></tr>
+                                <tr><td>1,000</td><td>1.240</td><td>Absorbed, weakly</td><td>0.120</td><td>9.7%</td></tr>
+                                <tr><td>1,100</td><td>1.127</td><td>Absorbed, very weakly</td><td>0.007</td><td>0.6%</td></tr>
+                                <tr><td>1,200</td><td>1.033</td><td>Below gap, passes through</td><td>none absorbed</td><td>100% not converted</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>Integrating a 5,778 K blackbody, a rough stand-in for sunlight, shows the scale for silicon: about 23% of incident power is in photons below the gap and another 33% is thermalised. Only about 44% remains as band-gap energy, before any voltage or fill-factor loss. Real AM1.5G sunlight differs by a few points.</p>
+
+                    <p>Counting charge gives a useful check: one electron per photon means 800 nm light yields at most <math><semantics><mrow><mi>q</mi><mi>λ</mi><mi>/</mi><mo form="prefix" stretchy="false">(</mo><mi>h</mi><mi>c</mi><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mn>0.645</mn></mrow><annotation encoding="application/x-tex">q\lambda/(hc) = 0.645</annotation></semantics></math> A/W. An M10 cell receives 1000 W/m² × 0.033124 m² = 33.1 W at one sun and delivers 13.9 A, about 0.42 A/W, which is plausible after the losses above.</p>
+
+                    <h2 id="absorption">Absorption and why wafers are about 170 µm thick</h2>
+
+                    <p>Above-gap photons are absorbed at different depths. The Beer–Lambert law is usually written <math><semantics><mrow><mi>I</mi><mo form="prefix" stretchy="false">(</mo><mi>x</mi><mo form="postfix" stretchy="false">)</mo><mo>=</mo><msub><mi>I</mi><mn>0</mn></msub><msup><mi>e</mi><mrow><mo lspace="0em" rspace="0em">−</mo><mi>α</mi><mi>x</mi></mrow></msup></mrow><annotation encoding="application/x-tex">I(x) = I_0 e^{-\alpha x}</annotation></semantics></math>, but this post needs <math><semantics><msub><mi>I</mi><mn>0</mn></msub><annotation encoding="application/x-tex">I_0</annotation></semantics></math> for the diode saturation current, so we write the light intensity as <math><semantics><mi>S</mi><annotation encoding="application/x-tex">S</annotation></semantics></math>:</p>
+                    <ul>
+                        <li><math><semantics><mrow><mi>S</mi><mo form="prefix" stretchy="false">(</mo><mi>x</mi><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">S(x)</annotation></semantics></math>: light intensity at depth <math><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math> in the silicon, in W/m².</li>
+                        <li><math><semantics><msub><mi>S</mi><mn>0</mn></msub><annotation encoding="application/x-tex">S_0</annotation></semantics></math>: intensity just inside the surface, in W/m².</li>
+                        <li><math><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>: absorption coefficient at that wavelength, in cm⁻¹ (1 cm⁻¹ = 100 m⁻¹).</li>
+                        <li><math><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>: depth below the surface, in cm.</li>
+                    </ul>
+
+                    <p>Assume a thin slice <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>x</mi></mrow><annotation encoding="application/x-tex">\mathrm{d}x</annotation></semantics></math> absorbs a fixed fraction <math><semantics><mrow><mi>α</mi><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>x</mi></mrow><annotation encoding="application/x-tex">\alpha\,\mathrm{d}x</annotation></semantics></math> of what reaches it, so <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>S</mi><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mi>α</mi><mi>S</mi><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>x</mi></mrow><annotation encoding="application/x-tex">\mathrm{d}S = -\alpha S\,\mathrm{d}x</annotation></semantics></math>. Integrating gives</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>S</mi><mo form="prefix" stretchy="false">(</mo><mi>x</mi><mo form="postfix" stretchy="false">)</mo><mo>=</mo><msub><mi>S</mi><mn>0</mn></msub><mspace width="0.1667em"></mspace><msup><mi>e</mi><mrow><mo lspace="0em" rspace="0em">−</mo><mi>α</mi><mi>x</mi></mrow></msup></mrow><annotation encoding="application/x-tex">S(x) = S_0\, e^{-\alpha x}</annotation></semantics></math></div>
+                    <p>Intensity falls to 37% of <math><semantics><msub><mi>S</mi><mn>0</mn></msub><annotation encoding="application/x-tex">S_0</annotation></semantics></math> at depth <math><semantics><mrow><mn>1</mn><mi>/</mi><mi>α</mi></mrow><annotation encoding="application/x-tex">1/\alpha</annotation></semantics></math>. The fraction absorbed by a wafer of thickness <math><semantics><mi>W</mi><annotation encoding="application/x-tex">W</annotation></semantics></math> in a single pass is</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>f</mi><mtext>abs</mtext></msub><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo lspace="0em" rspace="0em">−</mo><mi>α</mi><mi>W</mi></mrow></msup></mrow><annotation encoding="application/x-tex">f_{\text{abs}} = 1 - e^{-\alpha W}</annotation></semantics></math></div>
+
+                    <p>Absorption falls steeply toward 1,100 nm because silicon has an indirect gap. The coefficients below are rounded room-temperature values and only approximate. Treat them as orders of magnitude.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Wavelength (nm)</th><th>Approx. α (cm⁻¹)</th><th>Penetration depth 1/α</th><th>Absorbed in 170 µm, one pass</th></tr></thead>
+                            <tbody>
+                                <tr><td>400</td><td>1×10⁵</td><td>0.1 µm</td><td>~100%</td></tr>
+                                <tr><td>600</td><td>4×10³</td><td>2.5 µm</td><td>~100%</td></tr>
+                                <tr><td>800</td><td>1×10³</td><td>10 µm</td><td>~100%</td></tr>
+                                <tr><td>1,000</td><td>60</td><td>~170 µm</td><td>64%</td></tr>
+                                <tr><td>1,100</td><td>3</td><td>~3 mm</td><td>5%</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>Blue light is absorbed within a micrometre; near-infrared light needs a path of the order of the wafer thickness. A thicker wafer catches more 900–1,100 nm light but costs more silicon and needs a longer carrier diffusion length. A thinner one saves silicon but breaks more often. The compromise is roughly 150–180 µm, trending thinner.</p>
+
+                    <p>Light trapping eases the trade-off. Etching the surface into random pyramids bends light obliquely and keeps it reflecting inside, so the path exceeds the thickness. A tenfold longer path turns the 1,000 nm absorption from 64% into 1 − e<sup>−10.2</sup>, or 99.996%. The ideal ceiling is about 4n², roughly 49 times for a refractive index n near 3.5; real cells get a fraction of that. A silicon nitride coating about 75 nm thick (a quarter wavelength at 600 nm, index near 2) cuts reflection from roughly a third on bare silicon to a few percent.</p>
+
+                    <h2 id="junction">Doping and the p-n junction</h2>
+
+                    <h3>Electrons, holes and doping</h3>
+                    <p>Pure silicon has few free carriers. Define:</p>
+                    <ul>
+                        <li><math><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>, <math><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>: free electron and hole concentrations, in cm⁻³.</li>
+                        <li><math><semantics><msub><mi>n</mi><mi>i</mi></msub><annotation encoding="application/x-tex">n_i</annotation></semantics></math>: intrinsic carrier concentration, in cm⁻³: about 1×10¹⁰ cm⁻³ at 300 K (approximate; silicon has about 5×10²² atoms per cm³).</li>
+                        <li><math><semantics><msub><mi>N</mi><mi>D</mi></msub><annotation encoding="application/x-tex">N_D</annotation></semantics></math>, <math><semantics><msub><mi>N</mi><mi>A</mi></msub><annotation encoding="application/x-tex">N_A</annotation></semantics></math>: donor and acceptor doping concentrations, in cm⁻³.</li>
+                    </ul>
+                    <p>Phosphorus has five valence electrons. Four bond with neighbours and the fifth is almost free, giving n-type material with <math><semantics><mrow><mi>n</mi><mo>≈</mo><msub><mi>N</mi><mi>D</mi></msub></mrow><annotation encoding="application/x-tex">n \approx N_D</annotation></semantics></math>. Boron has three, so each atom leaves a hole, giving p-type material with <math><semantics><mrow><mi>p</mi><mo>≈</mo><msub><mi>N</mi><mi>A</mi></msub></mrow><annotation encoding="application/x-tex">p \approx N_A</annotation></semantics></math>. At 300 K nearly all dopants are ionised. At thermal equilibrium the mass-action law holds:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>n</mi><mspace width="0.1667em"></mspace><mi>p</mi><mo>=</mo><msubsup><mi>n</mi><mi>i</mi><mn>2</mn></msubsup></mrow><annotation encoding="application/x-tex">n\,p = n_i^{2}</annotation></semantics></math></div>
+                    <p>Worked example: a p-type base with <math><semantics><mrow><msub><mi>N</mi><mi>A</mi></msub><mo>=</mo><msup><mn>10</mn><mn>16</mn></msup><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">c</mi></mpadded><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mrow><mo lspace="0em" rspace="0em">−</mo><mn>3</mn></mrow></msup></mrow></mrow><annotation encoding="application/x-tex">N_A = 10^{16}\,\mathrm{cm^{-3}}</annotation></semantics></math>, one boron atom per five million silicon atoms. Holes number <math><semantics><mrow><mi>p</mi><mo>≈</mo><msup><mn>10</mn><mn>16</mn></msup><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">c</mi></mpadded><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mrow><mo lspace="0em" rspace="0em">−</mo><mn>3</mn></mrow></msup></mrow></mrow><annotation encoding="application/x-tex">p \approx 10^{16}\,\mathrm{cm^{-3}}</annotation></semantics></math> and the minority electrons number</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>n</mi><mo>=</mo><mfrac><msubsup><mi>n</mi><mi>i</mi><mn>2</mn></msubsup><msub><mi>N</mi><mi>A</mi></msub></mfrac><mo>=</mo><mfrac><mrow><mo form="prefix" stretchy="false" lspace="0em" rspace="0em">(</mo><msup><mn>10</mn><mn>10</mn></msup><msup><mo form="postfix" stretchy="false">)</mo><mn>2</mn></msup></mrow><msup><mn>10</mn><mn>16</mn></msup></mfrac><mo>=</mo><msup><mn>10</mn><mn>4</mn></msup><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">c</mi></mpadded><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mrow><mo lspace="0em" rspace="0em">−</mo><mn>3</mn></mrow></msup></mrow></mrow><annotation encoding="application/x-tex">n = \frac{n_i^{2}}{N_A} = \frac{(10^{10})^{2}}{10^{16}} = 10^{4}\,\mathrm{cm^{-3}}</annotation></semantics></math></div>
+                    <p>Sanity check: doping raised holes a millionfold and cut electrons by the same factor. Since <math><semantics><msubsup><mi>n</mi><mi>i</mi><mn>2</mn></msubsup><annotation encoding="application/x-tex">n_i^2</annotation></semantics></math> rises steeply with temperature, this product is the root of the temperature behaviour derived later.</p>
+
+                    <h3>The p-n junction and the built-in potential</h3>
+                    <p>Join an n-type layer (the thin phosphorus emitter, on a p-type wafer) to the p-type base. Electrons diffuse from the n side and holes from the p side, leaving fixed ionised dopants behind: positive donors on the n side, negative acceptors on the p side. This layer, nearly empty of mobile carriers, is the depletion region. Its electric field points from n to p and pushes electrons and holes back where they came from. That push is drift.</p>
+
+                    <p>Equilibrium is reached when drift cancels diffusion for each carrier. Balancing the electron currents gives the potential across the junction. With <math><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> the Boltzmann constant (1.380649×10⁻²³ J/K), <math><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math> the absolute temperature (K) and <math><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math> the elementary charge, the thermal voltage is <math><semantics><mrow><mi>k</mi><mi>T</mi><mi>/</mi><mi>q</mi><mo>=</mo><mn>25.85</mn></mrow><annotation encoding="application/x-tex">kT/q = 25.85</annotation></semantics></math> mV at 300 K, and the built-in potential <math><semantics><msub><mi>V</mi><mrow><mi>b</mi><mi>i</mi></mrow></msub><annotation encoding="application/x-tex">V_{bi}</annotation></semantics></math>, in volts, is</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>V</mi><mrow><mi>b</mi><mi>i</mi></mrow></msub><mo>=</mo><mfrac><mrow><mi>k</mi><mi>T</mi></mrow><mi>q</mi></mfrac><mspace width="0.1667em"></mspace><mrow><mspace width="0.1667em"></mspace><mi>ln</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mfrac><mrow><msub><mi>N</mi><mi>A</mi></msub><msub><mi>N</mi><mi>D</mi></msub></mrow><msubsup><mi>n</mi><mi>i</mi><mn>2</mn></msubsup></mfrac><mo fence="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">V_{bi} = \frac{kT}{q}\,\ln\!\left(\frac{N_A N_D}{n_i^{2}}\right)</annotation></semantics></math></div>
+                    <p>This assumes full ionisation and non-degenerate doping. Worked example: <math><semantics><mrow><msub><mi>N</mi><mi>A</mi></msub><mo>=</mo><msup><mn>10</mn><mn>16</mn></msup><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">c</mi></mpadded><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mrow><mo lspace="0em" rspace="0em">−</mo><mn>3</mn></mrow></msup></mrow></mrow><annotation encoding="application/x-tex">N_A = 10^{16}\,\mathrm{cm^{-3}}</annotation></semantics></math> and <math><semantics><mrow><msub><mi>N</mi><mi>D</mi></msub><mo>=</mo><msup><mn>10</mn><mn>19</mn></msup><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">c</mi></mpadded><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mrow><mo lspace="0em" rspace="0em">−</mo><mn>3</mn></mrow></msup></mrow></mrow><annotation encoding="application/x-tex">N_D = 10^{19}\,\mathrm{cm^{-3}}</annotation></semantics></math>, a uniform idealisation of a real diffused emitter.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>V</mi><mrow><mi>b</mi><mi>i</mi></mrow></msub><mo>=</mo><mn>0.025852</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded><mo>×</mo><mrow><mi>ln</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mfrac><mrow><msup><mn>10</mn><mn>16</mn></msup><mo>×</mo><msup><mn>10</mn><mn>19</mn></msup></mrow><msup><mn>10</mn><mn>20</mn></msup></mfrac><mo fence="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0.025852</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded><mo>×</mo><mn>34.54</mn><mo>=</mo><mn>0.893</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">V_{bi} = 0.025852\,\mathrm{V} \times \ln\!\left(\frac{10^{16}\times 10^{19}}{10^{20}}\right) = 0.025852\,\mathrm{V} \times 34.54 = 0.893\,\mathrm{V}</annotation></semantics></math></div>
+                    <p>Sanity check: <math><semantics><msub><mi>V</mi><mrow><mi>b</mi><mi>i</mi></mrow></msub><annotation encoding="application/x-tex">V_{bi}</annotation></semantics></math> lies between the 0.70 V open-circuit voltage used below and the 1.12 V band gap, as it must, because the open-circuit voltage cannot exceed the built-in potential. The depletion width is about 0.34 µm for these doping levels, almost all on the lightly doped side. Any pair formed there is swept apart, electrons to the n side and holes to the p side. That separation is the photovoltaic effect. Pairs formed deeper must first diffuse to the junction within their lifetime, so material quality matters.</p>
+
+                    <h2 id="diode">The diode equation and the single-diode model</h2>
+
+                    <p>In the dark the junction is an ordinary diode. Forward bias <math><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math> lowers the barrier from <math><semantics><mrow><mi>q</mi><msub><mi>V</mi><mrow><mi>b</mi><mi>i</mi></mrow></msub></mrow><annotation encoding="application/x-tex">qV_{bi}</annotation></semantics></math> to <math><semantics><mrow><mi>q</mi><mo form="prefix" stretchy="false">(</mo><msub><mi>V</mi><mrow><mi>b</mi><mi>i</mi></mrow></msub><mo>−</mo><mi>V</mi><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">q(V_{bi} - V)</annotation></semantics></math>, and the minority carriers injected across rise by a factor <math><semantics><msup><mi>e</mi><mrow><mi>q</mi><mi>V</mi><mi>/</mi><mi>k</mi><mi>T</mi></mrow></msup><annotation encoding="application/x-tex">e^{qV/kT}</annotation></semantics></math>, then recombine. Shockley's analysis gives the ideal diode equation. Symbols:</p>
+                    <ul>
+                        <li><math><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>: current out of the positive terminal, in amperes, counted positive in the direction light drives it.</li>
+                        <li><math><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math>: terminal voltage, in volts.</li>
+                        <li><math><semantics><msub><mi>I</mi><mn>0</mn></msub><annotation encoding="application/x-tex">I_0</annotation></semantics></math>: dark saturation current, in amperes, the diode's reverse leakage.</li>
+                        <li><math><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>: ideality factor, dimensionless: 1 when recombination happens outside the depletion region, rising toward 2 when it happens inside. Good silicon cells sit near 1.</li>
+                        <li><math><semantics><msub><mi>I</mi><mi>L</mi></msub><annotation encoding="application/x-tex">I_L</annotation></semantics></math>: light-generated current, in amperes.</li>
+                        <li><math><semantics><msub><mi>R</mi><mi>s</mi></msub><annotation encoding="application/x-tex">R_s</annotation></semantics></math>, <math><semantics><msub><mi>R</mi><mrow><mi>s</mi><mi>h</mi></mrow></msub><annotation encoding="application/x-tex">R_{sh}</annotation></semantics></math>: series and shunt resistance, in ohms.</li>
+                    </ul>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>I</mi><mtext>diode</mtext></msub><mo>=</mo><msub><mi>I</mi><mn>0</mn></msub><mrow><mo fence="true" form="prefix">[</mo><mrow><mi>exp</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mfrac><mrow><mi>q</mi><mi>V</mi></mrow><mrow><mi>n</mi><mi>k</mi><mi>T</mi></mrow></mfrac><mo fence="true" form="postfix">)</mo></mrow><mo>−</mo><mn>1</mn><mo fence="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">I_{\text{diode}} = I_0\left[\exp\!\left(\frac{qV}{nkT}\right) - 1\right]</annotation></semantics></math></div>
+                    <p>For long, uniform regions <math><semantics><mrow><msub><mi>I</mi><mn>0</mn></msub><mo>=</mo><mi>q</mi><mi>A</mi><mspace width="0.1667em"></mspace><msubsup><mi>n</mi><mi>i</mi><mn>2</mn></msubsup><mrow><mo fence="true" form="prefix">(</mo><mstyle displaystyle="true" scriptlevel="0"><mfrac><msub><mi>D</mi><mi>n</mi></msub><mrow><msub><mi>L</mi><mi>n</mi></msub><msub><mi>N</mi><mi>A</mi></msub></mrow></mfrac></mstyle><mo>+</mo><mstyle displaystyle="true" scriptlevel="0"><mfrac><msub><mi>D</mi><mi>p</mi></msub><mrow><msub><mi>L</mi><mi>p</mi></msub><msub><mi>N</mi><mi>D</mi></msub></mrow></mfrac></mstyle><mo fence="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">I_0 = qA\,n_i^2\left(\dfrac{D_n}{L_n N_A} + \dfrac{D_p}{L_p N_D}\right)</annotation></semantics></math>, where <math><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math> is the junction area and <math><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math> and <math><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math> are the minority-carrier diffusion coefficient and length. Real cells have thin, passivated regions, so this shows the structure of <math><semantics><msub><mi>I</mi><mn>0</mn></msub><annotation encoding="application/x-tex">I_0</annotation></semantics></math>, not its value. Two lessons hold: <math><semantics><msub><mi>I</mi><mn>0</mn></msub><annotation encoding="application/x-tex">I_0</annotation></semantics></math> is proportional to <math><semantics><msubsup><mi>n</mi><mi>i</mi><mn>2</mn></msubsup><annotation encoding="application/x-tex">n_i^2</annotation></semantics></math>, and better material gives smaller <math><semantics><msub><mi>I</mi><mn>0</mn></msub><annotation encoding="application/x-tex">I_0</annotation></semantics></math>.</p>
+
+                    <p>Now add light. Assume superposition: illumination adds a photocurrent <math><semantics><msub><mi>I</mi><mi>L</mi></msub><annotation encoding="application/x-tex">I_L</annotation></semantics></math> independent of voltage. This is an approximation, since collection weakens slightly near maximum power, but it serves most engineering use. The illuminated cell is</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>I</mi><mo>=</mo><msub><mi>I</mi><mi>L</mi></msub><mo>−</mo><msub><mi>I</mi><mn>0</mn></msub><mrow><mo fence="true" form="prefix">[</mo><mrow><mi>exp</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mfrac><mrow><mi>q</mi><mi>V</mi></mrow><mrow><mi>n</mi><mi>k</mi><mi>T</mi></mrow></mfrac><mo fence="true" form="postfix">)</mo></mrow><mo>−</mo><mn>1</mn><mo fence="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">I = I_L - I_0\left[\exp\!\left(\frac{qV}{nkT}\right) - 1\right]</annotation></semantics></math></div>
+                    <p>Real cells also have series resistance <math><semantics><msub><mi>R</mi><mi>s</mi></msub><annotation encoding="application/x-tex">R_s</annotation></semantics></math> (fingers, busbars, contacts, bulk) and a leakage path <math><semantics><msub><mi>R</mi><mrow><mi>s</mi><mi>h</mi></mrow></msub><annotation encoding="application/x-tex">R_{sh}</annotation></semantics></math> (edges, defects). The diode then sees <math><semantics><mrow><mi>V</mi><mo>+</mo><mi>I</mi><msub><mi>R</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">V + IR_s</annotation></semantics></math>, and the shunt carries <math><semantics><mrow><mo form="prefix" stretchy="false">(</mo><mi>V</mi><mo>+</mo><mi>I</mi><msub><mi>R</mi><mi>s</mi></msub><mo form="postfix" stretchy="false">)</mo><mi>/</mi><msub><mi>R</mi><mrow><mi>s</mi><mi>h</mi></mrow></msub></mrow><annotation encoding="application/x-tex">(V + IR_s)/R_{sh}</annotation></semantics></math>. The single-diode model is</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>I</mi><mo>=</mo><msub><mi>I</mi><mi>L</mi></msub><mo>−</mo><msub><mi>I</mi><mn>0</mn></msub><mrow><mo fence="true" form="prefix">[</mo><mrow><mi>exp</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mfrac><mrow><mi>q</mi><mo form="prefix" stretchy="false">(</mo><mi>V</mi><mo>+</mo><mi>I</mi><msub><mi>R</mi><mi>s</mi></msub><mo form="postfix" stretchy="false" lspace="0em" rspace="0em">)</mo></mrow><mrow><mi>n</mi><mi>k</mi><mi>T</mi></mrow></mfrac><mo fence="true" form="postfix">)</mo></mrow><mo>−</mo><mn>1</mn><mo fence="true" form="postfix">]</mo></mrow><mo>−</mo><mfrac><mrow><mi>V</mi><mo>+</mo><mi>I</mi><msub><mi>R</mi><mi>s</mi></msub></mrow><msub><mi>R</mi><mrow><mi>s</mi><mi>h</mi></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">I = I_L - I_0\left[\exp\!\left(\frac{q(V + IR_s)}{nkT}\right) - 1\right] - \frac{V + IR_s}{R_{sh}}</annotation></semantics></math></div>
+                    <p>It has five parameters and <math><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math> on both sides, so it is solved by iteration. The ideal cell has <math><semantics><mrow><msub><mi>R</mi><mi>s</mi></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">R_s = 0</annotation></semantics></math> and <math><semantics><mrow><msub><mi>R</mi><mrow><mi>s</mi><mi>h</mi></mrow></msub><mo>→</mo><mi>∞</mi></mrow><annotation encoding="application/x-tex">R_{sh} \to \infty</annotation></semantics></math>.</p>
+
+                    <h2 id="isc-voc">Short-circuit current and open-circuit voltage</h2>
+
+                    <p>Two points have closed forms. For short circuit, set <math><semantics><mrow><mi>V</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">V = 0</annotation></semantics></math> in the ideal equation; the exponential becomes 1 and the diode term vanishes:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub><mo>=</mo><msub><mi>I</mi><mi>L</mi></msub><mo>−</mo><msub><mi>I</mi><mn>0</mn></msub><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">[</mo><mn>1</mn><mo>−</mo><mn>1</mn><mo form="postfix" stretchy="false">]</mo><mo>=</mo><msub><mi>I</mi><mi>L</mi></msub></mrow><annotation encoding="application/x-tex">I_{sc} = I_L - I_0\,[1 - 1] = I_L</annotation></semantics></math></div>
+                    <p>With series resistance, the diode sees <math><semantics><mrow><mi>I</mi><msub><mi>R</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">IR_s</annotation></semantics></math>. For the cell below that is 13.9 A × 0.6 mΩ = 8.3 mV, giving a diode term of 2.84×10⁻¹⁰ A × (e<sup>0.293</sup> − 1) ≈ 1×10⁻¹⁰ A, negligible against 13.9 A. So <math><semantics><mrow><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub><mo>≈</mo><msub><mi>I</mi><mi>L</mi></msub></mrow><annotation encoding="application/x-tex">I_{sc} \approx I_L</annotation></semantics></math>, and since <math><semantics><msub><mi>I</mi><mi>L</mi></msub><annotation encoding="application/x-tex">I_L</annotation></semantics></math> follows photon flux, <math><semantics><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">I_{sc}</annotation></semantics></math> is proportional to irradiance.</p>
+
+                    <p>For open circuit, set <math><semantics><mrow><mi>I</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">I = 0</annotation></semantics></math>. No current crosses <math><semantics><msub><mi>R</mi><mi>s</mi></msub><annotation encoding="application/x-tex">R_s</annotation></semantics></math>, so it drops out. Neglecting the shunt path:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mn>0</mn><mo>=</mo><msub><mi>I</mi><mi>L</mi></msub><mo>−</mo><msub><mi>I</mi><mn>0</mn></msub><mrow><mo fence="true" form="prefix">[</mo><mrow><mi>exp</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mfrac><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mrow><mi>n</mi><mi>k</mi><mi>T</mi><mi>/</mi><mi>q</mi></mrow></mfrac><mo fence="true" form="postfix">)</mo></mrow><mo>−</mo><mn>1</mn><mo fence="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">0 = I_L - I_0\left[\exp\!\left(\frac{V_{oc}}{nkT/q}\right) - 1\right]</annotation></semantics></math></div>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mo>=</mo><mfrac><mrow><mi>n</mi><mi>k</mi><mi>T</mi></mrow><mi>q</mi></mfrac><mspace width="0.1667em"></mspace><mrow><mspace width="0.1667em"></mspace><mi>ln</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mfrac><msub><mi>I</mi><mi>L</mi></msub><msub><mi>I</mi><mn>0</mn></msub></mfrac><mo>+</mo><mn>1</mn><mo fence="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">V_{oc} = \frac{nkT}{q}\,\ln\!\left(\frac{I_L}{I_0} + 1\right)</annotation></semantics></math></div>
+                    <p>Physically, <math><semantics><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">V_{oc}</annotation></semantics></math> is where the diode's forward current has grown to cancel the photocurrent. Because <math><semantics><msub><mi>I</mi><mi>L</mi></msub><annotation encoding="application/x-tex">I_L</annotation></semantics></math> is about ten orders of magnitude above <math><semantics><msub><mi>I</mi><mn>0</mn></msub><annotation encoding="application/x-tex">I_0</annotation></semantics></math>, the "+1" is negligible. With <math><semantics><msub><mi>I</mi><mi>L</mi></msub><annotation encoding="application/x-tex">I_L</annotation></semantics></math> proportional to irradiance <math><semantics><mi>G</mi><annotation encoding="application/x-tex">G</annotation></semantics></math> (W/m²), two irradiances <math><semantics><msub><mi>G</mi><mn>1</mn></msub><annotation encoding="application/x-tex">G_1</annotation></semantics></math> and <math><semantics><msub><mi>G</mi><mn>2</mn></msub><annotation encoding="application/x-tex">G_2</annotation></semantics></math> at the same temperature differ by</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi><mo separator="true">,</mo><mn>2</mn></mrow></msub><mo>−</mo><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi><mo separator="true">,</mo><mn>1</mn></mrow></msub><mo>=</mo><mfrac><mrow><mi>n</mi><mi>k</mi><mi>T</mi></mrow><mi>q</mi></mfrac><mspace width="0.1667em"></mspace><mrow><mspace width="0.1667em"></mspace><mi>ln</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mfrac><msub><mi>G</mi><mn>2</mn></msub><msub><mi>G</mi><mn>1</mn></msub></mfrac><mo fence="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">V_{oc,2} - V_{oc,1} = \frac{nkT}{q}\,\ln\!\left(\frac{G_2}{G_1}\right)</annotation></semantics></math></div>
+                    <p>Worked example, with <math><semantics><mrow><mi>n</mi><mo>=</mo><mn>1.1</mn></mrow><annotation encoding="application/x-tex">n = 1.1</annotation></semantics></math> at 300 K so <math><semantics><mrow><mi>n</mi><mi>k</mi><mi>T</mi><mi>/</mi><mi>q</mi><mo>=</mo><mn>28.44</mn></mrow><annotation encoding="application/x-tex">nkT/q = 28.44</annotation></semantics></math> mV, from 1000 to 200 W/m²:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mo>=</mo><mn>28.44</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>mV</mi></mpadded><mo>×</mo><mrow><mi>ln</mi><mo>⁡</mo></mrow><mo form="prefix" stretchy="false">(</mo><mn>0.2</mn><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mn>28.44</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>mV</mi></mpadded><mo>×</mo><mo form="prefix" stretchy="false">(</mo><mo form="prefix" stretchy="false">−</mo><mn>1.609</mn><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>45.8</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>mV</mi></mpadded></mrow><annotation encoding="application/x-tex">\Delta V_{oc} = 28.44\,\mathrm{mV} \times \ln(0.2) = 28.44\,\mathrm{mV} \times (-1.609) = -45.8\,\mathrm{mV}</annotation></semantics></math></div>
+                    <p>Voltage falls from 0.700 V to 0.654 V, a 6.5% loss, while current falls 80%. Sanity check: each tenfold change in light moves <math><semantics><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">V_{oc}</annotation></semantics></math> by 28.44 mV × ln 10 = 65.5 mV. This is why a module shows most of its open-circuit voltage at dawn or under cloud, and why inverter start-up and string design lean on voltage. The temperature side is in <a href="solar-string-sizing-temperature.html">String Sizing for Solar Inverters</a>.</p>
+
+                    <h2 id="max-power">Maximum power, fill factor and efficiency</h2>
+
+                    <p>Power <math><semantics><mrow><mi>P</mi><mo>=</mo><mi>V</mi><mo>×</mo><mi>I</mi></mrow><annotation encoding="application/x-tex">P = V \times I</annotation></semantics></math> is zero at both ends of the curve, so there is a maximum between them. For the ideal cell, write <math><semantics><mrow><mi>a</mi><mo>=</mo><mi>n</mi><mi>k</mi><mi>T</mi><mi>/</mi><mi>q</mi></mrow><annotation encoding="application/x-tex">a = nkT/q</annotation></semantics></math> (volts). Then <math><semantics><mrow><mi>I</mi><mo>=</mo><msub><mi>I</mi><mi>L</mi></msub><mo>−</mo><msub><mi>I</mi><mn>0</mn></msub><mo form="prefix" stretchy="false">(</mo><msup><mi>e</mi><mrow><mi>V</mi><mi>/</mi><mi>a</mi></mrow></msup><mo>−</mo><mn>1</mn><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">I = I_L - I_0(e^{V/a} - 1)</annotation></semantics></math> and <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>I</mi><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>V</mi><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mo form="prefix" stretchy="false">(</mo><msub><mi>I</mi><mn>0</mn></msub><mi>/</mi><mi>a</mi><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><msup><mi>e</mi><mrow><mi>V</mi><mi>/</mi><mi>a</mi></mrow></msup></mrow><annotation encoding="application/x-tex">\mathrm{d}I/\mathrm{d}V = -(I_0/a)\,e^{V/a}</annotation></semantics></math>. The maximum is where the derivative of power is zero:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mfrac><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>P</mi></mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>V</mi></mrow></mfrac><mo>=</mo><mi>I</mi><mo>+</mo><mi>V</mi><mspace width="0.1667em"></mspace><mfrac><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>I</mi></mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>V</mi></mrow></mfrac><mo>=</mo><mn>0</mn><mspace width="1em"></mspace><mo stretchy="false">⇒</mo><mspace width="1em"></mspace><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo>=</mo><mfrac><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mi>a</mi></mfrac><mspace width="0.1667em"></mspace><msub><mi>I</mi><mn>0</mn></msub><mspace width="0.1667em"></mspace><msup><mi>e</mi><mrow><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mi>/</mi><mi>a</mi></mrow></msup></mrow><annotation encoding="application/x-tex">\frac{\mathrm{d}P}{\mathrm{d}V} = I + V\,\frac{\mathrm{d}I}{\mathrm{d}V} = 0 \quad\Rightarrow\quad I_{mp} = \frac{V_{mp}}{a}\, I_0\, e^{V_{mp}/a}</annotation></semantics></math></div>
+                    <p>Substituting into the cell equation with <math><semantics><mrow><mi>x</mi><mo>=</mo><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mi>/</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">x = V_{mp}/a</annotation></semantics></math> gives <math><semantics><mrow><msub><mi>I</mi><mi>L</mi></msub><mo>+</mo><msub><mi>I</mi><mn>0</mn></msub><mo>=</mo><msub><mi>I</mi><mn>0</mn></msub><mspace width="0.1667em"></mspace><msup><mi>e</mi><mi>x</mi></msup><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>+</mo><mi>x</mi><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">I_L + I_0 = I_0\,e^{x}(1 + x)</annotation></semantics></math>. Taking logarithms and using <math><semantics><mrow><mrow><mi>ln</mi><mo>⁡</mo></mrow><mo form="prefix" stretchy="false">(</mo><msub><mi>I</mi><mi>L</mi></msub><mi>/</mi><msub><mi>I</mi><mn>0</mn></msub><mo>+</mo><mn>1</mn><mo form="postfix" stretchy="false">)</mo><mo>=</mo><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mi>/</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">\ln(I_L/I_0 + 1) = V_{oc}/a</annotation></semantics></math> leaves</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo>=</mo><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mo>−</mo><mi>a</mi><mspace width="0.1667em"></mspace><mrow><mspace width="0.1667em"></mspace><mi>ln</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><mfrac><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mi>a</mi></mfrac><mo fence="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">V_{mp} = V_{oc} - a\,\ln\!\left(1 + \frac{V_{mp}}{a}\right)</annotation></semantics></math></div>
+                    <p>Repeated substitution converges in three or four steps. <math><semantics><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">V_{mp}</annotation></semantics></math> sits a few multiples of <math><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math> below <math><semantics><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">V_{oc}</annotation></semantics></math>. Controllers that hold a string at this point, covered in <a href="mppt-and-dc-dc-converters-explained.html">MPPT Explained</a>, search for exactly the condition <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>P</mi><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>V</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\mathrm{d}P/\mathrm{d}V = 0</annotation></semantics></math>.</p>
+
+                    <p>The fill factor compares maximum power with the rectangle <math><semantics><mrow><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mo>×</mo><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{oc} \times I_{sc}</annotation></semantics></math>; efficiency compares it with the light on the cell. With <math><semantics><mi>G</mi><annotation encoding="application/x-tex">G</annotation></semantics></math> in W/m² and cell area <math><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math> in m²:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>F</mi><mi>F</mi><mo>=</mo><mfrac><msub><mi>P</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mrow><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mspace width="0.1667em"></mspace><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub></mrow></mfrac><mspace width="2em"></mspace><mspace width="2em"></mspace><mi>η</mi><mo>=</mo><mfrac><msub><mi>P</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mrow><mi>G</mi><mspace width="0.1667em"></mspace><mi>A</mi></mrow></mfrac><mo>=</mo><mfrac><mrow><mi>F</mi><mi>F</mi><mspace width="0.1667em"></mspace><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mspace width="0.1667em"></mspace><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub></mrow><mrow><mi>G</mi><mspace width="0.1667em"></mspace><mi>A</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">FF = \frac{P_{mp}}{V_{oc}\,I_{sc}} \qquad\qquad \eta = \frac{P_{mp}}{G\,A} = \frac{FF\,V_{oc}\,I_{sc}}{G\,A}</annotation></semantics></math></div>
+                    <p>No exact closed form for the ideal fill factor exists, but Green's empirical approximation is very good. With the normalised voltage <math><semantics><mrow><msub><mi>v</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mo>=</mo><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mi>/</mi><mo form="prefix" stretchy="false">(</mo><mi>n</mi><mi>k</mi><mi>T</mi><mi>/</mi><mi>q</mi><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">v_{oc} = V_{oc}/(nkT/q)</annotation></semantics></math> (dimensionless), for an ideal cell without series or shunt loss:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>F</mi><msub><mi>F</mi><mn>0</mn></msub><mo>≈</mo><mfrac><mrow><msub><mi>v</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mo>−</mo><mrow><mi>ln</mi><mo>⁡</mo></mrow><mo form="prefix" stretchy="false">(</mo><msub><mi>v</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mo>+</mo><mn>0.72</mn><mo form="postfix" stretchy="false" lspace="0em" rspace="0em">)</mo></mrow><mrow><msub><mi>v</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mo>+</mo><mn>1</mn></mrow></mfrac></mrow><annotation encoding="application/x-tex">FF_0 \approx \frac{v_{oc} - \ln(v_{oc} + 0.72)}{v_{oc} + 1}</annotation></semantics></math></div>
+                    <p>The table checks it against the exact solution.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>v<sub>oc</sub></th><th>Exact ideal FF</th><th>Green FF<sub>0</sub></th><th>Relative difference</th></tr></thead>
+                            <tbody>
+                                <tr><td>15</td><td>0.76527</td><td>0.76532</td><td>0.006%</td></tr>
+                                <tr><td>20</td><td>0.80796</td><td>0.80804</td><td>0.011%</td></tr>
+                                <tr><td>24.6</td><td>0.83462</td><td>0.83470</td><td>0.011%</td></tr>
+                                <tr><td>30</td><td>0.85718</td><td>0.85726</td><td>0.009%</td></tr>
+                                <tr><td>35</td><td>0.87283</td><td>0.87290</td><td>0.008%</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>Agreement is about 0.01%, far inside real-world variation. A higher <math><semantics><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">V_{oc}</annotation></semantics></math> also gives a squarer curve and a higher fill factor. For series resistance, a first-order estimate uses the characteristic resistance <math><semantics><mrow><msub><mi>R</mi><mrow><mi>c</mi><mi>h</mi></mrow></msub><mo>=</mo><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mi>/</mi><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub></mrow><annotation encoding="application/x-tex">R_{ch} = V_{oc}/I_{sc}</annotation></semantics></math> and the normalised series resistance <math><semantics><mrow><msub><mi>r</mi><mi>s</mi></msub><mo>=</mo><msub><mi>R</mi><mi>s</mi></msub><mi>/</mi><msub><mi>R</mi><mrow><mi>c</mi><mi>h</mi></mrow></msub></mrow><annotation encoding="application/x-tex">r_s = R_s/R_{ch}</annotation></semantics></math>:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>F</mi><mi>F</mi><mo>≈</mo><mi>F</mi><msub><mi>F</mi><mn>0</mn></msub><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><msub><mi>r</mi><mi>s</mi></msub><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">FF \approx FF_0\,(1 - r_s)</annotation></semantics></math></div>
+
+                    <h2 id="worked-example">Worked example: an M10-format cell</h2>
+
+                    <p>Take an illustrative M10 cell, 182 mm × 182 mm, with <math><semantics><mrow><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub><mo>=</mo><mn>13.9</mn></mrow><annotation encoding="application/x-tex">I_{sc} = 13.9</annotation></semantics></math> A, <math><semantics><mrow><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mo>=</mo><mn>0.70</mn></mrow><annotation encoding="application/x-tex">V_{oc} = 0.70</annotation></semantics></math> V and <math><semantics><mrow><mi>n</mi><mo>=</mo><mn>1.1</mn></mrow><annotation encoding="application/x-tex">n = 1.1</annotation></semantics></math> at 1000 W/m² and 300 K. These are typical-datasheet-style values, not a product. Use your own datasheet for real work.</p>
+
+                    <h3>Step 1: area and saturation current</h3>
+                    <p>The area is <math><semantics><mrow><mi>A</mi><mo>=</mo><mn>0.182</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mo>×</mo><mn>0.182</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mo>=</mo><mn>0.033124</mn><mspace width="0.1667em"></mspace><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">A = 0.182\,\mathrm{m} \times 0.182\,\mathrm{m} = 0.033124\,\mathrm{m^2}</annotation></semantics></math> (331.2 cm²), so the current density is 13.9 A / 331.2 cm² = 41.96 mA/cm², a little under the mid-40s mA/cm² ceiling for silicon. With <math><semantics><mrow><mi>a</mi><mo>=</mo><mi>n</mi><mi>k</mi><mi>T</mi><mi>/</mi><mi>q</mi><mo>=</mo><mn>1.1</mn><mo>×</mo><mn>25.852</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>mV</mi></mpadded><mo>=</mo><mn>28.44</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>mV</mi></mpadded></mrow><annotation encoding="application/x-tex">a = nkT/q = 1.1 \times 25.852\,\mathrm{mV} = 28.44\,\mathrm{mV}</annotation></semantics></math> and <math><semantics><mrow><msub><mi>I</mi><mi>L</mi></msub><mo>≈</mo><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub></mrow><annotation encoding="application/x-tex">I_L \approx I_{sc}</annotation></semantics></math>, rearrange the open-circuit equation to back out <math><semantics><msub><mi>I</mi><mn>0</mn></msub><annotation encoding="application/x-tex">I_0</annotation></semantics></math>:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>I</mi><mn>0</mn></msub><mo>=</mo><mfrac><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub><mrow><mrow><mi>exp</mi><mo>⁡</mo></mrow><mo form="prefix" stretchy="false">(</mo><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mi>/</mi><mi>a</mi><mo form="postfix" stretchy="false">)</mo><mo>−</mo><mn>1</mn></mrow></mfrac><mo>=</mo><mfrac><mrow><mn>13.9</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded></mrow><mrow><msup><mi>e</mi><mn>24.616</mn></msup><mo>−</mo><mn>1</mn></mrow></mfrac><mo>=</mo><mfrac><mrow><mn>13.9</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded></mrow><mrow><mn>4.903</mn><mo>×</mo><msup><mn>10</mn><mn>10</mn></msup></mrow></mfrac><mo>=</mo><mn>2.84</mn><mo>×</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>10</mn></mrow></msup><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded></mrow><annotation encoding="application/x-tex">I_0 = \frac{I_{sc}}{\exp(V_{oc}/a) - 1} = \frac{13.9\,\mathrm{A}}{e^{24.616} - 1} = \frac{13.9\,\mathrm{A}}{4.903\times 10^{10}} = 2.84\times 10^{-10}\,\mathrm{A}</annotation></semantics></math></div>
+                    <p>Per unit area, <math><semantics><mrow><msub><mi>J</mi><mn>0</mn></msub><mo>=</mo><mn>2.84</mn><mo>×</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>10</mn></mrow></msup><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded><mi>/</mi><mn>331.2</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">c</mi></mpadded><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup></mrow><mo>=</mo><mn>8.6</mn><mo>×</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>13</mn></mrow></msup><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">c</mi></mpadded><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup></mrow></mrow><annotation encoding="application/x-tex">J_0 = 2.84\times 10^{-10}\,\mathrm{A} / 331.2\,\mathrm{cm^2} = 8.6\times 10^{-13}\,\mathrm{A/cm^2}</annotation></semantics></math>. Sanity check: this is the same order as saturation current densities reported for industrial silicon cells.</p>
+
+                    <h3>Step 2: maximum power point and fill factor</h3>
+                    <p>With <math><semantics><mrow><msub><mi>v</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mo>=</mo><mn>0.70</mn><mi>/</mi><mn>0.02844</mn><mo>=</mo><mn>24.62</mn></mrow><annotation encoding="application/x-tex">v_{oc} = 0.70/0.02844 = 24.62</annotation></semantics></math>, solve the <math><semantics><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">V_{mp}</annotation></semantics></math> equation for <math><semantics><mrow><mi>x</mi><mo>=</mo><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mi>/</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">x = V_{mp}/a</annotation></semantics></math> by repeated substitution from <math><semantics><mrow><msub><mi>x</mi><mn>0</mn></msub><mo>=</mo><mn>24.6</mn></mrow><annotation encoding="application/x-tex">x_0 = 24.6</annotation></semantics></math>: the iterates are 21.37, 21.51, 21.50, 21.50. So <math><semantics><mrow><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo>=</mo><mn>21.50</mn><mo>×</mo><mn>28.44</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>mV</mi></mpadded><mo>=</mo><mn>0.6115</mn></mrow><annotation encoding="application/x-tex">V_{mp} = 21.50 \times 28.44\,\mathrm{mV} = 0.6115</annotation></semantics></math> V, and</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo>=</mo><mi>x</mi><mspace width="0.1667em"></mspace><msub><mi>I</mi><mn>0</mn></msub><mspace width="0.1667em"></mspace><msup><mi>e</mi><mi>x</mi></msup><mo>=</mo><mn>21.50</mn><mo>×</mo><mn>2.835</mn><mo>×</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>10</mn></mrow></msup><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded><mo>×</mo><mn>2.179</mn><mo>×</mo><msup><mn>10</mn><mn>9</mn></msup><mo>=</mo><mn>13.28</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded></mrow><annotation encoding="application/x-tex">I_{mp} = x\,I_0\,e^{x} = 21.50 \times 2.835\times 10^{-10}\,\mathrm{A} \times 2.179\times 10^{9} = 13.28\,\mathrm{A}</annotation></semantics></math></div>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>P</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo>=</mo><mn>0.6115</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded><mo>×</mo><mn>13.28</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded><mo>=</mo><mn>8.12</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded><mspace width="2em"></mspace><mi>F</mi><mi>F</mi><mo>=</mo><mfrac><mrow><mn>8.12</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded></mrow><mrow><mn>0.70</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded><mo>×</mo><mn>13.9</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded></mrow></mfrac><mo>=</mo><mfrac><mrow><mn>8.12</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded></mrow><mrow><mn>9.73</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded></mrow></mfrac><mo>=</mo><mn>0.835</mn></mrow><annotation encoding="application/x-tex">P_{mp} = 0.6115\,\mathrm{V} \times 13.28\,\mathrm{A} = 8.12\,\mathrm{W} \qquad FF = \frac{8.12\,\mathrm{W}}{0.70\,\mathrm{V} \times 13.9\,\mathrm{A}} = \frac{8.12\,\mathrm{W}}{9.73\,\mathrm{W}} = 0.835</annotation></semantics></math></div>
+                    <p>Green's formula gives <math><semantics><mrow><mi>F</mi><msub><mi>F</mi><mn>0</mn></msub><mo>=</mo><mo form="prefix" stretchy="false">(</mo><mn>24.62</mn><mo>−</mo><mrow><mi>ln</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mn>25.34</mn><mo form="postfix" stretchy="false">)</mo><mi>/</mi><mn>25.62</mn><mo>=</mo><mn>0.8348</mn></mrow><annotation encoding="application/x-tex">FF_0 = (24.62 - \ln 25.34)/25.62 = 0.8348</annotation></semantics></math>, agreeing to three figures. The ideal cell's efficiency is</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>η</mi><mo>=</mo><mfrac><mrow><mn>8.12</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded></mrow><mrow><mn>1000</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded><mi>/</mi><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup></mrow><mo>×</mo><mn>0.033124</mn><mspace width="0.1667em"></mspace><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup></mrow></mfrac><mo>=</mo><mfrac><mrow><mn>8.12</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded></mrow><mrow><mn>33.12</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded></mrow></mfrac><mo>=</mo><mn>24.5</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">\eta = \frac{8.12\,\mathrm{W}}{1000\,\mathrm{W/m^2} \times 0.033124\,\mathrm{m^2}} = \frac{8.12\,\mathrm{W}}{33.12\,\mathrm{W}} = 24.5\%</annotation></semantics></math></div>
+
+                    <h3>Step 3: add series and shunt resistance</h3>
+                    <p>The characteristic resistance is <math><semantics><mrow><msub><mi>R</mi><mrow><mi>c</mi><mi>h</mi></mrow></msub><mo>=</mo><mn>0.70</mn><mi>/</mi><mn>13.9</mn><mo>=</mo><mn>0.0504</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded></mrow><annotation encoding="application/x-tex">R_{ch} = 0.70/13.9 = 0.0504\,\Omega</annotation></semantics></math>. Take an illustrative <math><semantics><mrow><msub><mi>R</mi><mi>s</mi></msub><mo>=</mo><mn>0.6</mn></mrow><annotation encoding="application/x-tex">R_s = 0.6</annotation></semantics></math> mΩ (about 0.2 Ω·cm² over this area), so <math><semantics><mrow><msub><mi>r</mi><mi>s</mi></msub><mo>=</mo><mn>0.0119</mn></mrow><annotation encoding="application/x-tex">r_s = 0.0119</annotation></semantics></math> and <math><semantics><mrow><mi>F</mi><mi>F</mi><mo>≈</mo><mn>0.8348</mn><mo>×</mo><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mn>0.0119</mn><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mn>0.825</mn></mrow><annotation encoding="application/x-tex">FF \approx 0.8348 \times (1 - 0.0119) = 0.825</annotation></semantics></math>. Solving the full single-diode equation numerically gives 0.824, so the first-order estimate is good to about 0.1 points. Then <math><semantics><mrow><msub><mi>P</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo>=</mo><mn>0.824</mn><mo>×</mo><mn>9.73</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded><mo>=</mo><mn>8.02</mn></mrow><annotation encoding="application/x-tex">P_{mp} = 0.824 \times 9.73\,\mathrm{W} = 8.02</annotation></semantics></math> W and <math><semantics><mrow><mi>η</mi><mo>=</mo><mn>24.2</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">\eta = 24.2\%</annotation></semantics></math>. A 50 Ω shunt takes a further 0.0007 off the fill factor, and 10 Ω takes 0.004.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>R<sub>s</sub> (mΩ)</th><th>r<sub>s</sub></th><th>FF, first-order</th><th>FF, numerical</th><th>P<sub>mp</sub> (W)</th><th>η at 1000 W/m²</th></tr></thead>
+                            <tbody>
+                                <tr><td>0</td><td>0.000</td><td>0.8348</td><td>0.8347</td><td>8.12</td><td>24.5%</td></tr>
+                                <tr><td>0.3</td><td>0.006</td><td>0.8298</td><td>0.8293</td><td>8.07</td><td>24.4%</td></tr>
+                                <tr><td>0.6</td><td>0.012</td><td>0.8248</td><td>0.8238</td><td>8.02</td><td>24.2%</td></tr>
+                                <tr><td>1.0</td><td>0.020</td><td>0.8182</td><td>0.8166</td><td>7.95</td><td>24.0%</td></tr>
+                                <tr><td>2.0</td><td>0.040</td><td>0.8016</td><td>0.7986</td><td>7.77</td><td>23.5%</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>At 200 W/m² the same ideal cell (<math><semantics><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">V_{oc}</annotation></semantics></math> = 0.654 V, <math><semantics><mrow><mi>F</mi><msub><mi>F</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">FF_0</annotation></semantics></math> = 0.826) still reaches <math><semantics><mi>η</mi><annotation encoding="application/x-tex">\eta</annotation></semantics></math> = 22.7%. Real cells fall faster at low light because shunt leakage becomes a larger share of a smaller current.</p>
+
+                    <h3>Step 4: temperature</h3>
+                    <p>Now vary cell temperature at fixed irradiance. The key is <math><semantics><msub><mi>I</mi><mn>0</mn></msub><annotation encoding="application/x-tex">I_0</annotation></semantics></math>, which depends on <math><semantics><msubsup><mi>n</mi><mi>i</mi><mn>2</mn></msubsup><annotation encoding="application/x-tex">n_i^2</annotation></semantics></math> and so on temperature far more strongly than <math><semantics><mrow><mi>k</mi><mi>T</mi><mi>/</mi><mi>q</mi></mrow><annotation encoding="application/x-tex">kT/q</annotation></semantics></math> does. For the diffusion-dominated case (<math><semantics><mrow><mi>n</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n = 1</annotation></semantics></math>), a standard form is <math><semantics><mrow><msub><mi>I</mi><mn>0</mn></msub><mo>=</mo><mi>C</mi><mspace width="0.1667em"></mspace><msup><mi>T</mi><mi>γ</mi></msup><mspace width="0.1667em"></mspace><msup><mi>e</mi><mrow><mo lspace="0em" rspace="0em">−</mo><msub><mi>E</mi><mrow><mi>g</mi><mn>0</mn></mrow></msub><mi>/</mi><mo form="prefix" stretchy="false">(</mo><mi>k</mi><mi>T</mi><mo form="postfix" stretchy="false" lspace="0em" rspace="0em">)</mo></mrow></msup></mrow><annotation encoding="application/x-tex">I_0 = C\,T^{\gamma}\,e^{-E_{g0}/(kT)}</annotation></semantics></math>, where <math><semantics><mi>C</mi><annotation encoding="application/x-tex">C</annotation></semantics></math> is a constant, <math><semantics><mrow><mi>γ</mi><mo>≈</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">\gamma \approx 3</annotation></semantics></math>, and <math><semantics><mrow><msub><mi>E</mi><mrow><mi>g</mi><mn>0</mn></mrow></msub><mo>≈</mo><mn>1.2</mn></mrow><annotation encoding="application/x-tex">E_{g0} \approx 1.2</annotation></semantics></math> eV is the gap extrapolated linearly to 0 K. Substituting into <math><semantics><mrow><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mo>≈</mo><mo form="prefix" stretchy="false">(</mo><mi>k</mi><mi>T</mi><mi>/</mi><mi>q</mi><mo form="postfix" stretchy="false">)</mo><mrow><mspace width="0.1667em"></mspace><mi>ln</mi><mo>⁡</mo></mrow><mo form="prefix" stretchy="false">(</mo><msub><mi>I</mi><mi>L</mi></msub><mi>/</mi><msub><mi>I</mi><mn>0</mn></msub><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">V_{oc} \approx (kT/q)\ln(I_L/I_0)</annotation></semantics></math>:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mo>=</mo><mfrac><msub><mi>E</mi><mrow><mi>g</mi><mn>0</mn></mrow></msub><mi>q</mi></mfrac><mo>−</mo><mfrac><mrow><mi>k</mi><mi>T</mi></mrow><mi>q</mi></mfrac><mspace width="0.1667em"></mspace><mrow><mspace width="0.1667em"></mspace><mi>ln</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mfrac><mrow><mi>C</mi><mspace width="0.1667em"></mspace><msup><mi>T</mi><mi>γ</mi></msup></mrow><msub><mi>I</mi><mi>L</mi></msub></mfrac><mo fence="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">V_{oc} = \frac{E_{g0}}{q} - \frac{kT}{q}\,\ln\!\left(\frac{C\,T^{\gamma}}{I_L}\right)</annotation></semantics></math></div>
+                    <p>The first term is fixed and the second grows with <math><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>. Differentiating, and using the equation itself to eliminate the logarithm, gives</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mfrac><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub></mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>T</mi></mrow></mfrac><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mspace width="0.1667em"></mspace><mfrac><mrow><msub><mi>E</mi><mrow><mi>g</mi><mn>0</mn></mrow></msub><mi>/</mi><mi>q</mi><mo>−</mo><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mo>+</mo><mi>γ</mi><mspace width="0.1667em"></mspace><mi>k</mi><mi>T</mi><mi>/</mi><mi>q</mi></mrow><mi>T</mi></mfrac><mspace width="0.2778em"></mspace><mo>+</mo><mspace width="0.2778em"></mspace><mfrac><mrow><mi>k</mi><mi>T</mi></mrow><mi>q</mi></mfrac><mspace width="0.1667em"></mspace><mfrac><mn>1</mn><msub><mi>I</mi><mi>L</mi></msub></mfrac><mfrac><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><msub><mi>I</mi><mi>L</mi></msub></mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>T</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{\mathrm{d}V_{oc}}{\mathrm{d}T} = -\,\frac{E_{g0}/q - V_{oc} + \gamma\,kT/q}{T} \; + \; \frac{kT}{q}\,\frac{1}{I_L}\frac{\mathrm{d}I_L}{\mathrm{d}T}</annotation></semantics></math></div>
+                    <p>The sign is negative for a clear physical reason. As the cell warms, <math><semantics><msub><mi>I</mi><mn>0</mn></msub><annotation encoding="application/x-tex">I_0</annotation></semantics></math> grows about 18% per kelvin (it doubles every 4 K or so), the diode leaks more, and the voltage at which its current equals <math><semantics><msub><mi>I</mi><mi>L</mi></msub><annotation encoding="application/x-tex">I_L</annotation></semantics></math> falls. With <math><semantics><mrow><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mo>=</mo><mn>0.70</mn></mrow><annotation encoding="application/x-tex">V_{oc} = 0.70</annotation></semantics></math> V, <math><semantics><mrow><mi>γ</mi><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">\gamma = 3</annotation></semantics></math> and <math><semantics><mrow><mi>k</mi><mi>T</mi><mi>/</mi><mi>q</mi><mo>=</mo><mn>0.02585</mn></mrow><annotation encoding="application/x-tex">kT/q = 0.02585</annotation></semantics></math> V:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mfrac><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub></mrow><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mi>T</mi></mrow></mfrac><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mspace width="0.1667em"></mspace><mfrac><mrow><mn>1.20</mn><mo>−</mo><mn>0.70</mn><mo>+</mo><mn>3</mn><mo>×</mo><mn>0.02585</mn></mrow><mrow><mn>300</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">K</mi></mpadded></mrow></mfrac><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>1.93</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">K</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">\frac{\mathrm{d}V_{oc}}{\mathrm{d}T} = -\,\frac{1.20 - 0.70 + 3 \times 0.02585}{300\,\mathrm{K}} = -1.93\,\mathrm{mV/K}</annotation></semantics></math></div>
+                    <p>The photocurrent term adds only about +0.01 mV/K. This matches the datasheet-style figure of about −2 mV/K per cell, or −0.29%/K of 0.70 V. For a cell 40 K above 25 °C, as a hot rooftop module commonly runs:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mo>≈</mo><mo form="prefix" stretchy="false">−</mo><mn>2</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">K</mi></mpadded></mrow><mo>×</mo><mn>40</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">K</mi></mpadded><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>80</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>mV</mi></mpadded><mspace width="1em"></mspace><mo stretchy="false">⇒</mo><mspace width="1em"></mspace><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mo>≈</mo><mn>0.62</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">\Delta V_{oc} \approx -2\,\mathrm{mV/K} \times 40\,\mathrm{K} = -80\,\mathrm{mV} \quad\Rightarrow\quad V_{oc} \approx 0.62\,\mathrm{V}</annotation></semantics></math></div>
+                    <p>That is an 11% voltage loss, and typical datasheet power coefficients of −0.3 to −0.35 %/K cost a similar share of power. The derivation assumes <math><semantics><mrow><mi>n</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n = 1</annotation></semantics></math>; a slightly higher <math><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math> shifts the result only a little.</p>
+
+                    <h2 id="limits">Limits: where the rest of the sunlight goes</h2>
+
+                    <p>The strictest answer is the detailed-balance calculation of Shockley and Queisser (1961). It assumes a single junction, one pair per absorbed above-gap photon, complete collection, and only unavoidable radiative recombination. Even a perfect cell at 300 K must emit light, which pulls <math><semantics><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">V_{oc}</annotation></semantics></math> below <math><semantics><mrow><msub><mi>E</mi><mi>g</mi></msub><mi>/</mi><mi>q</mi></mrow><annotation encoding="application/x-tex">E_g/q</annotation></semantics></math>. A low gap gives much current but little voltage, a high gap the reverse, and the product peaks near 1.34 eV at about 33% for the AM1.5G spectrum. Silicon's 1.12 eV lies close to this flat optimum. The 1961 paper used a blackbody sun, so quoted peaks range from about 30% to 34%.</p>
+
+                    <p>Silicon has an extra intrinsic loss, Auger recombination, in which an electron and hole recombine and hand their energy to a third carrier. Including it, Richter, Hermle and Glunz (2013) calculated an upper limit of about 29.4% for a silicon cell. The budget below shows the scale. The first two rows come from the blackbody integration, so figures are approximate and row 3 is found by difference.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Stage</th><th>Loss mechanism</th><th>Approx. loss (points of incident power)</th><th>Power remaining</th></tr></thead>
+                            <tbody>
+                                <tr><td>Start</td><td>Incident sunlight</td><td>0</td><td>100%</td></tr>
+                                <tr><td>1</td><td>Photons below the band gap pass through</td><td>~23</td><td>~77%</td></tr>
+                                <tr><td>2</td><td>Thermalisation of above-gap photons</td><td>~33</td><td>~44%</td></tr>
+                                <tr><td>3</td><td>Voltage below E<sub>g</sub>/q, fill factor, radiative recombination</td><td>~11</td><td>~33% (Shockley–Queisser)</td></tr>
+                                <tr><td>4</td><td>Silicon-specific: Auger recombination, finite thickness, gap off optimum</td><td>~4</td><td>~29.4% (silicon limit)</td></tr>
+                                <tr><td>5</td><td>Practical cell: finger shading, reflection, surface and contact recombination, resistance</td><td>~5</td><td>~24% (example cell: 24.2%)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="callout">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        <p>Rows 1 and 2 are set by physics, and no single-junction cell escapes them. Industry progress happens in rows 3 to 5.</p>
+                    </div>
+
+                    <h2 id="modern-cells">How PERC, TOPCon and HJT attack recombination</h2>
+
+                    <p>The saturation current <math><semantics><msub><mi>I</mi><mn>0</mn></msub><annotation encoding="application/x-tex">I_0</annotation></semantics></math> sums all recombination in the cell, so lowering it raises <math><semantics><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">V_{oc}</annotation></semantics></math>. If <math><semantics><msub><mi>I</mi><mn>0</mn></msub><annotation encoding="application/x-tex">I_0</annotation></semantics></math> falls to <math><semantics><msubsup><mi>I</mi><mn>0</mn><mo lspace="0em" rspace="0em">′</mo></msubsup><annotation encoding="application/x-tex">I_0&#x27;</annotation></semantics></math> at the same light and temperature, the voltage gain is</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mo>=</mo><mfrac><mrow><mi>n</mi><mi>k</mi><mi>T</mi></mrow><mi>q</mi></mfrac><mspace width="0.1667em"></mspace><mrow><mspace width="0.1667em"></mspace><mi>ln</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mfrac><msub><mi>I</mi><mn>0</mn></msub><msubsup><mi>I</mi><mn>0</mn><mo lspace="0em" rspace="0em">′</mo></msubsup></mfrac><mo fence="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\Delta V_{oc} = \frac{nkT}{q}\,\ln\!\left(\frac{I_0}{I_0&#x27;}\right)</annotation></semantics></math></div>
+                    <p>For the example cell, cutting <math><semantics><msub><mi>I</mi><mn>0</mn></msub><annotation encoding="application/x-tex">I_0</annotation></semantics></math> threefold adds 28.44 mV × ln 3 = 31.2 mV; halving it adds 19.7 mV. Bulk, surface and contact recombination all add to <math><semantics><msub><mi>I</mi><mn>0</mn></msub><annotation encoding="application/x-tex">I_0</annotation></semantics></math>, and a bare metal-silicon interface is among the worst. Each design below answers one question: how do you extract current without recombination at the metal?</p>
+
+                    <figure>
+                        <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1200&amp;h=675&amp;fit=crop&amp;auto=format" alt="Equipment used in solar module production" loading="lazy" width="1200" height="675">
+                        <figcaption>Cell designs differ mainly in how the wafer surfaces and contacts are made, which is decided on the production line.</figcaption>
+                    </figure>
+
+                    <ul>
+                        <li><strong>PERC</strong> adds a dielectric layer (commonly aluminium oxide with silicon nitride) to the rear surface. Metal touches the silicon only through small local openings, which cuts rear-surface recombination.</li>
+                        <li><strong>TOPCon</strong> places an ultrathin tunnel oxide, a nanometre or two thick, and doped polysilicon under the metal. Carriers tunnel to the contact while minority carriers are blocked, which strongly reduces contact recombination. Cells are generally built on n-type wafers.</li>
+                        <li><strong>HJT</strong> (heterojunction) coats both wafer surfaces with a few nanometres of amorphous silicon. Thin intrinsic layers passivate the surface, and doped layers form the junction and contacts. It is processed at low temperature.</li>
+                    </ul>
+
+                    <p>All three target the same loss: surface and contact recombination, which sets <math><semantics><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">V_{oc}</annotation></semantics></math> and fill factor. For how these technologies appear on quotes and datasheets, including bifacial gain, see <a href="solar-panel-types-explained.html">Solar Panel Types Explained: Mono PERC, TOPCon, and Bifacial</a>.</p>
+
+                    <div class="callout callout--warning">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        <p>The cell values here (13.9 A, 0.70 V, n = 1.1, 0.6 mΩ) are illustrative and differ between products. Use your own datasheet. Treat any module on a roof as live whenever light falls on it, and leave wiring work to qualified, licensed electricians.</p>
+                    </div>
+
+                    <p>Ray2Volt can run this kind of analysis for your own site, using your module datasheet, roof temperatures and string layout. You can <a href="../book-power-audit.html">book a free power audit</a> and an engineer will work through it with you.</p>
+
+
+                    <h2 id="faq">Frequently asked questions</h2>
+                    <div class="faq-list">
+                        <details class="faq-item">
+                            <summary>Why does a solar cell still give voltage in weak light?</summary>
+                            <div class="faq-answer">
+                                <p>The open-circuit voltage depends on the logarithm of the light-generated current. Cutting irradiance from 1000 to 200 W/m² reduces current by 80% but lowers the voltage of a typical silicon cell by only about 46 mV, from 0.70 V to 0.65 V. Power falls almost in proportion to light, while voltage stays close to full.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>Why does a hot solar panel produce less power?</summary>
+                            <div class="faq-answer">
+                                <p>The cell saturation current grows by about 18% per kelvin, so the diode leaks more and the voltage at which it cancels the photocurrent falls. A typical silicon cell loses about 2 mV per kelvin, roughly 80 mV for a cell 40 K above 25 °C. Datasheet power coefficients of about 0.3 to 0.35 percent per kelvin follow from this.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>What limits the efficiency of a silicon solar cell?</summary>
+                            <div class="faq-answer">
+                                <p>Photons below the band gap pass through, photons above it lose their excess energy as heat, and radiative recombination is unavoidable. Shockley and Queisser (1961) put the single-junction ceiling near 33 percent, and Richter, Hermle and Glunz (2013) calculated about 29.4 percent for silicon with Auger recombination. Commercial cells reach the mid-20s percent.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>Why is a single solar cell only about 0.7 V?</summary>
+                            <div class="faq-answer">
+                                <p>Cell voltage is set by the silicon band gap of about 1.12 eV and by recombination, and it cannot exceed the built-in potential of the junction. A larger cell gives more current, not more voltage. Modules reach higher voltages by connecting many cells in series, so the string voltage is the sum of cell voltages.</p>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- Author box -->
+                    <div class="author-box">
+                        <img src="../images/logo.png" alt="Ray2Volt Solar" width="52" height="52" loading="lazy">
+                        <div>
+                            <h2>Ray2Volt Solar Private Limited</h2>
+                            <p>We design, install, and service rooftop solar for homes and businesses across Tirupati
+                                district and Andhra Pradesh — from PM Surya Ghar residential systems to commercial and
+                                industrial plants. Every enquiry starts with a free power audit.</p>
+                        </div>
+                    </div>
+
+                    <!-- End-of-post CTA -->
+                    <div class="post-cta">
+                        <h2>Put the physics to work on your roof</h2>
+                        <p>Send Ray2Volt your electricity bill and roof details. Our engineers can check the module datasheet in your quotation and explain what it means for your site.</p>
+                        <div class="post-cta-buttons">
+                            <a href="../get-quote.html" class="btn btn-primary">Get a free quote</a>
+                            <a href="https://wa.me/919666068140" class="btn btn-outline">Chat on WhatsApp</a>
+                        </div>
+                    </div>
+
+                </article>
+
+                <!-- Sidebar -->
+                <aside class="post-sidebar">
+                    <nav class="toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#photons">Light as photons and the silicon band gap</a></li>
+                            <li><a href="#absorption">Absorption and why wafers are about 170 µm thick</a></li>
+                            <li><a href="#junction">Doping and the p-n junction</a></li>
+                            <li><a href="#diode">The diode equation and the single-diode model</a></li>
+                            <li><a href="#isc-voc">Short-circuit current and open-circuit voltage</a></li>
+                            <li><a href="#max-power">Maximum power, fill factor and efficiency</a></li>
+                            <li><a href="#worked-example">Worked example: an M10-format cell</a></li>
+                            <li><a href="#limits">Limits: where the rest of the sunlight goes</a></li>
+                            <li><a href="#modern-cells">How PERC, TOPCon and HJT attack recombination</a></li>
+                            <li><a href="#faq">Frequently asked questions</a></li>
+                        </ol>
+                    </nav>
+
+                    <div class="sidebar-cta">
+                        <h2>Free power audit</h2>
+                        <p>Share your latest electricity bill and we will size a system and show your real payback — no
+                            cost, no obligation.</p>
+                        <a href="../get-quote.html" class="btn btn-white btn-sm">Book my audit</a>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- Related posts -->
+            <section class="related-posts">
+                <h2>Related reading</h2>
+                <div class="related-grid">
+                    <a href="solar-module-iv-curve-explained.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/solar-module-iv-curve-explained-800w.webp 800w, ../images/blog/solar-module-iv-curve-explained-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/solar-module-iv-curve-explained.jpg" alt="How a Solar Module Works" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>How a Solar Module Works: Cells, Bypass Diodes and the I-V Curve</h3>
+                            <p>Technology</p>
+                        </div>
+                    </a>
+                    <a href="solar-panel-types-explained.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/solar-panel-types-explained-800w.webp 800w, ../images/blog/solar-panel-types-explained-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/solar-panel-types-explained.jpg" alt="Solar panel types" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>Solar Panel Types Explained: Mono PERC, TOPCon, and Bifacial</h3>
+                            <p>Technology</p>
+                        </div>
+                    </a>
+                    <a href="mppt-and-dc-dc-converters-explained.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/mppt-and-dc-dc-converters-explained-800w.webp 800w, ../images/blog/mppt-and-dc-dc-converters-explained-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/mppt-and-dc-dc-converters-explained.jpg" alt="MPPT explained" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>MPPT Explained: The Calculus and Power Electronics Behind Maximum Power Point Tracking</h3>
+                            <p>Technology</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid footer-grid--5">
+                <div class="footer-brand">
+                    <p>Powering businesses and homes in Tirupati district and across Andhra Pradesh with clean, affordable solar energy.</p>
+                    <!-- r2v:social-footer:start -->
+                    <!-- r2v:social-footer:end -->
+                    <!-- r2v:vendor-id:start -->
+                    <!-- r2v:vendor-id:end -->
+                </div>
+
+                <div class="footer-col">
+                    <h4>For Businesses</h4>
+                    <ul>
+                        <li><a href="../commercial.html">Commercial &amp; industrial solar</a></li>
+                        <li><a href="../business-solar-finance.html">Finance options</a></li>
+                        <li><a href="../solar-roi-calculator.html">ROI calculator</a></li>
+                        <li><a href="../solar-quote-check.html">Free quote check</a></li>
+                        <li><a href="../book-power-audit.html">Book a free power audit</a></li>
+                        <li><a href="../upload-electricity-bill.html">Send your electricity bill</a></li>
+                        <li><a href="../tender-rfq.html">Tenders and RFQs</a></li>
+                        <li><a href="https://3d.ray2voltsolar.com/">Ray2Volt 3D for solar EPCs</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>For Homes</h4>
+                    <ul>
+                        <li><a href="../residential.html">Home solar</a></li>
+                        <li><a href="../residential.html#subsidy">PM Surya Ghar subsidy</a></li>
+                        <li><a href="../solar-emi-calculator.html">Solar loan EMI calculator</a></li>
+                        <li><a href="../apartment-solar.html">Apartments &amp; societies</a></li>
+                        <li><a href="../avoid-solar-fraud.html">Pay safely: avoid subsidy fraud</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="../about.html">About us</a></li>
+                        <li><a href="../team.html">Our team</a></li>
+                        <li><a href="../locations.html">Where we work</a></li>
+                        <li><a href="../investor.html">Investors</a></li>
+                        <li><a href="../blog.html">Guides</a></li>
+                        <li><a href="../careers.html">Careers</a></li>
+                        <li><a href="../channel-partner.html">Channel partners</a></li>
+                        <li><a href="../raycare.html">RayCare service and warranty</a></li>
+                        <li><a href="../service-request.html">Request a service visit</a></li>
+                        <li><a href="../privacy-policy.html">Privacy policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li>1-278, J.K.Nagar, Revenue Ward No-1, Pichatur Road, Srikalahasti, 517644, Andhra Pradesh.</li>
+                        <li><a href="tel:+919666068140">+91 96660 68140</a></li>
+                        <li><a href="mailto:sales@ray2voltsolar.com">sales@ray2voltsolar.com</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ray2Volt Solar Private Limited. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" aria-label="Scroll to top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <script src="../script.js"></script>
+    <script src="../blog.js"></script>
+</body>
+
+</html>
