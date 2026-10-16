@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-theme-fixed>
+
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18014889887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-18014889887');
+        gtag('config', 'G-WZJ1CXHSG9');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Blog pages are always light: the theme is fixed on <html> and has no toggle -->
+    <meta name="description" content="Follow a solar module from cell to curve: series maths, half-cut cells, the I-V maximum power point, bypass diodes, heat effects and warranty arithmetic.">
+    <meta name="keywords" content="solar module I-V curve, bypass diode explained, half-cut solar cells, fill factor, NOCT cell temperature, solar panel degradation, maximum power point">
+    <title>How a Solar Module Works: Cells, Bypass Diodes and the I-V Curve | Ray2Volt Solar</title>
+    <link rel="canonical" href="https://ray2voltsolar.com/blog/solar-module-iv-curve-explained.html">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap"
+        rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap" rel="stylesheet">
+    </noscript>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../blog.css">
+    <link rel="stylesheet" href="../theme.css">
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Ray2Volt Solar">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="How a Solar Module Works: Cells, Bypass Diodes and the I-V Curve | Ray2Volt Solar">
+    <meta property="og:description" content="Follow a solar module from cell to curve: series maths, half-cut cells, the I-V maximum power point, bypass diodes, heat effects and warranty arithmetic.">
+    <meta property="og:url" content="https://ray2voltsolar.com/blog/solar-module-iv-curve-explained.html">
+    <meta property="og:image" content="https://ray2voltsolar.com/images/blog/solar-module-iv-curve-explained.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "How a Solar Module Works: Cells, Bypass Diodes and the I-V Curve | Ray2Volt Solar",
+      "description": "Follow a solar module from cell to curve: series maths, half-cut cells, the I-V maximum power point, bypass diodes, heat effects and warranty arithmetic.",
+      "image": "https://ray2voltsolar.com/images/blog/solar-module-iv-curve-explained.jpg",
+      "author": { "@type": "Organization", "name": "Ray2Volt Solar Private Limited", "url": "https://ray2voltsolar.com" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Ray2Volt Solar Private Limited",
+        "logo": { "@type": "ImageObject", "url": "https://ray2voltsolar.com/images/logo.png" }
+      },
+      "datePublished": "2026-10-16",
+      "dateModified": "2026-10-16",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ray2voltsolar.com/blog/solar-module-iv-curve-explained.html" },
+      "articleSection": "Technology"
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ray2voltsolar.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://ray2voltsolar.com/blog.html" },
+        { "@type": "ListItem", "position": 3, "name": "How a Solar Module Works", "item": "https://ray2voltsolar.com/blog/solar-module-iv-curve-explained.html" }
+      ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+{
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why is a half-cut module better than a conventional one?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Each half-cell carries half the current, so ribbon loss, which scales with current squared, falls to about a quarter. The two half-strings are wired in parallel, so the module keeps the same terminal voltage and current. In the illustrative 550 W example the gain is about 4.7 W, or 0.85%. Check your own datasheet."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does fill factor tell me about a module?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Fill factor is Vmp × Imp divided by Voc × Isc, a measure of how square the I-V curve is. Higher series resistance or lower shunt resistance reduces it. The illustrative module has 0.79, and the value falls as cells heat up."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does output fall in hot weather?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Cell voltage and fill factor both fall as temperature rises. With a power coefficient of -0.34 %/°C, cells at 61.6 °C, which is 36.6 K above the 25 °C test condition, lose about 12.4% of their power. Cell temperature is roughly (NOCT - 20)/800 × G above ambient."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does a bypass diode make shading harmless?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. A diode lets current bypass a shaded group of cells at the cost of that group's voltage. In the example, one conducting diode cuts module power to about 65%. It limits reverse-bias heating without removing it, and it creates two power peaks that the inverter's MPPT must handle."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I read a performance warranty in watts?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Multiply nameplate power by the guaranteed fraction on the warranty sheet. With illustrative d0 = 1% and d = 0.4% per year, P(t) = P0(1 - d0 - d·t) gives 87% at year 30, or 478.5 W from 550 W. Ray2Volt quotes a 12-year product warranty and a 30-year performance warranty on panels."
+          }
+        }
+      ]
+    }
+    </script>
+</head>
+
+<body class="blog">
+    <!-- Header / Navigation -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="logo">
+                <img src="../images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'">
+                <div class="logo-text">
+                    Ray2Volt Solar
+                    <span>Private Limited</span>
+                </div>
+            </a>
+
+            <ul class="nav-menu">
+                <li class="dropdown dropdown-wide">
+                    <a href="../commercial.html" class="nav-link" aria-haspopup="true" aria-expanded="false">For Businesses <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Plan your project</span>
+                            <ul>
+                                <li><a href="../commercial.html">Commercial solar overview</a></li>
+                                <li><a href="../business-solar-finance.html">Finance options</a></li>
+                                <li><a href="../resco-solar-for-business.html">RESCO: pay per unit</a></li>
+                                <li><a href="../solar-roi-calculator.html">ROI calculator</a></li>
+                                <li><a href="../ground-mounted-solar-open-access.html">Ground-mounted &amp; open access</a></li>
+                                <li><a href="../solar-battery-vs-diesel.html">Solar + battery vs diesel</a></li>
+                                <li><a href="../solar-quote-check.html">Free quote check</a></li>
+                                <li><a href="../book-power-audit.html">Book a free power audit</a></li>
+                                <li><a href="../tender-rfq.html">Tenders and RFQs</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Industries</span>
+                            <ul>
+                                <li><a href="../industry-manufacturing.html">Manufacturing &amp; factories</a></li>
+                                <li><a href="../industry-healthcare.html">Hospitals &amp; healthcare</a></li>
+                                <li><a href="../industry-hotels.html">Hotels &amp; resorts</a></li>
+                                <li><a href="../industry-cold-storage.html">Cold storage &amp; food processing</a></li>
+                                <li><a href="../industry-education.html">Schools &amp; colleges</a></li>
+                                <li><a href="../industry-warehousing.html">Warehousing &amp; logistics</a></li>
+                                <li><a href="../industry-retail.html">Retail &amp; malls</a></li>
+                                <li><a href="../industry-offices.html">Offices &amp; IT parks</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">For solar EPCs</span>
+                            <ul>
+                                <li><a href="https://3d.ray2voltsolar.com/">Ray2Volt 3D: 3D plant viewers</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="../residential.html" class="nav-link" aria-haspopup="true" aria-expanded="false">For Homes <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../residential.html">Home solar overview</a></li>
+                        <li><a href="../residential-ongrid.html">On-grid systems</a></li>
+                        <li><a href="../residential-hybrid.html">Hybrid systems with battery</a></li>
+                        <li><a href="../apartment-solar.html">Apartments &amp; housing societies</a></li>
+                        <li><a href="../solar-emi-calculator.html">Solar loan EMI calculator</a></li>
+                        <li><a href="../blog/pm-surya-ghar-subsidy-guide.html">PM Surya Ghar subsidy guide</a></li>
+                        <li><a href="../raycare.html">RayCare: service plans</a></li>
+                    </ul>
+                </li>
+                <li><a href="../investor.html" class="nav-link">Investors</a></li>
+                <li><a href="../blog.html" class="nav-link active">Guides</a></li>
+                <li><a href="../about.html" class="nav-link">About</a></li>
+                <li><a href="../contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="blog-main">
+        <div class="container">
+
+            <!-- Breadcrumbs -->
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="/">Home</a>
+                <span class="sep">/</span>
+                <a href="../blog.html">Blog</a>
+                <span class="sep">/</span>
+                <span aria-current="page">How a Solar Module Works</span>
+            </nav>
+
+            <!-- Post header -->
+            <header class="post-header">
+                <div class="post-meta">
+                    <span class="category-pill" data-cat="Technology">Technology</span>
+                    <time datetime="2026-10-16">16 October 2026</time>
+                    <span class="dot">&middot;</span>
+                    <span>16 min read</span>
+                </div>
+                <h1>How a Solar Module Works: Cells, Bypass Diodes and the I-V Curve</h1>
+                <p class="post-standfirst">A module is 144 half-cells wired to act as one large diode. Build its I-V curve from Kirchhoff's laws, then see what heat, shade and age do to it.</p>
+            </header>
+
+            <!-- Hero image -->
+            <figure class="post-hero">
+                <picture>
+                    <source type="image/webp" srcset="../images/blog/solar-module-iv-curve-explained-800w.webp 800w, ../images/blog/solar-module-iv-curve-explained-1600w.webp 1600w" sizes="(max-width: 900px) 100vw, 800px">
+                    <img src="../images/blog/solar-module-iv-curve-explained.jpg" alt="Rows of unbranded solar modules on a flat concrete rooftop in clear daylight" width="1600" height="900" fetchpriority="high">
+                </picture>
+                <figcaption>A module is a glass-and-polymer laminate of series-connected cells, protected by bypass diodes and sealed against the weather.</figcaption>
+            </figure>
+
+            <div class="post-shell">
+                <article class="post-body">
+
+                    <div class="key-takeaways">
+                        <h2>Four facts to carry through this guide</h2>
+                        <ul>
+                            <li>Cells in series share one current and add their voltages. The 550 Wp example module behaves like 72 full cells in series: 0.69 V per cell at open circuit and 49.6 V in total.</li>
+                            <li>Half-cut cells carry half the current, so ribbon loss (I&sup2;R) falls to a quarter. That recovers about 4.7 W on the example module, with an illustrative 0.5 m&Omega; of ribbon per cell.</li>
+                            <li>The maximum power point sits where dI/dV = &minus;I/V. For the example module the fill factor is 0.79.</li>
+                            <li>At 850 W/m&sup2; and 35 &deg;C ambient, the cells reach about 61.6 &deg;C and the example module delivers about 409 W, roughly 74% of its nameplate.</li>
+                        </ul>
+                    </div>
+
+                    <p>A module datasheet gives you a handful of numbers: Pmax, Voc, Isc, Vmp, Imp and three temperature coefficients. Behind them is a physical object holding 144 small silicon diodes, some copper and a sheet of glass. Why does a 550 Wp module deliver about 410 W on a clear afternoon? Why does one shadow take away a third of its output? What does a 30-year performance warranty mean in actual watts?</p>
+
+                    <p>This guide builds the answers from first principles. It assumes you know the single-diode model of one cell, which our guide to <a href="how-a-solar-cell-works-physics.html">the physics of a solar cell</a> develops from photons to current. We restate it, connect cells with Kirchhoff&rsquo;s laws, derive the half-cut benefit and the maximum power point, translate the datasheet to real weather, and then shade one cell.</p>
+
+                    <p>Every module value below is an illustrative &ldquo;typical datasheet&rdquo; number for a 550 Wp module, not a specific product. Use the datasheet of your own module for real work. Where we mention Ray2Volt&rsquo;s warranties, we state them as quoted on this site: a 12-year product warranty and a 30-year performance warranty on panels.</p>
+
+                    <h2 id="module-construction">What is inside a module</h2>
+                    <p>A module is a laminated stack in which each layer has one engineering job. From the sunny side inwards:</p>
+                    <ul>
+                        <li><strong>Front glass:</strong> tempered, low-iron glass a few millimetres thick, usually with an anti-reflective coating. It passes light and resists hail and wind.</li>
+                        <li><strong>Front encapsulant:</strong> an EVA or POE polymer film that melts and cross-links in a vacuum laminator. It bonds glass to cells, excludes moisture and cushions the brittle silicon.</li>
+                        <li><strong>Cells:</strong> thin silicon wafers, each a diode that converts light to current.</li>
+                        <li><strong>Ribbons and busbars:</strong> tinned copper strips or wires soldered to the cell contacts. They carry current from cell to cell and to the junction box. Their resistance is a loss, which is why section 3 matters.</li>
+                        <li><strong>Rear encapsulant and backsheet or rear glass:</strong> a polymer backsheet gives electrical insulation and a moisture barrier. Glass-glass modules use a second glass sheet, as many bifacial modules do.</li>
+                        <li><strong>Frame and junction box:</strong> an anodised aluminium frame gives stiffness, mounting points and an earthing point. The junction box houses the bypass diodes and output cables.</li>
+                    </ul>
+
+                    <figure>
+                        <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1200&amp;h=675&amp;fit=crop&amp;auto=format" alt="Equipment used in solar module production" loading="lazy" width="1200" height="675">
+                        <figcaption>Module production equipment laminates glass, encapsulant, cells and backing into one sealed stack.</figcaption>
+                    </figure>
+
+                    <p>Design qualification and safety are tested under IEC 61215 and IEC 61730, including thermal cycling, damp heat and hot-spot endurance. These tests set a minimum and do not rank modules. For how Indian brands compare, see our <a href="tier-1-solar-panel-brands-india.html">Tier-1 panel brands guide</a>.</p>
+
+                    <div class="callout callout--warning">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        <p><strong>Safety:</strong> this guide explains behaviour, not installation. A module produces voltage whenever light falls on it, and strings add those voltages. Work on strings, connectors and junction boxes is for qualified, licensed electricians only.</p>
+                    </div>
+
+                    <h2 id="series-parallel-model">Series and parallel connection</h2>
+                    <p>First the notation for this section.</p>
+                    <ul>
+                        <li><math><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>: current at the terminals, in amperes (A). <math><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math>: voltage at the terminals, in volts (V).</li>
+                        <li><math><semantics><msub><mi>I</mi><mi>L</mi></msub><annotation encoding="application/x-tex">I_L</annotation></semantics></math>: photocurrent generated by absorbed light, in A. <math><semantics><msub><mi>I</mi><mn>0</mn></msub><annotation encoding="application/x-tex">I_0</annotation></semantics></math>: diode saturation current, in A.</li>
+                        <li><math><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>: diode ideality factor, dimensionless.</li>
+                        <li><math><semantics><mrow><msub><mi>V</mi><mi>T</mi></msub><mo>=</mo><mi>k</mi><mi>T</mi><mi>/</mi><mi>q</mi></mrow><annotation encoding="application/x-tex">V_T = kT/q</annotation></semantics></math>: thermal voltage in V, with Boltzmann&rsquo;s constant <math><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>, cell temperature <math><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math> in kelvin and elementary charge <math><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>. At 25 &deg;C, <math><semantics><mrow><msub><mi>V</mi><mi>T</mi></msub><mo>=</mo><mn>25.69</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>mV</mi></mpadded></mrow><annotation encoding="application/x-tex">V_T = 25.69\,\mathrm{mV}</annotation></semantics></math>.</li>
+                        <li><math><semantics><msub><mi>R</mi><mi>s</mi></msub><annotation encoding="application/x-tex">R_s</annotation></semantics></math> and <math><semantics><msub><mi>R</mi><mrow><mi>s</mi><mi>h</mi></mrow></msub><annotation encoding="application/x-tex">R_{sh}</annotation></semantics></math>: series and shunt resistance of one cell, in ohms (&Omega;).</li>
+                        <li><math><semantics><msub><mi>N</mi><mi>s</mi></msub><annotation encoding="application/x-tex">N_s</annotation></semantics></math>: number of identical cells in series, dimensionless.</li>
+                    </ul>
+
+                    <p>Under uniform light and temperature, the single-diode model gives one cell this relation between current and voltage.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>I</mi><mo>=</mo><msub><mi>I</mi><mi>L</mi></msub><mo>−</mo><msub><mi>I</mi><mn>0</mn></msub><mrow><mo fence="true" form="prefix">[</mo><mrow><mi>exp</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mfrac><mrow><mi>V</mi><mo>+</mo><mi>I</mi><msub><mi>R</mi><mi>s</mi></msub></mrow><mrow><mi>n</mi><msub><mi>V</mi><mi>T</mi></msub></mrow></mfrac><mo fence="true" form="postfix">)</mo></mrow><mo>−</mo><mn>1</mn><mo fence="true" form="postfix">]</mo></mrow><mo>−</mo><mfrac><mrow><mi>V</mi><mo>+</mo><mi>I</mi><msub><mi>R</mi><mi>s</mi></msub></mrow><msub><mi>R</mi><mrow><mi>s</mi><mi>h</mi></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">I = I_L - I_0\left[\exp\!\left(\frac{V + I R_s}{n V_T}\right) - 1\right] - \frac{V + I R_s}{R_{sh}}</annotation></semantics></math></div>
+                    <p>Now connect <math><semantics><msub><mi>N</mi><mi>s</mi></msub><annotation encoding="application/x-tex">N_s</annotation></semantics></math> such cells in a chain.</p>
+
+                    <h3>Kirchhoff&rsquo;s laws on a string of cells</h3>
+                    <p>Kirchhoff&rsquo;s current law says charge is conserved at every node. The only path between neighbouring cells is the ribbon joining them, so the same current flows through every cell. Kirchhoff&rsquo;s voltage law says the terminal voltage is the sum of the cell voltages.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>I</mi><mtext>module</mtext></msub><mo>=</mo><msub><mi>I</mi><mn>1</mn></msub><mo>=</mo><msub><mi>I</mi><mn>2</mn></msub><mo>=</mo><mo>⋯</mo><mo>=</mo><msub><mi>I</mi><msub><mi>N</mi><mi>s</mi></msub></msub><mo separator="true">,</mo><mspace width="2em"></mspace><msub><mi>V</mi><mtext>module</mtext></msub><mo>=</mo><mrow><munderover><mo movablelimits="false">∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>N</mi><mi>s</mi></msub></munderover></mrow><msub><mi>V</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">I_{\text{module}} = I_1 = I_2 = \dots = I_{N_s}, \qquad V_{\text{module}} = \sum_{j=1}^{N_s} V_j</annotation></semantics></math></div>
+                    <p>Assume identical cells, so each carries <math><semantics><mrow><mi>V</mi><mi>/</mi><msub><mi>N</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">V/N_s</annotation></semantics></math> at the common current <math><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>. Substitute that into the cell equation and write <math><semantics><mrow><mi>V</mi><mi>/</mi><msub><mi>N</mi><mi>s</mi></msub><mo>+</mo><mi>I</mi><msub><mi>R</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">V/N_s + I R_s</annotation></semantics></math> as <math><semantics><mrow><mo form="prefix" stretchy="false">(</mo><mi>V</mi><mo>+</mo><mi>I</mi><msub><mi>N</mi><mi>s</mi></msub><msub><mi>R</mi><mi>s</mi></msub><mo form="postfix" stretchy="false">)</mo><mi>/</mi><msub><mi>N</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">(V + I N_s R_s)/N_s</annotation></semantics></math>. The module equation follows.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>I</mi><mo>=</mo><msub><mi>I</mi><mi>L</mi></msub><mo>−</mo><msub><mi>I</mi><mn>0</mn></msub><mrow><mo fence="true" form="prefix">[</mo><mrow><mi>exp</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mfrac><mrow><mi>V</mi><mo>+</mo><mi>I</mi><mspace width="0.1667em"></mspace><msub><mi>N</mi><mi>s</mi></msub><msub><mi>R</mi><mi>s</mi></msub></mrow><mrow><msub><mi>N</mi><mi>s</mi></msub><mspace width="0.1667em"></mspace><mi>n</mi><msub><mi>V</mi><mi>T</mi></msub></mrow></mfrac><mo fence="true" form="postfix">)</mo></mrow><mo>−</mo><mn>1</mn><mo fence="true" form="postfix">]</mo></mrow><mo>−</mo><mfrac><mrow><mi>V</mi><mo>+</mo><mi>I</mi><mspace width="0.1667em"></mspace><msub><mi>N</mi><mi>s</mi></msub><msub><mi>R</mi><mi>s</mi></msub></mrow><mrow><msub><mi>N</mi><mi>s</mi></msub><msub><mi>R</mi><mrow><mi>s</mi><mi>h</mi></mrow></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">I = I_L - I_0\left[\exp\!\left(\frac{V + I\,N_s R_s}{N_s\, n V_T}\right) - 1\right] - \frac{V + I\,N_s R_s}{N_s R_{sh}}</annotation></semantics></math></div>
+                    <p>It is the same diode equation with an effective thermal voltage <math><semantics><mrow><msub><mi>N</mi><mi>s</mi></msub><mi>n</mi><msub><mi>V</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">N_s n V_T</annotation></semantics></math>, a module series resistance <math><semantics><mrow><msub><mi>R</mi><mrow><mi>s</mi><mo separator="true">,</mo><mi>m</mi></mrow></msub><mo>=</mo><msub><mi>N</mi><mi>s</mi></msub><msub><mi>R</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">R_{s,m} = N_s R_s</annotation></semantics></math> and a module shunt resistance <math><semantics><mrow><msub><mi>R</mi><mrow><mi>s</mi><mi>h</mi><mo separator="true">,</mo><mi>m</mi></mrow></msub><mo>=</mo><msub><mi>N</mi><mi>s</mi></msub><msub><mi>R</mi><mrow><mi>s</mi><mi>h</mi></mrow></msub></mrow><annotation encoding="application/x-tex">R_{sh,m} = N_s R_{sh}</annotation></semantics></math>. The photocurrent and saturation current are unchanged, because the same current runs through every cell.</p>
+
+                    <p><strong>Worked example.</strong> The example module has <math><semantics><mrow><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mo>=</mo><mn>49.6</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">V_{oc} = 49.6\,\mathrm{V}</annotation></semantics></math> and <math><semantics><mrow><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo>=</mo><mn>41.8</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">V_{mp} = 41.8\,\mathrm{V}</annotation></semantics></math> with <math><semantics><mrow><msub><mi>N</mi><mi>s</mi></msub><mo>=</mo><mn>72</mn></mrow><annotation encoding="application/x-tex">N_s = 72</annotation></semantics></math> (section 3 explains why a 144-half-cell module counts as 72). Per cell that is <math><semantics><mrow><mn>49.6</mn><mi>/</mi><mn>72</mn><mo>=</mo><mn>0.689</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">49.6/72 = 0.689\,\mathrm{V}</annotation></semantics></math> at open circuit and <math><semantics><mrow><mn>41.8</mn><mi>/</mi><mn>72</mn><mo>=</mo><mn>0.581</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">41.8/72 = 0.581\,\mathrm{V}</annotation></semantics></math> at maximum power. Sanity check: silicon cells give roughly 0.65 to 0.70 V at open circuit, so these are plausible.</p>
+
+                    <h3>Parallel connection</h3>
+                    <p>For parallel branches the roles swap. The voltage law forces the same voltage across every branch, and the current law makes the branch currents add at the shared node.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>V</mi><mtext>module</mtext></msub><mo>=</mo><msub><mi>V</mi><mn>1</mn></msub><mo>=</mo><msub><mi>V</mi><mn>2</mn></msub><mo>=</mo><mo>⋯</mo><mo>=</mo><msub><mi>V</mi><mi>M</mi></msub><mo separator="true">,</mo><mspace width="2em"></mspace><msub><mi>I</mi><mtext>module</mtext></msub><mo>=</mo><mrow><munderover><mo movablelimits="false">∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mi>M</mi></munderover></mrow><msub><mi>I</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">V_{\text{module}} = V_1 = V_2 = \dots = V_M, \qquad I_{\text{module}} = \sum_{k=1}^{M} I_k</annotation></semantics></math></div>
+                    <p>Here <math><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math> is the number of parallel branches. For <math><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math> identical branches the photocurrent and saturation current multiply by <math><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math>, while the series and shunt resistances divide by <math><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math>. The curve keeps its voltage range and stretches along the current axis. Half-cut modules use exactly this property.</p>
+
+                    <h2 id="half-cut-cells">Half-cut cells and ribbon loss</h2>
+                    <p>A half-cut module uses 144 cells, each half the size of the original full cell. Laser-cutting each wafer in two is the only change to the cell. The benefit appears in the wiring. The symbols are as follows.</p>
+                    <ul>
+                        <li><math><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>: module current, in A. <math><semantics><msub><mi>P</mi><mtext>loss</mtext></msub><annotation encoding="application/x-tex">P_{\text{loss}}</annotation></semantics></math>: power dissipated as heat in the ribbons, in watts (W).</li>
+                        <li><math><semantics><msub><mi>R</mi><mi>c</mi></msub><annotation encoding="application/x-tex">R_c</annotation></semantics></math>: effective ribbon-path resistance of one full-size cell, in &Omega;. We take an illustrative <math><semantics><mrow><mn>0.5</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>mΩ</mi></mpadded></mrow><annotation encoding="application/x-tex">0.5\,\mathrm{m\Omega}</annotation></semantics></math>.</li>
+                        <li><math><semantics><msub><mi>N</mi><mi>c</mi></msub><annotation encoding="application/x-tex">N_c</annotation></semantics></math>: number of full-size-cell equivalents in the module, here 72.</li>
+                    </ul>
+                    <p>Ohm&rsquo;s law gives the voltage across a resistor as <math><semantics><mrow><mi>I</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">IR</annotation></semantics></math>, and the heat is that voltage times the current.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>P</mi><mtext>loss</mtext></msub><mo>=</mo><mi>I</mi><mo>⋅</mo><mo form="prefix" stretchy="false">(</mo><mi>I</mi><mi>R</mi><mo form="postfix" stretchy="false">)</mo><mo>=</mo><msup><mi>I</mi><mn>2</mn></msup><mi>R</mi></mrow><annotation encoding="application/x-tex">P_{\text{loss}} = I \cdot (I R) = I^2 R</annotation></semantics></math></div>
+                    <p>In a conventional module all <math><semantics><msub><mi>N</mi><mi>c</mi></msub><annotation encoding="application/x-tex">N_c</annotation></semantics></math> cells sit in one string and every ribbon path carries the full module current.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>P</mi><mtext>full</mtext></msub><mo>=</mo><msub><mi>N</mi><mi>c</mi></msub><mspace width="0.1667em"></mspace><msup><mi>I</mi><mn>2</mn></msup><msub><mi>R</mi><mi>c</mi></msub></mrow><annotation encoding="application/x-tex">P_{\text{full}} = N_c\, I^2 R_c</annotation></semantics></math></div>
+                    <p>Now arrange the 144 half-cells as two strings of 72, wired in parallel. By the parallel rule each string carries <math><semantics><mrow><mi>I</mi><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">I/2</annotation></semantics></math>. A half-cell has a ribbon path half as long, so its resistance is <math><semantics><mrow><msub><mi>R</mi><mi>c</mi></msub><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">R_c/2</annotation></semantics></math>. There are <math><semantics><mrow><mn>2</mn><msub><mi>N</mi><mi>c</mi></msub></mrow><annotation encoding="application/x-tex">2N_c</annotation></semantics></math> half-cells in all.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>P</mi><mtext>half</mtext></msub><mo>=</mo><mn>2</mn><msub><mi>N</mi><mi>c</mi></msub><msup><mrow><mo fence="true" form="prefix">(</mo><mfrac><mi>I</mi><mn>2</mn></mfrac><mo fence="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mfrac><msub><mi>R</mi><mi>c</mi></msub><mn>2</mn></mfrac><mo>=</mo><mfrac><mrow><msub><mi>N</mi><mi>c</mi></msub><mspace width="0.1667em"></mspace><msup><mi>I</mi><mn>2</mn></msup><msub><mi>R</mi><mi>c</mi></msub></mrow><mn>4</mn></mfrac></mrow><annotation encoding="application/x-tex">P_{\text{half}} = 2N_c \left(\frac{I}{2}\right)^{2}\frac{R_c}{2} = \frac{N_c\, I^2 R_c}{4}</annotation></semantics></math></div>
+                    <p>Halving the current alone divides the loss by four, because current enters squared. Twice as many segments, each with half the resistance, cancel one another. The net loss is a quarter of the original. Each half-string still has 72 cells in series, so open-circuit voltage is unchanged, and the two strings in parallel restore the full current. Electrically, 144 half-cells equal 72 full cells.</p>
+
+                    <p><strong>Worked example.</strong> At the maximum power point <math><semantics><mrow><mi>I</mi><mo>=</mo><mn>13.16</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded></mrow><annotation encoding="application/x-tex">I = 13.16\,\mathrm{A}</annotation></semantics></math>, so <math><semantics><mrow><msup><mi>I</mi><mn>2</mn></msup><mo>=</mo><mn>173.2</mn><mspace width="0.1667em"></mspace><msup><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">I^2 = 173.2\,\mathrm{A^2}</annotation></semantics></math>. Each full cell loses <math><semantics><mrow><mn>173.2</mn><mo>×</mo><mn>0.5</mn><mo>×</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>3</mn></mrow></msup><mo>=</mo><mn>0.0866</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded></mrow><annotation encoding="application/x-tex">173.2 \times 0.5\times10^{-3} = 0.0866\,\mathrm{W}</annotation></semantics></math>, and the module loses <math><semantics><mrow><mn>72</mn><mo>×</mo><mn>0.0866</mn><mo>=</mo><mn>6.23</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded></mrow><annotation encoding="application/x-tex">72 \times 0.0866 = 6.23\,\mathrm{W}</annotation></semantics></math>. The half-cut layout loses a quarter, <math><semantics><mrow><mn>1.56</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded></mrow><annotation encoding="application/x-tex">1.56\,\mathrm{W}</annotation></semantics></math>. The saving is about 4.68 W, or 0.85% of 550 W. Sanity check: ribbon loss near a percent is the right order of magnitude.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr><th>Quantity (550 Wp example)</th><th>72 full cells</th><th>144 half-cells</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Cells in each series string</td><td>72</td><td>72 (two strings in parallel)</td></tr>
+                                <tr><td>Current in each ribbon path</td><td>13.16 A</td><td>6.58 A</td></tr>
+                                <tr><td>Ribbon resistance per cell</td><td>0.50 m&Omega;</td><td>0.25 m&Omega;</td></tr>
+                                <tr><td>Total ribbon loss at 13.16 A</td><td>6.23 W (1.13%)</td><td>1.56 W (0.28%)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>The 0.5 m&Omega; figure is an assumption. It is about 41% of the fitted total series resistance of the example module (next section).</p>
+
+                    <h2 id="iv-pv-curves">The I-V and P-V curves</h2>
+                    <p>The terminal behaviour of the module is its I-V curve: the current it delivers at each voltage under fixed light and temperature. The <strong>short-circuit current</strong> <math><semantics><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">I_{sc}</annotation></semantics></math> is the current at <math><semantics><mrow><mi>V</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">V = 0</annotation></semantics></math>. The <strong>open-circuit voltage</strong> <math><semantics><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">V_{oc}</annotation></semantics></math> is the voltage at <math><semantics><mrow><mi>I</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">I = 0</annotation></semantics></math>. The P-V curve plots power, the product of the two terminal quantities, against voltage.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>P</mi><mo>=</mo><mi>V</mi><mspace width="0.1667em"></mspace><mi>I</mi></mrow><annotation encoding="application/x-tex">P = V\, I</annotation></semantics></math></div>
+
+                    <h3>The maximum power point</h3>
+                    <p>Power is zero at both ends, so there is a maximum between them. Treat <math><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math> as a function of <math><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math> along the curve and differentiate by the product rule. At the maximum, the slope of the P-V curve is zero.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mfrac><mrow><mi>d</mi><mi>P</mi></mrow><mrow><mi>d</mi><mi>V</mi></mrow></mfrac><mo>=</mo><mi>I</mi><mo>+</mo><mi>V</mi><mspace width="0.1667em"></mspace><mfrac><mrow><mi>d</mi><mi>I</mi></mrow><mrow><mi>d</mi><mi>V</mi></mrow></mfrac><mo>=</mo><mn>0</mn><mspace width="1em"></mspace><mo stretchy="false">⟹</mo><mspace width="1em"></mspace><mfrac><mrow><mi>d</mi><mi>I</mi></mrow><mrow><mi>d</mi><mi>V</mi></mrow></mfrac><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mfrac><mi>I</mi><mi>V</mi></mfrac></mrow><annotation encoding="application/x-tex">\frac{dP}{dV} = I + V\,\frac{dI}{dV} = 0 \quad\Longrightarrow\quad \frac{dI}{dV} = -\frac{I}{V}</annotation></semantics></math></div>
+                    <p>A resistive load line from the origin to the operating point has slope <math><semantics><mrow><mi>I</mi><mi>/</mi><mi>V</mi></mrow><annotation encoding="application/x-tex">I/V</annotation></semantics></math>. The maximum power point is where the curve&rsquo;s slope has equal size and opposite sign, so its dynamic resistance <math><semantics><mrow><mo>−</mo><mi>d</mi><mi>V</mi><mi>/</mi><mi>d</mi><mi>I</mi></mrow><annotation encoding="application/x-tex">-dV/dI</annotation></semantics></math> equals the load&rsquo;s <math><semantics><mrow><mi>V</mi><mi>/</mi><mi>I</mi></mrow><annotation encoding="application/x-tex">V/I</annotation></semantics></math>. A tracker seeks this balance, which our guide to <a href="mppt-and-dc-dc-converters-explained.html">MPPT and DC-DC converters</a> develops. We call the point <math><semantics><mrow><mo form="prefix" stretchy="false">(</mo><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo separator="true">,</mo><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(V_{mp}, I_{mp})</annotation></semantics></math>. The <strong>fill factor</strong> measures how square the curve is.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>F</mi><mi>F</mi><mo>=</mo><mfrac><mrow><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mspace width="0.1667em"></mspace><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub></mrow><mrow><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mspace width="0.1667em"></mspace><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">FF = \frac{V_{mp}\, I_{mp}}{V_{oc}\, I_{sc}}</annotation></semantics></math></div>
+
+                    <p><strong>Worked example.</strong> The example datasheet gives <math><semantics><mrow><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mo>=</mo><mn>49.6</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">V_{oc} = 49.6\,\mathrm{V}</annotation></semantics></math>, <math><semantics><mrow><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub><mo>=</mo><mn>14.0</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded></mrow><annotation encoding="application/x-tex">I_{sc} = 14.0\,\mathrm{A}</annotation></semantics></math>, <math><semantics><mrow><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo>=</mo><mn>41.8</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">V_{mp} = 41.8\,\mathrm{V}</annotation></semantics></math> and <math><semantics><mrow><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo>=</mo><mn>13.16</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded></mrow><annotation encoding="application/x-tex">I_{mp} = 13.16\,\mathrm{A}</annotation></semantics></math>. First check consistency: <math><semantics><mrow><mn>41.8</mn><mo>×</mo><mn>13.16</mn><mo>=</mo><mn>550.09</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded></mrow><annotation encoding="application/x-tex">41.8 \times 13.16 = 550.09\,\mathrm{W}</annotation></semantics></math>, matching the 550 Wp rating. Then <math><semantics><mrow><mi>F</mi><mi>F</mi><mo>=</mo><mn>550.09</mn><mi>/</mi><mo form="prefix" stretchy="false">(</mo><mn>49.6</mn><mo>×</mo><mn>14.0</mn><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mn>0.792</mn></mrow><annotation encoding="application/x-tex">FF = 550.09/(49.6\times14.0) = 0.792</annotation></semantics></math>. Also <math><semantics><mrow><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mi>/</mi><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub><mo>=</mo><mn>0.94</mn></mrow><annotation encoding="application/x-tex">I_{mp}/I_{sc} = 0.94</annotation></semantics></math> and <math><semantics><mrow><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mi>/</mi><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mo>=</mo><mn>0.843</mn></mrow><annotation encoding="application/x-tex">V_{mp}/V_{oc} = 0.843</annotation></semantics></math>, so the point sits near the knee, as it should. The required slope is <math><semantics><mrow><mo>−</mo><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mi>/</mi><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>0.3148</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">-I_{mp}/V_{mp} = -0.3148\,\mathrm{A/V}</annotation></semantics></math>, a dynamic resistance of 3.18 &Omega;.</p>
+
+                    <h3>Where series and shunt resistance act</h3>
+                    <p>From here <math><semantics><msub><mi>R</mi><mi>s</mi></msub><annotation encoding="application/x-tex">R_s</annotation></semantics></math> and <math><semantics><msub><mi>R</mi><mrow><mi>s</mi><mi>h</mi></mrow></msub><annotation encoding="application/x-tex">R_{sh}</annotation></semantics></math> mean module-level resistances. Write <math><semantics><mrow><mi>a</mi><mo>=</mo><msub><mi>N</mi><mi>s</mi></msub><mi>n</mi><msub><mi>V</mi><mi>T</mi></msub></mrow><annotation encoding="application/x-tex">a = N_s n V_T</annotation></semantics></math> for the effective thermal voltage and <math><semantics><mrow><mi>u</mi><mo>=</mo><mi>V</mi><mo>+</mo><mi>I</mi><msub><mi>R</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">u = V + I R_s</annotation></semantics></math> for the voltage across the diode and shunt. Let <math><semantics><mi>g</mi><annotation encoding="application/x-tex">g</annotation></semantics></math>, in siemens (S), be the combined conductance of the diode and the shunt.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>g</mi><mo>=</mo><mfrac><msub><mi>I</mi><mn>0</mn></msub><mi>a</mi></mfrac><mrow><mi>exp</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mfrac><mi>u</mi><mi>a</mi></mfrac><mo fence="true" form="postfix">)</mo></mrow><mo>+</mo><mfrac><mn>1</mn><msub><mi>R</mi><mrow><mi>s</mi><mi>h</mi></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">g = \frac{I_0}{a}\exp\!\left(\frac{u}{a}\right) + \frac{1}{R_{sh}}</annotation></semantics></math></div>
+                    <p>Differentiate the module equation with respect to <math><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math>, using <math><semantics><mrow><mi>d</mi><mi>u</mi><mi>/</mi><mi>d</mi><mi>V</mi><mo>=</mo><mn>1</mn><mo>+</mo><msub><mi>R</mi><mi>s</mi></msub><mspace width="0.1667em"></mspace><mi>d</mi><mi>I</mi><mi>/</mi><mi>d</mi><mi>V</mi></mrow><annotation encoding="application/x-tex">du/dV = 1 + R_s\,dI/dV</annotation></semantics></math>. This gives <math><semantics><mrow><mi>d</mi><mi>I</mi><mi>/</mi><mi>d</mi><mi>V</mi><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mi>g</mi><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>+</mo><msub><mi>R</mi><mi>s</mi></msub><mspace width="0.1667em"></mspace><mi>d</mi><mi>I</mi><mi>/</mi><mi>d</mi><mi>V</mi><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">dI/dV = -g\,(1 + R_s\,dI/dV)</annotation></semantics></math>, and solving for the slope:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mfrac><mrow><mi>d</mi><mi>I</mi></mrow><mrow><mi>d</mi><mi>V</mi></mrow></mfrac><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mfrac><mi>g</mi><mrow><mn>1</mn><mo>+</mo><msub><mi>R</mi><mi>s</mi></msub><mspace width="0.1667em"></mspace><mi>g</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{dI}{dV} = -\frac{g}{1 + R_s\, g}</annotation></semantics></math></div>
+                    <p>Near short circuit the exponential term is tiny, so <math><semantics><mrow><mi>g</mi><mo>≈</mo><mn>1</mn><mi>/</mi><msub><mi>R</mi><mrow><mi>s</mi><mi>h</mi></mrow></msub></mrow><annotation encoding="application/x-tex">g \approx 1/R_{sh}</annotation></semantics></math>. Provided <math><semantics><mrow><msub><mi>R</mi><mi>s</mi></msub><mo>≪</mo><msub><mi>R</mi><mrow><mi>s</mi><mi>h</mi></mrow></msub></mrow><annotation encoding="application/x-tex">R_s \ll R_{sh}</annotation></semantics></math>, the slope there is about <math><semantics><mrow><mo>−</mo><mn>1</mn><mi>/</mi><msub><mi>R</mi><mrow><mi>s</mi><mi>h</mi></mrow></msub></mrow><annotation encoding="application/x-tex">-1/R_{sh}</annotation></semantics></math>: a low shunt resistance makes the flat part of the curve droop. Near open circuit the diode conducts strongly and <math><semantics><mi>g</mi><annotation encoding="application/x-tex">g</annotation></semantics></math> is large. If <math><semantics><mrow><msub><mi>R</mi><mi>s</mi></msub><mspace width="0.1667em"></mspace><mi>g</mi><mo>≫</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">R_s\,g \gg 1</annotation></semantics></math>, the slope approaches <math><semantics><mrow><mo>−</mo><mn>1</mn><mi>/</mi><msub><mi>R</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">-1/R_s</annotation></semantics></math>. In general the diode&rsquo;s own dynamic resistance <math><semantics><mrow><msub><mi>r</mi><mi>d</mi></msub><mo>=</mo><mn>1</mn><mi>/</mi><mi>g</mi></mrow><annotation encoding="application/x-tex">r_d = 1/g</annotation></semantics></math> adds in series with <math><semantics><msub><mi>R</mi><mi>s</mi></msub><annotation encoding="application/x-tex">R_s</annotation></semantics></math>, so the exact end slope is the following.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mrow><mo fence="true" form="prefix"></mo><mfrac><mrow><mi>d</mi><mi>I</mi></mrow><mrow><mi>d</mi><mi>V</mi></mrow></mfrac><mo fence="true" form="postfix">|</mo></mrow><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub></msub><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mfrac><mn>1</mn><mrow><msub><mi>R</mi><mi>s</mi></msub><mo>+</mo><msub><mi>r</mi><mi>d</mi></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">\left.\frac{dI}{dV}\right|_{V_{oc}} = -\frac{1}{R_s + r_d}</annotation></semantics></math></div>
+
+                    <p><strong>Worked example.</strong> We fit the module equation to the four datasheet points, assuming <math><semantics><mrow><msub><mi>R</mi><mrow><mi>s</mi><mi>h</mi></mrow></msub><mo>=</mo><mn>350</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded></mrow><annotation encoding="application/x-tex">R_{sh} = 350\,\Omega</annotation></semantics></math> (illustrative), and solve for the other four parameters. The fit gives <math><semantics><mrow><msub><mi>I</mi><mi>L</mi></msub><mo>=</mo><mn>14.004</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded></mrow><annotation encoding="application/x-tex">I_L = 14.004\,\mathrm{A}</annotation></semantics></math>, <math><semantics><mrow><msub><mi>I</mi><mn>0</mn></msub><mo>=</mo><mn>3.54</mn><mo>×</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>9</mn></mrow></msup><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded></mrow><annotation encoding="application/x-tex">I_0 = 3.54\times10^{-9}\,\mathrm{A}</annotation></semantics></math>, <math><semantics><mrow><msub><mi>R</mi><mi>s</mi></msub><mo>=</mo><mn>0.0882</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded></mrow><annotation encoding="application/x-tex">R_s = 0.0882\,\Omega</annotation></semantics></math> and <math><semantics><mrow><mi>n</mi><mo>=</mo><mn>1.214</mn></mrow><annotation encoding="application/x-tex">n = 1.214</annotation></semantics></math>, so <math><semantics><mrow><mi>a</mi><mo>=</mo><mn>2.246</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">a = 2.246\,\mathrm{V}</annotation></semantics></math> at 25 &deg;C. The curve then reads as follows.</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr><th>Terminal voltage V</th><th>Current I</th><th>Power P = V &times; I</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>0 V</td><td>14.000 A</td><td>0 W</td></tr>
+                                <tr><td>35 V</td><td>13.864 A</td><td>485.3 W</td></tr>
+                                <tr><td>40 V</td><td>13.557 A</td><td>542.3 W</td></tr>
+                                <tr><td>41.8 V (maximum power point)</td><td>13.160 A</td><td>550.1 W</td></tr>
+                                <tr><td>44 V</td><td>12.038 A</td><td>529.7 W</td></tr>
+                                <tr><td>46 V</td><td>9.774 A</td><td>449.6 W</td></tr>
+                                <tr><td>48 V</td><td>5.446 A</td><td>261.4 W</td></tr>
+                                <tr><td>49.6 V</td><td>0 A</td><td>0 W</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>The slope at short circuit is <math><semantics><mrow><mo>−</mo><mn>2.856</mn><mo>×</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>3</mn></mrow></msup><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">-2.856\times10^{-3}\,\mathrm{A/V}</annotation></semantics></math> against <math><semantics><mrow><mo>−</mo><mn>1</mn><mi>/</mi><msub><mi>R</mi><mrow><mi>s</mi><mi>h</mi></mrow></msub><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>2.857</mn><mo>×</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>3</mn></mrow></msup><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">-1/R_{sh} = -2.857\times10^{-3}\,\mathrm{A/V}</annotation></semantics></math>, an excellent match. At open circuit <math><semantics><mrow><msub><mi>r</mi><mi>d</mi></msub><mo>=</mo><mn>0.162</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Ω</mi></mpadded></mrow><annotation encoding="application/x-tex">r_d = 0.162\,\Omega</annotation></semantics></math>, so the exact slope is <math><semantics><mrow><mo>−</mo><mn>1</mn><mi>/</mi><mo form="prefix" stretchy="false">(</mo><mn>0.0882</mn><mo>+</mo><mn>0.162</mn><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>4.00</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">-1/(0.0882 + 0.162) = -4.00\,\mathrm{A/V}</annotation></semantics></math>. The bare <math><semantics><mrow><mo>−</mo><mn>1</mn><mi>/</mi><msub><mi>R</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">-1/R_s</annotation></semantics></math> would give <math><semantics><mrow><mo>−</mo><mn>11.3</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">-11.3\,\mathrm{A/V}</annotation></semantics></math>, because <math><semantics><mrow><msub><mi>R</mi><mi>s</mi></msub><mspace width="0.1667em"></mspace><mi>g</mi><mo>=</mo><mn>0.54</mn></mrow><annotation encoding="application/x-tex">R_s\,g = 0.54</annotation></semantics></math> is not much greater than one. Reading <math><semantics><msub><mi>R</mi><mi>s</mi></msub><annotation encoding="application/x-tex">R_s</annotation></semantics></math> from the slope at <math><semantics><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">V_{oc}</annotation></semantics></math> therefore needs <math><semantics><msub><mi>r</mi><mi>d</mi></msub><annotation encoding="application/x-tex">r_d</annotation></semantics></math> subtracted. At the maximum power point the model gives <math><semantics><mrow><mo>−</mo><mn>0.3148</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">-0.3148\,\mathrm{A/V}</annotation></semantics></math>, exactly <math><semantics><mrow><mo>−</mo><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mi>/</mi><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub></mrow><annotation encoding="application/x-tex">-I_{mp}/V_{mp}</annotation></semantics></math>. The loss in the series resistance there is <math><semantics><mrow><msup><mn>13.16</mn><mn>2</mn></msup><mo>×</mo><mn>0.0882</mn><mo>=</mo><mn>15.3</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded></mrow><annotation encoding="application/x-tex">13.16^2\times0.0882 = 15.3\,\mathrm{W}</annotation></semantics></math>, or 2.8% of <math><semantics><msub><mi>P</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">P_{mp}</annotation></semantics></math>. A larger <math><semantics><msub><mi>R</mi><mi>s</mi></msub><annotation encoding="application/x-tex">R_s</annotation></semantics></math> pulls the knee inward and lowers the fill factor.</p>
+
+                    <h2 id="stc-temperature-irradiance">STC, cell temperature and irradiance</h2>
+                    <p>Datasheet values are measured at Standard Test Conditions (STC): irradiance of 1000 W/m&sup2; in the module plane, a cell temperature of 25 &deg;C and the AM1.5G reference spectrum. STC fixes the <em>cell</em> temperature, not the air temperature. A module on a Tirupati roof in April never sees a 25 &deg;C cell in full sun. STC says nothing about low-light behaviour, soiling, wind cooling or ageing. It compares modules; it does not forecast output.</p>
+
+                    <h3>Cell temperature from NOCT</h3>
+                    <p>Datasheets also state the Nominal Operating Cell Temperature (NOCT): the cell temperature on an open rack at 800 W/m&sup2;, 20 &deg;C ambient and about 1 m/s wind. Let <math><semantics><msub><mi>T</mi><mi>c</mi></msub><annotation encoding="application/x-tex">T_c</annotation></semantics></math> be cell temperature and <math><semantics><msub><mi>T</mi><mi>a</mi></msub><annotation encoding="application/x-tex">T_a</annotation></semantics></math> ambient temperature, both in &deg;C, and <math><semantics><mi>G</mi><annotation encoding="application/x-tex">G</annotation></semantics></math> irradiance in W/m&sup2;. In steady state, absorbed heat equals heat lost to the air. If the loss coefficient is constant, the temperature rise above ambient is proportional to <math><semantics><mi>G</mi><annotation encoding="application/x-tex">G</annotation></semantics></math>, and the NOCT point fixes the constant.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>T</mi><mi>c</mi></msub><mo>≈</mo><msub><mi>T</mi><mi>a</mi></msub><mo>+</mo><mfrac><mrow><mpadded lspace="0"><mi>NOCT</mi></mpadded><mo>−</mo><mn>20</mn></mrow><mn>800</mn></mfrac><mspace width="0.1667em"></mspace><mi>G</mi></mrow><annotation encoding="application/x-tex">T_c \approx T_a + \frac{\mathrm{NOCT} - 20}{800}\, G</annotation></semantics></math></div>
+                    <p>For a NOCT of 45 &deg;C the constant is <math><semantics><mrow><mn>25</mn><mi>/</mi><mn>800</mn><mo>=</mo><mn>0.03125</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">K</mi></mpadded><mspace width="0.1667em"></mspace><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">25/800 = 0.03125\,\mathrm{K\,m^2/W}</annotation></semantics></math>, so 1000 W/m&sup2; adds 31 K to ambient. The model ignores wind and the electrical power extracted, so expect an error of several kelvin.</p>
+
+                    <h3>Translating the datasheet</h3>
+                    <p>The datasheet coefficients are relative changes per kelvin: <math><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math> for <math><semantics><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">I_{sc}</annotation></semantics></math>, <math><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math> for <math><semantics><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">V_{oc}</annotation></semantics></math> and <math><semantics><mi>γ</mi><annotation encoding="application/x-tex">\gamma</annotation></semantics></math> for <math><semantics><msub><mi>P</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">P_{max}</annotation></semantics></math>, in %/&deg;C. Write <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>T</mi><mo>=</mo><msub><mi>T</mi><mi>c</mi></msub><mo>−</mo><mn>25</mn><msup><mspace width="0.1667em"></mspace><mo>∘</mo></msup><mpadded lspace="0"><mi mathvariant="normal">C</mi></mpadded></mrow><annotation encoding="application/x-tex">\Delta T = T_c - 25\,^\circ\mathrm{C}</annotation></semantics></math> and <math><semantics><mrow><msub><mi>G</mi><mn>0</mn></msub><mo>=</mo><mn>1000</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded><mi>/</mi><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup></mrow></mrow><annotation encoding="application/x-tex">G_0 = 1000\,\mathrm{W/m^2}</annotation></semantics></math>. Photocurrent is proportional to photon flux, so <math><semantics><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">I_{sc}</annotation></semantics></math> scales with <math><semantics><mi>G</mi><annotation encoding="application/x-tex">G</annotation></semantics></math>. Setting <math><semantics><mrow><mi>I</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">I = 0</annotation></semantics></math> in the diode equation gives <math><semantics><mrow><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mo>≈</mo><mi>a</mi><mrow><mspace width="0.1667em"></mspace><mi>ln</mi><mo>⁡</mo></mrow><mo form="prefix" stretchy="false">(</mo><msub><mi>I</mi><mi>L</mi></msub><mi>/</mi><msub><mi>I</mi><mn>0</mn></msub><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">V_{oc} \approx a\ln(I_L/I_0)</annotation></semantics></math>, so a change in light shifts <math><semantics><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">V_{oc}</annotation></semantics></math> by <math><semantics><mrow><mi>a</mi><mrow><mspace width="0.1667em"></mspace><mi>ln</mi><mo>⁡</mo></mrow><mo form="prefix" stretchy="false">(</mo><mi>G</mi><mi>/</mi><msub><mi>G</mi><mn>0</mn></msub><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">a\ln(G/G_0)</annotation></semantics></math>: logarithmic, not linear. To first order:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub><mo>=</mo><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi><mo separator="true">,</mo><mpadded lspace="0"><mi>STC</mi></mpadded></mrow></msub><mspace width="0.1667em"></mspace><mfrac><mi>G</mi><msub><mi>G</mi><mn>0</mn></msub></mfrac><mspace width="0.1667em"></mspace><mo fence="true" symmetric="true" minsize="1.2em" maxsize="1.2em">[</mo><mn>1</mn><mo>+</mo><mi>α</mi><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>T</mi><mo fence="true" symmetric="true" minsize="1.2em" maxsize="1.2em">]</mo></mrow><annotation encoding="application/x-tex">I_{sc} = I_{sc,\mathrm{STC}}\,\frac{G}{G_0}\,\bigl[1 + \alpha\,\Delta T\bigr]</annotation></semantics></math></div>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mo>=</mo><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi><mo separator="true">,</mo><mpadded lspace="0"><mi>STC</mi></mpadded></mrow></msub><mspace width="0.1667em"></mspace><mo fence="true" symmetric="true" minsize="1.2em" maxsize="1.2em">[</mo><mn>1</mn><mo>+</mo><mi>β</mi><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>T</mi><mo fence="true" symmetric="true" minsize="1.2em" maxsize="1.2em">]</mo><mo>+</mo><msub><mi>N</mi><mi>s</mi></msub><mspace width="0.1667em"></mspace><mi>n</mi><mspace width="0.1667em"></mspace><mfrac><mrow><mi>k</mi><msub><mi>T</mi><mi>c</mi></msub></mrow><mi>q</mi></mfrac><mspace width="0.1667em"></mspace><mrow><mspace width="0.1667em"></mspace><mi>ln</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mfrac><mi>G</mi><msub><mi>G</mi><mn>0</mn></msub></mfrac></mrow><annotation encoding="application/x-tex">V_{oc} = V_{oc,\mathrm{STC}}\,\bigl[1 + \beta\,\Delta T\bigr] + N_s\, n\,\frac{k T_c}{q}\,\ln\frac{G}{G_0}</annotation></semantics></math></div>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>P</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>=</mo><msub><mi>P</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi><mo separator="true">,</mo><mpadded lspace="0"><mi>STC</mi></mpadded></mrow></msub><mspace width="0.1667em"></mspace><mfrac><mi>G</mi><msub><mi>G</mi><mn>0</mn></msub></mfrac><mspace width="0.1667em"></mspace><mo fence="true" symmetric="true" minsize="1.2em" maxsize="1.2em">[</mo><mn>1</mn><mo>+</mo><mi>γ</mi><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>T</mi><mo fence="true" symmetric="true" minsize="1.2em" maxsize="1.2em">]</mo></mrow><annotation encoding="application/x-tex">P_{max} = P_{max,\mathrm{STC}}\,\frac{G}{G_0}\,\bigl[1 + \gamma\,\Delta T\bigr]</annotation></semantics></math></div>
+                    <p>In the thermal voltage <math><semantics><msub><mi>T</mi><mi>c</mi></msub><annotation encoding="application/x-tex">T_c</annotation></semantics></math> is in kelvin. These are linear approximations, adequate over the normal operating range, and the power expression ignores the small efficiency loss at low irradiance. Because <math><semantics><mrow><msub><mi>P</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>=</mo><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mspace width="0.1667em"></mspace><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub><mspace width="0.1667em"></mspace><mi>F</mi><mi>F</mi></mrow><annotation encoding="application/x-tex">P_{max} = V_{oc}\,I_{sc}\,FF</annotation></semantics></math>, the coefficients are linked by <math><semantics><mrow><mi>γ</mi><mo>≈</mo><mi>β</mi><mo>+</mo><mi>α</mi><mo>+</mo><msub><mi>γ</mi><mrow><mi>F</mi><mi>F</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\gamma \approx \beta + \alpha + \gamma_{FF}</annotation></semantics></math>, where <math><semantics><msub><mi>γ</mi><mrow><mi>F</mi><mi>F</mi></mrow></msub><annotation encoding="application/x-tex">\gamma_{FF}</annotation></semantics></math> is the fill-factor coefficient. With the example values, <math><semantics><mrow><msub><mi>γ</mi><mrow><mi>F</mi><mi>F</mi></mrow></msub><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>0.34</mn><mo>+</mo><mn>0.27</mn><mo>−</mo><mn>0.05</mn><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>0.12</mn><mspace width="0.1667em"></mspace><mi>%</mi><msup><mi>/</mi><mo>∘</mo></msup><mpadded lspace="0"><mi mathvariant="normal">C</mi></mpadded></mrow><annotation encoding="application/x-tex">\gamma_{FF} = -0.34 + 0.27 - 0.05 = -0.12\,\%/^\circ\mathrm{C}</annotation></semantics></math>. Heat costs power twice: voltage falls and the knee rounds.</p>
+
+                    <h2 id="worked-example">Worked example: a 550 Wp module on a hot afternoon</h2>
+                    <p>Take the illustrative module, <math><semantics><mrow><msub><mi>P</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>=</mo><mn>550</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded></mrow><annotation encoding="application/x-tex">P_{max} = 550\,\mathrm{W}</annotation></semantics></math>, <math><semantics><mrow><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mo>=</mo><mn>49.6</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">V_{oc} = 49.6\,\mathrm{V}</annotation></semantics></math>, <math><semantics><mrow><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub><mo>=</mo><mn>14.0</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded></mrow><annotation encoding="application/x-tex">I_{sc} = 14.0\,\mathrm{A}</annotation></semantics></math>, <math><semantics><mrow><mi>γ</mi><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>0.34</mn><mspace width="0.1667em"></mspace><mi>%</mi><msup><mi>/</mi><mo>∘</mo></msup><mpadded lspace="0"><mi mathvariant="normal">C</mi></mpadded></mrow><annotation encoding="application/x-tex">\gamma = -0.34\,\%/^\circ\mathrm{C}</annotation></semantics></math>, <math><semantics><mrow><mi>β</mi><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>0.27</mn><mspace width="0.1667em"></mspace><mi>%</mi><msup><mi>/</mi><mo>∘</mo></msup><mpadded lspace="0"><mi mathvariant="normal">C</mi></mpadded></mrow><annotation encoding="application/x-tex">\beta = -0.27\,\%/^\circ\mathrm{C}</annotation></semantics></math>, <math><semantics><mrow><mi>α</mi><mo>=</mo><mo form="prefix" stretchy="false">+</mo><mn>0.05</mn><mspace width="0.1667em"></mspace><mi>%</mi><msup><mi>/</mi><mo>∘</mo></msup><mpadded lspace="0"><mi mathvariant="normal">C</mi></mpadded></mrow><annotation encoding="application/x-tex">\alpha = +0.05\,\%/^\circ\mathrm{C}</annotation></semantics></math> and <math><semantics><mrow><mpadded lspace="0"><mi>NOCT</mi></mpadded><mo>=</mo><mn>45</mn><msup><mspace width="0.1667em"></mspace><mo>∘</mo></msup><mpadded lspace="0"><mi mathvariant="normal">C</mi></mpadded></mrow><annotation encoding="application/x-tex">\mathrm{NOCT} = 45\,^\circ\mathrm{C}</annotation></semantics></math>. Find its state at <math><semantics><mrow><mi>G</mi><mo>=</mo><mn>850</mn><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded><mi>/</mi><msup><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mn>2</mn></msup></mrow></mrow><annotation encoding="application/x-tex">G = 850\,\mathrm{W/m^2}</annotation></semantics></math> and <math><semantics><mrow><msub><mi>T</mi><mi>a</mi></msub><mo>=</mo><mn>35</mn><msup><mspace width="0.1667em"></mspace><mo>∘</mo></msup><mpadded lspace="0"><mi mathvariant="normal">C</mi></mpadded></mrow><annotation encoding="application/x-tex">T_a = 35\,^\circ\mathrm{C}</annotation></semantics></math>. First the cell temperature.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>T</mi><mi>c</mi></msub><mo>=</mo><mn>35</mn><mo>+</mo><mfrac><mrow><mn>45</mn><mo>−</mo><mn>20</mn></mrow><mn>800</mn></mfrac><mo>×</mo><mn>850</mn><mo>=</mo><mn>35</mn><mo>+</mo><mn>26.56</mn><mo>=</mo><mn>61.56</mn><msup><mspace width="0.1667em"></mspace><mo>∘</mo></msup><mpadded lspace="0"><mi mathvariant="normal">C</mi></mpadded></mrow><annotation encoding="application/x-tex">T_c = 35 + \frac{45 - 20}{800}\times 850 = 35 + 26.56 = 61.56\,^\circ\mathrm{C}</annotation></semantics></math></div>
+                    <p>So <math><semantics><mrow><mpadded lspace="0"><mi mathvariant="normal">Δ</mi></mpadded><mi>T</mi><mo>=</mo><mn>36.56</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">K</mi></mpadded></mrow><annotation encoding="application/x-tex">\Delta T = 36.56\,\mathrm{K}</annotation></semantics></math> above STC. Next the maximum power, with <math><semantics><mrow><mi>G</mi><mi>/</mi><msub><mi>G</mi><mn>0</mn></msub><mo>=</mo><mn>0.85</mn></mrow><annotation encoding="application/x-tex">G/G_0 = 0.85</annotation></semantics></math>.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>P</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>=</mo><mn>550</mn><mo>×</mo><mn>0.85</mn><mo>×</mo><mo fence="true" symmetric="true" minsize="1.2em" maxsize="1.2em">[</mo><mn>1</mn><mo>−</mo><mn>0.0034</mn><mo>×</mo><mn>36.56</mn><mo fence="true" symmetric="true" minsize="1.2em" maxsize="1.2em">]</mo><mo>=</mo><mn>467.5</mn><mo>×</mo><mn>0.8757</mn><mo>=</mo><mn>409.4</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded></mrow><annotation encoding="application/x-tex">P_{max} = 550 \times 0.85 \times \bigl[1 - 0.0034\times 36.56\bigr] = 467.5 \times 0.8757 = 409.4\,\mathrm{W}</annotation></semantics></math></div>
+                    <p>The short-circuit current follows from irradiance and the small positive <math><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub><mo>=</mo><mn>14.0</mn><mo>×</mo><mn>0.85</mn><mo>×</mo><mo fence="true" symmetric="true" minsize="1.2em" maxsize="1.2em">[</mo><mn>1</mn><mo>+</mo><mn>0.0005</mn><mo>×</mo><mn>36.56</mn><mo fence="true" symmetric="true" minsize="1.2em" maxsize="1.2em">]</mo><mo>=</mo><mn>11.90</mn><mo>×</mo><mn>1.0183</mn><mo>=</mo><mn>12.12</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">A</mi></mpadded></mrow><annotation encoding="application/x-tex">I_{sc} = 14.0 \times 0.85 \times \bigl[1 + 0.0005\times 36.56\bigr] = 11.90 \times 1.0183 = 12.12\,\mathrm{A}</annotation></semantics></math></div>
+                    <p>For the open-circuit voltage, the temperature term gives <math><semantics><mrow><mn>49.6</mn><mo>×</mo><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mn>0.0027</mn><mo>×</mo><mn>36.56</mn><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mn>44.70</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">49.6 \times (1 - 0.0027 \times 36.56) = 44.70\,\mathrm{V}</annotation></semantics></math>. The irradiance term needs <math><semantics><mrow><msub><mi>T</mi><mi>c</mi></msub><mo>=</mo><mn>334.71</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">K</mi></mpadded></mrow><annotation encoding="application/x-tex">T_c = 334.71\,\mathrm{K}</annotation></semantics></math>, so <math><semantics><mrow><msub><mi>N</mi><mi>s</mi></msub><mi>n</mi><mi>k</mi><msub><mi>T</mi><mi>c</mi></msub><mi>/</mi><mi>q</mi><mo>=</mo><mn>72</mn><mo>×</mo><mn>1.214</mn><mo>×</mo><mn>0.02884</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded><mo>=</mo><mn>2.521</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">N_s n k T_c/q = 72 \times 1.214 \times 0.02884\,\mathrm{V} = 2.521\,\mathrm{V}</annotation></semantics></math>, and <math><semantics><mrow><mrow><mi>ln</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mn>0.85</mn><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>0.1625</mn></mrow><annotation encoding="application/x-tex">\ln 0.85 = -0.1625</annotation></semantics></math>.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi></mrow></msub><mo>=</mo><mn>44.70</mn><mo>+</mo><mn>2.521</mn><mo>×</mo><mo form="prefix" stretchy="false">(</mo><mo form="prefix" stretchy="false">−</mo><mn>0.1625</mn><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mn>44.70</mn><mo>−</mo><mn>0.41</mn><mo>=</mo><mn>44.29</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">V_{oc} = 44.70 + 2.521 \times (-0.1625) = 44.70 - 0.41 = 44.29\,\mathrm{V}</annotation></semantics></math></div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr><th>Quantity</th><th>STC value</th><th>At 850 W/m&sup2;, 35 &deg;C ambient</th><th>Change</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Cell temperature</td><td>25 &deg;C</td><td>61.6 &deg;C</td><td>+36.6 K</td></tr>
+                                <tr><td>Maximum power Pmax</td><td>550 W</td><td>409.4 W</td><td>&minus;25.6%</td></tr>
+                                <tr><td>Open-circuit voltage Voc</td><td>49.6 V</td><td>44.3 V</td><td>&minus;10.7%</td></tr>
+                                <tr><td>Short-circuit current Isc</td><td>14.0 A</td><td>12.12 A</td><td>&minus;13.4%</td></tr>
+                                <tr><td>Fill factor</td><td>0.792</td><td>0.763</td><td>&minus;3.7%</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>Does it make sense? Irradiance alone would give <math><semantics><mrow><mn>550</mn><mo>×</mo><mn>0.85</mn><mo>=</mo><mn>467.5</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded></mrow><annotation encoding="application/x-tex">550 \times 0.85 = 467.5\,\mathrm{W}</annotation></semantics></math>, so heat removes 58.1 W, or 12.4%, which is <math><semantics><mrow><mn>0.34</mn><mi>%</mi><mo>×</mo><mn>36.56</mn></mrow><annotation encoding="application/x-tex">0.34\% \times 36.56</annotation></semantics></math>. The operating fill factor is <math><semantics><mrow><mn>409.4</mn><mi>/</mi><mo form="prefix" stretchy="false">(</mo><mn>44.29</mn><mo>×</mo><mn>12.12</mn><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mn>0.763</mn></mrow><annotation encoding="application/x-tex">409.4/(44.29\times12.12) = 0.763</annotation></semantics></math>, against 0.792 at STC. The ratio is 0.963, close to the first-order estimate <math><semantics><mrow><mn>1</mn><mo>−</mo><mn>0.0012</mn><mo>×</mo><mn>36.56</mn><mo>=</mo><mn>0.956</mn></mrow><annotation encoding="application/x-tex">1 - 0.0012\times36.56 = 0.956</annotation></semantics></math>. And the datasheet values are mutually consistent: <math><semantics><mrow><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo>×</mo><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo>=</mo><mn>550.09</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded></mrow><annotation encoding="application/x-tex">V_{mp} \times I_{mp} = 550.09\,\mathrm{W}</annotation></semantics></math>. This is module output only; wiring, soiling and inverter losses come on top. The cold-morning end of the voltage range matters for string design, covered in our guide to <a href="solar-string-sizing-temperature.html">string sizing and temperature</a>.</p>
+
+                    <h2 id="shading-bypass-diodes">Mismatch, shading and bypass diodes</h2>
+                    <p>So far every cell was identical. In a series chain that fails once one cell receives less light. All cells carry the same current, yet a cell can only supply current up to about its own photocurrent. The weakest cell therefore limits the chain, and if the chain forces more current through it, the shaded cell is driven into reverse bias, where it absorbs power instead of producing it.</p>
+
+                    <h3>Reverse-bias heating</h3>
+                    <p>Let <math><semantics><msub><mi>V</mi><mi>r</mi></msub><annotation encoding="application/x-tex">V_r</annotation></semantics></math> be the reverse voltage across the shaded cell in volts, <math><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math> the current through it in amperes and <math><semantics><msub><mi>P</mi><mi>h</mi></msub><annotation encoding="application/x-tex">P_h</annotation></semantics></math> the heat it dissipates in watts. A reverse-biased cell is a passive load, so the power is the product of the two.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>P</mi><mi>h</mi></msub><mo>=</mo><msub><mi>V</mi><mi>r</mi></msub><mspace width="0.1667em"></mspace><mi>I</mi></mrow><annotation encoding="application/x-tex">P_h = V_r\, I</annotation></semantics></math></div>
+                    <p>By Kirchhoff&rsquo;s voltage law, the reverse voltage equals the voltage generated by the other cells in the protected group, plus any diode drop. Take an unprotected 72-cell string at 13.16 A with one dark cell. The other 71 cells would present <math><semantics><mrow><mn>71</mn><mo>×</mo><mn>0.581</mn><mo>=</mo><mn>41.2</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">71 \times 0.581 = 41.2\,\mathrm{V}</annotation></semantics></math>. Reverse breakdown clamps the dark cell well below that, at an illustrative 15 V. The heat is then <math><semantics><mrow><mn>15</mn><mo>×</mo><mn>13.16</mn><mo>=</mo><mn>197</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded></mrow><annotation encoding="application/x-tex">15 \times 13.16 = 197\,\mathrm{W}</annotation></semantics></math> in a cell of about 0.033 m&sup2;, a clear route to a burnt spot. The hot-spot endurance test in IEC 61215 exists for this reason.</p>
+
+                    <h3>What a bypass diode does</h3>
+                    <p>A typical module has three bypass diodes in the junction box, each wired antiparallel across one third of the cells: 24 full-cell equivalents, or 48 half-cells. A diode with forward drop <math><semantics><msub><mi>V</mi><mi>f</mi></msub><annotation encoding="application/x-tex">V_f</annotation></semantics></math> (0.7 V, illustrative) stays off while its substring generates positive voltage. When a shaded substring would go negative, the diode conducts and clamps that substring at <math><semantics><mrow><mo>−</mo><msub><mi>V</mi><mi>f</mi></msub></mrow><annotation encoding="application/x-tex">-V_f</annotation></semantics></math>. Module voltage at current <math><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math> is then the sum over substrings <math><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math> of the greater of the substring voltage and the clamp.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>V</mi><mtext>module</mtext></msub><mo form="prefix" stretchy="false">(</mo><mi>I</mi><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mrow><munderover><mo movablelimits="false">∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mn>3</mn></munderover></mrow><mrow><mi>max</mi><mo>⁡</mo></mrow><mo fence="true" symmetric="true" minsize="1.2em" maxsize="1.2em">[</mo><msub><mi>V</mi><mi>j</mi></msub><mo form="prefix" stretchy="false">(</mo><mi>I</mi><mo form="postfix" stretchy="false">)</mo><mo separator="true">,</mo><mspace width="0.1667em"></mspace><mo>−</mo><msub><mi>V</mi><mi>f</mi></msub><mo fence="true" symmetric="true" minsize="1.2em" maxsize="1.2em">]</mo></mrow><annotation encoding="application/x-tex">V_{\text{module}}(I) = \sum_{j=1}^{3} \max\bigl[V_j(I),\, -V_f\bigr]</annotation></semantics></math></div>
+                    <p>With the diode, the shaded cell&rsquo;s reverse voltage is at most <math><semantics><msub><mi>V</mi><mi>f</mi></msub><annotation encoding="application/x-tex">V_f</annotation></semantics></math> plus the voltages of the other 23 cells in its substring: <math><semantics><mrow><mn>0.7</mn><mo>+</mo><mn>23</mn><mo>×</mo><mn>0.689</mn><mo>=</mo><mn>16.5</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">0.7 + 23 \times 0.689 = 16.5\,\mathrm{V}</annotation></semantics></math>. The table models a fully dark, leaky cell as a reverse shunt resistance <math><semantics><msub><mi>R</mi><mrow><mi>s</mi><mi>h</mi><mo separator="true">,</mo><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">R_{sh,c}</annotation></semantics></math> (illustrative).</p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr><th>Case (one dark cell)</th><th>Reverse voltage</th><th>Current through cell</th><th>Heat P = V &times; I</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>No bypass diode, string held at 13.16 A, 15 V breakdown</td><td>15 V</td><td>13.16 A</td><td>197 W</td></tr>
+                                <tr><td>Bypass diode, 10 &Omega; reverse shunt</td><td>16.4 V</td><td>1.64 A</td><td>26.9 W</td></tr>
+                                <tr><td>Bypass diode, 20 &Omega; reverse shunt</td><td>16.5 V</td><td>0.82 A</td><td>13.6 W</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>The diode cuts the heating by roughly an order of magnitude but does not remove it, which is why thermal imaging is useful during inspection.</p>
+
+                    <h3>The stepped curve and its voltage cost</h3>
+                    <p>Suppose one substring receives a fraction <math><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math> of the light the other two get, so its photocurrent is about <math><semantics><mrow><mi>s</mi><mspace width="0.1667em"></mspace><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub></mrow><annotation encoding="application/x-tex">s\,I_{sc}</annotation></semantics></math>. Below that current all three substrings contribute and the curve is normal. Above it, the shaded substring is bypassed and the voltage drops by about one third. The I-V curve gains a step and the P-V curve gains two local maxima.</p>
+                    <p>For the voltage cost, take one diode conducting with the module still at 13.16 A. Then <math><semantics><mrow><mi>V</mi><mo>=</mo><mstyle displaystyle="false" scriptlevel="0"><mfrac><mn>2</mn><mn>3</mn></mfrac></mstyle><mo>×</mo><mn>41.8</mn><mo>−</mo><mn>0.7</mn><mo>=</mo><mn>27.17</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">V = \tfrac{2}{3}\times41.8 - 0.7 = 27.17\,\mathrm{V}</annotation></semantics></math>, a loss of 14.63 V, and the power is <math><semantics><mrow><mn>27.17</mn><mo>×</mo><mn>13.16</mn><mo>=</mo><mn>357.5</mn><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">W</mi></mpadded></mrow><annotation encoding="application/x-tex">27.17\times13.16 = 357.5\,\mathrm{W}</annotation></semantics></math>, or 65% of 550 W. An ideal two-thirds would be 66.7%, so the diode drop costs a further 1.7 percentage points. The table comes from the fitted model with three 24-cell substrings.</p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr><th>Shaded substring light, s</th><th>High-voltage peak</th><th>Low-voltage peak (diode on)</th><th>Global maximum</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>0.8</td><td>43.2 V, 470 W</td><td>27.2 V, 358 W</td><td>High-voltage</td></tr>
+                                <tr><td>0.5</td><td>44.4 V, 301 W</td><td>27.2 V, 358 W</td><td>Low-voltage</td></tr>
+                                <tr><td>0.3</td><td>44.7 V, 180 W</td><td>27.2 V, 358 W</td><td>Low-voltage</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>Near <math><semantics><mrow><mi>s</mi><mo>=</mo><mn>0.6</mn></mrow><annotation encoding="application/x-tex">s = 0.6</annotation></semantics></math> the best operating point switches peaks, a jump of about 17 V. A tracker that only perturbs voltage gently may stay on the lower peak. Modern inverters therefore scan the whole voltage window periodically for the global peak, a behaviour covered in <a href="mppt-and-dc-dc-converters-explained.html">MPPT explained</a>. Layout matters too: a horizontal shadow across a portrait module can reach all three substrings.</p>
+
+                    <h2 id="degradation-warranty">Degradation and warranty arithmetic</h2>
+                    <p>Warranties usually express the slow loss of output as a straight line. Let <math><semantics><msub><mi>P</mi><mn>0</mn></msub><annotation encoding="application/x-tex">P_0</annotation></semantics></math> be initial power in W, <math><semantics><msub><mi>d</mi><mn>0</mn></msub><annotation encoding="application/x-tex">d_0</annotation></semantics></math> the first-year drop as a fraction, <math><semantics><mi>d</mi><annotation encoding="application/x-tex">d</annotation></semantics></math> the annual loss as a fraction per year and <math><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math> the elapsed years.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>P</mi><mo form="prefix" stretchy="false">(</mo><mi>t</mi><mo form="postfix" stretchy="false">)</mo><mo>=</mo><msub><mi>P</mi><mn>0</mn></msub><mspace width="0.1667em"></mspace><mo fence="true" symmetric="true" minsize="1.2em" maxsize="1.2em">(</mo><mn>1</mn><mo>−</mo><msub><mi>d</mi><mn>0</mn></msub><mo>−</mo><mi>d</mi><mspace width="0.1667em"></mspace><mi>t</mi><mo fence="true" symmetric="true" minsize="1.2em" maxsize="1.2em">)</mo></mrow><annotation encoding="application/x-tex">P(t) = P_0\,\bigl(1 - d_0 - d\,t\bigr)</annotation></semantics></math></div>
+                    <p>The average over a life of <math><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math> years is the mean of a straight line, and a stated end-of-life power <math><semantics><msub><mi>P</mi><mi>T</mi></msub><annotation encoding="application/x-tex">P_T</annotation></semantics></math> gives the rate directly.</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mover><mi>P</mi><mo stretchy="false" class="chr-med wbk-med-acc">‾</mo></mover><mo>=</mo><msub><mi>P</mi><mn>0</mn></msub><mrow><mo fence="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>d</mi><mn>0</mn></msub><mo>−</mo><mfrac><mrow><mi>d</mi><mspace width="0.1667em"></mspace><mi>T</mi></mrow><mn>2</mn></mfrac><mo fence="true" form="postfix">)</mo></mrow><mo separator="true">,</mo><mspace width="2em"></mspace><mi>d</mi><mo>=</mo><mfrac><mrow><mn>1</mn><mo>−</mo><msub><mi>d</mi><mn>0</mn></msub><mo>−</mo><msub><mi>P</mi><mi>T</mi></msub><mi>/</mi><msub><mi>P</mi><mn>0</mn></msub></mrow><mi>T</mi></mfrac></mrow><annotation encoding="application/x-tex">\bar{P} = P_0\left(1 - d_0 - \frac{d\,T}{2}\right), \qquad d = \frac{1 - d_0 - P_T/P_0}{T}</annotation></semantics></math></div>
+                    <p><strong>Worked example.</strong> The rates are illustrative, not a promise: <math><semantics><mrow><msub><mi>d</mi><mn>0</mn></msub><mo>=</mo><mn>1</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">d_0 = 1\%</annotation></semantics></math> and <math><semantics><mrow><mi>d</mi><mo>=</mo><mn>0.4</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">d = 0.4\%</annotation></semantics></math> per year for the 550 W module.</p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr><th>Year t</th><th>P(t) / P0</th><th>P(t) for a 550 W module</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>1</td><td>98.6%</td><td>542.3 W</td></tr>
+                                <tr><td>12 (end of product warranty)</td><td>94.2%</td><td>518.1 W</td></tr>
+                                <tr><td>25</td><td>89.0%</td><td>489.5 W</td></tr>
+                                <tr><td>30 (end of performance warranty)</td><td>87.0%</td><td>478.5 W</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>Over 30 years the average is <math><semantics><mrow><msub><mi>P</mi><mn>0</mn></msub><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mn>0.01</mn><mo>−</mo><mn>0.004</mn><mo>×</mo><mn>15</mn><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mn>0.93</mn><mspace width="0.1667em"></mspace><msub><mi>P</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">P_0\,(1 - 0.01 - 0.004\times15) = 0.93\,P_0</annotation></semantics></math>. Working backwards, a floor of 87% at year 30 with a 1% first-year drop gives <math><semantics><mrow><mi>d</mi><mo>=</mo><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mn>0.01</mn><mo>−</mo><mn>0.87</mn><mo form="postfix" stretchy="false">)</mo><mi>/</mi><mn>30</mn><mo>=</mo><mn>0.4</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">d = (1 - 0.01 - 0.87)/30 = 0.4\%</annotation></semantics></math> per year, matching the table.</p>
+                    <p>Two promises sit behind Ray2Volt&rsquo;s panel terms: a 12-year product warranty on the product and a 30-year performance warranty on the output curve. Read the exact guaranteed power at each year, and the claim procedure, on your module&rsquo;s own warranty sheet. Our guide to <a href="solar-panel-warranties-decoded.html">solar panel warranties</a> explains what to look for.</p>
+
+                    <div class="callout">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        <p><strong>Use your own datasheet:</strong> every module parameter here is an illustrative typical value. Degradation rates, temperature coefficients, NOCT and diode layout differ between products, so use the datasheet and warranty sheet of the module actually quoted.</p>
+                    </div>
+
+                    <p>To apply this to a real roof you need the module datasheet, the shade profile through the day and the inverter&rsquo;s voltage window. Ray2Volt can do this analysis for your own site, including cell temperature, shading and string layout, as part of a <a href="../book-power-audit.html">free power audit</a>.</p>
+
+                    <h2 id="faq">Frequently asked questions</h2>
+                    <div class="faq-list">
+                        <details class="faq-item">
+                            <summary>Why is a half-cut module better than a conventional one?</summary>
+                            <div class="faq-answer">
+                                <p>Each half-cell carries half the current, so ribbon loss, which scales with current squared, falls to about a quarter. The two half-strings are wired in parallel, so the module keeps the same terminal voltage and current. In the illustrative 550 W example the gain is about 4.7 W, or 0.85%. Check your own datasheet.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>What does fill factor tell me about a module?</summary>
+                            <div class="faq-answer">
+                                <p>Fill factor is Vmp × Imp divided by Voc × Isc, a measure of how square the I-V curve is. Higher series resistance or lower shunt resistance reduces it. The illustrative module has 0.79, and the value falls as cells heat up.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>Why does output fall in hot weather?</summary>
+                            <div class="faq-answer">
+                                <p>Cell voltage and fill factor both fall as temperature rises. With a power coefficient of -0.34 %/°C, cells at 61.6 °C, which is 36.6 K above the 25 °C test condition, lose about 12.4% of their power. Cell temperature is roughly (NOCT - 20)/800 × G above ambient.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>Does a bypass diode make shading harmless?</summary>
+                            <div class="faq-answer">
+                                <p>No. A diode lets current bypass a shaded group of cells at the cost of that group's voltage. In the example, one conducting diode cuts module power to about 65%. It limits reverse-bias heating without removing it, and it creates two power peaks that the inverter's MPPT must handle.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>How do I read a performance warranty in watts?</summary>
+                            <div class="faq-answer">
+                                <p>Multiply nameplate power by the guaranteed fraction on the warranty sheet. With illustrative d0 = 1% and d = 0.4% per year, P(t) = P0(1 - d0 - d·t) gives 87% at year 30, or 478.5 W from 550 W. Ray2Volt quotes a 12-year product warranty and a 30-year performance warranty on panels.</p>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- Author box -->
+                    <div class="author-box">
+                        <img src="../images/logo.png" alt="Ray2Volt Solar" width="52" height="52" loading="lazy">
+                        <div>
+                            <h2>Ray2Volt Solar Private Limited</h2>
+                            <p>We design, install, and service rooftop solar for homes and businesses across Tirupati district and Andhra Pradesh, from PM Surya Ghar residential systems to commercial and industrial plants. Every enquiry starts with a free power audit.</p>
+                        </div>
+                    </div>
+
+                    <!-- End-of-post CTA -->
+                    <div class="post-cta">
+                        <h2>Have your module and shade analysed</h2>
+                        <p>Send Ray2Volt your module datasheet, roof layout and electricity bills. Our engineers can model cell temperature, shading and string layout for your own site before you order.</p>
+                        <div class="post-cta-buttons">
+                            <a href="../get-quote.html" class="btn btn-primary">Get a free quote</a>
+                            <a href="https://wa.me/919666068140" class="btn btn-outline">Chat on WhatsApp</a>
+                        </div>
+                    </div>
+
+                </article>
+
+                <!-- Sidebar -->
+                <aside class="post-sidebar">
+                    <nav class="toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#module-construction">What is inside a module</a></li>
+                            <li><a href="#series-parallel-model">Series and parallel connection</a></li>
+                            <li><a href="#half-cut-cells">Half-cut cells and ribbon loss</a></li>
+                            <li><a href="#iv-pv-curves">The I-V and P-V curves</a></li>
+                            <li><a href="#stc-temperature-irradiance">STC, cell temperature and irradiance</a></li>
+                            <li><a href="#worked-example">Worked example: a 550 Wp module on a hot afternoon</a></li>
+                            <li><a href="#shading-bypass-diodes">Mismatch, shading and bypass diodes</a></li>
+                            <li><a href="#degradation-warranty">Degradation and warranty arithmetic</a></li>
+                            <li><a href="#faq">Frequently asked questions</a></li>
+                        </ol>
+                    </nav>
+
+                    <div class="sidebar-cta">
+                        <h2>Free power audit</h2>
+                        <p>Share your latest electricity bill and we will size a system and show your real payback. No cost, no obligation.</p>
+                        <a href="../get-quote.html" class="btn btn-white btn-sm">Book my audit</a>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- Related posts -->
+            <section class="related-posts">
+                <h2>Related reading</h2>
+                <div class="related-grid">
+                    <a href="how-a-solar-cell-works-physics.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/how-a-solar-cell-works-physics-800w.webp 800w, ../images/blog/how-a-solar-cell-works-physics-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/how-a-solar-cell-works-physics.jpg" alt="Solar cell physics" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>How a Solar Cell Works: The Physics from Photons to Current</h3>
+                            <p>Technology</p>
+                        </div>
+                    </a>
+                    <a href="solar-string-sizing-temperature.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/solar-string-sizing-temperature-800w.webp 800w, ../images/blog/solar-string-sizing-temperature-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/solar-string-sizing-temperature.jpg" alt="Solar string sizing and temperature" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>String Sizing for Solar Inverters: The Temperature Mathematics of Voc, Vmp and MPPT Windows</h3>
+                            <p>Technology</p>
+                        </div>
+                    </a>
+                    <a href="tier-1-solar-panel-brands-india.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/tier-1-solar-panel-brands-india-800w.webp 800w, ../images/blog/tier-1-solar-panel-brands-india-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/tier-1-solar-panel-brands-india.jpg" alt="Tier-1 solar panel brands" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>Tier-1 Solar Panel Brands in India (2026): Waaree, Adani, Tata &amp; Premier</h3>
+                            <p>Technology</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid footer-grid--5">
+                <div class="footer-brand">
+                    <p>Powering businesses and homes in Tirupati district and across Andhra Pradesh with clean, affordable solar energy.</p>
+                    <!-- r2v:social-footer:start -->
+                    <!-- r2v:social-footer:end -->
+                    <!-- r2v:vendor-id:start -->
+                    <!-- r2v:vendor-id:end -->
+                </div>
+
+                <div class="footer-col">
+                    <h4>For Businesses</h4>
+                    <ul>
+                        <li><a href="../commercial.html">Commercial &amp; industrial solar</a></li>
+                        <li><a href="../business-solar-finance.html">Finance options</a></li>
+                        <li><a href="../solar-roi-calculator.html">ROI calculator</a></li>
+                        <li><a href="../solar-quote-check.html">Free quote check</a></li>
+                        <li><a href="../book-power-audit.html">Book a free power audit</a></li>
+                        <li><a href="../upload-electricity-bill.html">Send your electricity bill</a></li>
+                        <li><a href="../tender-rfq.html">Tenders and RFQs</a></li>
+                        <li><a href="https://3d.ray2voltsolar.com/">Ray2Volt 3D for solar EPCs</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>For Homes</h4>
+                    <ul>
+                        <li><a href="../residential.html">Home solar</a></li>
+                        <li><a href="../residential.html#subsidy">PM Surya Ghar subsidy</a></li>
+                        <li><a href="../solar-emi-calculator.html">Solar loan EMI calculator</a></li>
+                        <li><a href="../apartment-solar.html">Apartments &amp; societies</a></li>
+                        <li><a href="../avoid-solar-fraud.html">Pay safely: avoid subsidy fraud</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="../about.html">About us</a></li>
+                        <li><a href="../team.html">Our team</a></li>
+                        <li><a href="../locations.html">Where we work</a></li>
+                        <li><a href="../investor.html">Investors</a></li>
+                        <li><a href="../blog.html">Guides</a></li>
+                        <li><a href="../careers.html">Careers</a></li>
+                        <li><a href="../channel-partner.html">Channel partners</a></li>
+                        <li><a href="../raycare.html">RayCare service and warranty</a></li>
+                        <li><a href="../service-request.html">Request a service visit</a></li>
+                        <li><a href="../privacy-policy.html">Privacy policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li>1-278, J.K.Nagar, Revenue Ward No-1, Pichatur Road, Srikalahasti, 517644, Andhra Pradesh.</li>
+                        <li><a href="tel:+919666068140">+91 96660 68140</a></li>
+                        <li><a href="mailto:sales@ray2voltsolar.com">sales@ray2voltsolar.com</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ray2Volt Solar Private Limited. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" aria-label="Scroll to top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <script src="../script.js"></script>
+    <script src="../blog.js"></script>
+</body>
+
+</html>
