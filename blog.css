@@ -714,6 +714,25 @@ body.blog::after {
     -webkit-overflow-scrolling: touch;
 }
 
+/* Equations in the technical guides are native MathML; a long display
+   equation scrolls sideways on a phone instead of widening the page. */
+.post-body math {
+    font-size: 1.08em;
+    color: var(--ink);
+}
+
+.post-body .equation {
+    margin: 1.4rem 0;
+    padding: 0.35rem 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+.post-body .equation math {
+    margin: 0 auto;
+}
+
 .post-body table {
     width: 100%;
     border-collapse: collapse;
