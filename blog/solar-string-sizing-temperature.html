@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-theme-fixed>
+
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18014889887"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-18014889887');
+        gtag('config', 'G-WZJ1CXHSG9');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Blog pages are always light: the theme is fixed on <html> and has no toggle -->
+    <meta name="description" content="Size solar strings correctly: temperature-corrected Voc and Vmp, MPPT windows, reverse current and DC/AC clipping, with a worked 50 kW inverter example.">
+    <meta name="keywords" content="solar string sizing, Voc temperature coefficient, MPPT voltage window, DC AC ratio clipping, string inverter design">
+    <title>String Sizing for Solar Inverters: The Temperature Mathematics of Voc, Vmp and MPPT Windows | Ray2Volt Solar</title>
+    <link rel="canonical" href="https://ray2voltsolar.com/blog/solar-string-sizing-temperature.html">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap"
+        rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap" rel="stylesheet">
+    </noscript>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../blog.css">
+    <link rel="stylesheet" href="../theme.css">
+
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Ray2Volt Solar">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="String Sizing for Solar Inverters: The Temperature Mathematics of Voc, Vmp and MPPT Windows | Ray2Volt Solar">
+    <meta property="og:description" content="Size solar strings correctly: temperature-corrected Voc and Vmp, MPPT windows, reverse current and DC/AC clipping, with a worked 50 kW inverter example.">
+    <meta property="og:url" content="https://ray2voltsolar.com/blog/solar-string-sizing-temperature.html">
+    <meta property="og:image" content="https://ray2voltsolar.com/images/blog/solar-string-sizing-temperature.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "String Sizing for Solar Inverters: The Temperature Mathematics of Voc, Vmp and MPPT Windows | Ray2Volt Solar",
+      "description": "Size solar strings correctly: temperature-corrected Voc and Vmp, MPPT windows, reverse current and DC/AC clipping, with a worked 50 kW inverter example.",
+      "image": "https://ray2voltsolar.com/images/blog/solar-string-sizing-temperature.jpg",
+      "author": { "@type": "Organization", "name": "Ray2Volt Solar Private Limited", "url": "https://ray2voltsolar.com" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Ray2Volt Solar Private Limited",
+        "logo": { "@type": "ImageObject", "url": "https://ray2voltsolar.com/images/logo.png" }
+      },
+      "datePublished": "2026-10-16",
+      "dateModified": "2026-10-16",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ray2voltsolar.com/blog/solar-string-sizing-temperature.html" },
+      "articleSection": "Technology"
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ray2voltsolar.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://ray2voltsolar.com/blog.html" },
+        { "@type": "ListItem", "position": 3, "name": "String Sizing for Inverters", "item": "https://ray2voltsolar.com/blog/solar-string-sizing-temperature.html" }
+      ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why is the maximum string voltage calculated at the coldest temperature and not at 25 °C?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Cell voltage rises as the cell cools, by about 0.27% per °C for a typical module. On a cold morning with light already present, open-circuit voltage is above the 25 °C datasheet value. The inverter's maximum DC voltage must hold in that worst case, so the design uses Voc at the site's lowest expected temperature."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which site temperatures should I use for string sizing?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use the lowest ambient temperature in IMD records for your location for the cold limit, and a hot rooftop cell temperature, often 65 to 75 °C, for the hot limit. The 10 °C and 70 °C in this guide are illustrative. Add a margin for unusual years."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I put strings of different lengths or orientations on one MPPT input?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Avoid it. Strings sharing an input are held at the same voltage, so a shorter or differently oriented string cannot work at its own maximum power point, and energy is lost every day. Give each orientation or length its own MPPT input."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "When are string fuses needed?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "When the reverse current from healthy parallel strings, roughly the number of other strings times the maximum short-circuit current, could exceed what a module can carry. With typical modules that starts at three parallel strings. Confirm against the module datasheet and the current edition of IEC 62548."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What DC/AC ratio is sensible?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Many designs sit between 1.1 and 1.4, and 1.2 to 1.3 is common. An ideal clear-day model shows 6.5% of energy clipped at 1.2, but heat losses and cloudier days cut the annual loss far below that. A yield simulation for your site gives the real figure."
+          }
+        }
+      ]
+    }
+    </script>
+</head>
+
+<body class="blog">
+    <!-- Header / Navigation -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="logo">
+                <img src="../images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'">
+                <div class="logo-text">
+                    Ray2Volt Solar
+                    <span>Private Limited</span>
+                </div>
+            </a>
+
+            <ul class="nav-menu">
+                <li class="dropdown dropdown-wide">
+                    <a href="../commercial.html" class="nav-link" aria-haspopup="true" aria-expanded="false">For Businesses <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Plan your project</span>
+                            <ul>
+                                <li><a href="../commercial.html">Commercial solar overview</a></li>
+                                <li><a href="../business-solar-finance.html">Finance options</a></li>
+                                <li><a href="../resco-solar-for-business.html">RESCO: pay per unit</a></li>
+                                <li><a href="../solar-roi-calculator.html">ROI calculator</a></li>
+                                <li><a href="../ground-mounted-solar-open-access.html">Ground-mounted &amp; open access</a></li>
+                                <li><a href="../solar-battery-vs-diesel.html">Solar + battery vs diesel</a></li>
+                                <li><a href="../solar-quote-check.html">Free quote check</a></li>
+                                <li><a href="../book-power-audit.html">Book a free power audit</a></li>
+                                <li><a href="../tender-rfq.html">Tenders and RFQs</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">Industries</span>
+                            <ul>
+                                <li><a href="../industry-manufacturing.html">Manufacturing &amp; factories</a></li>
+                                <li><a href="../industry-healthcare.html">Hospitals &amp; healthcare</a></li>
+                                <li><a href="../industry-hotels.html">Hotels &amp; resorts</a></li>
+                                <li><a href="../industry-cold-storage.html">Cold storage &amp; food processing</a></li>
+                                <li><a href="../industry-education.html">Schools &amp; colleges</a></li>
+                                <li><a href="../industry-warehousing.html">Warehousing &amp; logistics</a></li>
+                                <li><a href="../industry-retail.html">Retail &amp; malls</a></li>
+                                <li><a href="../industry-offices.html">Offices &amp; IT parks</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-group">
+                            <span class="dropdown-heading">For solar EPCs</span>
+                            <ul>
+                                <li><a href="https://3d.ray2voltsolar.com/">Ray2Volt 3D: 3D plant viewers</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="../residential.html" class="nav-link" aria-haspopup="true" aria-expanded="false">For Homes <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../residential.html">Home solar overview</a></li>
+                        <li><a href="../residential-ongrid.html">On-grid systems</a></li>
+                        <li><a href="../residential-hybrid.html">Hybrid systems with battery</a></li>
+                        <li><a href="../apartment-solar.html">Apartments &amp; housing societies</a></li>
+                        <li><a href="../solar-emi-calculator.html">Solar loan EMI calculator</a></li>
+                        <li><a href="../blog/pm-surya-ghar-subsidy-guide.html">PM Surya Ghar subsidy guide</a></li>
+                        <li><a href="../raycare.html">RayCare: service plans</a></li>
+                    </ul>
+                </li>
+                <li><a href="../investor.html" class="nav-link">Investors</a></li>
+                <li><a href="../blog.html" class="nav-link active">Guides</a></li>
+                <li><a href="../about.html" class="nav-link">About</a></li>
+                <li><a href="../contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="blog-main">
+        <div class="container">
+
+            <!-- Breadcrumbs -->
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="/">Home</a>
+                <span class="sep">/</span>
+                <a href="../blog.html">Blog</a>
+                <span class="sep">/</span>
+                <span aria-current="page">String Sizing for Inverters</span>
+            </nav>
+
+            <!-- Post header -->
+            <header class="post-header">
+                <div class="post-meta">
+                    <span class="category-pill" data-cat="Technology">Technology</span>
+                    <time datetime="2026-10-16">16 October 2026</time>
+                    <span class="dot">&middot;</span>
+                    <span>17 min read</span>
+                </div>
+                <h1>String Sizing for Solar Inverters: The Temperature Mathematics of Voc, Vmp and MPPT Windows</h1>
+                <p class="post-standfirst">Every string-sizing rule comes from how cell temperature moves module voltage. Derive the cold and hot limits step by step, then apply them to a 50 kW inverter with all the arithmetic shown.</p>
+            </header>
+
+            <!-- Hero image -->
+            <figure class="post-hero">
+                <picture>
+                    <source type="image/webp" srcset="../images/blog/solar-string-sizing-temperature-800w.webp 800w, ../images/blog/solar-string-sizing-temperature-1600w.webp 1600w" sizes="(max-width: 900px) 100vw, 800px">
+                    <img src="../images/blog/solar-string-sizing-temperature.jpg" alt="Rows of solar modules on a flat industrial rooftop wired in series strings towards an inverter" width="1600" height="900" fetchpriority="high">
+                </picture>
+                <figcaption>String length is chosen so that module voltage stays inside the inverter's limits on the coldest morning and the hottest afternoon.</figcaption>
+            </figure>
+
+            <div class="post-shell">
+                <article class="post-body">
+
+                    <div class="key-takeaways">
+                        <h2>Four string-sizing facts to remember</h2>
+                        <ul>
+                            <li>Module voltage rises about 0.27% for every degree of cooling. At a 10 °C cell temperature a module rated 49.6 V at 25 °C reads 51.6 V, so a design using the datasheet figure is about 4% low.</li>
+                            <li>The coldest morning sets the longest string, <math><semantics><mrow><msub><mi>N</mi><mpadded lspace="0"><mi>max</mi></mpadded></msub><mo>=</mo><mo form="prefix" stretchy="false">⌊</mo><msub><mi>V</mi><mrow><mpadded lspace="0"><mi mathvariant="normal">d</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">c</mi></mpadded><mo separator="true">,</mo><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">a</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">x</mi></mpadded></mrow></msub><mi>/</mi><mpadded lspace="0"><mi>Voc</mi></mpadded><mo form="prefix" stretchy="false">(</mo><msub><mi>T</mi><mpadded lspace="0"><mi>min</mi></mpadded></msub><mo form="postfix" stretchy="false">)</mo><mo form="postfix" stretchy="false">⌋</mo></mrow><annotation encoding="application/x-tex">N_{\mathrm{max}} = \lfloor V_{\mathrm{dc,max}} / \mathrm{Voc}(T_{\mathrm{min}}) \rfloor</annotation></semantics></math>. A hot roof sets the shortest, because each module gives only 35.4 V at its maximum power point at 70 °C.</li>
+                            <li>In the worked example, a 1,100 V, 50 kW inverter accepts 16 to 19 of these 550 Wp modules per string. Six strings of 19 give 62.7 kWp and a DC/AC ratio of 1.25.</li>
+                            <li>If one of <math><semantics><msub><mi>N</mi><mi>p</mi></msub><annotation encoding="application/x-tex">N_p</annotation></semantics></math> parallel strings faults, the others push <math><semantics><mrow><mo form="prefix" stretchy="false">(</mo><msub><mi>N</mi><mi>p</mi></msub><mo>−</mo><mn>1</mn><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(N_p - 1)</annotation></semantics></math> times their short-circuit current through it. Against a 25 A module fuse rating, that needs string fuses from three parallel strings.</li>
+                        </ul>
+                    </div>
+
+                    <p>A module datasheet gives voltage at a cell temperature of 25 °C. An inverter datasheet gives a maximum DC voltage, a window in which it tracks the maximum power point, and a narrower window in which it delivers full power. Your roof is almost never at 25 °C. String sizing fits one set of numbers inside the other across every temperature the plant will see.</p>
+
+                    <p>The errors are not symmetric. Too many modules in series, and a cold morning lifts the open-circuit voltage above the inverter's absolute limit, which can destroy it. Too few, and a hot afternoon pulls the string below the range where the inverter delivers rated power. This guide derives both limits from the temperature behaviour of a silicon cell, then covers current limits, reverse current and fusing, and the DC/AC ratio with its clipping loss.</p>
+
+                    <p>Every module and inverter figure below is an illustrative typical datasheet value, not a recommendation. Use your own datasheets and site temperatures. If the I-V curve is new to you, read <a href="solar-module-iv-curve-explained.html">how a solar module works</a> first. The wiring side of the same design is in <a href="solar-dc-cable-sizing-voltage-drop.html">solar cable sizing and voltage drop</a>.</p>
+
+                    <h2 id="series-parallel-rules">Series and parallel rules for an array</h2>
+                    <p>The module is the smallest unit here. Symbols for this section:</p>
+                    <ul>
+                        <li><math><semantics><msub><mi>N</mi><mi>s</mi></msub><annotation encoding="application/x-tex">N_s</annotation></semantics></math>: modules in series in one string; <math><semantics><msub><mi>N</mi><mi>p</mi></msub><annotation encoding="application/x-tex">N_p</annotation></semantics></math>: identical strings in parallel (both dimensionless).</li>
+                        <li><math><semantics><msub><mi>V</mi><mpadded lspace="0"><mi>mod</mi></mpadded></msub><annotation encoding="application/x-tex">V_{\mathrm{mod}}</annotation></semantics></math>, <math><semantics><msub><mi>I</mi><mpadded lspace="0"><mi>mod</mi></mpadded></msub><annotation encoding="application/x-tex">I_{\mathrm{mod}}</annotation></semantics></math>: voltage (V) and current (A) of one module.</li>
+                        <li><math><semantics><msub><mi>V</mi><mpadded lspace="0"><mi>str</mi></mpadded></msub><annotation encoding="application/x-tex">V_{\mathrm{str}}</annotation></semantics></math>, <math><semantics><msub><mi>I</mi><mpadded lspace="0"><mi>str</mi></mpadded></msub><annotation encoding="application/x-tex">I_{\mathrm{str}}</annotation></semantics></math>: voltage and current of one string. <math><semantics><msub><mi>V</mi><mpadded lspace="0"><mi>arr</mi></mpadded></msub><annotation encoding="application/x-tex">V_{\mathrm{arr}}</annotation></semantics></math>, <math><semantics><msub><mi>I</mi><mpadded lspace="0"><mi>arr</mi></mpadded></msub><annotation encoding="application/x-tex">I_{\mathrm{arr}}</annotation></semantics></math>, <math><semantics><msub><mi>P</mi><mpadded lspace="0"><mi>arr</mi></mpadded></msub><annotation encoding="application/x-tex">P_{\mathrm{arr}}</annotation></semantics></math>: voltage (V), current (A) and power (W) of the whole array.</li>
+                    </ul>
+                    <p>Assume identical modules, the same irradiance and cell temperature on all of them, and no wiring loss. Mismatch, shade and cable resistance break these assumptions slightly. Kirchhoff's current law gives every module in a series chain the same current, and his voltage law makes the voltages add:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>V</mi><mrow><mi>s</mi><mi>t</mi><mi>r</mi></mrow></msub><mo>=</mo><msub><mi>N</mi><mi>s</mi></msub><mspace width="0.1667em"></mspace><msub><mi>V</mi><mrow><mi>m</mi><mi>o</mi><mi>d</mi></mrow></msub><mo separator="true">,</mo><mspace width="2em"></mspace><msub><mi>I</mi><mrow><mi>s</mi><mi>t</mi><mi>r</mi></mrow></msub><mo>=</mo><msub><mi>I</mi><mrow><mi>m</mi><mi>o</mi><mi>d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{str} = N_s\,V_{mod}, \qquad I_{str} = I_{mod}</annotation></semantics></math></div>
+                    <p>Strings joined at the same two terminals share one voltage, and their currents add at the junction:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>V</mi><mrow><mi>a</mi><mi>r</mi><mi>r</mi></mrow></msub><mo>=</mo><msub><mi>V</mi><mrow><mi>s</mi><mi>t</mi><mi>r</mi></mrow></msub><mo separator="true">,</mo><mspace width="2em"></mspace><msub><mi>I</mi><mrow><mi>a</mi><mi>r</mi><mi>r</mi></mrow></msub><mo>=</mo><msub><mi>N</mi><mi>p</mi></msub><mspace width="0.1667em"></mspace><msub><mi>I</mi><mrow><mi>s</mi><mi>t</mi><mi>r</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{arr} = V_{str}, \qquad I_{arr} = N_p\,I_{str}</annotation></semantics></math></div>
+                    <p>The array power is therefore the sum of all module powers:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>P</mi><mrow><mi>a</mi><mi>r</mi><mi>r</mi></mrow></msub><mo>=</mo><msub><mi>V</mi><mrow><mi>a</mi><mi>r</mi><mi>r</mi></mrow></msub><mspace width="0.1667em"></mspace><msub><mi>I</mi><mrow><mi>a</mi><mi>r</mi><mi>r</mi></mrow></msub><mo>=</mo><msub><mi>N</mi><mi>s</mi></msub><mspace width="0.1667em"></mspace><msub><mi>N</mi><mi>p</mi></msub><mspace width="0.1667em"></mspace><msub><mi>V</mi><mrow><mi>m</mi><mi>o</mi><mi>d</mi></mrow></msub><mspace width="0.1667em"></mspace><msub><mi>I</mi><mrow><mi>m</mi><mi>o</mi><mi>d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">P_{arr} = V_{arr}\,I_{arr} = N_s\,N_p\,V_{mod}\,I_{mod}</annotation></semantics></math></div>
+                    <p><strong>Worked example.</strong> Take 19 modules per string and 2 strings of the 550 Wp module, whose maximum-power-point voltage <math><semantics><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">V_{mp}</annotation></semantics></math> is 41.8 V and current <math><semantics><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">I_{mp}</annotation></semantics></math> is 13.16 A. The string voltage is 19 × 41.8 V = 794.2 V, the array current is 2 × 13.16 A = 26.32 A, and the power is 794.2 V × 26.32 A = 20,903 W. Sanity check: 38 modules × 550 W = 20.9 kW.</p>
+
+                    <figure>
+                        <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200&h=675&fit=crop&auto=format" alt="Commercial rooftop solar installation with rows of modules" loading="lazy" width="1200" height="675">
+                        <figcaption>On a rooftop plant, modules are wired in series into strings, and the strings run to the inverter inputs.</figcaption>
+                    </figure>
+
+                    <h2 id="temperature-and-light">How temperature and light move module voltage</h2>
+                    <p>Symbols for this section:</p>
+                    <ul>
+                        <li><math><semantics><msub><mi>T</mi><mi>c</mi></msub><annotation encoding="application/x-tex">T_c</annotation></semantics></math>: cell temperature in °C. <math><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>: the same temperature in kelvin, <math><semantics><mrow><mi>T</mi><mo>=</mo><msub><mi>T</mi><mi>c</mi></msub><mo>+</mo><mn>273.15</mn></mrow><annotation encoding="application/x-tex">T = T_c + 273.15</annotation></semantics></math>.</li>
+                        <li>Voc, Vmp, Isc: open-circuit voltage, maximum-power voltage and short-circuit current. The suffix STC means 25 °C cell temperature and 1,000 W/m².</li>
+                        <li><math><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>, <math><semantics><mi>γ</mi><annotation encoding="application/x-tex">\gamma</annotation></semantics></math>, <math><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>: temperature coefficients of Voc, of maximum power and of Isc, each in 1/°C. Datasheets quote them in %/°C.</li>
+                        <li><math><semantics><mi>G</mi><annotation encoding="application/x-tex">G</annotation></semantics></math>: irradiance on the module plane (W/m²). <math><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>: diode ideality factor, about 1.0 to 1.2. <math><semantics><msub><mi>N</mi><mi>c</mi></msub><annotation encoding="application/x-tex">N_c</annotation></semantics></math>: cells in series in the module.</li>
+                        <li><math><semantics><mrow><mi>k</mi><mo>=</mo><mn>1.380649</mn><mo>×</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>23</mn></mrow></msup><mspace width="0.1667em"></mspace><mrow><mpadded lspace="0"><mi mathvariant="normal">J</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">K</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">k = 1.380649\times10^{-23}\,\mathrm{J/K}</annotation></semantics></math> and <math><semantics><mrow><mi>q</mi><mo>=</mo><mn>1.602176634</mn><mo>×</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>19</mn></mrow></msup><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi mathvariant="normal">C</mi></mpadded></mrow><annotation encoding="application/x-tex">q = 1.602176634\times10^{-19}\,\mathrm{C}</annotation></semantics></math>: Boltzmann constant and elementary charge. <math><semantics><msub><mi>E</mi><mi>g</mi></msub><annotation encoding="application/x-tex">E_g</annotation></semantics></math>: silicon bandgap energy (J), so <math><semantics><mrow><msub><mi>E</mi><mi>g</mi></msub><mi>/</mi><mi>q</mi></mrow><annotation encoding="application/x-tex">E_g/q</annotation></semantics></math> is a voltage.</li>
+                    </ul>
+
+                    <h3>Where the temperature coefficient comes from</h3>
+                    <p>At open circuit, the light-generated current <math><semantics><msub><mi>I</mi><mrow><mi>p</mi><mi>h</mi></mrow></msub><annotation encoding="application/x-tex">I_{ph}</annotation></semantics></math> flows entirely through the cell's own junction diode. Solving the diode equation for voltage gives, per cell:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi><mo separator="true">,</mo><mi>c</mi><mi>e</mi><mi>l</mi><mi>l</mi></mrow></msub><mo>≈</mo><mfrac><mrow><mi>n</mi><mi>k</mi><mi>T</mi></mrow><mi>q</mi></mfrac><mspace width="0.1667em"></mspace><mrow><mspace width="0.1667em"></mspace><mi>ln</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mfrac><msub><mi>I</mi><mrow><mi>p</mi><mi>h</mi></mrow></msub><msub><mi>I</mi><mn>0</mn></msub></mfrac><mo fence="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">V_{oc,cell} \approx \frac{n k T}{q}\,\ln\!\left(\frac{I_{ph}}{I_0}\right)</annotation></semantics></math></div>
+                    <p><math><semantics><msub><mi>I</mi><mn>0</mn></msub><annotation encoding="application/x-tex">I_0</annotation></semantics></math> is the diode's reverse saturation current, the leakage that grows as the cell warms. For silicon, with <math><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math> a constant:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>I</mi><mn>0</mn></msub><mo>=</mo><mi>B</mi><mspace width="0.1667em"></mspace><msup><mi>T</mi><mn>3</mn></msup><mspace width="0.1667em"></mspace><mrow><mspace width="0.1667em"></mspace><mi>exp</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mo>−</mo><mfrac><msub><mi>E</mi><mi>g</mi></msub><mrow><mi>k</mi><mi>T</mi></mrow></mfrac><mo fence="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">I_0 = B\,T^{3}\,\exp\!\left(-\frac{E_g}{kT}\right)</annotation></semantics></math></div>
+                    <p>Substituting, with <math><semantics><mrow><mi>n</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n = 1</annotation></semantics></math> to keep the algebra short:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi><mo separator="true">,</mo><mi>c</mi><mi>e</mi><mi>l</mi><mi>l</mi></mrow></msub><mo>=</mo><mfrac><msub><mi>E</mi><mi>g</mi></msub><mi>q</mi></mfrac><mo>−</mo><mfrac><mrow><mi>k</mi><mi>T</mi></mrow><mi>q</mi></mfrac><mspace width="0.1667em"></mspace><mrow><mspace width="0.1667em"></mspace><mi>ln</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mfrac><mrow><mi>B</mi><mspace width="0.1667em"></mspace><msup><mi>T</mi><mn>3</mn></msup></mrow><msub><mi>I</mi><mrow><mi>p</mi><mi>h</mi></mrow></msub></mfrac><mo fence="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">V_{oc,cell} = \frac{E_g}{q} - \frac{kT}{q}\,\ln\!\left(\frac{B\,T^{3}}{I_{ph}}\right)</annotation></semantics></math></div>
+                    <p>Differentiate with respect to <math><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>, treating <math><semantics><msub><mi>I</mi><mrow><mi>p</mi><mi>h</mi></mrow></msub><annotation encoding="application/x-tex">I_{ph}</annotation></semantics></math> as constant because its own change is small, and replace the logarithm term using the equation itself:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mfrac><mrow><mi>d</mi><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi><mo separator="true">,</mo><mi>c</mi><mi>e</mi><mi>l</mi><mi>l</mi></mrow></msub></mrow><mrow><mi>d</mi><mi>T</mi></mrow></mfrac><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mfrac><mrow><msub><mi>E</mi><mi>g</mi></msub><mi>/</mi><mi>q</mi><mo>−</mo><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi><mo separator="true">,</mo><mi>c</mi><mi>e</mi><mi>l</mi><mi>l</mi></mrow></msub></mrow><mi>T</mi></mfrac><mo>−</mo><mfrac><mrow><mn>3</mn><mi>k</mi></mrow><mi>q</mi></mfrac></mrow><annotation encoding="application/x-tex">\frac{dV_{oc,cell}}{dT} = -\frac{E_g/q - V_{oc,cell}}{T} - \frac{3k}{q}</annotation></semantics></math></div>
+                    <p>The sign is negative: a warmer junction leaks more, so less voltage balances the photocurrent. Our module has 144 half-cut cells as two parallel halves of 72, so <math><semantics><mrow><msub><mi>N</mi><mi>c</mi></msub><mo>=</mo><mn>72</mn></mrow><annotation encoding="application/x-tex">N_c = 72</annotation></semantics></math> and the cell voltage is 49.6 V / 72 = 0.689 V. With <math><semantics><mrow><msub><mi>E</mi><mi>g</mi></msub><mi>/</mi><mi>q</mi><mo>≈</mo></mrow><annotation encoding="application/x-tex">E_g/q \approx</annotation></semantics></math> 1.2 V (the value extrapolated to 0 K) and <math><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math> = 298.15 K:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mfrac><mrow><mi>d</mi><msub><mi>V</mi><mrow><mi>o</mi><mi>c</mi><mo separator="true">,</mo><mi>c</mi><mi>e</mi><mi>l</mi><mi>l</mi></mrow></msub></mrow><mrow><mi>d</mi><mi>T</mi></mrow></mfrac><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mfrac><mrow><mn>1.2</mn><mo>−</mo><mn>0.689</mn></mrow><mn>298.15</mn></mfrac><mo>−</mo><mn>0.259</mn><mo>×</mo><msup><mn>10</mn><mrow><mo lspace="0em" rspace="0em">−</mo><mn>3</mn></mrow></msup><mo>≈</mo><mo form="prefix" stretchy="false">−</mo><mn>1.97</mn><mtext> </mtext><mrow><mpadded lspace="0"><mi mathvariant="normal">m</mi></mpadded><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded><mi>/</mi><mpadded lspace="0"><mi mathvariant="normal">K</mi></mpadded></mrow></mrow><annotation encoding="application/x-tex">\frac{dV_{oc,cell}}{dT} = -\frac{1.2 - 0.689}{298.15} - 0.259\times10^{-3} \approx -1.97\ \mathrm{mV/K}</annotation></semantics></math></div>
+                    <p>Over 72 cells that is &minus;0.142 V/K, or &minus;0.286%/K of 49.6 V, within 6% of a typical datasheet value of &minus;0.27%/K. In practice use the datasheet figure, which was measured on the real product.</p>
+
+                    <h3>The linear translation equations</h3>
+                    <p>Across the design range, voltage is close to a straight line in temperature:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mpadded lspace="0"><mi>Voc</mi></mpadded><mo form="prefix" stretchy="false">(</mo><msub><mi>T</mi><mi>c</mi></msub><mo form="postfix" stretchy="false">)</mo><mo>=</mo><msub><mpadded lspace="0"><mi>Voc</mi></mpadded><mrow><mi>S</mi><mi>T</mi><mi>C</mi></mrow></msub><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">[</mo><mspace width="0.1667em"></mspace><mn>1</mn><mo>+</mo><mi>β</mi><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><msub><mi>T</mi><mi>c</mi></msub><mo>−</mo><mn>25</mn><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><mo form="postfix" stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">\mathrm{Voc}(T_c) = \mathrm{Voc}_{STC}\,[\,1 + \beta\,(T_c - 25)\,]</annotation></semantics></math></div>
+                    <div class="equation"><math display="block"><semantics><mrow><mpadded lspace="0"><mi>Vmp</mi></mpadded><mo form="prefix" stretchy="false">(</mo><msub><mi>T</mi><mi>c</mi></msub><mo form="postfix" stretchy="false">)</mo><mo>=</mo><msub><mpadded lspace="0"><mi>Vmp</mi></mpadded><mrow><mi>S</mi><mi>T</mi><mi>C</mi></mrow></msub><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">[</mo><mspace width="0.1667em"></mspace><mn>1</mn><mo>+</mo><msub><mi>β</mi><mi>V</mi></msub><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><msub><mi>T</mi><mi>c</mi></msub><mo>−</mo><mn>25</mn><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><mo form="postfix" stretchy="false">]</mo><mo separator="true">,</mo><mspace width="2em"></mspace><mpadded lspace="0"><mi>Isc</mi></mpadded><mo form="prefix" stretchy="false">(</mo><msub><mi>T</mi><mi>c</mi></msub><mo form="postfix" stretchy="false">)</mo><mo>=</mo><msub><mpadded lspace="0"><mi>Isc</mi></mpadded><mrow><mi>S</mi><mi>T</mi><mi>C</mi></mrow></msub><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">[</mo><mspace width="0.1667em"></mspace><mn>1</mn><mo>+</mo><mi>α</mi><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><msub><mi>T</mi><mi>c</mi></msub><mo>−</mo><mn>25</mn><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><mo form="postfix" stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">\mathrm{Vmp}(T_c) = \mathrm{Vmp}_{STC}\,[\,1 + \beta_{V}\,(T_c - 25)\,], \qquad \mathrm{Isc}(T_c) = \mathrm{Isc}_{STC}\,[\,1 + \alpha\,(T_c - 25)\,]</annotation></semantics></math></div>
+                    <p>Temperature differences in °C and kelvin are equal, so the brackets need no conversion. With <math><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math> = &minus;0.27%/°C, the Voc factor at 10 °C is 1 + (&minus;0.0027)(10 &minus; 25) = 1.0405.</p>
+                    <p><strong>How good is a straight line?</strong> The full expression has slight curvature from the <math><semantics><mrow><mi>T</mi><mrow><mspace width="0.1667em"></mspace><mi>ln</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>T</mi></mrow><annotation encoding="application/x-tex">T \ln T</annotation></semantics></math> term. Against a line with the same slope at 25 °C, the full model differs by 0.01% at 10 °C, 0.04% at 0 °C and 0.14% (0.06 V) at 70 °C. That is far below the uncertainty in the design temperatures, so the linear model is sound.</p>
+                    <p><strong>The Vmp coefficient.</strong> Datasheets list <math><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>, <math><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math> and <math><semantics><mi>γ</mi><annotation encoding="application/x-tex">\gamma</annotation></semantics></math>, but rarely a Vmp coefficient <math><semantics><msub><mi>β</mi><mi>V</mi></msub><annotation encoding="application/x-tex">\beta_V</annotation></semantics></math>. Since <math><semantics><mrow><msub><mi>P</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><mo>=</mo><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi></mrow></msub></mrow><annotation encoding="application/x-tex">P_{mp} = V_{mp} I_{mp}</annotation></semantics></math>, taking logarithms and differentiating gives <math><semantics><mrow><mi>γ</mi><mo>≈</mo><msub><mi>β</mi><mi>V</mi></msub><mo>+</mo><msub><mi>β</mi><mi>I</mi></msub></mrow><annotation encoding="application/x-tex">\gamma \approx \beta_V + \beta_I</annotation></semantics></math>, where <math><semantics><msub><mi>β</mi><mi>I</mi></msub><annotation encoding="application/x-tex">\beta_I</annotation></semantics></math> is the small positive Imp coefficient. So <math><semantics><msub><mi>β</mi><mi>V</mi></msub><annotation encoding="application/x-tex">\beta_V</annotation></semantics></math> is slightly more negative than <math><semantics><mi>γ</mi><annotation encoding="application/x-tex">\gamma</annotation></semantics></math>. This guide uses <math><semantics><mi>γ</mi><annotation encoding="application/x-tex">\gamma</annotation></semantics></math> = &minus;0.34%/°C for Vmp as a stated approximation and tests its effect below. Use a listed Vmp coefficient if you have one.</p>
+
+                    <h3>How light changes voltage</h3>
+                    <p>Short-circuit current is proportional to irradiance, so <math><semantics><msub><mi>I</mi><mrow><mi>p</mi><mi>h</mi></mrow></msub><annotation encoding="application/x-tex">I_{ph}</annotation></semantics></math> scales with <math><semantics><mi>G</mi><annotation encoding="application/x-tex">G</annotation></semantics></math>. Define the module thermal voltage <math><semantics><mrow><msub><mi>V</mi><mrow><mi>t</mi><mo separator="true">,</mo><mi>m</mi><mi>o</mi><mi>d</mi></mrow></msub><mo>=</mo><mi>n</mi><msub><mi>N</mi><mi>c</mi></msub><mi>k</mi><mi>T</mi><mi>/</mi><mi>q</mi></mrow><annotation encoding="application/x-tex">V_{t,mod} = n N_c kT/q</annotation></semantics></math>. Writing the open-circuit equation at <math><semantics><mi>G</mi><annotation encoding="application/x-tex">G</annotation></semantics></math> and at 1,000 W/m² and subtracting, <math><semantics><msub><mi>I</mi><mn>0</mn></msub><annotation encoding="application/x-tex">I_0</annotation></semantics></math> cancels:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mpadded lspace="0"><mi>Voc</mi></mpadded><mo form="prefix" stretchy="false">(</mo><msub><mi>T</mi><mi>c</mi></msub><mo separator="true">,</mo><mi>G</mi><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mpadded lspace="0"><mi>Voc</mi></mpadded><mo form="prefix" stretchy="false">(</mo><msub><mi>T</mi><mi>c</mi></msub><mo separator="true">,</mo><mn>1000</mn><mo form="postfix" stretchy="false">)</mo><mo>+</mo><msub><mi>V</mi><mrow><mi>t</mi><mo separator="true">,</mo><mi>m</mi><mi>o</mi><mi>d</mi></mrow></msub><mspace width="0.1667em"></mspace><mrow><mspace width="0.1667em"></mspace><mi>ln</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mfrac><mi>G</mi><mn>1000</mn></mfrac><mo fence="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\mathrm{Voc}(T_c, G) = \mathrm{Voc}(T_c, 1000) + V_{t,mod}\,\ln\!\left(\frac{G}{1000}\right)</annotation></semantics></math></div>
+                    <p>For a cell at 10 °C with <math><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math> = 1.1 (assumed), <math><semantics><mrow><mi>k</mi><mi>T</mi><mi>/</mi><mi>q</mi></mrow><annotation encoding="application/x-tex">kT/q</annotation></semantics></math> = 0.02440 V, so <math><semantics><msub><mi>V</mi><mrow><mi>t</mi><mo separator="true">,</mo><mi>m</mi><mi>o</mi><mi>d</mi></mrow></msub><annotation encoding="application/x-tex">V_{t,mod}</annotation></semantics></math> = 1.1 × 72 × 0.02440 V = 1.932 V. Starting from Voc = 51.61 V at 1,000 W/m²:</p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Irradiance (W/m²)</th>
+                                    <th>Change (V)</th>
+                                    <th>Voc at 10 °C (V)</th>
+                                    <th>Below the 1,000 W/m² value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>1,000</td><td>0.00</td><td>51.61</td><td>0.0%</td></tr>
+                                <tr><td>800</td><td>&minus;0.43</td><td>51.18</td><td>0.8%</td></tr>
+                                <tr><td>400</td><td>&minus;1.77</td><td>49.84</td><td>3.4%</td></tr>
+                                <tr><td>200</td><td>&minus;3.11</td><td>48.50</td><td>6.0%</td></tr>
+                                <tr><td>100</td><td>&minus;4.45</td><td>47.16</td><td>8.6%</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>Sanity check: a five-fold drop in light costs only 6% of the voltage. A module wakes up at nearly full voltage long before it makes much current, and that is the key to the cold-morning limit.</p>
+
+                    <h2 id="cold-limit">The cold limit: how many modules in series</h2>
+                    <p>The inverter's maximum DC voltage, <math><semantics><msub><mi>V</mi><mrow><mi>d</mi><mi>c</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">V_{dc,max}</annotation></semantics></math>, is a hard limit, and exceeding it even briefly can damage the input stage. An unloaded string at open circuit sits above its working voltage, so Voc is the figure that must stay inside the limit.</p>
+                    <p>Why the coldest morning? Overnight the cells cool to ambient, sometimes below it. At sunrise the inverter has not yet started, so the strings sit at open circuit while irradiance climbs. The table above shows that at 200 W/m² the voltage is already within about 6% of its full-light value, while the cells have warmed by only a few kelvin. The coldest morning therefore gives the highest string voltage of the year.</p>
+
+                    <div class="callout">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        <p><strong>A bound, not a measurement:</strong> The standard rule takes Voc at 1,000 W/m² and the lowest ambient temperature. A module in full sun warms about 30 K above ambient, so that exact combination never occurs. The rule is a deliberately conservative envelope, because a wrong guess destroys an inverter.</p>
+                    </div>
+
+                    <p>The design minimum temperature <math><semantics><msub><mi>T</mi><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub><annotation encoding="application/x-tex">T_{min}</annotation></semantics></math> is a site decision. Use the lowest ambient temperature in IMD climate data for your location, with a margin for unusual years. For a Tirupati-area example this guide uses a conservative, illustrative 10 °C. It is not a quoted record. The condition is that the cold string stays within the limit:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>N</mi><mi>s</mi></msub><mspace width="0.1667em"></mspace><mpadded lspace="0"><mi>Voc</mi></mpadded><mo form="prefix" stretchy="false">(</mo><msub><mi>T</mi><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub><mo form="postfix" stretchy="false">)</mo><mo>≤</mo><msub><mi>V</mi><mrow><mi>d</mi><mi>c</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub></mrow><annotation encoding="application/x-tex">N_s\,\mathrm{Voc}(T_{min}) \le V_{dc,max}</annotation></semantics></math></div>
+                    <p>Dividing and rounding down to a whole module gives the longest permitted string:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>N</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>=</mo><mrow><mo fence="true" form="prefix">⌊</mo><mfrac><msub><mi>V</mi><mrow><mi>d</mi><mi>c</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mrow><mpadded lspace="0"><mi>Voc</mi></mpadded><mo form="prefix" stretchy="false">(</mo><msub><mi>T</mi><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub><mo form="postfix" stretchy="false" lspace="0em" rspace="0em">)</mo></mrow></mfrac><mo fence="true" form="postfix">⌋</mo></mrow></mrow><annotation encoding="application/x-tex">N_{max} = \left\lfloor \frac{V_{dc,max}}{\mathrm{Voc}(T_{min})} \right\rfloor</annotation></semantics></math></div>
+                    <p><strong>Worked example.</strong> At 10 °C, Voc = 49.6 V × 1.0405 = 51.61 V. With <math><semantics><msub><mi>V</mi><mrow><mi>d</mi><mi>c</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">V_{dc,max}</annotation></semantics></math> = 1,100 V, 1,100 / 51.61 = 21.31, so <math><semantics><msub><mi>N</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">N_{max}</annotation></semantics></math> = 21. Twenty-one modules give 1,083.8 V, which is 98.5% of the limit. The module's own maximum system voltage, commonly 1,500 V, is a separate check and does not bind here. A colder site tightens the result:</p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Design minimum (°C)</th>
+                                    <th>Voc per module (V)</th>
+                                    <th>1,100 V / Voc</th>
+                                    <th>Longest string</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>10</td><td>51.61</td><td>21.31</td><td>21</td></tr>
+                                <tr><td>0</td><td>52.95</td><td>20.78</td><td>20</td></tr>
+                                <tr><td>&minus;10</td><td>54.29</td><td>20.26</td><td>20</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>Datasheet Voc also carries a tolerance. Adding 3% at 10 °C gives 1,100 / (51.61 × 1.03) = 20.69, so <math><semantics><msub><mi>N</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">N_{max}</annotation></semantics></math> falls to 20.</p>
+
+                    <h2 id="hot-limit">The hot limit: minimum string length and the MPPT window</h2>
+                    <p>On a hot afternoon, cell temperature rises, voltage per module falls, and a short string can drop below the range where the inverter tracks or delivers rated power. Symbols:</p>
+                    <ul>
+                        <li><math><semantics><msub><mi>T</mi><mi>a</mi></msub><annotation encoding="application/x-tex">T_a</annotation></semantics></math>: ambient air temperature (°C). NOCT: nominal operating cell temperature (°C), a datasheet value measured at 800 W/m², 20 °C ambient and light wind. About 45 °C is typical.</li>
+                        <li><math><semantics><msub><mi>T</mi><mrow><mi>c</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">T_{c,max}</annotation></semantics></math>: design maximum cell temperature (°C). <math><semantics><msub><mi>N</mi><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub><annotation encoding="application/x-tex">N_{min}</annotation></semantics></math>: the shortest permitted string. <math><semantics><msub><mi>V</mi><mrow><mi>l</mi><mi>o</mi></mrow></msub><annotation encoding="application/x-tex">V_{lo}</annotation></semantics></math>, <math><semantics><msub><mi>V</mi><mrow><mi>h</mi><mi>i</mi></mrow></msub><annotation encoding="application/x-tex">V_{hi}</annotation></semantics></math>: the lower and upper voltage limit being tested (V).</li>
+                        <li><math><semantics><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi><mi>p</mi><mi>t</mi><mo separator="true">,</mo><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub><annotation encoding="application/x-tex">V_{mppt,min}</annotation></semantics></math>, <math><semantics><msub><mi>V</mi><mrow><mi>m</mi><mi>p</mi><mi>p</mi><mi>t</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">V_{mppt,max}</annotation></semantics></math>: limits of the inverter's MPPT range (V). <math><semantics><msub><mi>V</mi><mrow><mi>f</mi><mi>u</mi><mi>l</mi><mi>l</mi><mo separator="true">,</mo><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub><annotation encoding="application/x-tex">V_{full,min}</annotation></semantics></math>, <math><semantics><msub><mi>V</mi><mrow><mi>f</mi><mi>u</mi><mi>l</mi><mi>l</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">V_{full,max}</annotation></semantics></math>: the narrower range where it delivers full rated power (V). <math><semantics><msub><mi>V</mi><mrow><mi>s</mi><mi>t</mi><mi>a</mi><mi>r</mi><mi>t</mi></mrow></msub><annotation encoding="application/x-tex">V_{start}</annotation></semantics></math>: the voltage needed before it starts (V).</li>
+                    </ul>
+                    <p>An energy balance puts the cell above the air by an amount proportional to irradiance, and NOCT calibrates the constant:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>T</mi><mi>c</mi></msub><mo>=</mo><msub><mi>T</mi><mi>a</mi></msub><mo>+</mo><mfrac><mrow><mpadded lspace="0"><mi>NOCT</mi></mpadded><mo>−</mo><mn>20</mn></mrow><mn>800</mn></mfrac><mspace width="0.1667em"></mspace><mi>G</mi></mrow><annotation encoding="application/x-tex">T_c = T_a + \frac{\mathrm{NOCT} - 20}{800}\,G</annotation></semantics></math></div>
+                    <p><strong>Worked example.</strong> For <math><semantics><msub><mi>T</mi><mi>a</mi></msub><annotation encoding="application/x-tex">T_a</annotation></semantics></math> = 40 °C, <math><semantics><mi>G</mi><annotation encoding="application/x-tex">G</annotation></semantics></math> = 1,000 W/m² and NOCT = 45 °C, <math><semantics><msub><mi>T</mi><mi>c</mi></msub><annotation encoding="application/x-tex">T_c</annotation></semantics></math> = 40 + (25/800) × 1,000 = 71.25 °C. This guide therefore uses an illustrative <math><semantics><msub><mi>T</mi><mrow><mi>c</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">T_{c,max}</annotation></semantics></math> of 70 °C. Close-mounted modules can run hotter, and the NOCT formula is good to only a few kelvin.</p>
+                    <p>The voltage that matters now is the working voltage at the maximum power point, which the tracker holds the array near. At 70 °C:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mpadded lspace="0"><mi>Vmp</mi></mpadded><mo form="prefix" stretchy="false">(</mo><mn>70</mn><mo form="postfix" stretchy="false">)</mo><mo>=</mo><mn>41.8</mn><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">[</mo><mspace width="0.1667em"></mspace><mn>1</mn><mo>+</mo><mo form="prefix" stretchy="false">(</mo><mo form="prefix" stretchy="false">−</mo><mn>0.0034</mn><mo form="postfix" stretchy="false">)</mo><mo form="prefix" stretchy="false">(</mo><mn>70</mn><mo>−</mo><mn>25</mn><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><mo form="postfix" stretchy="false">]</mo><mo>=</mo><mn>35.40</mn><mtext> </mtext><mpadded lspace="0"><mi mathvariant="normal">V</mi></mpadded></mrow><annotation encoding="application/x-tex">\mathrm{Vmp}(70) = 41.8\,[\,1 + (-0.0034)(70 - 25)\,] = 35.40\ \mathrm{V}</annotation></semantics></math></div>
+                    <p>Requiring the hot string to stay at or above a lower limit <math><semantics><msub><mi>V</mi><mrow><mi>l</mi><mi>o</mi></mrow></msub><annotation encoding="application/x-tex">V_{lo}</annotation></semantics></math>, and rounding up, gives the shortest string:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>N</mi><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub><mo>=</mo><mrow><mo fence="true" form="prefix">⌈</mo><mfrac><msub><mi>V</mi><mrow><mi>l</mi><mi>o</mi></mrow></msub><mrow><mpadded lspace="0"><mi>Vmp</mi></mpadded><mo form="prefix" stretchy="false">(</mo><msub><mi>T</mi><mrow><mi>c</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo form="postfix" stretchy="false" lspace="0em" rspace="0em">)</mo></mrow></mfrac><mo fence="true" form="postfix">⌉</mo></mrow></mrow><annotation encoding="application/x-tex">N_{min} = \left\lceil \frac{V_{lo}}{\mathrm{Vmp}(T_{c,max})} \right\rceil</annotation></semantics></math></div>
+                    <p>For the bottom of the MPPT range, then the bottom of the full-power range:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mrow><mo fence="true" form="prefix">⌈</mo><mfrac><mn>200</mn><mn>35.40</mn></mfrac><mo fence="true" form="postfix">⌉</mo></mrow><mo>=</mo><mo form="prefix" stretchy="false">⌈</mo><mn>5.65</mn><mo form="postfix" stretchy="false">⌉</mo><mo>=</mo><mn>6</mn><mo separator="true">,</mo><mspace width="2em"></mspace><mrow><mo fence="true" form="prefix">⌈</mo><mfrac><mn>550</mn><mn>35.40</mn></mfrac><mo fence="true" form="postfix">⌉</mo></mrow><mo>=</mo><mo form="prefix" stretchy="false">⌈</mo><mn>15.53</mn><mo form="postfix" stretchy="false">⌉</mo><mo>=</mo><mn>16</mn></mrow><annotation encoding="application/x-tex">\left\lceil \frac{200}{35.40} \right\rceil = \lceil 5.65 \rceil = 6, \qquad \left\lceil \frac{550}{35.40} \right\rceil = \lceil 15.53 \rceil = 16</annotation></semantics></math></div>
+                    <p>Below 550 V the inverter may still track but cannot deliver full power, so the second figure protects yield. To test the Vmp approximation, use <math><semantics><msub><mi>β</mi><mi>V</mi></msub><annotation encoding="application/x-tex">\beta_V</annotation></semantics></math> = &minus;0.39%/°C (<math><semantics><mi>γ</mi><annotation encoding="application/x-tex">\gamma</annotation></semantics></math> minus an assumed Imp coefficient of +0.05%/°C). Then Vmp(70) = 34.46 V, and 550 / 34.46 = 15.96 still rounds up to 16. The answer holds, with almost no margin.</p>
+                    <p>The upper limits use Vmp at the cold end, <math><semantics><mrow><mpadded lspace="0"><mi>Vmp</mi></mpadded><mo form="prefix" stretchy="false">(</mo><mn>10</mn><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{Vmp}(10)</annotation></semantics></math> = 41.8 × [1 + 0.0034 × 15] = 43.93 V:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>N</mi><mo>≤</mo><mrow><mo fence="true" form="prefix">⌊</mo><mfrac><msub><mi>V</mi><mrow><mi>h</mi><mi>i</mi></mrow></msub><mrow><mpadded lspace="0"><mi>Vmp</mi></mpadded><mo form="prefix" stretchy="false">(</mo><msub><mi>T</mi><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub><mo form="postfix" stretchy="false" lspace="0em" rspace="0em">)</mo></mrow></mfrac><mo fence="true" form="postfix">⌋</mo></mrow><mo lspace="0.2222em" rspace="0.2222em">:</mo><mspace width="2em"></mspace><mrow><mo fence="true" form="prefix">⌊</mo><mfrac><mn>1000</mn><mn>43.93</mn></mfrac><mo fence="true" form="postfix">⌋</mo></mrow><mo>=</mo><mn>22</mn><mo separator="true">,</mo><mspace width="2em"></mspace><mrow><mo fence="true" form="prefix">⌊</mo><mfrac><mn>850</mn><mn>43.93</mn></mfrac><mo fence="true" form="postfix">⌋</mo></mrow><mo>=</mo><mn>19</mn></mrow><annotation encoding="application/x-tex">N \le \left\lfloor \frac{V_{hi}}{\mathrm{Vmp}(T_{min})} \right\rfloor: \qquad \left\lfloor \frac{1000}{43.93} \right\rfloor = 22, \qquad \left\lfloor \frac{850}{43.93} \right\rfloor = 19</annotation></semantics></math></div>
+                    <p>Last is start-up. At 25 °C and 100 W/m², Voc is 49.6 V + 2.035 V × ln(0.1) = 44.92 V, where 2.035 V is <math><semantics><msub><mi>V</mi><mrow><mi>t</mi><mo separator="true">,</mo><mi>m</mi><mi>o</mi><mi>d</mi></mrow></msub><annotation encoding="application/x-tex">V_{t,mod}</annotation></semantics></math> at 25 °C. For <math><semantics><msub><mi>V</mi><mrow><mi>s</mi><mi>t</mi><mi>a</mi><mi>r</mi><mi>t</mi></mrow></msub><annotation encoding="application/x-tex">V_{start}</annotation></semantics></math> = 250 V, 250 / 44.92 = 5.57, so at least 6 modules. For lengths that fit the full-power window, start-up never binds. How the tracker finds the maximum inside this window is covered in the <a href="mppt-and-dc-dc-converters-explained.html">MPPT guide</a>. Combining every condition:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mrow><mi>max</mi><mo>⁡</mo></mrow><mo form="prefix" stretchy="false">(</mo><msub><mi>N</mi><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub><mo form="postfix" stretchy="false">)</mo><mo>≤</mo><mi>N</mi><mo>≤</mo><mrow><mi>min</mi><mo>⁡</mo></mrow><mo form="prefix" stretchy="false">(</mo><msub><mi>N</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\max(N_{min}) \le N \le \min(N_{max})</annotation></semantics></math></div>
+                    <p>That is max(6, 16, 6) = 16 up to min(21, 22, 19) = 19. The valid range is 16 to 19 modules, and the full-power window, not the 1,100 V limit, sets the upper end.</p>
+
+                    <h2 id="currents-and-reverse-current">Current limits, bifacial gain and reverse current</h2>
+                    <p>Short-circuit current rises slightly with heat, by the coefficient <math><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>. Define <math><semantics><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">I_{sc,max}</annotation></semantics></math> (A) as the highest short-circuit current a module delivers in design conditions, and <math><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math> (dimensionless) as the fractional extra current from light on a bifacial module's rear face. An illustrative <math><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math> is 0.05 to 0.10, depending on roof reflectance and mounting height:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>=</mo><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi><mo separator="true">,</mo><mi>S</mi><mi>T</mi><mi>C</mi></mrow></msub><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">[</mo><mspace width="0.1667em"></mspace><mn>1</mn><mo>+</mo><mi>α</mi><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><msub><mi>T</mi><mrow><mi>c</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>−</mo><mn>25</mn><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><mo form="postfix" stretchy="false">]</mo><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>+</mo><mi>b</mi><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">I_{sc,max} = I_{sc,STC}\,[\,1 + \alpha\,(T_{c,max} - 25)\,]\,(1 + b)</annotation></semantics></math></div>
+                    <p>With <math><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math> = +0.05%/°C, a hot cell gives 14.0 × (1 + 0.0005 × 45) = 14.315 A. A 10% rear gain brings <math><semantics><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">I_{sc,max}</annotation></semantics></math> to 14.315 × 1.10 = 15.75 A. Irradiance briefly exceeds 1,000 W/m² at cloud edges, so cable and protection design adds a further margin, covered in the <a href="solar-dc-cable-sizing-voltage-drop.html">cable sizing post</a>.</p>
+                    <h3>The per-input current check</h3>
+                    <p>Each MPPT input has a maximum input current <math><semantics><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi><mi>p</mi><mi>t</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">I_{mppt,max}</annotation></semantics></math>. If <math><semantics><msub><mi>N</mi><mrow><mi>s</mi><mi>t</mi><mi>r</mi></mrow></msub><annotation encoding="application/x-tex">N_{str}</annotation></semantics></math> strings share an input, their currents add:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>N</mi><mrow><mi>s</mi><mi>t</mi><mi>r</mi></mrow></msub><mspace width="0.1667em"></mspace><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>≤</mo><msub><mi>I</mi><mrow><mi>m</mi><mi>p</mi><mi>p</mi><mi>t</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub></mrow><annotation encoding="application/x-tex">N_{str}\,I_{sc,max} \le I_{mppt,max}</annotation></semantics></math></div>
+                    <p>Here two strings carry 31.49 A (from the unrounded 15.7465 A) against 32 A. It passes with 1.6% to spare, and a rear gain above 11.8% would breach it. Many inverters list a separate, higher short-circuit rating; this example conservatively uses the 32 A figure. The operating current is lower: 2 × 13.16 A = 26.32 A.</p>
+
+                    <h3>Reverse current in parallel strings</h3>
+                    <p>Suppose one of <math><semantics><msub><mi>N</mi><mi>p</mi></msub><annotation encoding="application/x-tex">N_p</annotation></semantics></math> parallel strings develops a fault, such as a cable shorted to earth. Its voltage collapses, so it no longer opposes the shared bus voltage. The healthy strings now drive current through it. A healthy string's I-V curve is nearly flat at <math><semantics><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">I_{sc}</annotation></semantics></math> at low voltage, so each delivers about <math><semantics><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">I_{sc,max}</annotation></semantics></math> into the fault. The reverse current <math><semantics><msub><mi>I</mi><mrow><mi>r</mi><mi>e</mi><mi>v</mi></mrow></msub><annotation encoding="application/x-tex">I_{rev}</annotation></semantics></math> (A) is therefore:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>I</mi><mrow><mi>r</mi><mi>e</mi><mi>v</mi></mrow></msub><mo>=</mo><mo form="prefix" stretchy="false">(</mo><msub><mi>N</mi><mi>p</mi></msub><mo>−</mo><mn>1</mn><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub></mrow><annotation encoding="application/x-tex">I_{rev} = (N_p - 1)\,I_{sc,max}</annotation></semantics></math></div>
+                    <p>This current flows backwards through the faulted string's modules. Each module datasheet gives a maximum series fuse rating <math><semantics><msub><mi>I</mi><mrow><mi>f</mi><mi>u</mi><mi>s</mi><mi>e</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">I_{fuse,max}</annotation></semantics></math>, often 20 to 30 A. Taking 25 A as an illustrative value, no extra protection is needed only if:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mo form="prefix" stretchy="false">(</mo><msub><mi>N</mi><mi>p</mi></msub><mo>−</mo><mn>1</mn><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>≤</mo><msub><mi>I</mi><mrow><mi>f</mi><mi>u</mi><mi>s</mi><mi>e</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mspace width="1em"></mspace><mo stretchy="false">⇒</mo><mspace width="1em"></mspace><msub><mi>N</mi><mi>p</mi></msub><mo>≤</mo><mn>1</mn><mo>+</mo><mrow><mo fence="true" form="prefix">⌊</mo><mfrac><msub><mi>I</mi><mrow><mi>f</mi><mi>u</mi><mi>s</mi><mi>e</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub></mfrac><mo fence="true" form="postfix">⌋</mo></mrow></mrow><annotation encoding="application/x-tex">(N_p - 1)\,I_{sc,max} \le I_{fuse,max} \quad\Rightarrow\quad N_p \le 1 + \left\lfloor \frac{I_{fuse,max}}{I_{sc,max}} \right\rfloor</annotation></semantics></math></div>
+                    <p>For <math><semantics><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">I_{sc,max}</annotation></semantics></math> = 15.75 A, 25 / 15.75 = 1.59, so <math><semantics><msub><mi>N</mi><mi>p</mi></msub><annotation encoding="application/x-tex">N_p</annotation></semantics></math> is at most 1 + 1 = 2.</p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Parallel strings</th>
+                                    <th>Reverse current, 10% rear gain (A)</th>
+                                    <th>Reverse current, no rear gain (A)</th>
+                                    <th>Against a 25 A rating</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>2</td><td>15.75</td><td>14.32</td><td>Within rating</td></tr>
+                                <tr><td>3</td><td>31.49</td><td>28.63</td><td>Exceeds: protect</td></tr>
+                                <tr><td>4</td><td>47.24</td><td>42.95</td><td>Exceeds: protect</td></tr>
+                                <tr><td>6</td><td>78.73</td><td>71.58</td><td>Exceeds: protect</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>This is the usual reasoning for string protection at three or more parallel strings. The exact rule depends on the module datasheet and the standard, so check the current edition of IEC 62548.</p>
+
+                    <div class="callout callout--warning">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        <p><strong>Safety:</strong> PV strings are live whenever light falls on them, and a 19-module string can exceed 900 V DC. Wiring, fusing and commissioning are work for qualified, licensed electricians. Never open a DC connector or fuse holder under load.</p>
+                    </div>
+
+                    <h2 id="dc-ac-ratio-and-clipping">DC/AC ratio and clipping</h2>
+                    <p>Modules rarely deliver their rated power, because heat, soiling, wiring loss and sun angle cut output for most of the day. Designers therefore install more DC capacity than the inverter's AC rating. Symbols:</p>
+                    <ul>
+                        <li><math><semantics><msub><mi>P</mi><mrow><mi>d</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">P_{dc}</annotation></semantics></math>: installed module capacity at STC (W). <math><semantics><msub><mi>P</mi><mrow><mi>a</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">P_{ac}</annotation></semantics></math>: inverter rated AC output (W).</li>
+                        <li><math><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>: the DC/AC ratio. <math><semantics><mrow><mi>s</mi><mo>=</mo><mn>1</mn><mi>/</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">s = 1/r</annotation></semantics></math>: its inverse (both dimensionless).</li>
+                        <li><math><semantics><msub><mi>T</mi><mi>d</mi></msub><annotation encoding="application/x-tex">T_d</annotation></semantics></math>: day length from sunrise to sunset (h). <math><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>: time since sunrise (h). <math><semantics><mrow><mi>x</mi><mo>=</mo><mi>π</mi><mi>t</mi><mi>/</mi><msub><mi>T</mi><mi>d</mi></msub></mrow><annotation encoding="application/x-tex">x = \pi t/T_d</annotation></semantics></math>: the same instant as an angle (rad).</li>
+                        <li><math><semantics><msub><mi>E</mi><mrow><mi>d</mi><mi>a</mi><mi>y</mi></mrow></msub><annotation encoding="application/x-tex">E_{day}</annotation></semantics></math>, <math><semantics><msub><mi>E</mi><mrow><mi>c</mi><mi>l</mi><mi>i</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">E_{clip}</annotation></semantics></math>: DC energy available in a day, and the part above <math><semantics><msub><mi>P</mi><mrow><mi>a</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">P_{ac}</annotation></semantics></math> (Wh).</li>
+                    </ul>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>r</mi><mo>=</mo><mfrac><msub><mi>P</mi><mrow><mi>d</mi><mi>c</mi></mrow></msub><msub><mi>P</mi><mrow><mi>a</mi><mi>c</mi></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">r = \frac{P_{dc}}{P_{ac}}</annotation></semantics></math></div>
+                    <p>Model a clear day as a half-sine. Assume irradiance follows a sine of time, constant module temperature, no losses, and an inverter that caps output exactly at <math><semantics><msub><mi>P</mi><mrow><mi>a</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">P_{ac}</annotation></semantics></math>. These are strong simplifications, so the result is an upper bound:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>P</mi><mo form="prefix" stretchy="false">(</mo><mi>t</mi><mo form="postfix" stretchy="false">)</mo><mo>=</mo><msub><mi>P</mi><mrow><mi>d</mi><mi>c</mi></mrow></msub><mspace width="0.1667em"></mspace><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mrow></mrow><mrow><mo fence="true" form="prefix">(</mo><mfrac><mrow><mi>π</mi><mi>t</mi></mrow><msub><mi>T</mi><mi>d</mi></msub></mfrac><mo fence="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P(t) = P_{dc}\,\sin\!\left(\frac{\pi t}{T_d}\right)</annotation></semantics></math></div>
+                    <p>The day's energy is the area under the half-sine. With <math><semantics><mrow><mi>x</mi><mo>=</mo><mi>π</mi><mi>t</mi><mi>/</mi><msub><mi>T</mi><mi>d</mi></msub></mrow><annotation encoding="application/x-tex">x = \pi t/T_d</annotation></semantics></math>, so <math><semantics><mrow><mi>d</mi><mi>t</mi><mo>=</mo><mo form="prefix" stretchy="false">(</mo><msub><mi>T</mi><mi>d</mi></msub><mi>/</mi><mi>π</mi><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><mi>d</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">dt = (T_d/\pi)\,dx</annotation></semantics></math>:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><msub><mi>E</mi><mrow><mi>d</mi><mi>a</mi><mi>y</mi></mrow></msub><mo>=</mo><msubsup><mo movablelimits="false">∫</mo><mn>0</mn><msub><mi>T</mi><mi>d</mi></msub></msubsup><mi>P</mi><mspace width="0.1667em"></mspace><mi>d</mi><mi>t</mi><mo>=</mo><mfrac><msub><mi>T</mi><mi>d</mi></msub><mi>π</mi></mfrac><mspace width="0.1667em"></mspace><msub><mi>P</mi><mrow><mi>d</mi><mi>c</mi></mrow></msub><msubsup><mo movablelimits="false">∫</mo><mn>0</mn><mi>π</mi></msubsup><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>x</mi><mspace width="0.1667em"></mspace><mi>d</mi><mi>x</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mspace width="0.1667em"></mspace><msub><mi>P</mi><mrow><mi>d</mi><mi>c</mi></mrow></msub><mspace width="0.1667em"></mspace><msub><mi>T</mi><mi>d</mi></msub></mrow><mi>π</mi></mfrac></mrow><annotation encoding="application/x-tex">E_{day} = \int_0^{T_d} P\,dt = \frac{T_d}{\pi}\,P_{dc}\int_0^{\pi}\sin x\,dx = \frac{2\,P_{dc}\,T_d}{\pi}</annotation></semantics></math></div>
+                    <p>Clipping starts where the sine reaches <math><semantics><msub><mi>P</mi><mrow><mi>a</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">P_{ac}</annotation></semantics></math>, at angle <math><semantics><msub><mi>x</mi><mn>1</mn></msub><annotation encoding="application/x-tex">x_1</annotation></semantics></math>, and by symmetry ends at <math><semantics><mrow><mi>π</mi><mo>−</mo><msub><mi>x</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">\pi - x_1</annotation></semantics></math>:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msub><mi>x</mi><mn>1</mn></msub><mo>=</mo><mfrac><msub><mi>P</mi><mrow><mi>a</mi><mi>c</mi></mrow></msub><msub><mi>P</mi><mrow><mi>d</mi><mi>c</mi></mrow></msub></mfrac><mo>=</mo><mi>s</mi></mrow><annotation encoding="application/x-tex">\sin x_1 = \frac{P_{ac}}{P_{dc}} = s</annotation></semantics></math></div>
+                    <p>The clipped energy is the area between the sine and the flat line <math><semantics><msub><mi>P</mi><mrow><mi>a</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">P_{ac}</annotation></semantics></math> over that interval. The integral of <math><semantics><mrow><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">\sin x</annotation></semantics></math> gives <math><semantics><mrow><mn>2</mn><mrow><mspace width="0.1667em"></mspace><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msub><mi>x</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">2\cos x_1</annotation></semantics></math>:</p>
+                    <div class="equation"><math display="block"><semantics><mtable displaystyle="true"><mtr><mtd><msub><mi>E</mi><mrow><mi>c</mi><mi>l</mi><mi>i</mi><mi>p</mi></mrow></msub></mtd><mtd><mrow><mo>=</mo><mfrac><msub><mi>T</mi><mi>d</mi></msub><mi>π</mi></mfrac><msubsup><mo movablelimits="false">∫</mo><msub><mi>x</mi><mn>1</mn></msub><mrow><mi>π</mi><mo>−</mo><msub><mi>x</mi><mn>1</mn></msub></mrow></msubsup><mrow><mo fence="true" form="prefix">(</mo><msub><mi>P</mi><mrow><mi>d</mi><mi>c</mi></mrow></msub><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>x</mi><mo>−</mo><msub><mi>P</mi><mrow><mi>a</mi><mi>c</mi></mrow></msub><mo fence="true" form="postfix">)</mo></mrow><mi>d</mi><mi>x</mi></mrow></mtd></mtr><mtr><mtd><mrow></mrow></mtd><mtd><mrow><mo>=</mo><mfrac><msub><mi>T</mi><mi>d</mi></msub><mi>π</mi></mfrac><mrow><mo fence="true" form="prefix">[</mo><mspace width="0.1667em"></mspace><mn>2</mn><mspace width="0.1667em"></mspace><msub><mi>P</mi><mrow><mi>d</mi><mi>c</mi></mrow></msub><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msub><mi>x</mi><mn>1</mn></msub><mo>−</mo><msub><mi>P</mi><mrow><mi>a</mi><mi>c</mi></mrow></msub><mspace width="0.1667em"></mspace><mo form="prefix" stretchy="false">(</mo><mi>π</mi><mo>−</mo><mn>2</mn><msub><mi>x</mi><mn>1</mn></msub><mo form="postfix" stretchy="false">)</mo><mspace width="0.1667em"></mspace><mo fence="true" form="postfix">]</mo></mrow></mrow></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned} E_{clip} &amp;= \frac{T_d}{\pi}\int_{x_1}^{\pi - x_1}\left(P_{dc}\sin x - P_{ac}\right)dx \\ &amp;= \frac{T_d}{\pi}\left[\,2\,P_{dc}\cos x_1 - P_{ac}\,(\pi - 2x_1)\,\right] \end{aligned}</annotation></semantics></math></div>
+                    <p>Dividing by <math><semantics><msub><mi>E</mi><mrow><mi>d</mi><mi>a</mi><mi>y</mi></mrow></msub><annotation encoding="application/x-tex">E_{day}</annotation></semantics></math> gives the clipped fraction <math><semantics><mi>f</mi><annotation encoding="application/x-tex">f</annotation></semantics></math>. Using <math><semantics><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msub><mi>x</mi><mn>1</mn></msub><mo>=</mo><msqrt><mrow><mn>1</mn><mo>−</mo><msup><mi>s</mi><mn>2</mn></msup></mrow></msqrt></mrow><annotation encoding="application/x-tex">\cos x_1 = \sqrt{1 - s^2}</annotation></semantics></math> and <math><semantics><mrow><mi>π</mi><mi>/</mi><mn>2</mn><mo>−</mo><msub><mi>x</mi><mn>1</mn></msub><mo>=</mo><mrow><mi>arccos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">\pi/2 - x_1 = \arccos s</annotation></semantics></math>:</p>
+                    <div class="equation"><math display="block"><semantics><mrow><mi>f</mi><mo>=</mo><mfrac><msub><mi>E</mi><mrow><mi>c</mi><mi>l</mi><mi>i</mi><mi>p</mi></mrow></msub><msub><mi>E</mi><mrow><mi>d</mi><mi>a</mi><mi>y</mi></mrow></msub></mfrac><mo>=</mo><msqrt><mrow><mn>1</mn><mo>−</mo><msup><mi>s</mi><mn>2</mn></msup></mrow></msqrt><mo>−</mo><mi>s</mi><mspace width="0.1667em"></mspace><mrow><mspace width="0.1667em"></mspace><mi>arccos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">f = \frac{E_{clip}}{E_{day}} = \sqrt{1 - s^{2}} - s\,\arccos s</annotation></semantics></math></div>
+                    <p><strong>Worked example, <math><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math> = 1.2.</strong> Here <math><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math> = 0.8333, so <math><semantics><msqrt><mrow><mn>1</mn><mo>−</mo><mn>0.6944</mn></mrow></msqrt><annotation encoding="application/x-tex">\sqrt{1 - 0.6944}</annotation></semantics></math> = 0.5528 and arccos(0.8333) = 0.5857 rad. Then <math><semantics><mi>f</mi><annotation encoding="application/x-tex">f</annotation></semantics></math> = 0.5528 &minus; 0.8333 × 0.5857 = 0.0647, or 6.5% of the clear-day DC energy. Check: at <math><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math> = 1, <math><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math> = 1 and <math><semantics><mi>f</mi><annotation encoding="application/x-tex">f</annotation></semantics></math> = 0, as it should. A numerical integration of the half-sine agrees with the closed form to three decimal places.</p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>DC/AC ratio</th>
+                                    <th>s</th>
+                                    <th>Clipping window (12 h day)</th>
+                                    <th>Clipped, ideal clear day</th>
+                                    <th>Clipped, peak at 85% of rating</th>
+                                    <th>Clipped, illustrative annual mix</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>1.1</td><td>0.909</td><td>3.3 h</td><td>2.6%</td><td>0.0%</td><td>0.0%</td></tr>
+                                <tr><td>1.2</td><td>0.833</td><td>4.5 h</td><td>6.5%</td><td>0.3%</td><td>0.1%</td></tr>
+                                <tr><td>1.3</td><td>0.769</td><td>5.3 h</td><td>10.6%</td><td>2.8%</td><td>1.4%</td></tr>
+                                <tr><td>1.4</td><td>0.714</td><td>5.9 h</td><td>14.6%</td><td>6.1%</td><td>3.0%</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <h3>Why the annual loss is much lower</h3>
+                    <p>The ideal-sine column overstates real clipping for three reasons. First, DC peak never reaches the STC rating. At 70 °C the module power factor is 1 + (&minus;0.0034)(45) = 0.847, and wiring, soiling and mismatch take a few percent more. For the 62.7 kWp array of the worked example, the peak is about 62.7 × 0.847 = 53.1 kW, or roughly 50.5 kW after 5% further losses. Second, most hours are below peak. Third, many days are hazy or cloudy.</p>
+                    <p>The fifth column applies the first effect alone. The last column adds the others through a toy mix of days: 35% peaking at 85% of rating, 35% at 60% and 30% at 30%, each weighted by its energy. It is only an illustration, since an hourly yield simulation is the proper tool. The trend is clear: modest oversizing costs little energy and adds output in weak-light hours, which is why 1.2 to 1.3 is common. The <a href="how-to-size-a-solar-system.html">system sizing guide</a> and the <a href="what-is-a-solar-inverter.html">inverter overview</a> cover the trade-off in plainer terms.</p>
+
+                    <h2 id="worked-example">Worked example: a 50 kW three-phase inverter</h2>
+                    <p>All values below are illustrative typical datasheet figures.</p>
+                    <ul>
+                        <li><strong>Module, 550 Wp:</strong> Voc 49.6 V, Vmp 41.8 V, Isc 14.0 A, Imp 13.16 A; <math><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math> = &minus;0.27%/°C, <math><semantics><mi>γ</mi><annotation encoding="application/x-tex">\gamma</annotation></semantics></math> = &minus;0.34%/°C (used for Vmp), <math><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math> = +0.05%/°C; assumed rear gain 10%.</li>
+                        <li><strong>Inverter, 50 kW AC:</strong> maximum DC 1,100 V; MPPT range 200 to 1,000 V; full-power range 550 to 850 V; start-up 250 V; four MPPT inputs of 32 A each, two strings per input.</li>
+                        <li><strong>Site:</strong> <math><semantics><msub><mi>T</mi><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub><annotation encoding="application/x-tex">T_{min}</annotation></semantics></math> = 10 °C and <math><semantics><msub><mi>T</mi><mrow><mi>c</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">T_{c,max}</annotation></semantics></math> = 70 °C, both illustrative.</li>
+                    </ul>
+                    <h3>Step 1: the string length window</h3>
+                    <p>The module values at the extremes are Voc(10 °C) = 51.61 V, Vmp(10 °C) = 43.93 V, Vmp(70 °C) = 35.40 V and <math><semantics><msub><mi>I</mi><mrow><mi>s</mi><mi>c</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">I_{sc,max}</annotation></semantics></math> = 15.75 A, as derived above. Every condition then gives one bound:</p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Condition</th>
+                                    <th>Calculation</th>
+                                    <th>Result</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Maximum DC voltage</td><td>floor(1,100 / 51.61)</td><td>21 or fewer</td></tr>
+                                <tr><td>MPPT ceiling</td><td>floor(1,000 / 43.93)</td><td>22 or fewer</td></tr>
+                                <tr><td>Full-power ceiling</td><td>floor(850 / 43.93)</td><td>19 or fewer</td></tr>
+                                <tr><td>MPPT floor</td><td>ceil(200 / 35.40)</td><td>6 or more</td></tr>
+                                <tr><td>Full-power floor</td><td>ceil(550 / 35.40)</td><td>16 or more</td></tr>
+                                <tr><td>Start-up at 100 W/m²</td><td>ceil(250 / 44.92)</td><td>6 or more</td></tr>
+                                <tr><td><strong>Valid range</strong></td><td>highest floor, lowest ceiling</td><td><strong>16 to 19 modules</strong></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Modules per string</th>
+                                    <th>Voc at 10 °C (V)</th>
+                                    <th>Vmp at 10 °C (V)</th>
+                                    <th>Vmp at 70 °C (V)</th>
+                                    <th>Verdict</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>14</td><td>722.5</td><td>615.0</td><td>495.7</td><td>Fails: below 550 V when hot</td></tr>
+                                <tr><td>16</td><td>825.7</td><td>702.9</td><td>566.5</td><td>Passes, thin hot margin</td></tr>
+                                <tr><td>19</td><td>980.6</td><td>834.7</td><td>672.7</td><td>Passes</td></tr>
+                                <tr><td>21</td><td>1,083.8</td><td>922.6</td><td>743.5</td><td>Fails: above 850 V when cold</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <h3>Step 2: choose a layout</h3>
+                    <p>For a DC/AC ratio near 1.25, the array needs 1.25 × 50 kW / 0.55 kWp = 113.6 modules. Six strings of 19 give 114 modules and 62.7 kWp, so <math><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math> = 62.7 / 50 = 1.254. Put them on three MPPT inputs, two strings each, and keep the fourth free for expansion or a differently oriented roof face. Eight strings of 16 would give 70.4 kWp and <math><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math> = 1.408, with 14.9% ideal clear-day clipping and a thin hot margin.</p>
+                    <h3>Step 3: check the results</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Check (6 strings of 19)</th>
+                                    <th>Value</th>
+                                    <th>Limit</th>
+                                    <th>Result</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>String Voc at 10 °C</td><td>980.6 V</td><td>1,100 V</td><td>Pass, 119 V margin</td></tr>
+                                <tr><td>String Vmp at 10 °C</td><td>834.7 V</td><td>850 V</td><td>Pass, 15 V margin</td></tr>
+                                <tr><td>String Vmp at 70 °C</td><td>672.7 V</td><td>550 V</td><td>Pass</td></tr>
+                                <tr><td>Start-up at 100 W/m²</td><td>853 V</td><td>250 V</td><td>Pass</td></tr>
+                                <tr><td>Input current, rear gain 10%</td><td>31.49 A</td><td>32 A</td><td>Pass, thin margin</td></tr>
+                                <tr><td>Operating current</td><td>26.32 A</td><td>32 A</td><td>Pass</td></tr>
+                                <tr><td>Reverse current, 2 strings</td><td>15.75 A</td><td>25 A (illustrative)</td><td>Pass, no string fuse by this rule</td></tr>
+                                <tr><td>DC/AC ratio</td><td>1.254</td><td>about 1.1 to 1.4</td><td>Acceptable</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="callout callout--success">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        <p><strong>Sanity check:</strong> 114 modules × 550 W = 62.7 kWp, matching 6 × 10.45 kWp strings. A hot-day peak near 53 kW against a 50 kW inverter means clipping is small. The tightest items are the 32 A input current and the 15 V under the 850 V ceiling; confirm both against real datasheets.</p>
+                    </div>
+
+                    <h2 id="mistakes-and-next-steps">Common mistakes and what to do next</h2>
+                    <div class="callout callout--warning">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        <p><strong>Three common mistakes:</strong> First, using STC Voc and ignoring cold mornings. 1,100 / 49.6 gives 22 modules, but 22 × 51.61 V = 1,135 V at 10 °C, 35 V over the limit. Second, checking only STC Vmp. A string of 14 passes (14 × 41.8 V = 585 V) yet falls to 496 V on a hot day. Third, mixing orientations or string lengths on one MPPT input. The strings share one voltage, so neither can sit at its own maximum power point.</p>
+                    </div>
+                    <p>The derivations reduce to a short checklist. Fix <math><semantics><msub><mi>T</mi><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub><annotation encoding="application/x-tex">T_{min}</annotation></semantics></math> from your site's recorded low and <math><semantics><msub><mi>T</mi><mrow><mi>c</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">T_{c,max}</annotation></semantics></math> from your mounting. Translate Voc, Vmp and Isc with datasheet coefficients. Find the window from the cold ceiling and hot floor, with margin at both ends. Check per-input current with rear gain, and reverse current for every group of parallel strings. Choose the DC/AC ratio from a site yield simulation, not from the clear-day sine alone.</p>
+                    <p>This calculation is routine, but it needs real datasheets and site data. Ray2Volt can run it for your plant: send the module and inverter datasheets with your roof layout, and our engineers will check the string design as part of a <a href="../commercial.html">commercial solar design</a>, or book a <a href="../book-power-audit.html">free power audit</a> and we will start from your site. Figures here are illustrative; confirm every limit against your own datasheets and the current standards.</p>
+
+                    <h2 id="faq">Frequently asked questions</h2>
+                    <div class="faq-list">
+                        <details class="faq-item">
+                            <summary>Why is the maximum string voltage calculated at the coldest temperature and not at 25 °C?</summary>
+                            <div class="faq-answer">
+                                <p>Cell voltage rises as the cell cools, by about 0.27% per °C for a typical module. On a cold morning with light already present, open-circuit voltage is above the 25 °C datasheet value. The inverter's maximum DC voltage must hold in that worst case, so the design uses Voc at the site's lowest expected temperature.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>Which site temperatures should I use for string sizing?</summary>
+                            <div class="faq-answer">
+                                <p>Use the lowest ambient temperature in IMD records for your location for the cold limit, and a hot rooftop cell temperature, often 65 to 75 °C, for the hot limit. The 10 °C and 70 °C in this guide are illustrative. Add a margin for unusual years.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>Can I put strings of different lengths or orientations on one MPPT input?</summary>
+                            <div class="faq-answer">
+                                <p>Avoid it. Strings sharing an input are held at the same voltage, so a shorter or differently oriented string cannot work at its own maximum power point, and energy is lost every day. Give each orientation or length its own MPPT input.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>When are string fuses needed?</summary>
+                            <div class="faq-answer">
+                                <p>When the reverse current from healthy parallel strings, roughly the number of other strings times the maximum short-circuit current, could exceed what a module can carry. With typical modules that starts at three parallel strings. Confirm against the module datasheet and the current edition of IEC 62548.</p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>What DC/AC ratio is sensible?</summary>
+                            <div class="faq-answer">
+                                <p>Many designs sit between 1.1 and 1.4, and 1.2 to 1.3 is common. An ideal clear-day model shows 6.5% of energy clipped at 1.2, but heat losses and cloudier days cut the annual loss far below that. A yield simulation for your site gives the real figure.</p>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- Author box -->
+                    <div class="author-box">
+                        <img src="../images/logo.png" alt="Ray2Volt Solar" width="52" height="52" loading="lazy">
+                        <div>
+                            <h2>Ray2Volt Solar Private Limited</h2>
+                            <p>We design, install, and service rooftop solar for homes and businesses across Tirupati district and Andhra Pradesh, from PM Surya Ghar residential systems to commercial and industrial plants. Every enquiry starts with a free power audit.</p>
+                        </div>
+                    </div>
+
+                    <!-- End-of-post CTA -->
+                    <div class="post-cta">
+                        <h2>Have your string design checked</h2>
+                        <p>Send Ray2Volt your module and inverter datasheets with your roof layout. Our engineers can check string lengths, current limits and the DC/AC ratio against your site conditions.</p>
+                        <div class="post-cta-buttons">
+                            <a href="../get-quote.html" class="btn btn-primary">Get a free quote</a>
+                            <a href="https://wa.me/919666068140" class="btn btn-outline">Chat on WhatsApp</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Sidebar -->
+                <aside class="post-sidebar">
+                    <nav class="toc" aria-label="Table of contents">
+                        <h2>On this page</h2>
+                        <ol>
+                            <li><a href="#series-parallel-rules">Series and parallel rules for an array</a></li>
+                            <li><a href="#temperature-and-light">How temperature and light move module voltage</a></li>
+                            <li><a href="#cold-limit">The cold limit: how many modules in series</a></li>
+                            <li><a href="#hot-limit">The hot limit: minimum string length and the MPPT window</a></li>
+                            <li><a href="#currents-and-reverse-current">Current limits, bifacial gain and reverse current</a></li>
+                            <li><a href="#dc-ac-ratio-and-clipping">DC/AC ratio and clipping</a></li>
+                            <li><a href="#worked-example">Worked example: a 50 kW three-phase inverter</a></li>
+                            <li><a href="#mistakes-and-next-steps">Common mistakes and what to do next</a></li>
+                            <li><a href="#faq">Frequently asked questions</a></li>
+                        </ol>
+                    </nav>
+
+                    <div class="sidebar-cta">
+                        <h2>Free power audit</h2>
+                        <p>Share your latest electricity bill and we will size a system and show your real payback. No cost, no obligation.</p>
+                        <a href="../get-quote.html" class="btn btn-white btn-sm">Book my audit</a>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- Related posts -->
+            <section class="related-posts">
+                <h2>Related reading</h2>
+                <div class="related-grid">
+                    <a href="solar-module-iv-curve-explained.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/solar-module-iv-curve-explained-800w.webp 800w, ../images/blog/solar-module-iv-curve-explained-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/solar-module-iv-curve-explained.jpg" alt="How a solar module works" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>How a Solar Module Works: Cells, Bypass Diodes and the I-V Curve</h3>
+                            <p>Technology</p>
+                        </div>
+                    </a>
+                    <a href="solar-dc-cable-sizing-voltage-drop.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/solar-dc-cable-sizing-voltage-drop-800w.webp 800w, ../images/blog/solar-dc-cable-sizing-voltage-drop-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/solar-dc-cable-sizing-voltage-drop.jpg" alt="Solar wiring and cable sizing" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>Solar Wiring from First Principles: Resistance, Voltage Drop and Cable Sizing</h3>
+                            <p>Technology</p>
+                        </div>
+                    </a>
+                    <a href="how-to-size-a-solar-system.html" class="related-card">
+                        <picture>
+                            <source type="image/webp" srcset="../images/blog/how-to-size-a-solar-system-800w.webp 800w, ../images/blog/how-to-size-a-solar-system-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
+                            <img src="../images/blog/how-to-size-a-solar-system.jpg" alt="How to size a solar system" loading="lazy" width="600" height="338">
+                        </picture>
+                        <div class="related-card-body">
+                            <h3>How to Size a Solar System for Your Home: kW, Units, and Roof Space</h3>
+                            <p>Solar Basics</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid footer-grid--5">
+                <div class="footer-brand">
+                    <p>Powering businesses and homes in Tirupati district and across Andhra Pradesh with clean, affordable solar energy.</p>
+                    <!-- r2v:social-footer:start -->
+                    <!-- r2v:social-footer:end -->
+                    <!-- r2v:vendor-id:start -->
+                    <!-- r2v:vendor-id:end -->
+                </div>
+
+                <div class="footer-col">
+                    <h4>For Businesses</h4>
+                    <ul>
+                        <li><a href="../commercial.html">Commercial &amp; industrial solar</a></li>
+                        <li><a href="../business-solar-finance.html">Finance options</a></li>
+                        <li><a href="../solar-roi-calculator.html">ROI calculator</a></li>
+                        <li><a href="../solar-quote-check.html">Free quote check</a></li>
+                        <li><a href="../book-power-audit.html">Book a free power audit</a></li>
+                        <li><a href="../upload-electricity-bill.html">Send your electricity bill</a></li>
+                        <li><a href="../tender-rfq.html">Tenders and RFQs</a></li>
+                        <li><a href="https://3d.ray2voltsolar.com/">Ray2Volt 3D for solar EPCs</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>For Homes</h4>
+                    <ul>
+                        <li><a href="../residential.html">Home solar</a></li>
+                        <li><a href="../residential.html#subsidy">PM Surya Ghar subsidy</a></li>
+                        <li><a href="../solar-emi-calculator.html">Solar loan EMI calculator</a></li>
+                        <li><a href="../apartment-solar.html">Apartments &amp; societies</a></li>
+                        <li><a href="../avoid-solar-fraud.html">Pay safely: avoid subsidy fraud</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="../about.html">About us</a></li>
+                        <li><a href="../team.html">Our team</a></li>
+                        <li><a href="../locations.html">Where we work</a></li>
+                        <li><a href="../investor.html">Investors</a></li>
+                        <li><a href="../blog.html">Guides</a></li>
+                        <li><a href="../careers.html">Careers</a></li>
+                        <li><a href="../channel-partner.html">Channel partners</a></li>
+                        <li><a href="../raycare.html">RayCare service and warranty</a></li>
+                        <li><a href="../service-request.html">Request a service visit</a></li>
+                        <li><a href="../privacy-policy.html">Privacy policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li>1-278, J.K.Nagar, Revenue Ward No-1, Pichatur Road, Srikalahasti, 517644, Andhra Pradesh.</li>
+                        <li><a href="tel:+919666068140">+91 96660 68140</a></li>
+                        <li><a href="mailto:sales@ray2voltsolar.com">sales@ray2voltsolar.com</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ray2Volt Solar Private Limited. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" aria-label="Scroll to top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <script src="../script.js"></script>
+    <script src="../blog.js"></script>
+</body>
+
+</html>
