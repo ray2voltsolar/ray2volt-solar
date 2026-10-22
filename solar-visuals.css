@@ -1,0 +1,1977 @@
+/* ==========================================================================
+   Ray2Volt Solar - Energy flow scenes and the before-and-after bill
+   Used with energy-flow.js and bill-story.js. Load after theme.css.
+   ========================================================================== */
+
+/* Registered so the sky can fade between times of day */
+@property --ef-sky-top {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: #0F2B52;
+}
+
+@property --ef-sky-bot {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: #1D4570;
+}
+
+/* ──────────────────────────────────────────────────────────
+   1. Scene colours, dark theme first
+   ────────────────────────────────────────────────────────── */
+.energy-flow {
+    --ef-shade: #050A16;
+    --ef-edge: rgba(148, 197, 255, 0.14);
+    --ef-ground: #17233D;
+    --ef-walk: #202E4B;
+    --ef-wall: #33466B;
+    --ef-trim: #3D5176;
+    --ef-roof: #36496E;
+    --ef-device: #4A5D7E;
+    --ef-meter: #5B6E8F;
+    --ef-battery: #1F6F55;
+    --ef-pole: #4A5874;
+    --ef-insulator: #B8C6D8;
+    --ef-tank: #141B2B;
+    --ef-leaf: #1F6B50;
+    --ef-trunk: #5C4636;
+    --ef-dg: #7A5424;
+    --ef-shed: #31446A;
+    --ef-sheet: #40537A;
+    --ef-pv: #10336E;
+    --ef-pv-line: rgba(120, 170, 240, 0.34);
+    --ef-frame: #8FA3BE;
+    --ef-glass: #1C3150;
+    --ef-glass-lit: #FFD27A;
+    --ef-door: #4B3A2F;
+    --ef-shutter: #3D4E6C;
+    --ef-yard: #1B2740;
+    --ef-wire: rgba(203, 213, 225, 0.5);
+    --ef-track: rgba(148, 163, 184, 0.16);
+    --ef-shadow: rgba(2, 6, 16, 0.42);
+    --ef-cloud: rgba(203, 213, 225, 0.22);
+    --ef-cloud-heavy: #3A475B;
+    --ef-stage-bg: #0C1428;
+
+    --ef-solar: var(--h-gold);
+    --ef-solar-ink: var(--h-gold-ink);
+    --ef-grid: var(--h-sky);
+    --ef-grid-ink: var(--h-sky);
+    --ef-batt: var(--h-green);
+    --ef-batt-ink: var(--h-green);
+    --ef-diesel: #FB923C;
+    --ef-diesel-ink: #FDBA74;
+    --ef-down: var(--h-error);
+
+    --ef-tint: #000;
+    --ef-tint-amt: 0%;
+    --ef-sky-top: #0F2B52;
+    --ef-sky-bot: #1D4570;
+
+    position: relative;
+    padding: clamp(0.625rem, 0.4rem + 0.8vw, 1.125rem);
+    border: 1px solid var(--h-line-strong);
+    border-radius: 24px;
+    background: var(--h-surface);
+    box-shadow: var(--h-card-shadow);
+    /* Keeps the site's .reveal fade, which this rule would otherwise replace */
+    transition:
+        opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+        --ef-sky-top 1.2s ease,
+        --ef-sky-bot 1.2s ease;
+}
+
+[data-theme="light"] .energy-flow {
+    --ef-shade: #23344D;
+    --ef-edge: rgba(27, 39, 53, 0.14);
+    --ef-ground: #E9EFF5;
+    --ef-walk: #DCE4EC;
+    --ef-wall: #FFFFFF;
+    --ef-trim: #EEF2F7;
+    --ef-roof: #E4EAF1;
+    --ef-device: #D5DDE7;
+    --ef-meter: #C3CEDB;
+    --ef-battery: #B6E6CC;
+    --ef-pole: #9AA8B8;
+    --ef-insulator: #F1F5F9;
+    --ef-tank: #2E3644;
+    --ef-leaf: #73C292;
+    --ef-trunk: #9A7556;
+    --ef-dg: #F2C27E;
+    --ef-shed: #F6F8FB;
+    --ef-sheet: #D2DCE7;
+    --ef-pv: #1B4583;
+    --ef-pv-line: rgba(170, 205, 245, 0.42);
+    --ef-frame: #B7C4D3;
+    --ef-glass: #C3DBEF;
+    --ef-glass-lit: #FFC94D;
+    --ef-door: #B88A5E;
+    --ef-shutter: #C9D3DE;
+    --ef-yard: #DDE5ED;
+    --ef-wire: rgba(51, 65, 85, 0.45);
+    --ef-track: rgba(51, 65, 85, 0.1);
+    --ef-shadow: rgba(15, 23, 42, 0.09);
+    --ef-cloud: rgba(255, 255, 255, 0.85);
+    --ef-cloud-heavy: #B9C4D0;
+    --ef-stage-bg: #F4F8FC;
+
+    --ef-solar: #F0A202;
+    --ef-solar-ink: #8A5A00;
+    --ef-grid: #0288D1;
+    --ef-grid-ink: #01579B;
+    --ef-batt: #16A34A;
+    --ef-batt-ink: #15803D;
+    --ef-diesel: #EA580C;
+    --ef-diesel-ink: #C2410C;
+}
+
+/* Times of day: sky colours and the light that falls on the scene */
+.energy-flow[data-sky="noon"] {
+    --ef-sky-top: #0F2B52;
+    --ef-sky-bot: #1D4570;
+}
+
+.energy-flow[data-sky="cloudy"] {
+    --ef-sky-top: #1A2537;
+    --ef-sky-bot: #2A384C;
+    --ef-tint: #5A6678;
+    --ef-tint-amt: 14%;
+}
+
+.energy-flow[data-sky="evening"] {
+    --ef-sky-top: #1A1D3D;
+    --ef-sky-bot: #6A3A4A;
+    --ef-tint: #6B3A55;
+    --ef-tint-amt: 20%;
+}
+
+.energy-flow[data-sky="night"] {
+    --ef-sky-top: #050913;
+    --ef-sky-bot: #0D1830;
+    --ef-tint: #030712;
+    --ef-tint-amt: 46%;
+}
+
+[data-theme="light"] .energy-flow[data-sky="noon"] {
+    --ef-sky-top: #BFE3FA;
+    --ef-sky-bot: #EEF7FD;
+}
+
+[data-theme="light"] .energy-flow[data-sky="cloudy"] {
+    --ef-sky-top: #D3DCE6;
+    --ef-sky-bot: #EFF2F5;
+    --ef-tint: #7D8A99;
+    --ef-tint-amt: 12%;
+}
+
+[data-theme="light"] .energy-flow[data-sky="evening"] {
+    --ef-sky-top: #AEB8DE;
+    --ef-sky-bot: #F7D3B4;
+    --ef-tint: #E07A52;
+    --ef-tint-amt: 13%;
+}
+
+[data-theme="light"] .energy-flow[data-sky="night"] {
+    --ef-sky-top: #16213D;
+    --ef-sky-bot: #33456B;
+    --ef-tint: #0F1A33;
+    --ef-tint-amt: 56%;
+}
+
+/* ──────────────────────────────────────────────────────────
+   2. Layout: switches, the stage and the reading panel
+   ────────────────────────────────────────────────────────── */
+.ef-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    margin-bottom: 0.875rem;
+}
+
+.ef-switch {
+    display: inline-flex;
+    gap: 2px;
+    padding: 3px;
+    border: 1px solid var(--h-line-strong);
+    border-radius: 999px;
+    background: var(--h-panel);
+}
+
+.ef-switch button {
+    min-height: 38px;
+    padding: 0 1rem;
+    border-radius: 999px;
+    color: var(--h-muted);
+    font-family: var(--font-heading);
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1;
+    transition: background-color var(--transition), color var(--transition), box-shadow var(--transition);
+}
+
+.ef-switch button:hover {
+    color: var(--h-ink);
+}
+
+.ef-switch button[aria-pressed="true"] {
+    background: var(--h-gold-tile-bg);
+    color: var(--h-gold-tile-ink);
+    box-shadow: inset 0 0 0 1px var(--h-gold-tile-line);
+}
+
+/* Gold text on the pale gold tile is too faint in the light theme */
+[data-theme="light"] .ef-switch button[aria-pressed="true"],
+[data-theme="light"] .ef-chip.is-active,
+[data-theme="light"] .bs-bill--after .bs-bill__tag {
+    color: var(--h-gold-ink);
+}
+
+.ef-switch button:focus-visible,
+.ef-chip:focus-visible,
+.ef-play:focus-visible {
+    outline: 2px solid var(--h-gold);
+    outline-offset: 2px;
+}
+
+/* Gold does not stand out on white, so the light theme rings in blue */
+[data-theme="light"] .ef-switch button:focus-visible,
+[data-theme="light"] .ef-chip:focus-visible,
+[data-theme="light"] .ef-play:focus-visible,
+[data-theme="light"] .bs-range:focus-visible {
+    outline-color: var(--h-kicker);
+}
+
+.ef-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+    gap: clamp(1rem, 0.6rem + 1vw, 1.5rem);
+    align-items: stretch;
+}
+
+.ef-stage {
+    display: grid;
+    grid-template-areas: "view" "scenes";
+    grid-template-columns: 100%;
+    grid-template-rows: 1fr auto;
+    overflow: hidden;
+    border: 1px solid var(--h-line);
+    border-radius: 18px;
+    background: var(--ef-stage-bg);
+}
+
+.ef-backdrop,
+.ef-canvas,
+.ef-tags,
+.ef-clock {
+    grid-area: view;
+}
+
+.ef-backdrop {
+    background:
+        radial-gradient(120% 70% at 50% 100%, color-mix(in oklab, var(--ef-sky-bot), transparent 30%), transparent 70%),
+        linear-gradient(180deg, var(--ef-sky-top), var(--ef-sky-bot));
+}
+
+/* The drawing and its tags share one box, centred if the stage is taller */
+.ef-canvas,
+.ef-tags {
+    position: relative;
+    align-self: center;
+    width: 100%;
+    aspect-ratio: var(--ef-aspect, 1.3);
+}
+
+.ef-svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.ef-tags {
+    pointer-events: none;
+}
+
+.ef-clock {
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    align-self: start;
+    justify-self: start;
+    margin: 0.75rem;
+    padding: 0.375rem 0.75rem;
+    border: 1px solid var(--h-line-strong);
+    border-radius: 999px;
+    background: var(--h-float-bg);
+    color: var(--h-ink);
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+}
+
+.ef-clock__sep {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--h-muted);
+}
+
+.ef-clock__system {
+    color: var(--h-muted);
+    font-weight: 500;
+}
+
+.ef-scenes {
+    grid-area: scenes;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem;
+    border-top: 1px solid var(--h-line);
+    background: var(--h-surface);
+}
+
+/* The padding keeps focus rings clear of the scrolling edge */
+.ef-chips {
+    position: relative;
+    display: flex;
+    flex: 1;
+    gap: 0.375rem;
+    min-width: 0;
+    margin: -4px 0 -4px -4px;
+    padding: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.ef-chips::-webkit-scrollbar {
+    display: none;
+}
+
+/* Fade either end of the chip row while more chips sit off that side */
+.ef-chips.is-clipped {
+    -webkit-mask-image: linear-gradient(90deg, #000 82%, transparent);
+    mask-image: linear-gradient(90deg, #000 82%, transparent);
+}
+
+.ef-chips.is-clipped-start {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%);
+    mask-image: linear-gradient(90deg, transparent, #000 18%);
+}
+
+.ef-chips.is-clipped.is-clipped-start {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+}
+
+.ef-chip {
+    position: relative;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 0.375rem;
+    min-height: 36px;
+    padding: 0 0.8rem;
+    overflow: hidden;
+    border: 1px solid var(--h-field-line);
+    border-radius: 999px;
+    background: var(--h-field-bg);
+    color: var(--h-muted);
+    font-family: var(--font-heading);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    transition: border-color var(--transition), background-color var(--transition), color var(--transition);
+}
+
+.ef-chip:hover {
+    border-color: var(--h-field-line-hover);
+    color: var(--h-ink);
+}
+
+.ef-chip.is-active {
+    border-color: var(--h-gold);
+    background: var(--h-gold-tile-bg);
+    color: var(--h-gold-tile-ink);
+}
+
+/* A thin bar fills along the active chip while the tour is playing */
+.ef-chip::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: var(--h-gold);
+    transform: scaleX(0);
+    transform-origin: left center;
+}
+
+.energy-flow.is-ticking .ef-chip.is-active::after {
+    animation: ef-tick var(--ef-tick, 7s) linear forwards;
+}
+
+.ef-play {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--h-field-line);
+    border-radius: 50%;
+    background: var(--h-field-bg);
+    color: var(--h-ink);
+    transition: border-color var(--transition);
+}
+
+.ef-play:hover {
+    border-color: var(--h-gold);
+}
+
+.ef-icon {
+    width: 16px;
+    height: 16px;
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Tags that sit over the scene */
+.ef-tag {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    padding: 0.3125rem 0.625rem;
+    border: 1px solid var(--h-line-strong);
+    border-radius: 10px;
+    background: var(--h-float-bg);
+    box-shadow: var(--h-card-shadow);
+    font-family: var(--font-heading);
+    line-height: 1.15;
+    white-space: nowrap;
+    transform: translate(-50%, calc(-100% - 9px));
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    transition: opacity 0.5s ease, border-color 0.5s ease;
+}
+
+.ef-tag::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    width: 1px;
+    height: 9px;
+    background: var(--h-line-strong);
+}
+
+.ef-tag__name {
+    color: var(--h-muted);
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.ef-tag__value {
+    color: var(--k-ink, var(--h-ink));
+    font-size: 0.8125rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Tags sit above their point unless the scene places them beside or below it */
+.ef-tag[data-side="left"] {
+    transform: translate(calc(-100% - 12px), -50%);
+}
+
+.ef-tag[data-side="right"] {
+    transform: translate(12px, -50%);
+}
+
+.ef-tag[data-side="down"] {
+    transform: translate(-50%, 9px);
+}
+
+.ef-tag[data-side="left"]::after,
+.ef-tag[data-side="right"]::after {
+    top: 50%;
+    width: 12px;
+    height: 1px;
+}
+
+.ef-tag[data-side="left"]::after {
+    left: 100%;
+}
+
+.ef-tag[data-side="right"]::after {
+    left: auto;
+    right: 100%;
+}
+
+.ef-tag[data-side="down"]::after {
+    top: auto;
+    bottom: 100%;
+}
+
+.ef-tag--solar { --k-ink: var(--ef-solar-ink); }
+.ef-tag--battery { --k-ink: var(--ef-batt-ink); }
+.ef-tag--grid { --k-ink: var(--ef-grid-ink); }
+.ef-tag--diesel { --k-ink: var(--ef-diesel-ink); }
+
+/* An idle part gets a dashed outline; fading the whole tag made it hard to read */
+.ef-tag[data-state="off"] {
+    border-style: dashed;
+}
+
+.ef-tag[data-state="off"] .ef-tag__value {
+    color: var(--h-muted);
+}
+
+.ef-tag[data-state="down"] {
+    border-color: color-mix(in oklab, var(--ef-down), transparent 40%);
+}
+
+.ef-tag[data-state="down"] .ef-tag__value {
+    color: var(--ef-down);
+}
+
+/* The panel that explains the scenario */
+.ef-panel {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 0.25rem 0.25rem 0.25rem 0;
+}
+
+.ef-panel__label {
+    margin: 0 0 0.5rem;
+    color: var(--h-kicker);
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+.ef-panel__title {
+    margin: 0 0 0.5rem;
+    color: var(--h-ink);
+    font-size: clamp(1.125rem, 1.02rem + 0.35vw, 1.3125rem);
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+}
+
+.ef-panel__text {
+    min-height: 4.6em;
+    margin: 0 0 1rem;
+    color: var(--h-muted);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+}
+
+.ef-stats {
+    margin: 0 0 1rem;
+    padding: 0;
+}
+
+.ef-stat {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 0.3125rem 0.75rem;
+    padding: 0.625rem 0;
+    border-top: 1px solid var(--h-line);
+}
+
+.ef-stat--solar { --k: var(--ef-solar); --k-ink: var(--ef-solar-ink); }
+.ef-stat--load { --k: var(--h-ink); --k-ink: var(--h-ink); }
+.ef-stat--battery { --k: var(--ef-batt); --k-ink: var(--ef-batt-ink); }
+.ef-stat--grid { --k: var(--ef-grid); --k-ink: var(--ef-grid-ink); }
+.ef-stat--diesel { --k: var(--ef-diesel); --k-ink: var(--ef-diesel-ink); }
+
+.ef-stat__name {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--h-ink);
+    font-family: var(--font-heading);
+    font-size: 0.8125rem;
+    font-weight: 600;
+}
+
+.ef-stat__name::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--k);
+}
+
+.ef-stat__value {
+    grid-row: 1;
+    grid-column: 2;
+    color: var(--k-ink);
+    font-family: var(--font-heading);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.ef-stat__bar {
+    grid-column: 1 / -1;
+    height: 5px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--h-line);
+}
+
+.ef-stat__bar span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--k);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.ef-stat__note {
+    grid-column: 1 / -1;
+    color: var(--h-muted);
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+.ef-stat[data-state="off"] .ef-stat__value {
+    color: var(--h-muted);
+}
+
+.ef-panel__note {
+    margin: auto 0 0;
+    color: var(--h-muted);
+    font-size: 0.75rem;
+    line-height: 1.5;
+}
+
+/* ──────────────────────────────────────────────────────────
+   3. The drawing
+   ────────────────────────────────────────────────────────── */
+
+/* Box faces take their colour from --m, darker on the sides away from the light */
+.ef-t { --ef-face: 0%; }
+.ef-l { --ef-face: 13%; }
+.ef-r { --ef-face: 27%; }
+
+.ef-t,
+.ef-l,
+.ef-r {
+    fill: color-mix(in oklab, color-mix(in oklab, var(--m, var(--ef-wall)), var(--ef-shade) var(--ef-face)), var(--ef-tint) var(--ef-tint-amt));
+    stroke: var(--ef-edge);
+    stroke-width: 0.5;
+    stroke-linejoin: round;
+}
+
+.ef-m-ground { --m: var(--ef-ground); }
+.ef-m-wall { --m: var(--ef-wall); }
+.ef-m-trim { --m: var(--ef-trim); }
+.ef-m-device { --m: var(--ef-device); }
+.ef-m-meter { --m: var(--ef-meter); }
+.ef-m-battery { --m: var(--ef-battery); }
+.ef-m-pole { --m: var(--ef-pole); }
+.ef-m-insulator { --m: var(--ef-insulator); }
+.ef-m-tank { --m: var(--ef-tank); }
+.ef-m-leaf { --m: var(--ef-leaf); }
+.ef-m-trunk { --m: var(--ef-trunk); }
+.ef-m-dg { --m: var(--ef-dg); }
+.ef-m-shed,
+.ef-gable { --m: var(--ef-shed); }
+
+.ef-leaf-top { --m: color-mix(in oklab, var(--ef-leaf), #fff 10%); }
+
+/* Flat parts painted on walls, roofs and the ground */
+.ef-walk,
+.ef-roof-top,
+.ef-roof-back,
+.ef-roof-front,
+.ef-yard-base,
+.ef-door,
+.ef-window,
+.ef-shutter,
+.ef-shutter-bay,
+.ef-meter-face,
+.ef-device-screen,
+.ef-louvre,
+.ef-vent,
+.ef-fin,
+.ef-bess-band,
+.ef-cell,
+.ef-pv {
+    fill: color-mix(in oklab, var(--c), var(--ef-tint) var(--ef-tint-amt));
+}
+
+.ef-walk { --c: var(--ef-walk); }
+.ef-roof-top { --c: var(--ef-roof); stroke: var(--ef-edge); stroke-width: 0.5; }
+.ef-roof-back { --c: color-mix(in oklab, var(--ef-sheet), var(--ef-shade) 8%); stroke: var(--ef-edge); stroke-width: 0.5; }
+.ef-roof-front { --c: var(--ef-sheet); stroke: var(--ef-edge); stroke-width: 0.5; }
+.ef-yard-base { --c: var(--ef-yard); }
+.ef-door { --c: var(--ef-door); }
+.ef-window { --c: var(--ef-glass); }
+.ef-shutter-bay { --c: color-mix(in oklab, var(--ef-shed), var(--ef-shade) 30%); }
+.ef-shutter { --c: var(--ef-shutter); }
+.ef-meter-face { --c: #E2E8F0; }
+.ef-device-screen { --c: #0B1222; }
+.ef-louvre,
+.ef-vent { --c: color-mix(in oklab, var(--ef-shade), transparent 40%); }
+.ef-fin { --c: color-mix(in oklab, var(--ef-device), var(--ef-shade) 35%); }
+.ef-bess-band { --c: var(--ef-batt); }
+.ef-cell { --c: color-mix(in oklab, var(--ef-shade), transparent 30%); }
+.ef-pv { --c: var(--ef-pv); stroke: var(--ef-frame); stroke-width: 0.7; stroke-linejoin: round; }
+
+.ef-world polygon,
+.ef-world path,
+.ef-world ellipse {
+    transition: fill 0.9s ease, opacity 0.6s ease, stroke 0.6s ease;
+}
+
+.ef-pv-line {
+    stroke: var(--ef-pv-line);
+    stroke-width: 0.4;
+}
+
+.ef-pv-glow {
+    fill: var(--ef-solar);
+    opacity: calc(var(--pv, 0) * 0.07);
+    transition: opacity 0.9s ease;
+    pointer-events: none;
+}
+
+.ef-sheen__band {
+    fill: #FFFFFF;
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: skewX(-28deg);
+}
+
+.energy-flow:not([data-inverter="off"]) .ef-sheen__band {
+    animation: ef-sheen 6s ease-in-out infinite;
+}
+
+.ef-gridline {
+    stroke: var(--h-grid);
+    stroke-width: 0.6;
+}
+
+.ef-shadow {
+    fill: var(--ef-shadow);
+    transition: opacity 0.9s ease;
+}
+
+.ef-mullion,
+.ef-shutter-line {
+    stroke: color-mix(in oklab, var(--ef-shade), transparent 55%);
+    stroke-width: 0.5;
+}
+
+.ef-leg,
+.ef-rail,
+.ef-ridge {
+    stroke: var(--ef-frame);
+    stroke-width: 1;
+    stroke-linecap: round;
+}
+
+.ef-ridge {
+    stroke-width: 1.4;
+}
+
+.ef-wire {
+    fill: none;
+    stroke: var(--ef-wire);
+    stroke-width: 0.8;
+    transition: opacity 0.6s ease;
+}
+
+/* Lit windows. "essential" lights only the rooms on the backup circuit. */
+.energy-flow[data-lights="on"] .ef-window,
+.energy-flow[data-lights="essential"] .ef-window--essential {
+    fill: var(--ef-glass-lit);
+}
+
+.energy-flow[data-sky="night"][data-lights="on"] .ef-window,
+.energy-flow[data-sky="evening"][data-lights="on"] .ef-window {
+    filter: drop-shadow(0 0 3px color-mix(in oklab, var(--ef-glass-lit), transparent 35%));
+}
+
+.energy-flow[data-lights="off"] .ef-window {
+    fill: color-mix(in oklab, var(--ef-glass), var(--ef-shade) 25%);
+}
+
+/* The AC fan turns only while the home has full power */
+.ef-fan__ring {
+    fill: color-mix(in oklab, var(--ef-shade), transparent 45%);
+}
+
+.ef-fan__blade {
+    fill: color-mix(in oklab, var(--ef-device), #FFFFFF 25%);
+}
+
+.ef-fan__blades {
+    transform-box: view-box;
+    transform-origin: 0 0;
+}
+
+.energy-flow[data-lights="day"] .ef-fan__blades,
+.energy-flow[data-lights="on"] .ef-fan__blades {
+    animation: ef-spin 0.9s linear infinite;
+}
+
+/* Status lights on the inverter */
+.ef-led {
+    fill: #64748B;
+    transition: fill 0.4s ease;
+}
+
+.energy-flow[data-inverter="on"] .ef-led {
+    fill: #22C55E;
+    animation: ef-blink 2.4s ease-in-out infinite;
+}
+
+.energy-flow[data-inverter="off"] .ef-led {
+    fill: #EF4444;
+}
+
+.energy-flow[data-inverter="on"] .ef-device-screen {
+    --c: color-mix(in oklab, var(--ef-grid), #0B1222 55%);
+}
+
+/* Battery charge bars */
+.ef-cell.is-lit {
+    --c: var(--ef-batt);
+}
+
+.energy-flow[data-battery="charging"] .ef-cell.is-lit {
+    animation: ef-blink 1.8s ease-in-out infinite;
+}
+
+/* Generator smoke, only while it runs */
+.ef-puff {
+    fill: color-mix(in oklab, var(--h-muted), transparent 40%);
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+.energy-flow[data-diesel="on"] .ef-puff {
+    animation: ef-puff 2.4s ease-out infinite;
+}
+
+/* The grid, when it fails */
+.ef-griddown {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.ef-griddown__badge {
+    fill: var(--ef-down);
+}
+
+.ef-griddown__cross {
+    fill: none;
+    stroke: #FFFFFF;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+}
+
+.energy-flow[data-grid="down"] .ef-griddown {
+    opacity: 1;
+}
+
+.energy-flow[data-grid="down"] .ef-wire {
+    opacity: 0.35;
+    stroke-dasharray: 2 3;
+}
+
+/* ──────────────────────────────────────────────────────────
+   4. Energy flows: a faint track with dots that move along it
+   ────────────────────────────────────────────────────────── */
+.ef-flow {
+    --k: var(--ef-solar);
+}
+
+.ef-flow[data-kind="grid"] { --k: var(--ef-grid); }
+.ef-flow[data-kind="battery"] { --k: var(--ef-batt); }
+.ef-flow[data-kind="diesel"] { --k: var(--ef-diesel); }
+
+.ef-flow path {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.ef-flow__track {
+    stroke: var(--ef-track);
+    stroke-width: 2.6;
+}
+
+.ef-flow__glow {
+    stroke: var(--k);
+    stroke-width: calc(var(--ef-w, 1) * 6px);
+    opacity: 0.16;
+    transition: opacity 0.5s ease, stroke 0.6s ease, stroke-width 0.6s ease;
+}
+
+.ef-flow__dots {
+    stroke: var(--k);
+    stroke-width: calc(var(--ef-w, 1) * 3.2px);
+    stroke-dasharray: 0 13;
+    animation: ef-flow var(--ef-dur, 1s) linear infinite;
+    transition: opacity 0.5s ease, stroke 0.6s ease, stroke-width 0.6s ease;
+}
+
+.ef-flow[data-state="rev"] .ef-flow__dots {
+    animation-direction: reverse;
+}
+
+.ef-flow[data-state="off"] .ef-flow__glow,
+.ef-flow[data-state="off"] .ef-flow__dots {
+    opacity: 0;
+}
+
+/* ──────────────────────────────────────────────────────────
+   5. Sky: sun, moon, stars and clouds
+   ────────────────────────────────────────────────────────── */
+.ef-sun,
+.ef-moon {
+    transition: transform 1.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.9s ease;
+}
+
+.ef-sun__core {
+    fill: #FFD54F;
+    transition: fill 0.9s ease;
+}
+
+.ef-sun__stop-in {
+    stop-color: #FFC94D;
+    stop-opacity: 0.5;
+}
+
+.ef-sun__stop-out {
+    stop-color: #FFC94D;
+    stop-opacity: 0;
+}
+
+.energy-flow[data-sky="evening"] .ef-sun__core {
+    fill: #FF9F43;
+}
+
+.energy-flow[data-sky="cloudy"] .ef-sun {
+    opacity: 0.4;
+}
+
+.energy-flow[data-sky="night"] .ef-sun {
+    opacity: 0;
+}
+
+.ef-moon {
+    opacity: 0;
+}
+
+.ef-moon__disc {
+    fill: #E8EEF7;
+}
+
+.energy-flow[data-sky="night"] .ef-moon {
+    opacity: 1;
+}
+
+.ef-stars {
+    opacity: 0;
+    transition: opacity 0.9s ease;
+}
+
+.ef-star {
+    fill: #E2E8F0;
+}
+
+.energy-flow[data-sky="night"] .ef-stars {
+    opacity: 0.9;
+}
+
+.energy-flow[data-sky="night"] .ef-star {
+    animation: ef-twinkle 4s ease-in-out infinite;
+}
+
+.ef-clouds {
+    opacity: 0.4;
+    transition: opacity 0.9s ease;
+}
+
+.ef-cloud__shape {
+    fill: var(--ef-cloud);
+    transition: fill 0.9s ease;
+}
+
+.ef-cloud {
+    animation: ef-drift 40s ease-in-out infinite alternate;
+}
+
+.energy-flow[data-sky="cloudy"] .ef-clouds {
+    opacity: 1;
+}
+
+.energy-flow[data-sky="cloudy"] .ef-cloud__shape {
+    fill: var(--ef-cloud-heavy);
+}
+
+.energy-flow[data-sky="evening"] .ef-clouds {
+    opacity: 0.35;
+}
+
+.energy-flow[data-sky="night"] .ef-clouds {
+    opacity: 0.12;
+}
+
+.energy-flow[data-sky="cloudy"] .ef-shadow {
+    opacity: 0.3;
+}
+
+.energy-flow[data-sky="evening"] .ef-shadow,
+.energy-flow[data-sky="night"] .ef-shadow {
+    opacity: 0;
+}
+
+/* ──────────────────────────────────────────────────────────
+   6. Motion
+   ────────────────────────────────────────────────────────── */
+@keyframes ef-flow {
+    to { stroke-dashoffset: -13; }
+}
+
+@keyframes ef-tick {
+    to { transform: scaleX(1); }
+}
+
+@keyframes ef-spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes ef-blink {
+    50% { opacity: 0.45; }
+}
+
+@keyframes ef-twinkle {
+    50% { opacity: 0.35; }
+}
+
+@keyframes ef-drift {
+    from { transform: translateX(-12px); }
+    to { transform: translateX(12px); }
+}
+
+@keyframes ef-sheen {
+    0% { opacity: 0; transform: translateX(0) skewX(-28deg); }
+    8% { opacity: calc(var(--pv, 0) * 0.16); }
+    45% { opacity: calc(var(--pv, 0) * 0.16); }
+    55%,
+    100% { opacity: 0; transform: translateX(var(--ef-travel, 300px)) skewX(-28deg); }
+}
+
+@keyframes ef-puff {
+    0% { opacity: 0; transform: translate(0, 0) scale(0.6); }
+    20% { opacity: 0.7; }
+    100% { opacity: 0; transform: translate(6px, -22px) scale(2.2); }
+}
+
+/* Skip transitions on the first paint of a scene */
+.energy-flow.is-instant * {
+    transition: none !important;
+}
+
+/* Save work while the widget is off screen, and hold still once paused */
+.energy-flow.is-offscreen *,
+.energy-flow.is-offscreen *::after,
+.energy-flow.is-paused *,
+.energy-flow.is-paused *::after {
+    animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .energy-flow,
+    .energy-flow * {
+        transition-duration: 0.01ms !important;
+    }
+
+    .energy-flow *,
+    .energy-flow *::after {
+        animation: none !important;
+    }
+}
+
+/* ──────────────────────────────────────────────────────────
+   7. Smaller screens
+   ────────────────────────────────────────────────────────── */
+@media (max-width: 960px) {
+    .ef-body {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .ef-panel {
+        padding: 0 0.25rem;
+    }
+
+    .ef-panel__text {
+        min-height: 0;
+    }
+
+    .ef-stats {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 1.25rem;
+    }
+}
+
+/* Below this the clock would cover the tags; the panel label shows the time */
+@media (max-width: 720px) {
+    .ef-clock {
+        display: none;
+    }
+}
+
+@media (max-width: 640px) {
+    .energy-flow {
+        border-radius: 20px;
+    }
+
+    .ef-bar {
+        gap: 0.5rem;
+    }
+
+    .ef-switch {
+        flex: 1 1 auto;
+    }
+
+    .ef-switch button {
+        flex: 1;
+        min-height: 36px;
+        padding: 0 0.75rem;
+        font-size: 0.8125rem;
+    }
+
+    .ef-stage {
+        border-radius: 14px;
+    }
+
+    .ef-tag {
+        padding: 0.1875rem 0.4375rem;
+        border-radius: 8px;
+    }
+
+    .ef-tag__name {
+        font-size: 0.5625rem;
+    }
+
+    .ef-tag__value {
+        font-size: 0.6875rem;
+    }
+
+    .ef-scenes {
+        padding: 0.5rem;
+    }
+
+    .ef-chip {
+        min-height: 34px;
+        padding: 0 0.6875rem;
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .ef-stats {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* On the smallest phones, inset the drawing so the outer tags are not cut off */
+@media (max-width: 360px) {
+    .ef-canvas,
+    .ef-tags {
+        justify-self: center;
+        width: calc(100% - 1.5rem);
+        margin-top: 0.75rem;
+    }
+}
+
+@media print {
+    .ef-bar,
+    .ef-scenes {
+        display: none;
+    }
+
+    /* Keep the coloured bars and dots, which browsers drop by default */
+    .ef-stat__bar span,
+    .ef-stat__name::before {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+/* ==========================================================================
+   Before and after solar, on the bill (bill-story.js)
+   ========================================================================== */
+.bill-story {
+    --bs-paper: var(--h-panel);
+    --bs-paper-after: var(--h-surface-strong);
+    --bs-before: rgba(148, 163, 184, 0.3);
+    --bs-before-line: rgba(148, 163, 184, 0.6);
+    --bs-after: var(--h-gold);
+    --bs-track: rgba(148, 163, 184, 0.18);
+
+    padding: clamp(0.875rem, 0.5rem + 1vw, 1.5rem);
+    border: 1px solid var(--h-line-strong);
+    border-radius: 24px;
+    background: var(--h-surface);
+}
+
+/* On white, the bars, the meter and the slider need deeper colours to show */
+[data-theme="light"] .bill-story {
+    --bs-before: #EEF2F6;
+    --bs-before-line: #7C8CA0;
+    --bs-after: #B45309;
+    --bs-track: #E8EDF3;
+}
+
+.bs-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.bs-input {
+    flex: 1 1 320px;
+    max-width: 560px;
+}
+
+.bs-input__label {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--h-ink);
+    font-family: var(--font-heading);
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.bs-input__value {
+    color: var(--h-gold);
+    font-size: 1.375rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+[data-theme="light"] .bs-input__value {
+    color: #B45309;
+}
+
+.bs-input__hint {
+    margin: 0.5rem 0 0;
+    color: var(--h-muted);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+}
+
+.bs-range {
+    display: block;
+    width: 100%;
+    height: 32px;
+    margin: 0;
+    background: transparent;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.bs-range::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--bs-after) var(--fill, 30%), var(--bs-track) var(--fill, 30%));
+}
+
+.bs-range::-moz-range-track {
+    height: 6px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--bs-after) var(--fill, 30%), var(--bs-track) var(--fill, 30%));
+}
+
+.bs-range::-webkit-slider-thumb {
+    width: 24px;
+    height: 24px;
+    margin-top: -9px;
+    border: 3px solid var(--h-surface-strong);
+    border-radius: 50%;
+    background: var(--bs-after);
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.35);
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.bs-range::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border: 3px solid var(--h-surface-strong);
+    border-radius: 50%;
+    background: var(--bs-after);
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.35);
+}
+
+.bs-range:focus-visible {
+    border-radius: 6px;
+    outline: 2px solid var(--bs-after);
+    outline-offset: 4px;
+}
+
+.bs-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: clamp(1.25rem, 0.8rem + 1.2vw, 2rem);
+    align-items: start;
+}
+
+.bs-bills {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: stretch;
+    gap: 0.75rem;
+}
+
+/* A bill printed on paper */
+.bs-bill {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 1.125rem 1.125rem 1.25rem;
+    border: 1px solid var(--h-line-strong);
+    border-radius: 16px;
+    background: var(--bs-paper);
+}
+
+.bs-bill--after {
+    border-color: var(--h-gold-tile-line);
+    background: var(--bs-paper-after);
+}
+
+.bs-bill__head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.375rem;
+    margin-bottom: 0.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px dashed var(--h-line-strong);
+}
+
+.bs-bill__tag {
+    padding: 0.25rem 0.625rem;
+    border: 1px solid var(--h-line-strong);
+    border-radius: 999px;
+    color: var(--h-muted);
+    font-family: var(--font-heading);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+/* Leave room for the savings stamp in the top corner, which is widest with
+   a business saving of a lakh or more */
+.bs-bill--after .bs-bill__head {
+    padding-right: 7rem;
+}
+
+.bs-bill--after .bs-bill__tag {
+    white-space: nowrap;
+    border-color: var(--h-gold-tile-line);
+    background: var(--h-gold-tile-bg);
+    color: var(--h-gold-tile-ink);
+}
+
+.bs-bill__title {
+    color: var(--h-muted);
+    font-size: 0.8125rem;
+    line-height: 1.4;
+}
+
+.bs-rows {
+    margin: 0 0 1rem;
+}
+
+.bs-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--h-line);
+}
+
+.bs-row dt {
+    min-width: 0;
+    color: var(--h-body);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.bs-row__sub {
+    display: block;
+    margin-top: 0.125rem;
+    color: var(--h-muted);
+    font-size: 0.6875rem;
+    font-weight: 500;
+}
+
+.bs-row__sub:empty {
+    display: none;
+}
+
+.bs-row dd {
+    margin: 0;
+    color: var(--h-ink);
+    font-family: var(--font-heading);
+    font-size: 0.875rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.bs-row.is-zero dd {
+    color: var(--h-muted);
+    font-weight: 600;
+}
+
+.bs-meter {
+    height: 6px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--bs-track);
+}
+
+.bs-meter__fill {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--bs-after);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.bs-bills.is-played .bs-bill--after .bs-meter__fill {
+    transition-duration: 1.6s;
+    transition-delay: 0.5s;
+}
+
+.bs-bills.is-settled .bs-bill--after .bs-meter__fill {
+    transition-duration: 0.4s;
+    transition-delay: 0s;
+}
+
+.bs-meter__label {
+    margin: 0.5rem 0 1rem;
+    color: var(--h-muted);
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+.bs-total {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.25rem 0.75rem;
+    margin-top: auto;
+    padding-top: 0.875rem;
+    border-top: 1px solid var(--h-line-strong);
+}
+
+.bs-total span {
+    color: var(--h-muted);
+    font-size: 0.8125rem;
+    font-weight: 600;
+}
+
+.bs-total__value {
+    color: var(--h-ink);
+    font-family: var(--font-heading);
+    font-size: clamp(1.375rem, 1.15rem + 0.7vw, 1.75rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+}
+
+/* The savings stamp lands on the new bill once the numbers settle */
+.bs-stamp {
+    position: absolute;
+    top: -0.75rem;
+    right: -0.375rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 0.4375rem 0.75rem 0.5rem;
+    border: 2px solid var(--h-green);
+    border-radius: 12px;
+    background: color-mix(in oklab, var(--h-green) 14%, var(--h-bg));
+    color: var(--h-green);
+    font-family: var(--font-heading);
+    line-height: 1.15;
+    text-align: center;
+    opacity: 0;
+    transform: rotate(-6deg) scale(0.6);
+    pointer-events: none;
+}
+
+[data-theme="light"] .bs-stamp {
+    border-color: #16A34A;
+    background: #F0FDF4;
+    color: #15803D;
+}
+
+.bs-stamp span {
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.bs-stamp .bs-stamp__note {
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.bs-stamp strong {
+    font-size: 1.1875rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}
+
+.bs-bills.is-stamped .bs-stamp {
+    animation: bs-stamp 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) forwards;
+}
+
+.bs-arrow {
+    display: grid;
+    place-items: center;
+    align-self: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--h-line-strong);
+    border-radius: 50%;
+    background: var(--h-surface-strong);
+}
+
+.bs-arrow svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: var(--bs-after);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.bs-bills.is-played .bs-arrow svg {
+    animation: bs-nudge 0.9s ease-in-out 0.3s 2;
+}
+
+/* The year, month by month */
+.bs-year__title {
+    margin: 0 0 1rem;
+    color: var(--h-ink);
+    font-size: 1.0625rem;
+    line-height: 1.3;
+}
+
+.bs-chart {
+    position: relative;
+    height: 170px;
+    margin-bottom: 1.75rem;
+}
+
+.bs-chart__scale {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: var(--h-muted);
+    font-size: 0.6875rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+}
+
+.bs-chart__bars {
+    position: absolute;
+    inset: 1.125rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: clamp(3px, 0.6vw, 7px);
+    border-top: 1px dashed var(--h-line);
+    border-bottom: 1px solid var(--h-line-strong);
+}
+
+.bs-month {
+    position: relative;
+}
+
+.bs-month__before,
+.bs-month__after {
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+    transform-origin: center bottom;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Sized by height rather than scale, so the outline keeps its width on top */
+.bs-month__before {
+    left: 0;
+    right: 0;
+    height: calc(var(--before, 0) * 100%);
+    border-radius: 4px 4px 0 0;
+    background: var(--bs-before);
+    box-shadow: inset 0 0 0 1.5px var(--bs-before-line);
+    transition-property: height;
+}
+
+.bs-month__after {
+    left: 22%;
+    right: 22%;
+    border-radius: 3px 3px 0 0;
+    background: var(--bs-after);
+    transform: scaleY(var(--after, 0));
+}
+
+.bs-year.is-played .bs-month__after {
+    transition-duration: 1s;
+    transition-delay: calc(0.6s + var(--i, 0) * 70ms);
+}
+
+.bs-year.is-settled .bs-month__after {
+    transition-duration: 0.4s;
+    transition-delay: 0s;
+}
+
+.bs-month__label {
+    position: absolute;
+    top: calc(100% + 0.375rem);
+    left: 50%;
+    color: var(--h-muted);
+    font-size: 0.6875rem;
+    line-height: 1;
+    transform: translateX(-50%);
+}
+
+.bs-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem 1.25rem;
+    margin: 0 0 1rem;
+    padding: 0;
+    list-style: none;
+}
+
+.bs-legend li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--h-muted);
+    font-size: 0.75rem;
+}
+
+.bs-legend li::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    background: var(--bs-before);
+    box-shadow: inset 0 0 0 1.5px var(--bs-before-line);
+}
+
+.bs-legend .bs-legend__after::before {
+    background: var(--bs-after);
+    box-shadow: none;
+}
+
+.bs-sum {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+    margin: 0 0 1rem;
+}
+
+.bs-sum div {
+    min-width: 0;
+    padding: 0.75rem;
+    border: 1px solid var(--h-line);
+    border-radius: 12px;
+}
+
+.bs-sum dt {
+    margin-bottom: 0.25rem;
+    color: var(--h-muted);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    line-height: 1.3;
+    text-transform: uppercase;
+}
+
+.bs-sum dd {
+    margin: 0;
+    color: var(--h-ink);
+    font-family: var(--font-heading);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.bs-sum .bs-sum__saved {
+    border-color: color-mix(in oklab, var(--h-green) 45%, transparent);
+    background: color-mix(in oklab, var(--h-green) 10%, transparent);
+}
+
+.bs-sum__saved dd {
+    color: var(--h-green);
+}
+
+[data-theme="light"] .bs-sum__saved dd {
+    color: #166534;
+}
+
+/* Read out by screen readers when the slider comes to rest */
+.bs-status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.bs-payback {
+    margin: 0 0 0.5rem;
+    color: var(--h-ink);
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.bs-fine {
+    margin: 0;
+    color: var(--h-muted);
+    font-size: 0.75rem;
+    line-height: 1.55;
+}
+
+@keyframes bs-stamp {
+    0% { opacity: 0; transform: rotate(-14deg) scale(1.5); }
+    100% { opacity: 1; transform: rotate(-6deg) scale(1); }
+}
+
+@keyframes bs-nudge {
+    50% { transform: translateX(3px); }
+}
+
+@media (max-width: 1100px) {
+    .bs-body {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .bill-story {
+        border-radius: 20px;
+    }
+
+    .bs-bar {
+        margin-bottom: 1.25rem;
+    }
+
+    .bs-switch {
+        flex: 1 1 100%;
+    }
+
+    .bs-bills {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .bs-arrow {
+        justify-self: center;
+        transform: rotate(90deg);
+    }
+
+    .bs-stamp {
+        right: 0.75rem;
+    }
+
+    .bs-bill--after .bs-bill__head {
+        padding-right: 8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .bs-sum {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .bs-sum div {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding: 0.625rem 0.75rem;
+    }
+
+    .bs-sum dt {
+        margin: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bill-story *,
+    .bill-story *::before {
+        transition: none !important;
+        animation: none !important;
+    }
+
+    .bs-bills.is-stamped .bs-stamp {
+        opacity: 1;
+        transform: rotate(-6deg);
+    }
+}
+
+@media print {
+    .bs-bar {
+        display: none;
+    }
+
+    .bs-month__before,
+    .bs-month__after,
+    .bs-meter__fill,
+    .bs-legend li::before {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .bs-bills.is-stamped .bs-stamp {
+        opacity: 1;
+        transform: rotate(-6deg);
+        animation: none;
+    }
+}
+
+/* ==========================================================================
+   Browsers without color-mix(): plain colours instead of black shapes.
+   The faces lose their shading here, which the edges still outline.
+   ========================================================================== */
+@supports not (color: color-mix(in oklab, red, blue)) {
+    .ef-backdrop {
+        background: linear-gradient(180deg, var(--ef-sky-top), var(--ef-sky-bot));
+    }
+
+    .ef-t,
+    .ef-l,
+    .ef-r {
+        fill: var(--m, var(--ef-wall));
+    }
+
+    .ef-leaf-top { --m: var(--ef-leaf); }
+
+    .ef-walk,
+    .ef-roof-top,
+    .ef-roof-back,
+    .ef-roof-front,
+    .ef-yard-base,
+    .ef-door,
+    .ef-window,
+    .ef-shutter,
+    .ef-shutter-bay,
+    .ef-meter-face,
+    .ef-device-screen,
+    .ef-louvre,
+    .ef-vent,
+    .ef-fin,
+    .ef-bess-band,
+    .ef-cell,
+    .ef-pv {
+        fill: var(--c);
+    }
+
+    .ef-roof-back { --c: var(--ef-sheet); }
+    .ef-shutter-bay { --c: var(--ef-shed); }
+    .ef-fin { --c: var(--ef-device); }
+
+    .ef-louvre,
+    .ef-vent,
+    .ef-cell {
+        --c: var(--ef-shade);
+        fill-opacity: 0.6;
+    }
+
+    .ef-cell.is-lit { fill-opacity: 1; }
+
+    .ef-mullion,
+    .ef-shutter-line {
+        stroke: var(--ef-shade);
+        stroke-opacity: 0.45;
+    }
+
+    .energy-flow[data-lights="off"] .ef-window { fill: var(--ef-glass); }
+    .energy-flow[data-inverter="on"] .ef-device-screen { --c: #12304F; }
+
+    .ef-fan__ring {
+        fill: var(--ef-shade);
+        fill-opacity: 0.55;
+    }
+
+    .ef-fan__blade { fill: var(--ef-device); }
+    .ef-puff { fill: var(--h-muted); }
+    .ef-tag[data-state="down"] { border-color: var(--ef-down); }
+
+    .bs-stamp { background: var(--h-bg); }
+
+    .bs-sum .bs-sum__saved {
+        border-color: var(--h-green);
+        background: transparent;
+    }
+}

@@ -46,6 +46,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="solar-visuals.css">
     <meta property="og:site_name" content="Ray2Volt Solar">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Commercial &amp; Industrial Rooftop Solar | Ray2Volt Solar">
@@ -332,6 +333,20 @@
         </div>
     </section>
 
+    <!-- See it working: a business plant through the day (energy-flow.js) -->
+    <section class="section" id="how-solar-works">
+        <div class="container">
+            <div class="section-header reveal">
+                <p class="kicker">See it working</p>
+                <h2>How a solar plant runs your business</h2>
+                <p>Step through a working day, a Sunday and a power cut on a 100 kW plant. Switch to hybrid to add a battery.</p>
+            </div>
+            <div class="energy-flow reveal" data-energy-flow data-segment="business" data-system="ongrid" data-choices="system">
+                <p>On a sunny day the panels run the building first and send spare units to the grid. After dark the grid takes over, or a battery on a hybrid system. In a power cut an on-grid system switches off for safety, while a hybrid system keeps essential loads running.</p>
+            </div>
+        </div>
+    </section>
+
     <!-- CAPEX vs OPEX -->
     <section class="section bg-light">
         <div class="container">
@@ -463,6 +478,20 @@
                     </svg>
                 </a>
             </p>
+        </div>
+    </section>
+
+    <!-- Before and after solar, on the bill (bill-story.js) -->
+    <section class="section" id="bill-savings">
+        <div class="container">
+            <div class="section-header reveal">
+                <p class="kicker">Before and after solar</p>
+                <h2>What solar does to your business bill</h2>
+                <p>Set your monthly bill. Solar cuts the units you buy in the day, while demand charges stay the same.</p>
+            </div>
+            <div class="bill-story reveal" data-bill-story data-segment="business">
+                <p>With solar, most of the units you use come from your own roof, so the energy charges on your bill fall. Fixed and demand charges stay the same.</p>
+            </div>
         </div>
     </section>
 
@@ -754,6 +783,8 @@
     </button>
 
     <script src="script.js"></script>
+    <script src="energy-flow.js" defer></script>
+    <script src="bill-story.js" defer></script>
 </body>
 
 </html>

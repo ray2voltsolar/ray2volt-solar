@@ -40,6 +40,7 @@
     </noscript>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="solar-visuals.css">
     <meta property="og:site_name" content="Ray2Volt Solar">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Residential Hybrid Solar | Ray2Volt Solar">
@@ -208,7 +209,11 @@
             <div class="section-header reveal">
                 <p class="kicker">How it works</p>
                 <h2>How hybrid solar works</h2>
-                <p>Smart energy management that adapts to your needs throughout the day.</p>
+                <p>Step through a day, from a sunny noon to a power cut, and see how the panels, the battery and the grid share the work.</p>
+            </div>
+
+            <div class="energy-flow mb-5 reveal" data-energy-flow data-segment="home" data-system="hybrid" data-choices="system">
+                <p>On a sunny day the panels run the building first and send spare units to the grid. After dark the grid takes over, or a battery on a hybrid system. In a power cut an on-grid system switches off for safety, while a hybrid system keeps essential loads running.</p>
             </div>
 
             <ol class="process reveal">
@@ -411,5 +416,6 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
     </button>
     <script src="script.js"></script>
+    <script src="energy-flow.js" defer></script>
 </body>
 </html>
