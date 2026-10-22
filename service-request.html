@@ -29,7 +29,7 @@
             document.documentElement.setAttribute('data-theme', theme);
         })();
     </script>
-    <meta name="description" content="Already have a solar system from Ray2Volt Solar? Tell us what&#x27;s wrong, from low generation to an inverter alarm, and we&#x27;ll call you about a service visit.">
+    <meta name="description" content="Request solar support or enquire about RayCare maintenance by Ray2Volt Solar. Share your plant details, preferred care plan or service issue and we will call you.">
     <title>Request a Solar Service Visit | Ray2Volt Solar</title>
     <link rel="canonical" href="https://ray2voltsolar.com/service-request.html">
 
@@ -49,7 +49,7 @@
     <meta property="og:site_name" content="Ray2Volt Solar">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Request a Solar Service Visit | Ray2Volt Solar">
-    <meta property="og:description" content="Already have a solar system from Ray2Volt Solar? Tell us what&#x27;s wrong, from low generation to an inverter alarm, and we&#x27;ll call you about a service visit.">
+    <meta property="og:description" content="Request solar support or enquire about RayCare maintenance by Ray2Volt Solar. Share your plant details, preferred care plan or service issue and we will call you.">
     <meta property="og:url" content="https://ray2voltsolar.com/service-request.html">
     <meta property="og:image" content="https://ray2voltsolar.com/images/og-default.jpg">
     <meta name="twitter:card" content="summary_large_image">
@@ -135,9 +135,9 @@
                         <li><a href="apartment-solar.html">Apartments &amp; housing societies</a></li>
                         <li><a href="solar-emi-calculator.html">Solar loan EMI calculator</a></li>
                         <li><a href="blog/pm-surya-ghar-subsidy-guide.html">PM Surya Ghar subsidy guide</a></li>
-                        <li><a href="raycare.html">RayCare: service plans</a></li>
                     </ul>
                 </li>
+                <li><a href="raycare.html" class="nav-link">RayCare</a></li>
                 <li><a href="investor.html" class="nav-link">Investors</a></li>
                 <li><a href="blog.html" class="nav-link">Guides</a></li>
                 <li><a href="about.html" class="nav-link">About</a></li>
@@ -161,7 +161,7 @@
                 <span>Request a service visit</span>
             </div>
             <h1>Request a service visit</h1>
-            <p>For existing customers. Tell us what's happening with your solar system and we'll call you on the number you give.</p>
+            <p>Request support for your solar system or explore RayCare maintenance, including for plants installed by others. Share your details and we'll call you.</p>
         </div>
     </section>
 
@@ -170,7 +170,10 @@
             <div class="split">
                 <div class="panel">
                     <p class="kicker">Service request</p>
-                    <h2>Tell us about the problem</h2>
+                    <h2>How can we help your solar plant?</h2>
+                    <div class="note" id="sr-raycare-note" hidden>
+                        <p><strong>Your RayCare enquiry.</strong> Review your preferred plan and plant capacity below. We'll confirm site access, service scope and the final quote with you before a plan starts.</p>
+                    </div>
                     <form class="form-stack" data-r2v-form="service-request" novalidate>
                         <input type="hidden" name="access_key" value="b3d2b2c1-4237-4de1-8879-9048dfa1beb8">
                         <input type="hidden" name="subject" value="Service Request - Ray2Volt Solar">
@@ -208,14 +211,15 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="sr-size">System size (if known)</label>
-                                <input type="text" id="sr-size" name="System Size" class="form-control" placeholder="For example, 5 kW">
+                                <label for="sr-size">Installed DC capacity (if known)</label>
+                                <input type="text" id="sr-size" name="System Size" class="form-control" placeholder="For example, 100 kWp">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="sr-issue">What's the issue? *</label>
+                            <label for="sr-issue">What do you need help with? *</label>
                             <select id="sr-issue" name="Issue Type" class="form-control" required data-error="Please choose the closest match.">
                                 <option value="">Select the closest match</option>
+                                <option>RayCare maintenance enquiry</option>
                                 <option>System not generating, or generating less than usual</option>
                                 <option>Inverter error, alarm or display problem</option>
                                 <option>Panels dirty, damaged or need cleaning</option>
@@ -225,9 +229,21 @@
                                 <option>Something else</option>
                             </select>
                         </div>
+                        <div id="sr-raycare-fields">
+                            <div class="form-group">
+                                <label for="sr-raycare-plan">Preferred RayCare plan (optional)</label>
+                                <select id="sr-raycare-plan" name="RayCare Plan" class="form-control" aria-describedby="sr-raycare-plan-hint">
+                                    <option value="">Help me choose</option>
+                                    <option value="Essential">Essential — ₹400/kWp/year · quarterly visits</option>
+                                    <option value="Plus">Plus — ₹550/kWp/year · monthly visits</option>
+                                    <option value="Pro">Pro — ₹600/kWp/year · monthly visits</option>
+                                </select>
+                                <p class="form-hint" id="sr-raycare-plan-hint">Applicable GST extra. <a class="text-link" href="raycare-plans.html">Compare RayCare plans</a>.</p>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="sr-message">Tell us more</label>
-                            <textarea id="sr-message" name="Message" class="form-control" rows="4" placeholder="What have you noticed, and since when? An inverter error code helps."></textarea>
+                            <textarea id="sr-message" name="Message" class="form-control" rows="4" placeholder="Tell us about your maintenance needs or what you have noticed. An inverter error code helps with a fault."></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary btn-lg btn-block">Send service request</button>
                         <p class="form-note mb-0">We use these details only to reply to this request. <a class="text-link" href="privacy-policy.html">Privacy policy</a></p>
@@ -250,7 +266,8 @@
                         <li>Your recent electricity bill, if the question is about the net meter or billing</li>
                         <li>The name the system was installed under, if it isn't yours</li>
                     </ul>
-                    <h2>Keeping your system healthy</h2>
+                    <h2>Looking for ongoing care?</h2>
+                    <p><a class="text-link" href="raycare.html">RayCare by Ray2Volt Solar</a> brings cleaning, preventive checks and maintenance support into one annual plan. <a class="text-link" href="raycare-plans.html">Compare Essential, Plus and Pro</a>.</p>
                     <p class="mb-0">Our <a class="text-link" href="blog/solar-panel-maintenance-guide.html">solar panel maintenance guide</a> covers cleaning and simple checks, and <a class="text-link" href="blog/solar-panel-warranties-decoded.html">solar panel warranties decoded</a> explains what the manufacturer warranties cover.</p>
                 </div>
             </div>
@@ -304,7 +321,9 @@
                         <li><a href="blog.html">Guides</a></li>
                         <li><a href="careers.html">Careers</a></li>
                         <li><a href="channel-partner.html">Channel partners</a></li>
-                        <li><a href="raycare.html">RayCare service and warranty</a></li>
+                        <li><a href="warranty.html">Warranty and claims</a></li>
+                        <li><a href="raycare.html">RayCare solar maintenance</a></li>
+                        <li><a href="raycare-plans.html">RayCare plans and pricing</a></li>
                         <li><a href="service-request.html" aria-current="page">Request a service visit</a></li>
                         <li><a href="privacy-policy.html">Privacy policy</a></li>
                     </ul>
@@ -335,6 +354,7 @@
     </button>
 
     <script src="script.js"></script>
+    <script src="raycare.js"></script>
 </body>
 
 </html>

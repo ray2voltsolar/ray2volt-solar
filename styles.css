@@ -177,6 +177,11 @@ ol {
     list-style: none;
 }
 
+/* Explicit component display rules must respect conditional and success states. */
+[hidden] {
+    display: none !important;
+}
+
 /* --------------------------------------------------------------------------
    3. Typography - High Visibility for Dark Background
    -------------------------------------------------------------------------- */

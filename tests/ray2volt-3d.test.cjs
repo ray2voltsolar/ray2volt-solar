@@ -14,7 +14,7 @@ const englishPages = [
     ...fs.readdirSync(root).filter(n => n.endsWith('.html')),
     ...fs.readdirSync(path.join(root, 'blog')).filter(n => n.endsWith('.html')).map(n => `blog/${n}`)
 ];
-const stubs = ['ray2volt-3d.html', 'warranty.html'];
+const stubs = ['ray2volt-3d.html'];
 
 const headerOf = html => html.match(/<header class="header"[\s\S]*?<\/header>/i)?.[0] ?? '';
 const footerColumn = html => html.match(/<h4>For Businesses<\/h4>\s*<ul[^>]*>[\s\S]*?<\/ul>/i)?.[0] ?? '';

@@ -1722,6 +1722,12 @@ select.form-control option {
         padding: 0 1rem;
     }
 
+    /* Keep a clear gap before the seven navigation links on small tablets. */
+    .nav .logo img {
+        width: 150px;
+        height: auto;
+    }
+
     .nav-link {
         padding: 0.5rem 0.45rem;
         font-size: 0.8125rem;
