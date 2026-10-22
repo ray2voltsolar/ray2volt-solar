@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -14,8 +16,6 @@
         gtag('config', 'AW-18014889887');
         gtag('config', 'G-WZJ1CXHSG9');
     </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Theme before first paint: the visitor's own choice, else light -->
     <script>
         (function () {
@@ -32,6 +32,7 @@
     <link rel="canonical" href="https://ray2voltsolar.com/privacy-policy.html">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap"
         rel="stylesheet" media="print" onload="this.media='all'">
     <noscript>
@@ -64,7 +65,7 @@
     <header class="header">
         <nav class="nav container">
             <a href="/" class="logo">
-                <img src="images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'">
+                <img src="images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'" decoding="async">
                 <div class="logo-text">Ray2Volt Solar <span>Private Limited</span></div>
             </a>
             <ul class="nav-menu">
@@ -293,6 +294,6 @@
     <button class="scroll-to-top" aria-label="Scroll to top">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
     </button>
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>

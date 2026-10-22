@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -26,8 +28,6 @@
       return false;
     }
     </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Theme before first paint: the visitor's own choice, else light -->
     <script>
         (function () {
@@ -44,6 +44,7 @@
     <link rel="canonical" href="https://ray2voltsolar.com/claim-subsidy.html">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap"
         rel="stylesheet" media="print" onload="this.media='all'">
     <noscript>
@@ -538,7 +539,7 @@
     <header class="header">
         <nav class="nav container">
             <a href="/" class="logo">
-                <img src="images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'">
+                <img src="images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'" decoding="async">
                 <div class="logo-text">Ray2Volt Solar <span>Private Limited</span></div>
             </a>
             <ul class="nav-menu">
@@ -821,19 +822,23 @@
         showStep(0);
     })();
     </script>
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 
     <!-- Confetti Script -->
     <script>
     (function() {
         const canvas = document.getElementById('confetti-canvas');
+        if (!canvas || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+            if (canvas) canvas.remove();
+            return;
+        }
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
         const colors = ['#FFB300', '#FF8F00', '#FFD54F', '#FF6B6B', '#EE5A24', '#38BDF8', '#10B981', '#fff'];
         const particles = [];
-        const PARTICLE_COUNT = 150;
+        const PARTICLE_COUNT = 80;
         let animFrame;
         let startTime = Date.now();
         const DURATION = 4000;
@@ -873,6 +878,7 @@
                     if (p.opacity > 0) allGone = false;
                 });
                 if (allGone) {
+                    window.removeEventListener('resize', onResize);
                     canvas.remove();
                     return;
                 }
@@ -897,12 +903,12 @@
             animFrame = requestAnimationFrame(draw);
         }
 
-        draw();
-
-        window.addEventListener('resize', () => {
+        function onResize() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-        });
+        }
+        window.addEventListener('resize', onResize, { passive: true });
+        setTimeout(() => { startTime = Date.now(); requestAnimationFrame(draw); }, 60);
     })();
     </script>
 </body>

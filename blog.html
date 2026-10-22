@@ -2,6 +2,8 @@
 <html lang="en" data-theme="light" data-theme-fixed>
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -16,8 +18,6 @@
         gtag('config', 'G-WZJ1CXHSG9');
     </script>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Blog pages are always light: the theme is fixed on <html> and has no toggle -->
     <meta name="description"
         content="Explore expert rooftop solar guides, PM Surya Ghar subsidy updates, net metering rules, and solar ROI calculations for Indian homes and businesses from Ray2Volt Solar.">
@@ -29,6 +29,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap"
         rel="stylesheet" media="print" onload="this.media='all'">
     <noscript>
@@ -36,6 +37,7 @@
     </noscript>
 
     <!-- Styles -->
+    <link rel="preload" as="image" type="image/webp" imagesrcset="images/blog/how-a-solar-cell-works-physics-800w.webp 800w, images/blog/how-a-solar-cell-works-physics-1600w.webp 1600w" imagesizes="(max-width: 600px) 90vw, 400px" fetchpriority="high">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="blog.css">
     <link rel="stylesheet" href="theme.css">
@@ -426,7 +428,7 @@
     <header class="header">
         <nav class="nav container">
             <a href="/" class="logo">
-                <img src="images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'">
+                <img src="images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'" decoding="async">
                 <div class="logo-text">
                     Ray2Volt Solar
                     <span>Private Limited</span>
@@ -524,7 +526,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/how-a-solar-cell-works-physics-800w.webp 800w, images/blog/how-a-solar-cell-works-physics-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/how-a-solar-cell-works-physics.jpg" alt="How a Solar Cell Works: The Physics from Photons to Current" fetchpriority="high" width="600" height="338">
+                            <img src="images/blog/how-a-solar-cell-works-physics.jpg" alt="How a Solar Cell Works: The Physics from Photons to Current" fetchpriority="high" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -543,7 +545,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/solar-module-iv-curve-explained-800w.webp 800w, images/blog/solar-module-iv-curve-explained-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/solar-module-iv-curve-explained.jpg" alt="How a Solar Module Works: Cells, Bypass Diodes and the I-V Curve" loading="lazy" width="600" height="338">
+                            <img src="images/blog/solar-module-iv-curve-explained.jpg" alt="How a Solar Module Works: Cells, Bypass Diodes and the I-V Curve" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -562,7 +564,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/solar-dc-cable-sizing-voltage-drop-800w.webp 800w, images/blog/solar-dc-cable-sizing-voltage-drop-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/solar-dc-cable-sizing-voltage-drop.jpg" alt="Solar Wiring from First Principles: Resistance, Voltage Drop and Cable Sizing" loading="lazy" width="600" height="338">
+                            <img src="images/blog/solar-dc-cable-sizing-voltage-drop.jpg" alt="Solar Wiring from First Principles: Resistance, Voltage Drop and Cable Sizing" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -581,7 +583,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/solar-string-sizing-temperature-800w.webp 800w, images/blog/solar-string-sizing-temperature-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/solar-string-sizing-temperature.jpg" alt="String Sizing for Solar Inverters: The Temperature Mathematics of Voc, Vmp and MPPT Windows" loading="lazy" width="600" height="338">
+                            <img src="images/blog/solar-string-sizing-temperature.jpg" alt="String Sizing for Solar Inverters: The Temperature Mathematics of Voc, Vmp and MPPT Windows" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -600,7 +602,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/sun-path-tilt-angle-shading-geometry-800w.webp 800w, images/blog/sun-path-tilt-angle-shading-geometry-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/sun-path-tilt-angle-shading-geometry.jpg" alt="Sun Path Geometry for Solar: Tilt, Azimuth and Row Spacing from First Principles" loading="lazy" width="600" height="338">
+                            <img src="images/blog/sun-path-tilt-angle-shading-geometry.jpg" alt="Sun Path Geometry for Solar: Tilt, Azimuth and Row Spacing from First Principles" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -619,7 +621,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/solar-energy-yield-performance-ratio-800w.webp 800w, images/blog/solar-energy-yield-performance-ratio-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/solar-energy-yield-performance-ratio.jpg" alt="From Sunlight to Units: The Mathematics of Solar Energy Yield and Performance Ratio" loading="lazy" width="600" height="338">
+                            <img src="images/blog/solar-energy-yield-performance-ratio.jpg" alt="From Sunlight to Units: The Mathematics of Solar Energy Yield and Performance Ratio" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -638,7 +640,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/mppt-and-dc-dc-converters-explained-800w.webp 800w, images/blog/mppt-and-dc-dc-converters-explained-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/mppt-and-dc-dc-converters-explained.jpg" alt="MPPT Explained: The Calculus and Power Electronics Behind Maximum Power Point Tracking" loading="lazy" width="600" height="338">
+                            <img src="images/blog/mppt-and-dc-dc-converters-explained.jpg" alt="MPPT Explained: The Calculus and Power Electronics Behind Maximum Power Point Tracking" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -657,7 +659,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/how-inverters-make-ac-pwm-800w.webp 800w, images/blog/how-inverters-make-ac-pwm-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/how-inverters-make-ac-pwm.jpg" alt="How a Solar Inverter Makes AC: H-Bridges, PWM, Harmonics and Grid Synchronisation" loading="lazy" width="600" height="338">
+                            <img src="images/blog/how-inverters-make-ac-pwm.jpg" alt="How a Solar Inverter Makes AC: H-Bridges, PWM, Harmonics and Grid Synchronisation" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -676,7 +678,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/solar-earthing-surge-protection-800w.webp 800w, images/blog/solar-earthing-surge-protection-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/solar-earthing-surge-protection.jpg" alt="Earthing and Surge Protection for Solar Plants: The Physics of Fault Currents and Lightning" loading="lazy" width="600" height="338">
+                            <img src="images/blog/solar-earthing-surge-protection.jpg" alt="Earthing and Surge Protection for Solar Plants: The Physics of Fault Currents and Lightning" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -695,7 +697,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/lithium-battery-math-for-solar-800w.webp 800w, images/blog/lithium-battery-math-for-solar-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/lithium-battery-math-for-solar.jpg" alt="Lithium Battery Mathematics for Solar: Capacity, C-Rate, Efficiency and Cycle Life" loading="lazy" width="600" height="338">
+                            <img src="images/blog/lithium-battery-math-for-solar.jpg" alt="Lithium Battery Mathematics for Solar: Capacity, C-Rate, Efficiency and Cycle Life" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -714,7 +716,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/solar-for-textile-spinning-mills-case-study-800w.webp 800w, images/blog/solar-for-textile-spinning-mills-case-study-1376w.webp 1376w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/solar-for-textile-spinning-mills-case-study.jpg" alt="Solar for Textile & Spinning Mills in India: 500 kWp Industrial Worked Example" loading="lazy" width="600" height="338">
+                            <img src="images/blog/solar-for-textile-spinning-mills-case-study.jpg" alt="Solar for Textile & Spinning Mills in India: 500 kWp Industrial Worked Example" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -733,7 +735,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/solar-for-petrol-pumps-case-study-800w.webp 800w, images/blog/solar-for-petrol-pumps-case-study-1376w.webp 1376w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/solar-for-petrol-pumps-case-study.jpg" alt="Solar for Petrol Pumps in India: 25 kWp Worked Example, Payback & OMC Mandates" loading="lazy" width="600" height="338">
+                            <img src="images/blog/solar-for-petrol-pumps-case-study.jpg" alt="Solar for Petrol Pumps in India: 25 kWp Worked Example, Payback & OMC Mandates" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -752,7 +754,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/solar-for-warehouses-logistics-case-study-800w.webp 800w, images/blog/solar-for-warehouses-logistics-case-study-1376w.webp 1376w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/solar-for-warehouses-logistics-case-study.jpg" alt="Solar for Warehouses & Logistics in India: 250 kWp Worked Example, EV Fleets & ROI" loading="lazy" width="600" height="338">
+                            <img src="images/blog/solar-for-warehouses-logistics-case-study.jpg" alt="Solar for Warehouses & Logistics in India: 250 kWp Worked Example, EV Fleets & ROI" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -771,7 +773,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/solar-for-hotels-resorts-case-study-800w.webp 800w, images/blog/solar-for-hotels-resorts-case-study-1376w.webp 1376w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/solar-for-hotels-resorts-case-study.jpg" alt="Solar for Hotels & Resorts in India: 100 kWp Worked Example, Payback & Guest Comfort" loading="lazy" width="600" height="338">
+                            <img src="images/blog/solar-for-hotels-resorts-case-study.jpg" alt="Solar for Hotels & Resorts in India: 100 kWp Worked Example, Payback & Guest Comfort" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -790,7 +792,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/solar-for-schools-colleges-case-study-800w.webp 800w, images/blog/solar-for-schools-colleges-case-study-1376w.webp 1376w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/solar-for-schools-colleges-case-study.jpg" alt="Solar for Schools & Colleges in India: 120 kWp Campus Worked Example" loading="lazy" width="600" height="338">
+                            <img src="images/blog/solar-for-schools-colleges-case-study.jpg" alt="Solar for Schools & Colleges in India: 120 kWp Campus Worked Example" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -809,7 +811,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/solar-for-hospitals-case-study-800w.webp 800w, images/blog/solar-for-hospitals-case-study-1376w.webp 1376w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/solar-for-hospitals-case-study.jpg" alt="Solar for Hospitals in India: 80 kWp Hybrid Worked Example & Power Reliability" loading="lazy" width="600" height="338">
+                            <img src="images/blog/solar-for-hospitals-case-study.jpg" alt="Solar for Hospitals in India: 80 kWp Hybrid Worked Example & Power Reliability" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -828,7 +830,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/tier-1-solar-panel-brands-india-800w.webp 800w, images/blog/tier-1-solar-panel-brands-india-1376w.webp 1376w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/tier-1-solar-panel-brands-india.jpg" alt="Tier-1 Solar Panel Brands in India (2026): Waaree, Adani, Tata & Premier" loading="lazy" width="600" height="338">
+                            <img src="images/blog/tier-1-solar-panel-brands-india.jpg" alt="Tier-1 Solar Panel Brands in India (2026): Waaree, Adani, Tata & Premier" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -847,7 +849,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/solar-for-rice-mills-case-study-800w.webp 800w, images/blog/solar-for-rice-mills-case-study-1376w.webp 1376w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/solar-for-rice-mills-case-study.jpg" alt="Solar for Rice Mills in India: 200 kWp Worked Example, Heavy Motor Loads & ROI" loading="lazy" width="600" height="338">
+                            <img src="images/blog/solar-for-rice-mills-case-study.jpg" alt="Solar for Rice Mills in India: 200 kWp Worked Example, Heavy Motor Loads & ROI" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -866,7 +868,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/top-solar-inverter-brands-india-800w.webp 800w, images/blog/top-solar-inverter-brands-india-1376w.webp 1376w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/top-solar-inverter-brands-india.jpg" alt="Top Solar Inverter Brands in India (2026): Deye, Sungrow, Growatt & Polycab" loading="lazy" width="600" height="338">
+                            <img src="images/blog/top-solar-inverter-brands-india.jpg" alt="Top Solar Inverter Brands in India (2026): Deye, Sungrow, Growatt & Polycab" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -885,7 +887,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/solar-for-cold-storage-case-study-800w.webp 800w, images/blog/solar-for-cold-storage-case-study-1376w.webp 1376w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/solar-for-cold-storage-case-study.jpg" alt="Solar for Cold Storage in India: 150 kWp Worked Example, Sizing & Payback" loading="lazy" width="600" height="338">
+                            <img src="images/blog/solar-for-cold-storage-case-study.jpg" alt="Solar for Cold Storage in India: 150 kWp Worked Example, Sizing & Payback" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -904,7 +906,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/solar-in-tirupati-guide-800w.webp 800w, images/blog/solar-in-tirupati-guide-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/solar-in-tirupati-guide.jpg" alt="Going Solar in Tirupati and Srikalahasti: A Local Homeowner's Guide" loading="lazy" width="600" height="338">
+                            <img src="images/blog/solar-in-tirupati-guide.jpg" alt="Going Solar in Tirupati and Srikalahasti: A Local Homeowner's Guide" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -923,7 +925,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/how-to-choose-a-solar-installer-800w.webp 800w, images/blog/how-to-choose-a-solar-installer-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/how-to-choose-a-solar-installer.jpg" alt="How to Choose a Solar Installer in India: 12 Questions Before You Sign" loading="lazy" width="600" height="338">
+                            <img src="images/blog/how-to-choose-a-solar-installer.jpg" alt="How to Choose a Solar Installer in India: 12 Questions Before You Sign" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -942,7 +944,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/rooftop-solar-roi-payback-800w.webp 800w, images/blog/rooftop-solar-roi-payback-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/rooftop-solar-roi-payback.jpg" alt="Rooftop Solar ROI: How Long Until Your System Actually Pays for Itself?" loading="lazy" width="600" height="338">
+                            <img src="images/blog/rooftop-solar-roi-payback.jpg" alt="Rooftop Solar ROI: How Long Until Your System Actually Pays for Itself?" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -961,7 +963,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/solar-carports-ev-charging-800w.webp 800w, images/blog/solar-carports-ev-charging-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/solar-carports-ev-charging.jpg" alt="Solar Carports and EV Charging: Powering Your Fleet From the Roof" loading="lazy" width="600" height="338">
+                            <img src="images/blog/solar-carports-ev-charging.jpg" alt="Solar Carports and EV Charging: Powering Your Fleet From the Roof" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -980,7 +982,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/solar-battery-storage-worth-it-800w.webp 800w, images/blog/solar-battery-storage-worth-it-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/solar-battery-storage-worth-it.jpg" alt="Solar Plus Battery Storage in 2026: Is a Hybrid System Worth It Yet?" loading="lazy" width="600" height="338">
+                            <img src="images/blog/solar-battery-storage-worth-it.jpg" alt="Solar Plus Battery Storage in 2026: Is a Hybrid System Worth It Yet?" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -999,7 +1001,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/read-your-electricity-bill-800w.webp 800w, images/blog/read-your-electricity-bill-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/read-your-electricity-bill.jpg" alt="How to Read a Commercial Electricity Bill and Find Your Solar Savings" loading="lazy" width="600" height="338">
+                            <img src="images/blog/read-your-electricity-bill.jpg" alt="How to Read a Commercial Electricity Bill and Find Your Solar Savings" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -1018,7 +1020,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/commercial-solar-for-factories-800w.webp 800w, images/blog/commercial-solar-for-factories-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/commercial-solar-for-factories.jpg" alt="Solar for Factories: Cutting Manufacturing Power Costs in India" loading="lazy" width="600" height="338">
+                            <img src="images/blog/commercial-solar-for-factories.jpg" alt="Solar for Factories: Cutting Manufacturing Power Costs in India" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -1037,7 +1039,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/accelerated-depreciation-solar-800w.webp 800w, images/blog/accelerated-depreciation-solar-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/accelerated-depreciation-solar.jpg" alt="Accelerated Depreciation on Solar: The 40% Tax Benefit Explained" loading="lazy" width="600" height="338">
+                            <img src="images/blog/accelerated-depreciation-solar.jpg" alt="Accelerated Depreciation on Solar: The 40% Tax Benefit Explained" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -1056,7 +1058,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/capex-vs-opex-resco-solar-800w.webp 800w, images/blog/capex-vs-opex-resco-solar-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/capex-vs-opex-resco-solar.jpg" alt="CAPEX vs OPEX (RESCO) Solar: Which Model Fits Your Business?" loading="lazy" width="600" height="338">
+                            <img src="images/blog/capex-vs-opex-resco-solar.jpg" alt="CAPEX vs OPEX (RESCO) Solar: Which Model Fits Your Business?" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -1075,7 +1077,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/dcr-vs-non-dcr-almm-800w.webp 800w, images/blog/dcr-vs-non-dcr-almm-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/dcr-vs-non-dcr-almm.jpg" alt="DCR vs Non-DCR Panels and ALMM: What the 2026 List-II Shift Means" loading="lazy" width="600" height="338">
+                            <img src="images/blog/dcr-vs-non-dcr-almm.jpg" alt="DCR vs Non-DCR Panels and ALMM: What the 2026 List-II Shift Means" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -1094,7 +1096,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/solar-loans-in-india-800w.webp 800w, images/blog/solar-loans-in-india-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/solar-loans-in-india.jpg" alt="Solar Loans in India: Financing a Rooftop System Without Big Upfront Cash" loading="lazy" width="600" height="338">
+                            <img src="images/blog/solar-loans-in-india.jpg" alt="Solar Loans in India: Financing a Rooftop System Without Big Upfront Cash" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -1113,7 +1115,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/how-to-apply-pm-surya-ghar-800w.webp 800w, images/blog/how-to-apply-pm-surya-ghar-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/how-to-apply-pm-surya-ghar.jpg" alt="How to Apply for the PM Surya Ghar Subsidy: Step-by-Step Walkthrough" loading="lazy" width="600" height="338">
+                            <img src="images/blog/how-to-apply-pm-surya-ghar.jpg" alt="How to Apply for the PM Surya Ghar Subsidy: Step-by-Step Walkthrough" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -1132,7 +1134,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/pm-surya-ghar-subsidy-guide-800w.webp 800w, images/blog/pm-surya-ghar-subsidy-guide-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/pm-surya-ghar-subsidy-guide.jpg" alt="PM Surya Ghar Muft Bijli Yojana: Complete Subsidy Guide for 2026" loading="lazy" width="600" height="338">
+                            <img src="images/blog/pm-surya-ghar-subsidy-guide.jpg" alt="PM Surya Ghar Muft Bijli Yojana: Complete Subsidy Guide for 2026" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -1151,7 +1153,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/solar-panel-warranties-decoded-800w.webp 800w, images/blog/solar-panel-warranties-decoded-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/solar-panel-warranties-decoded.jpg" alt="Solar Warranties Decoded: Product, Performance, and Workmanship Cover" loading="lazy" width="600" height="338">
+                            <img src="images/blog/solar-panel-warranties-decoded.jpg" alt="Solar Warranties Decoded: Product, Performance, and Workmanship Cover" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -1170,7 +1172,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/solar-panel-maintenance-guide-800w.webp 800w, images/blog/solar-panel-maintenance-guide-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/solar-panel-maintenance-guide.jpg" alt="Solar Panel Maintenance: A Practical Cleaning and Upkeep Guide for India" loading="lazy" width="600" height="338">
+                            <img src="images/blog/solar-panel-maintenance-guide.jpg" alt="Solar Panel Maintenance: A Practical Cleaning and Upkeep Guide for India" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -1189,7 +1191,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/what-is-a-solar-inverter-800w.webp 800w, images/blog/what-is-a-solar-inverter-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/what-is-a-solar-inverter.jpg" alt="What Is a Solar Inverter? String, Micro, and Hybrid Inverters Compared" loading="lazy" width="600" height="338">
+                            <img src="images/blog/what-is-a-solar-inverter.jpg" alt="What Is a Solar Inverter? String, Micro, and Hybrid Inverters Compared" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -1208,7 +1210,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/solar-panel-types-explained-800w.webp 800w, images/blog/solar-panel-types-explained-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/solar-panel-types-explained.jpg" alt="Solar Panel Types Explained: Mono PERC, TOPCon, and Bifacial" loading="lazy" width="600" height="338">
+                            <img src="images/blog/solar-panel-types-explained.jpg" alt="Solar Panel Types Explained: Mono PERC, TOPCon, and Bifacial" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -1227,7 +1229,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/net-metering-andhra-pradesh-800w.webp 800w, images/blog/net-metering-andhra-pradesh-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/net-metering-andhra-pradesh.jpg" alt="Net Metering in Andhra Pradesh: How Your Meter Runs Backwards" loading="lazy" width="600" height="338">
+                            <img src="images/blog/net-metering-andhra-pradesh.jpg" alt="Net Metering in Andhra Pradesh: How Your Meter Runs Backwards" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -1246,7 +1248,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/how-to-size-a-solar-system-800w.webp 800w, images/blog/how-to-size-a-solar-system-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/how-to-size-a-solar-system.jpg" alt="How to Size a Solar System for Your Home: kW, Units, and Roof Space" loading="lazy" width="600" height="338">
+                            <img src="images/blog/how-to-size-a-solar-system.jpg" alt="How to Size a Solar System for Your Home: kW, Units, and Roof Space" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -1265,7 +1267,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/on-grid-vs-off-grid-vs-hybrid-solar-800w.webp 800w, images/blog/on-grid-vs-off-grid-vs-hybrid-solar-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/on-grid-vs-off-grid-vs-hybrid-solar.jpg" alt="On-Grid vs Off-Grid vs Hybrid Solar: Which System Is Right for You?" loading="lazy" width="600" height="338">
+                            <img src="images/blog/on-grid-vs-off-grid-vs-hybrid-solar.jpg" alt="On-Grid vs Off-Grid vs Hybrid Solar: Which System Is Right for You?" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -1284,7 +1286,7 @@
                     <div class="blog-card-media">
                         <picture>
                             <source type="image/webp" srcset="images/blog/how-rooftop-solar-works-800w.webp 800w, images/blog/how-rooftop-solar-works-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="images/blog/how-rooftop-solar-works.jpg" alt="How Rooftop Solar Works: A Complete Beginner's Guide for Indian Homes" loading="lazy" width="600" height="338">
+                            <img src="images/blog/how-rooftop-solar-works.jpg" alt="How Rooftop Solar Works: A Complete Beginner's Guide for Indian Homes" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                     </div>
                     <div class="blog-card-body">
@@ -1381,8 +1383,8 @@
         </svg>
     </button>
 
-    <script src="script.js"></script>
-    <script src="blog.js"></script>
+    <script src="script.js" defer></script>
+    <script src="blog.js" defer></script>
 </body>
 
 </html>

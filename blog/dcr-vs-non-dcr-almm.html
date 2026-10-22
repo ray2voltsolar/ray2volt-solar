@@ -2,6 +2,8 @@
 <html lang="en" data-theme="light" data-theme-fixed>
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -16,8 +18,6 @@
         gtag('config', 'G-WZJ1CXHSG9');
     </script>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Blog pages are always light: the theme is fixed on <html> and has no toggle -->
     <meta name="description" content="Compare DCR and non-DCR solar panels, ALMM List-I and List-II rules, the ₹9 to ₹12 per Wp premium, and what to verify before ordering for your roof.">
     <meta name="keywords" content="ALMM List-II 2026, DCR vs non DCR solar panels, ALMM compliance India, domestic content requirement solar">
@@ -27,6 +27,8 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap"
         rel="stylesheet" media="print" onload="this.media='all'">
     <noscript>
@@ -34,6 +36,7 @@
     </noscript>
 
     <!-- Styles -->
+    <link rel="preload" as="image" type="image/webp" imagesrcset="../images/blog/dcr-vs-non-dcr-almm-800w.webp 800w, ../images/blog/dcr-vs-non-dcr-almm-1600w.webp 1600w" imagesizes="(max-width: 900px) 100vw, 800px" fetchpriority="high">
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../blog.css">
     <link rel="stylesheet" href="../theme.css">
@@ -134,7 +137,7 @@
     <header class="header">
         <nav class="nav container">
             <a href="/" class="logo">
-                <img src="../images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'">
+                <img src="../images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'" decoding="async">
                 <div class="logo-text">
                     Ray2Volt Solar
                     <span>Private Limited</span>
@@ -233,7 +236,7 @@
             <figure class="post-hero">
                 <picture>
                     <source type="image/webp" srcset="../images/blog/dcr-vs-non-dcr-almm-800w.webp 800w, ../images/blog/dcr-vs-non-dcr-almm-1600w.webp 1600w" sizes="(max-width: 900px) 100vw, 800px">
-                    <img src="../images/blog/dcr-vs-non-dcr-almm.jpg" alt="Solar panels on a roof being assessed for DCR and ALMM compliance" width="1600" height="700" fetchpriority="high">
+                    <img src="../images/blog/dcr-vs-non-dcr-almm.jpg" alt="Solar panels on a roof being assessed for DCR and ALMM compliance" width="1600" height="700" fetchpriority="high" decoding="async">
                 </picture>
                 <figcaption>Check both the cell source and module approval before relying on a subsidy or grid connection.</figcaption>
             </figure>
@@ -286,7 +289,7 @@
                     <p>Use roughly <strong>₹9 to ₹12 per Wp</strong>, or ₹9,000 to ₹12,000 per kWp, when checking a DCR quotation against a comparable non-DCR one. At 3 kW, that is about ₹27,000 to ₹36,000 of extra module cost. A qualifying 3 kW home installation can receive up to ₹78,000 under PM Surya Ghar, so compare the complete installed cost after the applicable subsidy. A site audit and actual quotes are needed before deciding which option costs your household less.</p>
                     <p>MNRE capacity data has put Indian module assembly above 40 GW. That figure changes; check the latest MNRE publication if production scale affects your purchase. Ask the vendor to document the cells used in the exact modules delivered to your site.</p>
                     <figure>
-                        <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200&amp;h=675&amp;fit=crop&amp;auto=format" alt="Rows of solar panels in daylight" loading="lazy" width="1200" height="675">
+                        <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200&amp;h=675&amp;fit=crop&amp;auto=format&amp;q=75" alt="Rows of solar panels in daylight" loading="lazy" width="1200" height="675" decoding="async">
                         <figcaption>Check the cell source as well as the module label. Factory tests help confirm that the delivered panels match the quoted specification.</figcaption>
                     </figure>
 
@@ -305,7 +308,7 @@
                     <p>Some current modules are quoted with efficiencies around 21.5% to 22.5%, but the actual figure depends on the model. Ask for its datasheet, flash test report, temperature coefficient and degradation terms. Low-light output during cloudy weather and heat losses during Andhra Pradesh summers can matter more to your bill than a broad technology label.</p>
                     <p>Our guide to <a href="solar-panel-types-explained.html">Mono PERC, TOPCon and bifacial panels</a> explains N-type cells and half-cut layouts if you want to compare equipment more closely.</p>
                     <figure>
-                        <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1200&amp;h=675&amp;fit=crop&amp;auto=format" alt="Exterior of an industrial manufacturing plant" loading="lazy" width="1200" height="675">
+                        <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1200&amp;h=675&amp;fit=crop&amp;auto=format&amp;q=75" alt="Exterior of an industrial manufacturing plant" loading="lazy" width="1200" height="675" decoding="async">
                         <figcaption>For a business roof, ask the installer to show the approval documents for the exact panels proposed.</figcaption>
                     </figure>
 
@@ -336,7 +339,7 @@
 
                     <!-- Author box -->
                     <div class="author-box">
-                        <img src="../images/logo.png" alt="Ray2Volt Solar" width="52" height="52" loading="lazy">
+                        <img src="../images/logo.png" alt="Ray2Volt Solar" width="52" height="52" loading="lazy" decoding="async">
                         <div>
                             <h2>Ray2Volt Solar Private Limited</h2>
                             <p>We design, install, and service rooftop solar for homes and businesses across Tirupati
@@ -388,7 +391,7 @@
                     <a href="solar-panel-types-explained.html" class="related-card">
                         <picture>
                             <source type="image/webp" srcset="../images/blog/solar-panel-types-explained-800w.webp 800w, ../images/blog/solar-panel-types-explained-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="../images/blog/solar-panel-types-explained.jpg" alt="Solar Panel Types Explained" loading="lazy" width="600" height="338">
+                            <img src="../images/blog/solar-panel-types-explained.jpg" alt="Solar Panel Types Explained" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                         <div class="related-card-body">
                             <h3>Solar Panel Types Explained: Mono PERC, TOPCon, and Bifacial</h3>
@@ -398,7 +401,7 @@
                     <a href="commercial-solar-for-factories.html" class="related-card">
                         <picture>
                             <source type="image/webp" srcset="../images/blog/commercial-solar-for-factories-800w.webp 800w, ../images/blog/commercial-solar-for-factories-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="../images/blog/commercial-solar-for-factories.jpg" alt="Commercial Solar for Factories" loading="lazy" width="600" height="338">
+                            <img src="../images/blog/commercial-solar-for-factories.jpg" alt="Commercial Solar for Factories" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                         <div class="related-card-body">
                             <h3>Solar for Factories: Cutting Manufacturing Power Costs in India</h3>
@@ -408,7 +411,7 @@
                     <a href="capex-vs-opex-resco-solar.html" class="related-card">
                         <picture>
                             <source type="image/webp" srcset="../images/blog/capex-vs-opex-resco-solar-800w.webp 800w, ../images/blog/capex-vs-opex-resco-solar-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="../images/blog/capex-vs-opex-resco-solar.jpg" alt="CAPEX vs OPEX RESCO Solar" loading="lazy" width="600" height="338">
+                            <img src="../images/blog/capex-vs-opex-resco-solar.jpg" alt="CAPEX vs OPEX RESCO Solar" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                         <div class="related-card-body">
                             <h3>CAPEX vs OPEX (RESCO) Solar: Which Model Fits Your Business?</h3>
@@ -498,8 +501,8 @@
         </svg>
     </button>
 
-    <script src="../script.js"></script>
-    <script src="../blog.js"></script>
+    <script src="../script.js" defer></script>
+    <script src="../blog.js" defer></script>
 </body>
 
 </html>

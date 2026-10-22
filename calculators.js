@@ -202,11 +202,11 @@
                 setText(out, 'emi', r.loan ? money(r.loan.payment) + ' a month' : 'No loan entered');
 
                 const tbody = out.querySelector('tbody');
-                tbody.innerHTML = '';
+                const rowFrag = document.createDocumentFragment();
                 const zero = document.createElement('tr');
                 zero.innerHTML = '<th scope="row">0</th><td class="num">...</td><td class="num">...</td><td class="num">...</td><td class="num">...</td><td class="num">...</td>'
                     + '<td class="num">' + money(r.flows[0]) + '</td><td class="num">' + money(r.flows[0]) + '</td>';
-                tbody.appendChild(zero);
+                rowFrag.appendChild(zero);
                 r.rows.forEach(row => {
                     const tr = document.createElement('tr');
                     tr.innerHTML = '<th scope="row">' + row.year + '</th>'
@@ -217,20 +217,24 @@
                         + '<td class="num">' + money(-row.repayment) + '</td>'
                         + '<td class="num">' + money(row.net) + '</td>'
                         + '<td class="num">' + money(row.cumulative) + '</td>';
-                    tbody.appendChild(tr);
+                    rowFrag.appendChild(tr);
                 });
+                tbody.innerHTML = '';
+                tbody.appendChild(rowFrag);
 
                 const chart = out.querySelector('.chart-bars');
                 if (chart) {
                     const values = [r.flows[0]].concat(r.rows.map(row => row.cumulative));
                     const max = Math.max.apply(null, values.map(Math.abs)) || 1;
-                    chart.innerHTML = '';
+                    const barFrag = document.createDocumentFragment();
                     values.forEach(v => {
                         const bar = document.createElement('span');
                         bar.className = 'bar' + (v < 0 ? ' neg' : '');
                         bar.style.height = Math.max(2, Math.abs(v) / max * 100) + '%';
-                        chart.appendChild(bar);
+                        barFrag.appendChild(bar);
                     });
+                    chart.innerHTML = '';
+                    chart.appendChild(barFrag);
                 }
             });
         }
@@ -247,13 +251,15 @@
                 setText(out, 'total', money(s.totalPaid));
                 setText(out, 'months', num(months));
                 const tbody = out.querySelector('tbody');
-                tbody.innerHTML = '';
+                const rowFrag = document.createDocumentFragment();
                 s.years.forEach(y => {
                     const tr = document.createElement('tr');
                     tr.innerHTML = '<th scope="row">' + y.year + '</th><td class="num">' + money(y.paid) + '</td><td class="num">'
                         + money(y.principal) + '</td><td class="num">' + money(y.interest) + '</td><td class="num">' + money(y.balance) + '</td>';
-                    tbody.appendChild(tr);
+                    rowFrag.appendChild(tr);
                 });
+                tbody.innerHTML = '';
+                tbody.appendChild(rowFrag);
             });
         }
 

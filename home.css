@@ -59,6 +59,11 @@
     padding: 4.5rem 0;
 }
 
+.home-section:nth-of-type(n + 4) {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 560px;
+}
+
 /* Consecutive sections share one gap instead of stacking two paddings */
 .home-hero + .home-section,
 .home-section + .home-section {
@@ -265,12 +270,11 @@
     border: 1px solid var(--h-line-strong);
     border-radius: 16px;
     background: var(--h-float-bg);
-    -webkit-backdrop-filter: blur(14px);
-    backdrop-filter: blur(14px);
     box-shadow: var(--h-float-shadow);
     font-size: 0.8125rem;
     line-height: 1.4;
     color: var(--h-muted);
+    will-change: transform;
     animation: homeFloat 7s ease-in-out infinite;
 }
 
@@ -321,8 +325,6 @@
     border-radius: var(--h-radius);
     background: var(--h-surface);
     box-shadow: var(--h-card-shadow);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
 }
 
 .home-stat {
@@ -363,8 +365,6 @@
     border: 1px solid var(--h-line);
     border-radius: 28px;
     background: var(--h-panel);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
 }
 
 .home p.home-proposal__lead {

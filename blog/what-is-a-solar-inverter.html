@@ -2,6 +2,8 @@
 <html lang="en" data-theme="light" data-theme-fixed>
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -16,8 +18,6 @@
         gtag('config', 'G-WZJ1CXHSG9');
     </script>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Blog pages are always light: the theme is fixed on <html> and has no toggle -->
     <meta name="description" content="Compare string, micro and hybrid solar inverters for your roof. Learn how MPPT, grid safety, sizing and warranties affect your choice in Andhra Pradesh.">
     <meta name="keywords" content="solar inverter types, string vs microinverter, hybrid inverter India, inverter sizing DC AC ratio">
@@ -27,6 +27,8 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap"
         rel="stylesheet" media="print" onload="this.media='all'">
     <noscript>
@@ -34,6 +36,7 @@
     </noscript>
 
     <!-- Styles -->
+    <link rel="preload" as="image" type="image/webp" imagesrcset="../images/blog/what-is-a-solar-inverter-800w.webp 800w, ../images/blog/what-is-a-solar-inverter-1600w.webp 1600w" imagesizes="(max-width: 900px) 100vw, 800px" fetchpriority="high">
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../blog.css">
     <link rel="stylesheet" href="../theme.css">
@@ -134,7 +137,7 @@
     <header class="header">
         <nav class="nav container">
             <a href="/" class="logo">
-                <img src="../images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'">
+                <img src="../images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'" decoding="async">
                 <div class="logo-text">
                     Ray2Volt Solar
                     <span>Private Limited</span>
@@ -233,7 +236,7 @@
             <figure class="post-hero">
                 <picture>
                     <source type="image/webp" srcset="../images/blog/what-is-a-solar-inverter-800w.webp 800w, ../images/blog/what-is-a-solar-inverter-1600w.webp 1600w" sizes="(max-width: 900px) 100vw, 800px">
-                    <img src="../images/blog/what-is-a-solar-inverter.jpg" alt="Wall-mounted solar inverter connected to a rooftop photovoltaic system" width="1600" height="700" fetchpriority="high">
+                    <img src="../images/blog/what-is-a-solar-inverter.jpg" alt="Wall-mounted solar inverter connected to a rooftop photovoltaic system" width="1600" height="700" fetchpriority="high" decoding="async">
                 </picture>
                 <figcaption>An inverter converts panel DC to AC, tracks changing sunlight and disconnects safely when the grid fails.</figcaption>
             </figure>
@@ -271,7 +274,7 @@
                     <p>An MPPT controller repeatedly samples the array and shifts its operating voltage towards that point. Modern digital controls may make many adjustments each minute. With two independent MPPT inputs, you can place differently oriented strings on separate trackers. This helps when one roof face receives morning light and another faces the afternoon sun.</p>
 
                     <figure>
-                        <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1200&h=675&fit=crop&auto=format" alt="Electrical technician checking inverter connections and cables" loading="lazy" width="1200" height="675">
+                        <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1200&h=675&fit=crop&auto=format&q=75" alt="Electrical technician checking inverter connections and cables" loading="lazy" width="1200" height="675" decoding="async">
                         <figcaption>A technician checks inverter string inputs, AC isolation and cable connections during commissioning.</figcaption>
                     </figure>
 
@@ -387,7 +390,7 @@
                     <p>Divide installed panel DC capacity by the inverter's AC rating to get the DC-to-AC ratio, also called inverter loading ratio or ILR. For example, 4.0 kWp divided by 3.3 kW is about 1.21. Designers often examine a range around 1.20 to 1.35. The best value depends on temperature, orientation, inverter limits and the DISCOM-approved connection.</p>
 
                     <figure>
-                        <img src="https://images.unsplash.com/photo-1559302504-64aae6ca6b6d?w=1200&h=675&fit=crop&auto=format" alt="Solar panels on a residential roof connected to an on-grid inverter" loading="lazy" width="1200" height="675">
+                        <img src="https://images.unsplash.com/photo-1559302504-64aae6ca6b6d?w=1200&h=675&fit=crop&auto=format&q=75" alt="Solar panels on a residential roof connected to an on-grid inverter" loading="lazy" width="1200" height="675" decoding="async">
                         <figcaption>An array around 1.20 to 1.30 times the inverter AC rating can improve shoulder-hour output when correctly designed.</figcaption>
                     </figure>
 
@@ -473,7 +476,7 @@
 
                     <!-- Author box -->
                     <div class="author-box">
-                        <img src="../images/logo.png" alt="Ray2Volt Solar" width="52" height="52" loading="lazy">
+                        <img src="../images/logo.png" alt="Ray2Volt Solar" width="52" height="52" loading="lazy" decoding="async">
                         <div>
                             <h2>Ray2Volt Solar Private Limited</h2>
                             <p>We design, install, and service rooftop solar for homes and businesses across Tirupati district and Andhra Pradesh, from PM Surya Ghar residential systems to commercial and industrial plants. Every enquiry starts with a free power audit.</p>
@@ -522,7 +525,7 @@
                     <a href="solar-panel-types-explained.html" class="related-card">
                         <picture>
                             <source type="image/webp" srcset="../images/blog/solar-panel-types-explained-800w.webp 800w, ../images/blog/solar-panel-types-explained-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="../images/blog/solar-panel-types-explained.jpg" alt="Solar panel types" loading="lazy" width="600" height="338">
+                            <img src="../images/blog/solar-panel-types-explained.jpg" alt="Solar panel types" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                         <div class="related-card-body">
                             <h3>Solar Panel Types Explained: Mono PERC, TOPCon, and Bifacial</h3>
@@ -532,7 +535,7 @@
                     <a href="on-grid-vs-off-grid-vs-hybrid-solar.html" class="related-card">
                         <picture>
                             <source type="image/webp" srcset="../images/blog/on-grid-vs-off-grid-vs-hybrid-solar-800w.webp 800w, ../images/blog/on-grid-vs-off-grid-vs-hybrid-solar-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="../images/blog/on-grid-vs-off-grid-vs-hybrid-solar.jpg" alt="On grid vs off grid vs hybrid solar" loading="lazy" width="600" height="338">
+                            <img src="../images/blog/on-grid-vs-off-grid-vs-hybrid-solar.jpg" alt="On grid vs off grid vs hybrid solar" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                         <div class="related-card-body">
                             <h3>On-Grid vs Off-Grid vs Hybrid Solar: Which System Is Right for You?</h3>
@@ -542,7 +545,7 @@
                     <a href="solar-battery-storage-worth-it.html" class="related-card">
                         <picture>
                             <source type="image/webp" srcset="../images/blog/solar-battery-storage-worth-it-800w.webp 800w, ../images/blog/solar-battery-storage-worth-it-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="../images/blog/solar-battery-storage-worth-it.jpg" alt="Solar battery storage" loading="lazy" width="600" height="338">
+                            <img src="../images/blog/solar-battery-storage-worth-it.jpg" alt="Solar battery storage" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                         <div class="related-card-body">
                             <h3>Solar Plus Battery Storage in 2026: Is a Hybrid System Worth It Yet?</h3>
@@ -632,8 +635,8 @@
         </svg>
     </button>
 
-    <script src="../script.js"></script>
-    <script src="../blog.js"></script>
+    <script src="../script.js" defer></script>
+    <script src="../blog.js" defer></script>
 </body>
 
 </html>

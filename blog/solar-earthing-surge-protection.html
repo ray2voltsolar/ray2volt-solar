@@ -2,6 +2,8 @@
 <html lang="en" data-theme="light" data-theme-fixed>
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -16,8 +18,6 @@
         gtag('config', 'G-WZJ1CXHSG9');
     </script>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Blog pages are always light: the theme is fixed on <html> and has no toggle -->
     <meta name="description" content="Earthing and surge protection from first principles: fault loops, rod resistance, Wenner soil tests, induced surge voltage, SPD leads and the rolling sphere.">
     <meta name="keywords" content="solar earthing, earth electrode resistance, Wenner method soil resistivity, solar surge protection device, lightning protection solar plant, rolling sphere method, insulation resistance Riso, IEC 62305">
@@ -27,6 +27,8 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap"
         rel="stylesheet" media="print" onload="this.media='all'">
     <noscript>
@@ -34,6 +36,7 @@
     </noscript>
 
     <!-- Styles -->
+    <link rel="preload" as="image" type="image/webp" imagesrcset="../images/blog/solar-earthing-surge-protection-800w.webp 800w, ../images/blog/solar-earthing-surge-protection-1600w.webp 1600w" imagesizes="(max-width: 900px) 100vw, 800px" fetchpriority="high">
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../blog.css">
     <link rel="stylesheet" href="../theme.css">
@@ -126,7 +129,7 @@
     <header class="header">
         <nav class="nav container">
             <a href="/" class="logo">
-                <img src="../images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'">
+                <img src="../images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'" decoding="async">
                 <div class="logo-text">
                     Ray2Volt Solar
                     <span>Private Limited</span>
@@ -225,7 +228,7 @@
             <figure class="post-hero">
                 <picture>
                     <source type="image/webp" srcset="../images/blog/solar-earthing-surge-protection-800w.webp 800w, ../images/blog/solar-earthing-surge-protection-1600w.webp 1600w" sizes="(max-width: 900px) 100vw, 800px">
-                    <img src="../images/blog/solar-earthing-surge-protection.jpg" alt="Flat-roof solar array on galvanised structures with a bonded earthing strip and a lightning air terminal mast on a concrete roof" width="1600" height="900" fetchpriority="high">
+                    <img src="../images/blog/solar-earthing-surge-protection.jpg" alt="Flat-roof solar array on galvanised structures with a bonded earthing strip and a lightning air terminal mast on a concrete roof" width="1600" height="900" fetchpriority="high" decoding="async">
                 </picture>
                 <figcaption>Frame bonding, earth electrodes, surge protection and air terminals work together as one system.</figcaption>
             </figure>
@@ -394,7 +397,7 @@
                     <p>Every exposed metal part a person could touch together, such as frames, rails, trays and the inverter enclosure, should stay at nearly the same potential during a fault. Two bonded parts joined by resistance <math><semantics><msub><mi>R</mi><mi>b</mi></msub><annotation encoding="application/x-tex">R_b</annotation></semantics></math> carrying fault current <math><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math> differ by <math><semantics><mrow><mi>I</mi><msub><mi>R</mi><mi>b</mi></msub></mrow><annotation encoding="application/x-tex">I R_b</annotation></semantics></math> volts, so every joint matters. Conductors and clamps must follow the standards, notably IEC 60364-7-712, and the module maker&rsquo;s manual. Copper resistance follows the <math><semantics><mrow><mi>R</mi><mo>=</mo><mi>ρ</mi><mspace width="0.1667em"></mspace><mi>l</mi><mi>/</mi><mi>A</mi></mrow><annotation encoding="application/x-tex">R = \rho\,l/A</annotation></semantics></math> relation in our guide to <a href="solar-dc-cable-sizing-voltage-drop.html">solar wiring from first principles</a>, but fault-current sizing comes from the standards.</p>
 
                     <figure>
-                        <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1200&h=675&fit=crop&auto=format" alt="Electrical technician testing equipment" loading="lazy" width="1200" height="675">
+                        <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1200&h=675&fit=crop&auto=format&q=75" alt="Electrical technician testing equipment" loading="lazy" width="1200" height="675" decoding="async">
                         <figcaption>Bonding continuity and earth resistance are measured with calibrated instruments by qualified people.</figcaption>
                     </figure>
 
@@ -532,7 +535,7 @@
 
                     <!-- Author box -->
                     <div class="author-box">
-                        <img src="../images/logo.png" alt="Ray2Volt Solar" width="52" height="52" loading="lazy">
+                        <img src="../images/logo.png" alt="Ray2Volt Solar" width="52" height="52" loading="lazy" decoding="async">
                         <div>
                             <h2>Ray2Volt Solar Private Limited</h2>
                             <p>We design, install, and service rooftop solar for homes and businesses across Tirupati district and Andhra Pradesh, from PM Surya Ghar residential systems to commercial and industrial plants. Every enquiry starts with a free power audit.</p>
@@ -582,7 +585,7 @@
                     <a href="solar-dc-cable-sizing-voltage-drop.html" class="related-card">
                         <picture>
                             <source type="image/webp" srcset="../images/blog/solar-dc-cable-sizing-voltage-drop-800w.webp 800w, ../images/blog/solar-dc-cable-sizing-voltage-drop-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="../images/blog/solar-dc-cable-sizing-voltage-drop.jpg" alt="Solar DC cable sizing and voltage drop" loading="lazy" width="600" height="338">
+                            <img src="../images/blog/solar-dc-cable-sizing-voltage-drop.jpg" alt="Solar DC cable sizing and voltage drop" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                         <div class="related-card-body">
                             <h3>Solar Wiring from First Principles: Resistance, Voltage Drop and Cable Sizing</h3>
@@ -592,7 +595,7 @@
                     <a href="solar-panel-maintenance-guide.html" class="related-card">
                         <picture>
                             <source type="image/webp" srcset="../images/blog/solar-panel-maintenance-guide-800w.webp 800w, ../images/blog/solar-panel-maintenance-guide-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="../images/blog/solar-panel-maintenance-guide.jpg" alt="Solar panel maintenance guide" loading="lazy" width="600" height="338">
+                            <img src="../images/blog/solar-panel-maintenance-guide.jpg" alt="Solar panel maintenance guide" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                         <div class="related-card-body">
                             <h3>Solar Panel Maintenance: A Practical Cleaning and Upkeep Guide for India</h3>
@@ -602,7 +605,7 @@
                     <a href="how-to-choose-a-solar-installer.html" class="related-card">
                         <picture>
                             <source type="image/webp" srcset="../images/blog/how-to-choose-a-solar-installer-800w.webp 800w, ../images/blog/how-to-choose-a-solar-installer-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="../images/blog/how-to-choose-a-solar-installer.jpg" alt="How to choose a solar installer in India" loading="lazy" width="600" height="338">
+                            <img src="../images/blog/how-to-choose-a-solar-installer.jpg" alt="How to choose a solar installer in India" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                         <div class="related-card-body">
                             <h3>How to Choose a Solar Installer in India: 12 Questions Before You Sign</h3>
@@ -692,8 +695,8 @@
         </svg>
     </button>
 
-    <script src="../script.js"></script>
-    <script src="../blog.js"></script>
+    <script src="../script.js" defer></script>
+    <script src="../blog.js" defer></script>
 </body>
 
 </html>

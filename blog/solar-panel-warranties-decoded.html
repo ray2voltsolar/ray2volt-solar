@@ -2,6 +2,8 @@
 <html lang="en" data-theme="light" data-theme-fixed>
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -16,8 +18,6 @@
         gtag('config', 'G-WZJ1CXHSG9');
     </script>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Blog pages are always light: the theme is fixed on <html> and has no toggle -->
     <meta name="description" content="Understand the separate warranties for panels, inverters, batteries and installation work. Check the claim process and exclusions before you sign a solar quote.">
     <meta name="keywords" content="solar panel warranty India, performance warranty vs product warranty, solar installation workmanship warranty">
@@ -27,6 +27,8 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap"
         rel="stylesheet" media="print" onload="this.media='all'">
     <noscript>
@@ -34,6 +36,7 @@
     </noscript>
 
     <!-- Styles -->
+    <link rel="preload" as="image" type="image/webp" imagesrcset="../images/blog/solar-panel-warranties-decoded-800w.webp 800w, ../images/blog/solar-panel-warranties-decoded-1600w.webp 1600w" imagesizes="(max-width: 900px) 100vw, 800px" fetchpriority="high">
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../blog.css">
     <link rel="stylesheet" href="../theme.css">
@@ -134,7 +137,7 @@
     <header class="header">
         <nav class="nav container">
             <a href="/" class="logo">
-                <img src="../images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'">
+                <img src="../images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'" decoding="async">
                 <div class="logo-text">
                     Ray2Volt Solar
                     <span>Private Limited</span>
@@ -233,7 +236,7 @@
             <figure class="post-hero">
                 <picture>
                     <source type="image/webp" srcset="../images/blog/solar-panel-warranties-decoded-800w.webp 800w, ../images/blog/solar-panel-warranties-decoded-1600w.webp 1600w" sizes="(max-width: 900px) 100vw, 800px">
-                    <img src="../images/blog/solar-panel-warranties-decoded.jpg" alt="Rooftop solar modules alongside their warranty paperwork" width="1600" height="700" fetchpriority="high">
+                    <img src="../images/blog/solar-panel-warranties-decoded.jpg" alt="Rooftop solar modules alongside their warranty paperwork" width="1600" height="700" fetchpriority="high" decoding="async">
                 </picture>
                 <figcaption>Keep a separate warranty record for each major component and for the work done on your roof.</figcaption>
             </figure>
@@ -267,7 +270,7 @@
                     <p>The installer answers for the work done on site: supports, electrical connections, distribution boards, earthing, conduit routes and roof sealing. If a bad mounting detail causes a leak or a loose DC termination causes a fault, start with the installer. Ray2Volt provides 5 years of free service on workmanship and balance of system.</p>
 
                     <figure>
-                        <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1200&amp;h=675&amp;fit=crop&amp;auto=format" alt="Industrial building where rooftop equipment needs separate warranty records" loading="lazy" width="1200" height="675">
+                        <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1200&amp;h=675&amp;fit=crop&amp;auto=format&amp;q=75" alt="Industrial building where rooftop equipment needs separate warranty records" loading="lazy" width="1200" height="675" decoding="async">
                         <figcaption>For a commercial array, record which maker covers each component and which contractor handles site repairs.</figcaption>
                     </figure>
 
@@ -426,7 +429,7 @@
 
                     <!-- Author box -->
                     <div class="author-box">
-                        <img src="../images/logo.png" alt="Ray2Volt Solar" width="52" height="52" loading="lazy">
+                        <img src="../images/logo.png" alt="Ray2Volt Solar" width="52" height="52" loading="lazy" decoding="async">
                         <div>
                             <h2>Ray2Volt Solar Private Limited</h2>
                             <p>We design, install, and service rooftop solar for homes and businesses across Tirupati
@@ -478,7 +481,7 @@
                     <a href="solar-panel-maintenance-guide.html" class="related-card">
                         <picture>
                             <source type="image/webp" srcset="../images/blog/solar-panel-maintenance-guide-800w.webp 800w, ../images/blog/solar-panel-maintenance-guide-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="../images/blog/solar-panel-maintenance-guide.jpg" alt="Solar panel maintenance and cleaning guide" loading="lazy" width="600" height="338">
+                            <img src="../images/blog/solar-panel-maintenance-guide.jpg" alt="Solar panel maintenance and cleaning guide" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                         <div class="related-card-body">
                             <h3>Solar Panel Maintenance: A Practical Cleaning and Upkeep Guide for India</h3>
@@ -488,7 +491,7 @@
                     <a href="solar-panel-types-explained.html" class="related-card">
                         <picture>
                             <source type="image/webp" srcset="../images/blog/solar-panel-types-explained-800w.webp 800w, ../images/blog/solar-panel-types-explained-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="../images/blog/solar-panel-types-explained.jpg" alt="Comparison of solar panel cell technologies" loading="lazy" width="600" height="338">
+                            <img src="../images/blog/solar-panel-types-explained.jpg" alt="Comparison of solar panel cell technologies" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                         <div class="related-card-body">
                             <h3>Solar Panel Types Explained: Mono PERC, TOPCon, and Bifacial</h3>
@@ -498,7 +501,7 @@
                     <a href="how-to-choose-a-solar-installer.html" class="related-card">
                         <picture>
                             <source type="image/webp" srcset="../images/blog/how-to-choose-a-solar-installer-800w.webp 800w, ../images/blog/how-to-choose-a-solar-installer-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="../images/blog/how-to-choose-a-solar-installer.jpg" alt="Homeowner reviewing a solar installer checklist" loading="lazy" width="600" height="338">
+                            <img src="../images/blog/how-to-choose-a-solar-installer.jpg" alt="Homeowner reviewing a solar installer checklist" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                         <div class="related-card-body">
                             <h3>How to Choose a Solar Installer in India: 12 Questions Before You Sign</h3>
@@ -588,8 +591,8 @@
         </svg>
     </button>
 
-    <script src="../script.js"></script>
-    <script src="../blog.js"></script>
+    <script src="../script.js" defer></script>
+    <script src="../blog.js" defer></script>
 </body>
 
 </html>

@@ -325,13 +325,20 @@ hr {
 .whatsapp-btn {
     background: #25D366;
     color: #052E16;
+    border: none;
     box-shadow: none;
 }
 
 .btn-wa:hover,
 .whatsapp-btn:hover {
     background: #3BE07A;
+    transform: translateY(-2px);
     box-shadow: none;
+}
+
+.btn-wa svg {
+    width: 20px;
+    height: 20px;
 }
 
 /* --------------------------------------------------------------------------
@@ -465,13 +472,12 @@ hr {
     border: 1px solid var(--h-line-strong);
     border-radius: 16px;
     background: var(--h-float-bg);
-    -webkit-backdrop-filter: blur(14px);
-    backdrop-filter: blur(14px);
     box-shadow: var(--h-float-shadow);
     font-size: 0.8125rem;
     line-height: 1.4;
     text-align: left;
     color: var(--h-muted);
+    will-change: transform;
     animation: heroFloat 7s ease-in-out infinite;
 }
 
@@ -1458,6 +1464,8 @@ select.form-control option {
     text-align: left;
     border: 0;
     overflow: visible;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 260px;
 }
 
 .cta::before,

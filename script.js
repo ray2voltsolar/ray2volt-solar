@@ -884,13 +884,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const scrollToTopBtn = document.querySelector('.scroll-to-top');
 
     if (scrollToTopBtn) {
+        let isScrollBtnVisible = window.scrollY > 400;
+        if (isScrollBtnVisible) scrollToTopBtn.classList.add('visible');
+
         window.addEventListener('scroll', function () {
-            if (window.scrollY > 400) {
-                scrollToTopBtn.classList.add('visible');
-            } else {
-                scrollToTopBtn.classList.remove('visible');
+            const shouldShow = window.scrollY > 400;
+            if (shouldShow !== isScrollBtnVisible) {
+                isScrollBtnVisible = shouldShow;
+                scrollToTopBtn.classList.toggle('visible', shouldShow);
             }
-        });
+        }, { passive: true });
 
         scrollToTopBtn.addEventListener('click', function () {
             window.scrollTo({
@@ -904,640 +907,662 @@ document.addEventListener('DOMContentLoaded', function () {
     // 9. Subtle Parallax on Hero Decorations
     // ──────────────────────────────────────────────────────────
     const hero = document.querySelector('.hero');
-    if (hero) {
+    const heroImage = hero ? hero.querySelector('.hero-image') : null;
+    if (heroImage && !reduceCounterMotion) {
+        let parallaxTicking = false;
         window.addEventListener('scroll', function () {
-            const scrolled = window.scrollY;
-            if (scrolled < window.innerHeight) {
-                const heroImage = hero.querySelector('.hero-image');
-                if (heroImage) {
-                    heroImage.style.transform = `translateY(${scrolled * 0.06}px)`;
-                }
+            if (!parallaxTicking) {
+                parallaxTicking = true;
+                window.requestAnimationFrame(function () {
+                    const scrolled = window.scrollY;
+                    if (scrolled < window.innerHeight) {
+                        heroImage.style.transform = `translate3d(0, ${scrolled * 0.06}px, 0)`;
+                    }
+                    parallaxTicking = false;
+                });
             }
         }, { passive: true });
     }
 
     // ──────────────────────────────────────────────────────────
-    // 10. Card Tilt Micro-interaction (Desktop only)
+    // 10. Card Tilt Micro-interaction (Desktop only, lazy-bound)
     // ──────────────────────────────────────────────────────────
-    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
+    if (!reduceCounterMotion && window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        const initializedCards = typeof WeakSet === 'function' ? new WeakSet() : null;
+        document.addEventListener('pointerover', function (e) {
+            const card = e.target && e.target.closest ? e.target.closest('.card') : null;
+            if (!card) return;
+            if (initializedCards) {
+                if (initializedCards.has(card)) return;
+                initializedCards.add(card);
+            } else if (card.dataset.r2vTiltInit) {
+                return;
+            } else {
+                card.dataset.r2vTiltInit = '1';
+            }
+
             // Cards that hold a form stay perfectly still - a shell that lifts and
             // tilts under the pointer makes the fields inside it hard to aim at.
             if (card.querySelector('form') || card.closest('form')) return;
 
-            card.addEventListener('mousemove', function (e) {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const rotateX = ((y - centerY) / centerY) * -3;
-                const rotateY = ((x - centerX) / centerX) * 3;
+            let rect = card.getBoundingClientRect();
+            let tiltRaf = 0;
 
-                card.style.transform = `translateY(-6px) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-            });
+            card.addEventListener('mouseenter', function () {
+                rect = card.getBoundingClientRect();
+            }, { passive: true });
+
+            card.addEventListener('mousemove', function (ev) {
+                if (!rect) rect = card.getBoundingClientRect();
+                const clientX = ev.clientX;
+                const clientY = ev.clientY;
+                if (tiltRaf) return;
+                tiltRaf = window.requestAnimationFrame(function () {
+                    tiltRaf = 0;
+                    if (!rect) return;
+                    const x = clientX - rect.left;
+                    const y = clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = ((y - centerY) / centerY) * -3;
+                    const rotateY = ((x - centerX) / centerX) * 3;
+
+                    card.style.transform = `translateY(-6px) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                });
+            }, { passive: true });
 
             const resetTilt = function () {
+                if (tiltRaf) {
+                    window.cancelAnimationFrame(tiltRaf);
+                    tiltRaf = 0;
+                }
+                rect = null;
                 card.style.transform = '';
             };
 
-            card.addEventListener('mouseleave', resetTilt);
+            card.addEventListener('mouseleave', resetTilt, { passive: true });
             // A right-click opens the context menu without firing mouseleave,
             // which would otherwise leave the card frozen mid-tilt.
-            card.addEventListener('contextmenu', resetTilt);
-        });
+            card.addEventListener('contextmenu', resetTilt, { passive: true });
+        }, { passive: true });
     }
 
     // ──────────────────────────────────────────────────────────
-    // 11. WhatsApp Lead-Capture Modal
+    // 11. WhatsApp Lead-Capture Modal (Lazy-mounted on first interaction)
     // ──────────────────────────────────────────────────────────
     (function initWhatsAppModal() {
         const WA_PHONE = '919666068140';
-        // Google Ads conversion for WhatsApp enquiries, from the tracking config
-        // (section 0b). Swap it for a dedicated 'WhatsApp Lead' label when one is
-        // created in Google Ads, so it can be valued separately from form leads.
         const tracking = window.ray2voltTracking;
         const WA_CONVERSION_SEND_TO = tracking ? tracking.config.whatsappLeadConversion : '';
+        let modalController = null;
 
-        // ── Inject CSS ──
-        const style = document.createElement('style');
-        style.textContent = `
-            /* Overlay */
-            .wa-modal-overlay {
-                position: fixed;
-                inset: 0;
-                background: rgba(0, 0, 0, 0.6);
-                backdrop-filter: blur(6px);
-                -webkit-backdrop-filter: blur(6px);
-                z-index: 10000;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                padding: 1rem;
-                opacity: 0;
-                visibility: hidden;
-                transition: opacity 0.3s ease, visibility 0.3s ease;
-            }
-            .wa-modal-overlay.active {
-                opacity: 1;
-                visibility: visible;
-            }
+        function ensureModal() {
+            if (modalController) return modalController;
 
-            /* Card */
-            .wa-modal {
-                background: rgba(15, 23, 42, 0.92);
-                border: 1px solid rgba(56, 189, 248, 0.2);
-                border-radius: 24px;
-                padding: 2.5rem 2rem 2rem;
-                width: 100%;
-                max-width: 440px;
-                position: relative;
-                box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5),
-                            inset 0 1px 0 rgba(255, 255, 255, 0.08);
-                backdrop-filter: blur(24px);
-                -webkit-backdrop-filter: blur(24px);
-                transform: translateY(30px) scale(0.95);
-                transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            }
-            .wa-modal-overlay.active .wa-modal {
-                transform: translateY(0) scale(1);
-            }
-
-            /* Close button */
-            .wa-modal-close {
-                position: absolute;
-                top: 1rem;
-                right: 1rem;
-                width: 36px;
-                height: 36px;
-                border-radius: 50%;
-                background: rgba(255, 255, 255, 0.06);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                color: rgba(255, 255, 255, 0.6);
-                font-size: 1.25rem;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                transition: all 0.2s ease;
-                line-height: 1;
-            }
-            .wa-modal-close:hover {
-                background: rgba(255, 255, 255, 0.12);
-                color: #fff;
-            }
-
-            /* Header */
-            .wa-modal-header {
-                text-align: center;
-                margin-bottom: 1.75rem;
-            }
-            .wa-modal-header .wa-icon {
-                width: 56px;
-                height: 56px;
-                border-radius: 16px;
-                background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin: 0 auto 1rem;
-                box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3);
-            }
-            .wa-modal-header .wa-icon svg {
-                width: 28px;
-                height: 28px;
-                fill: #fff;
-            }
-            .wa-modal-header h3 {
-                font-family: 'Google Sans Flex', sans-serif;
-                font-size: 1.35rem;
-                font-weight: 700;
-                color: #fff;
-                margin-bottom: 0.35rem;
-                text-shadow: none;
-            }
-            .wa-modal-header p {
-                font-size: 0.875rem;
-                color: rgba(255, 255, 255, 0.55);
-                margin: 0;
-            }
-
-            /* Form fields */
-            .wa-modal-form {
-                display: flex;
-                flex-direction: column;
-                gap: 1rem;
-            }
-            .wa-modal-field label {
-                display: block;
-                font-size: 0.8rem;
-                font-weight: 600;
-                color: rgba(255, 255, 255, 0.7);
-                margin-bottom: 0.4rem;
-                letter-spacing: 0.02em;
-            }
-            .wa-modal-field input,
-            .wa-modal-field select {
-                width: 100%;
-                padding: 0.8rem 1rem;
-                background: rgba(255, 255, 255, 0.05);
-                border: 1px solid rgba(255, 255, 255, 0.12);
-                border-radius: 12px;
-                color: #fff;
-                font-family: 'Assistant', sans-serif;
-                font-size: 0.95rem;
-                transition: all 0.25s ease;
-                outline: none;
-            }
-            .wa-modal-field input::placeholder {
-                color: rgba(255, 255, 255, 0.3);
-            }
-            .wa-modal-field input:focus,
-            .wa-modal-field select:focus {
-                border-color: #25D366;
-                background: rgba(255, 255, 255, 0.08);
-                box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.15);
-            }
-            .wa-modal-field select option {
-                background: #0f172a;
-                color: #fff;
-            }
-            .wa-modal-field.wa-error input,
-            .wa-modal-field.wa-error select {
-                border-color: #F44336;
-                box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.12);
-            }
-            .wa-modal-field .wa-error-msg {
-                font-size: 0.75rem;
-                color: #F44336;
-                margin-top: 0.3rem;
-                display: none;
-            }
-            .wa-modal-field.wa-error .wa-error-msg {
-                display: block;
-            }
-
-            /* Property type selector */
-            .wa-type-row {
-                display: flex;
-                gap: 0.5rem;
-            }
-            .wa-type-option {
-                flex: 1;
-                position: relative;
-                cursor: pointer;
-            }
-            /* The options are <label>s too, so the .wa-modal-field label rule
-               above hands them a bottom margin that reads as dead space.
-               Needs the parent class to outweigh that rule's specificity. */
-            .wa-modal-field .wa-type-option {
-                margin-bottom: 0;
-            }
-            .wa-type-option input {
-                position: absolute;
-                opacity: 0;
-                height: 0;
-                width: 0;
-            }
-            .wa-type-label {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                padding: 0.7rem 0.5rem;
-                font-weight: 600;
-                font-size: 0.875rem;
-                color: rgba(255, 255, 255, 0.55);
-                background: rgba(255, 255, 255, 0.04);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                border-radius: 10px;
-                transition: all 0.25s ease;
-                user-select: none;
-                gap: 0.4rem;
-            }
-            .wa-type-option input:checked + .wa-type-label {
-                background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-                color: #fff;
-                border-color: transparent;
-                box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
-            }
-
-            /* Submit */
-            .wa-modal-submit {
-                width: 100%;
-                padding: 0.9rem;
-                font-family: 'Google Sans Flex', sans-serif;
-                font-size: 1rem;
-                font-weight: 700;
-                color: #fff;
-                background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-                border: none;
-                border-radius: 12px;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 0.6rem;
-                transition: all 0.25s ease;
-                box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
-                margin-top: 0.25rem;
-            }
-            .wa-modal-submit:hover {
-                box-shadow: 0 8px 30px rgba(37, 211, 102, 0.45);
-            }
-            .wa-modal-submit svg {
-                width: 20px;
-                height: 20px;
-                fill: #fff;
-            }
-
-            /* Step machinery */
-            .wa-step {
-                display: flex;
-                flex-direction: column;
-                gap: 1rem;
-            }
-            .wa-step[hidden] {
-                display: none;
-            }
-            .wa-progress {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.5rem;
-                margin-bottom: 1.25rem;
-                padding-bottom: 1.1rem;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-                counter-reset: wa-step;
-                list-style: none;
-                padding-left: 0;
-            }
-            .wa-progress li {
-                position: relative;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 0.4rem;
-                counter-increment: wa-step;
-                font-size: 0.7rem;
-                font-weight: 600;
-                letter-spacing: 0.02em;
-                text-align: center;
-                color: rgba(255, 255, 255, 0.45);
-                transition: color 0.25s ease;
-            }
-            .wa-progress li::before {
-                content: counter(wa-step);
-                position: relative;
-                z-index: 1;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                width: 1.75rem;
-                height: 1.75rem;
-                border: 1px solid rgba(255, 255, 255, 0.2);
-                border-radius: 50%;
-                background: #0f172a;
-                font-size: 0.78rem;
-                font-weight: 700;
-                transition: all 0.25s ease;
-            }
-            .wa-progress li::after {
-                content: '';
-                position: absolute;
-                top: 0.8125rem;
-                right: 50%;
-                width: 100%;
-                height: 2px;
-                background: rgba(255, 255, 255, 0.12);
-            }
-            .wa-progress li:first-child::after {
-                display: none;
-            }
-            .wa-progress li.is-active,
-            .wa-progress li.is-complete {
-                color: #fff;
-            }
-            .wa-progress li.is-active::before,
-            .wa-progress li.is-complete::before {
-                color: #06301c;
-                background: #25D366;
-                border-color: #25D366;
-                box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.16);
-            }
-            .wa-progress li.is-complete::before {
-                content: "✓";
-            }
-            .wa-progress li.is-complete::after {
-                background: #25D366;
-            }
-
-            /* Step navigation */
-            .wa-modal-nav {
-                display: flex;
-                gap: 0.6rem;
-                margin-top: 0.25rem;
-            }
-            .wa-modal-back {
-                flex: 0 0 auto;
-                padding: 0.9rem 1.1rem;
-                font-family: 'Google Sans Flex', sans-serif;
-                font-size: 0.95rem;
-                font-weight: 600;
-                color: rgba(255, 255, 255, 0.7);
-                background: rgba(255, 255, 255, 0.06);
-                border: 1px solid rgba(255, 255, 255, 0.12);
-                border-radius: 12px;
-                cursor: pointer;
-                transition: all 0.25s ease;
-            }
-            .wa-modal-back:hover {
-                color: #fff;
-                background: rgba(255, 255, 255, 0.1);
-            }
-            .wa-modal-nav .wa-modal-submit {
-                margin-top: 0;
-            }
-
-            /* Responsive */
-            @media (max-width: 480px) {
-                .wa-modal {
-                    padding: 2rem 1.25rem 1.5rem;
-                    border-radius: 20px;
+            // ── Inject CSS ──
+            const style = document.createElement('style');
+            style.textContent = `
+                /* Overlay */
+                .wa-modal-overlay {
+                    position: fixed;
+                    inset: 0;
+                    background: rgba(0, 0, 0, 0.6);
+                    backdrop-filter: blur(6px);
+                    -webkit-backdrop-filter: blur(6px);
+                    z-index: 10000;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 1rem;
+                    opacity: 0;
+                    visibility: hidden;
+                    transition: opacity 0.3s ease, visibility 0.3s ease;
                 }
-                .wa-modal-header h3 { font-size: 1.15rem; }
-            }
-        `;
-        document.head.appendChild(style);
+                .wa-modal-overlay.active {
+                    opacity: 1;
+                    visibility: visible;
+                }
 
-        // ── Inject Modal HTML ──
-        const overlay = document.createElement('div');
-        overlay.className = 'wa-modal-overlay';
-        overlay.id = 'wa-modal-overlay';
-        overlay.innerHTML = `
-            <div class="wa-modal">
-                <button class="wa-modal-close" id="wa-modal-close" aria-label="Close">&times;</button>
+                /* Card */
+                .wa-modal {
+                    background: rgba(15, 23, 42, 0.92);
+                    border: 1px solid rgba(56, 189, 248, 0.2);
+                    border-radius: 24px;
+                    padding: 2.5rem 2rem 2rem;
+                    width: 100%;
+                    max-width: 440px;
+                    position: relative;
+                    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5),
+                                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+                    backdrop-filter: blur(24px);
+                    -webkit-backdrop-filter: blur(24px);
+                    transform: translateY(30px) scale(0.95);
+                    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+                }
+                .wa-modal-overlay.active .wa-modal {
+                    transform: translateY(0) scale(1);
+                }
 
-                <div class="wa-modal-header">
-                    <div class="wa-icon">
-                        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                /* Close button */
+                .wa-modal-close {
+                    position: absolute;
+                    top: 1rem;
+                    right: 1rem;
+                    width: 36px;
+                    height: 36px;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.06);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    color: rgba(255, 255, 255, 0.6);
+                    font-size: 1.25rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                    line-height: 1;
+                }
+                .wa-modal-close:hover {
+                    background: rgba(255, 255, 255, 0.12);
+                    color: #fff;
+                }
+
+                /* Header */
+                .wa-modal-header {
+                    text-align: center;
+                    margin-bottom: 1.75rem;
+                }
+                .wa-modal-header .wa-icon {
+                    width: 56px;
+                    height: 56px;
+                    border-radius: 16px;
+                    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin: 0 auto 1rem;
+                    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3);
+                }
+                .wa-modal-header .wa-icon svg {
+                    width: 28px;
+                    height: 28px;
+                    fill: #fff;
+                }
+                .wa-modal-header h3 {
+                    font-family: 'Google Sans Flex', sans-serif;
+                    font-size: 1.35rem;
+                    font-weight: 700;
+                    color: #fff;
+                    margin-bottom: 0.35rem;
+                    text-shadow: none;
+                }
+                .wa-modal-header p {
+                    font-size: 0.875rem;
+                    color: rgba(255, 255, 255, 0.55);
+                    margin: 0;
+                }
+
+                /* Form fields */
+                .wa-modal-form {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1rem;
+                }
+                .wa-modal-field label {
+                    display: block;
+                    font-size: 0.8rem;
+                    font-weight: 600;
+                    color: rgba(255, 255, 255, 0.7);
+                    margin-bottom: 0.4rem;
+                    letter-spacing: 0.02em;
+                }
+                .wa-modal-field input,
+                .wa-modal-field select {
+                    width: 100%;
+                    padding: 0.8rem 1rem;
+                    background: rgba(255, 255, 255, 0.05);
+                    border: 1px solid rgba(255, 255, 255, 0.12);
+                    border-radius: 12px;
+                    color: #fff;
+                    font-family: 'Assistant', sans-serif;
+                    font-size: 0.95rem;
+                    transition: all 0.25s ease;
+                    outline: none;
+                }
+                .wa-modal-field input::placeholder {
+                    color: rgba(255, 255, 255, 0.3);
+                }
+                .wa-modal-field input:focus,
+                .wa-modal-field select:focus {
+                    border-color: #25D366;
+                    background: rgba(255, 255, 255, 0.08);
+                    box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.15);
+                }
+                .wa-modal-field select option {
+                    background: #0f172a;
+                    color: #fff;
+                }
+                .wa-modal-field.wa-error input,
+                .wa-modal-field.wa-error select {
+                    border-color: #F44336;
+                    box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.12);
+                }
+                .wa-modal-field .wa-error-msg {
+                    font-size: 0.75rem;
+                    color: #F44336;
+                    margin-top: 0.3rem;
+                    display: none;
+                }
+                .wa-modal-field.wa-error .wa-error-msg {
+                    display: block;
+                }
+
+                /* Property type selector */
+                .wa-type-row {
+                    display: flex;
+                    gap: 0.5rem;
+                }
+                .wa-type-option {
+                    flex: 1;
+                    position: relative;
+                    cursor: pointer;
+                }
+                .wa-modal-field .wa-type-option {
+                    margin-bottom: 0;
+                }
+                .wa-type-option input {
+                    position: absolute;
+                    opacity: 0;
+                    height: 0;
+                    width: 0;
+                }
+                .wa-type-label {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 0.7rem 0.5rem;
+                    font-weight: 600;
+                    font-size: 0.875rem;
+                    color: rgba(255, 255, 255, 0.55);
+                    background: rgba(255, 255, 255, 0.04);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    border-radius: 10px;
+                    transition: all 0.25s ease;
+                    user-select: none;
+                    gap: 0.4rem;
+                }
+                .wa-type-option input:checked + .wa-type-label {
+                    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+                    color: #fff;
+                    border-color: transparent;
+                    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+                }
+
+                /* Submit */
+                .wa-modal-submit {
+                    width: 100%;
+                    padding: 0.9rem;
+                    font-family: 'Google Sans Flex', sans-serif;
+                    font-size: 1rem;
+                    font-weight: 700;
+                    color: #fff;
+                    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+                    border: none;
+                    border-radius: 12px;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.6rem;
+                    transition: all 0.25s ease;
+                    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+                    margin-top: 0.25rem;
+                }
+                .wa-modal-submit:hover {
+                    box-shadow: 0 8px 30px rgba(37, 211, 102, 0.45);
+                }
+                .wa-modal-submit svg {
+                    width: 20px;
+                    height: 20px;
+                    fill: #fff;
+                }
+
+                /* Step machinery */
+                .wa-step {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1rem;
+                }
+                .wa-step[hidden] {
+                    display: none;
+                }
+                .wa-progress {
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 0.5rem;
+                    margin-bottom: 1.25rem;
+                    padding-bottom: 1.1rem;
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+                    counter-reset: wa-step;
+                    list-style: none;
+                    padding-left: 0;
+                }
+                .wa-progress li {
+                    position: relative;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 0.4rem;
+                    counter-increment: wa-step;
+                    font-size: 0.7rem;
+                    font-weight: 600;
+                    letter-spacing: 0.02em;
+                    text-align: center;
+                    color: rgba(255, 255, 255, 0.45);
+                    transition: color 0.25s ease;
+                }
+                .wa-progress li::before {
+                    content: counter(wa-step);
+                    position: relative;
+                    z-index: 1;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 1.75rem;
+                    height: 1.75rem;
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    border-radius: 50%;
+                    background: #0f172a;
+                    font-size: 0.78rem;
+                    font-weight: 700;
+                    transition: all 0.25s ease;
+                }
+                .wa-progress li::after {
+                    content: '';
+                    position: absolute;
+                    top: 0.8125rem;
+                    right: 50%;
+                    width: 100%;
+                    height: 2px;
+                    background: rgba(255, 255, 255, 0.12);
+                }
+                .wa-progress li:first-child::after {
+                    display: none;
+                }
+                .wa-progress li.is-active,
+                .wa-progress li.is-complete {
+                    color: #fff;
+                }
+                .wa-progress li.is-active::before,
+                .wa-progress li.is-complete::before {
+                    color: #06301c;
+                    background: #25D366;
+                    border-color: #25D366;
+                    box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.16);
+                }
+                .wa-progress li.is-complete::before {
+                    content: "✓";
+                }
+                .wa-progress li.is-complete::after {
+                    background: #25D366;
+                }
+
+                /* Step navigation */
+                .wa-modal-nav {
+                    display: flex;
+                    gap: 0.6rem;
+                    margin-top: 0.25rem;
+                }
+                .wa-modal-back {
+                    flex: 0 0 auto;
+                    padding: 0.9rem 1.1rem;
+                    font-family: 'Google Sans Flex', sans-serif;
+                    font-size: 0.95rem;
+                    font-weight: 600;
+                    color: rgba(255, 255, 255, 0.7);
+                    background: rgba(255, 255, 255, 0.06);
+                    border: 1px solid rgba(255, 255, 255, 0.12);
+                    border-radius: 12px;
+                    cursor: pointer;
+                    transition: all 0.25s ease;
+                }
+                .wa-modal-back:hover {
+                    color: #fff;
+                    background: rgba(255, 255, 255, 0.1);
+                }
+                .wa-modal-nav .wa-modal-submit {
+                    margin-top: 0;
+                }
+
+                /* Responsive */
+                @media (max-width: 480px) {
+                    .wa-modal {
+                        padding: 2rem 1.25rem 1.5rem;
+                        border-radius: 20px;
+                    }
+                    .wa-modal-header h3 { font-size: 1.15rem; }
+                }
+            `;
+            document.head.appendChild(style);
+
+            // ── Inject Modal HTML ──
+            const overlay = document.createElement('div');
+            overlay.className = 'wa-modal-overlay';
+            overlay.id = 'wa-modal-overlay';
+            overlay.innerHTML = `
+                <div class="wa-modal">
+                    <button class="wa-modal-close" id="wa-modal-close" aria-label="Close">&times;</button>
+
+                    <div class="wa-modal-header">
+                        <div class="wa-icon">
+                            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        </div>
+                        <h3>Chat with us on WhatsApp</h3>
+                        <p>Fill in your details so we can help you better</p>
                     </div>
-                    <h3>Chat with us on WhatsApp</h3>
-                    <p>Fill in your details so we can help you better</p>
-                </div>
 
-                <ol class="wa-progress" id="wa-progress">
-                    <li class="is-active">Your property</li>
-                    <li>Your details</li>
-                </ol>
+                    <ol class="wa-progress" id="wa-progress">
+                        <li class="is-active">Your property</li>
+                        <li>Your details</li>
+                    </ol>
 
-                <form class="wa-modal-form" id="wa-modal-form" novalidate>
-                    <!-- ── Step 1: property ── -->
-                    <div class="wa-step" id="wa-step-1">
-                        <div class="wa-modal-field" id="wa-field-type">
-                            <label>Building Type *</label>
-                            <div class="wa-type-row">
-                                <label class="wa-type-option">
-                                    <input type="radio" name="wa-property" value="Residential" checked />
-                                    <span class="wa-type-label">🏠 Residential</span>
-                                </label>
-                                <label class="wa-type-option">
-                                    <input type="radio" name="wa-property" value="Commercial" />
-                                    <span class="wa-type-label">🏢 Commercial</span>
-                                </label>
+                    <form class="wa-modal-form" id="wa-modal-form" novalidate>
+                        <!-- ── Step 1: property ── -->
+                        <div class="wa-step" id="wa-step-1">
+                            <div class="wa-modal-field" id="wa-field-type">
+                                <label>Building Type *</label>
+                                <div class="wa-type-row">
+                                    <label class="wa-type-option">
+                                        <input type="radio" name="wa-property" value="Residential" checked />
+                                        <span class="wa-type-label">🏠 Residential</span>
+                                    </label>
+                                    <label class="wa-type-option">
+                                        <input type="radio" name="wa-property" value="Commercial" />
+                                        <span class="wa-type-label">🏢 Commercial</span>
+                                    </label>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="wa-modal-field" id="wa-field-bill">
-                            <label for="wa-bill">Approx. Monthly Electricity Bill *</label>
-                            <select id="wa-bill">
-                                <option value="" disabled selected>Select bill range</option>
-                                <option value="Less than ₹500">Less than ₹500</option>
-                                <option value="₹500 - ₹1,000">₹500 - ₹1,000</option>
-                                <option value="₹1,000 - ₹2,000">₹1,000 - ₹2,000</option>
-                                <option value="₹2,000 - ₹4,000">₹2,000 - ₹4,000</option>
-                                <option value="₹4,000+">₹4,000+</option>
-                            </select>
-                            <div class="wa-error-msg">Please select your bill range</div>
-                        </div>
+                            <div class="wa-modal-field" id="wa-field-bill">
+                                <label for="wa-bill">Approx. Monthly Electricity Bill *</label>
+                                <select id="wa-bill">
+                                    <option value="" disabled selected>Select bill range</option>
+                                    <option value="Less than ₹500">Less than ₹500</option>
+                                    <option value="₹500 - ₹1,000">₹500 - ₹1,000</option>
+                                    <option value="₹1,000 - ₹2,000">₹1,000 - ₹2,000</option>
+                                    <option value="₹2,000 - ₹4,000">₹2,000 - ₹4,000</option>
+                                    <option value="₹4,000+">₹4,000+</option>
+                                </select>
+                                <div class="wa-error-msg">Please select your bill range</div>
+                            </div>
 
-                        <div class="wa-modal-field" id="wa-field-roof">
-                            <label for="wa-roof">Available Roof Area (sq ft) *</label>
-                            <input type="text" id="wa-roof" placeholder="e.g. 800" inputmode="numeric" />
-                            <div class="wa-error-msg">Please enter your approximate roof area</div>
-                        </div>
+                            <div class="wa-modal-field" id="wa-field-roof">
+                                <label for="wa-roof">Available Roof Area (sq ft) *</label>
+                                <input type="text" id="wa-roof" placeholder="e.g. 800" inputmode="numeric" />
+                                <div class="wa-error-msg">Please enter your approximate roof area</div>
+                            </div>
 
-                        <button type="button" class="wa-modal-submit" id="wa-next">
-                            Continue
-                            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-                        </button>
-                    </div>
-
-                    <!-- ── Step 2: contact ── -->
-                    <div class="wa-step" id="wa-step-2" hidden>
-                        <div class="wa-modal-field" id="wa-field-name">
-                            <label for="wa-name">Full Name *</label>
-                            <input type="text" id="wa-name" placeholder="Enter your full name" autocomplete="name" />
-                            <div class="wa-error-msg">Please enter your name</div>
-                        </div>
-
-                        <div class="wa-modal-field" id="wa-field-phone">
-                            <label for="wa-phone">Phone Number *</label>
-                            <input type="tel" id="wa-phone" placeholder="+91 90000 00000" autocomplete="tel" inputmode="tel" />
-                            <div class="wa-error-msg">Please enter a valid phone number</div>
-                        </div>
-
-                        <div class="wa-modal-field" id="wa-field-location">
-                            <label for="wa-location">Location / City *</label>
-                            <input type="text" id="wa-location" placeholder="e.g. Tirupati" autocomplete="address-level2" />
-                            <div class="wa-error-msg">Please enter your location</div>
-                        </div>
-
-                        <div class="wa-modal-field" id="wa-field-email">
-                            <label for="wa-email">Email ID *</label>
-                            <input type="email" id="wa-email" placeholder="you@example.com" autocomplete="email" inputmode="email" />
-                            <div class="wa-error-msg">Please enter a valid email address</div>
-                        </div>
-
-                        <div class="wa-modal-nav">
-                            <button type="button" class="wa-modal-back" id="wa-back">Back</button>
-                            <button type="submit" class="wa-modal-submit">
-                                <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                                Send via WhatsApp
+                            <button type="button" class="wa-modal-submit" id="wa-next">
+                                Continue
+                                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                             </button>
                         </div>
-                    </div>
-                </form>
-            </div>
-        `;
-        document.body.appendChild(overlay);
 
-        // ── Helpers ──
-        const modalOverlay = document.getElementById('wa-modal-overlay');
-        const modalClose   = document.getElementById('wa-modal-close');
-        const modalForm    = document.getElementById('wa-modal-form');
+                        <!-- ── Step 2: contact ── -->
+                        <div class="wa-step" id="wa-step-2" hidden>
+                            <div class="wa-modal-field" id="wa-field-name">
+                                <label for="wa-name">Full Name *</label>
+                                <input type="text" id="wa-name" placeholder="Enter your full name" autocomplete="name" />
+                                <div class="wa-error-msg">Please enter your name</div>
+                            </div>
 
-        function openModal() {
-            modalOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            // Focus the first field of the visible step after animation
-            setTimeout(() => {
-                const panel = modalOverlay.querySelector('.wa-step:not([hidden])');
-                const field = panel && panel.querySelector('input:not([type="radio"]), select');
-                if (field) field.focus();
-            }, 350);
-        }
+                            <div class="wa-modal-field" id="wa-field-phone">
+                                <label for="wa-phone">Phone Number *</label>
+                                <input type="tel" id="wa-phone" placeholder="+91 90000 00000" autocomplete="tel" inputmode="tel" />
+                                <div class="wa-error-msg">Please enter a valid phone number</div>
+                            </div>
 
-        function closeModal() {
-            modalOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-        }
+                            <div class="wa-modal-field" id="wa-field-location">
+                                <label for="wa-location">Location / City *</label>
+                                <input type="text" id="wa-location" placeholder="e.g. Tirupati" autocomplete="address-level2" />
+                                <div class="wa-error-msg">Please enter your location</div>
+                            </div>
 
-        function resetForm() {
-            modalForm.reset();
-            modalForm.querySelectorAll('.wa-modal-field').forEach(f => f.classList.remove('wa-error'));
-            showStep(0);
-        }
+                            <div class="wa-modal-field" id="wa-field-email">
+                                <label for="wa-email">Email ID *</label>
+                                <input type="email" id="wa-email" placeholder="you@example.com" autocomplete="email" inputmode="email" />
+                                <div class="wa-error-msg">Please enter a valid email address</div>
+                            </div>
 
-        // ── Close triggers ──
-        modalClose.addEventListener('click', () => { closeModal(); resetForm(); });
-        modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) { closeModal(); resetForm(); }
-        });
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
-                closeModal(); resetForm();
+                            <div class="wa-modal-nav">
+                                <button type="button" class="wa-modal-back" id="wa-back">Back</button>
+                                <button type="submit" class="wa-modal-submit">
+                                    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                                    Send via WhatsApp
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+
+            // ── Helpers ──
+            const modalOverlay = document.getElementById('wa-modal-overlay');
+            const modalClose   = document.getElementById('wa-modal-close');
+            const modalForm    = document.getElementById('wa-modal-form');
+
+            function openModal() {
+                window.requestAnimationFrame(() => {
+                    modalOverlay.classList.add('active');
+                });
+                document.body.style.overflow = 'hidden';
+                // Focus the first field of the visible step after animation
+                setTimeout(() => {
+                    const panel = modalOverlay.querySelector('.wa-step:not([hidden])');
+                    const field = panel && panel.querySelector('input:not([type="radio"]), select');
+                    if (field) field.focus();
+                }, 350);
             }
-        });
 
-        // ── Intercept wa.me links ──
-        // Links marked data-wa-direct open WhatsApp with their own pre-filled
-        // text (bill, quote and tender uploads), so the pop-up leaves them alone.
-        document.addEventListener('click', function (e) {
-            const link = e.target.closest('a[href*="wa.me"]');
-            if (!link || link.hasAttribute('data-wa-direct')) return;
-            e.preventDefault();
-            resetForm();
-            openModal();
-        });
+            function closeModal() {
+                modalOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
 
-        // ── Step navigation ──
-        const stepPanels  = [document.getElementById('wa-step-1'), document.getElementById('wa-step-2')];
-        const progressLis = Array.from(document.getElementById('wa-progress').children);
-        let currentStep = 0;
+            function resetForm() {
+                modalForm.reset();
+                modalForm.querySelectorAll('.wa-modal-field').forEach(f => f.classList.remove('wa-error'));
+                showStep(0);
+            }
 
-        function showStep(index) {
-            currentStep = Math.max(0, Math.min(index, stepPanels.length - 1));
-            stepPanels.forEach((panel, i) => { panel.hidden = i !== currentStep; });
-            progressLis.forEach((li, i) => {
-                li.classList.toggle('is-active', i === currentStep);
-                li.classList.toggle('is-complete', i < currentStep);
+            // ── Close triggers ──
+            modalClose.addEventListener('click', () => { closeModal(); resetForm(); });
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) { closeModal(); resetForm(); }
             });
-            const firstField = stepPanels[currentStep].querySelector('input:not([type="radio"]), select');
-            if (firstField) setTimeout(() => firstField.focus(), 120);
-        }
-
-        function markError(fieldId, hasError) {
-            document.getElementById(fieldId).classList.toggle('wa-error', hasError);
-            return !hasError;
-        }
-
-        function validateStep1() {
-            const bill = document.getElementById('wa-bill').value;
-            const roof = document.getElementById('wa-roof').value.trim();
-            let ok = markError('wa-field-bill', !bill);
-            ok = markError('wa-field-roof', !roof) && ok;
-            return ok;
-        }
-
-        function validateStep2() {
-            const name     = document.getElementById('wa-name').value.trim();
-            const phone    = document.getElementById('wa-phone').value.trim();
-            const location = document.getElementById('wa-location').value.trim();
-            const email    = document.getElementById('wa-email').value.trim();
-            let ok = markError('wa-field-name', !name);
-            ok = markError('wa-field-phone', !/^[\d\s\-\+\(\)]{10,}$/.test(phone)) && ok;
-            ok = markError('wa-field-location', !location) && ok;
-            ok = markError('wa-field-email', !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) && ok;
-            return ok;
-        }
-
-        document.getElementById('wa-next').addEventListener('click', function () {
-            if (validateStep1()) showStep(1);
-        });
-
-        document.getElementById('wa-back').addEventListener('click', function () {
-            showStep(0);
-        });
-
-        // ── Form submit → report conversion, then build WhatsApp message ──
-        modalForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            if (!validateStep1()) { showStep(0); return; }
-            if (!validateStep2()) return;
-
-            const typeEl   = document.querySelector('input[name="wa-property"]:checked');
-            const type     = typeEl ? typeEl.value : 'Residential';
-            const bill     = document.getElementById('wa-bill').value;
-            const roof     = document.getElementById('wa-roof').value.trim();
-            const name     = document.getElementById('wa-name').value.trim();
-            const phone    = document.getElementById('wa-phone').value.trim();
-            const location = document.getElementById('wa-location').value.trim();
-            const email    = document.getElementById('wa-email').value.trim();
-
-            // Google Ads conversion — one per enquiry, deduped by transaction_id —
-            // plus the GA4 whatsapp_click event for the hand-over to WhatsApp.
-            try {
-                if (tracking) {
-                    const transactionId = tracking.newId('wa');
-                    tracking.sendConversion(WA_CONVERSION_SEND_TO, transactionId);
-                    tracking.sendEvent('whatsapp_click', { method: 'lead_popup' });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                    closeModal(); resetForm();
                 }
-            } catch (error) {
-                // Never let a tracking failure block the WhatsApp handoff.
+            });
+
+            // ── Step navigation ──
+            const stepPanels  = [document.getElementById('wa-step-1'), document.getElementById('wa-step-2')];
+            const progressLis = Array.from(document.getElementById('wa-progress').children);
+            let currentStep = 0;
+
+            function showStep(index) {
+                currentStep = Math.max(0, Math.min(index, stepPanels.length - 1));
+                stepPanels.forEach((panel, i) => { panel.hidden = i !== currentStep; });
+                progressLis.forEach((li, i) => {
+                    li.classList.toggle('is-active', i === currentStep);
+                    li.classList.toggle('is-complete', i < currentStep);
+                });
+                const firstField = stepPanels[currentStep].querySelector('input:not([type="radio"]), select');
+                if (firstField) setTimeout(() => firstField.focus(), 120);
             }
 
-            const message = `Hi Ray2Volt,
+            function markError(fieldId, hasError) {
+                document.getElementById(fieldId).classList.toggle('wa-error', hasError);
+                return !hasError;
+            }
+
+            function validateStep1() {
+                const bill = document.getElementById('wa-bill').value;
+                const roof = document.getElementById('wa-roof').value.trim();
+                let ok = markError('wa-field-bill', !bill);
+                ok = markError('wa-field-roof', !roof) && ok;
+                return ok;
+            }
+
+            function validateStep2() {
+                const name     = document.getElementById('wa-name').value.trim();
+                const phone    = document.getElementById('wa-phone').value.trim();
+                const location = document.getElementById('wa-location').value.trim();
+                const email    = document.getElementById('wa-email').value.trim();
+                let ok = markError('wa-field-name', !name);
+                ok = markError('wa-field-phone', !/^[\d\s\-\+\(\)]{10,}$/.test(phone)) && ok;
+                ok = markError('wa-field-location', !location) && ok;
+                ok = markError('wa-field-email', !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) && ok;
+                return ok;
+            }
+
+            document.getElementById('wa-next').addEventListener('click', function () {
+                if (validateStep1()) showStep(1);
+            });
+
+            document.getElementById('wa-back').addEventListener('click', function () {
+                showStep(0);
+            });
+
+            // ── Form submit → report conversion, then build WhatsApp message ──
+            modalForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                if (!validateStep1()) { showStep(0); return; }
+                if (!validateStep2()) return;
+
+                const typeEl   = document.querySelector('input[name="wa-property"]:checked');
+                const type     = typeEl ? typeEl.value : 'Residential';
+                const bill     = document.getElementById('wa-bill').value;
+                const roof     = document.getElementById('wa-roof').value.trim();
+                const name     = document.getElementById('wa-name').value.trim();
+                const phone    = document.getElementById('wa-phone').value.trim();
+                const location = document.getElementById('wa-location').value.trim();
+                const email    = document.getElementById('wa-email').value.trim();
+
+                try {
+                    if (tracking) {
+                        const transactionId = tracking.newId('wa');
+                        tracking.sendConversion(WA_CONVERSION_SEND_TO, transactionId);
+                        tracking.sendEvent('whatsapp_click', { method: 'lead_popup' });
+                    }
+                } catch (error) {
+                    // Never let a tracking failure block the WhatsApp handoff.
+                }
+
+                const message = `Hi Ray2Volt,
 
 I'd like to know more about going solar. Here are my details:
 
@@ -1556,30 +1581,115 @@ Please share a system recommendation, the subsidy I qualify for, and an approxim
 
 Thank you!`;
 
-            const waUrl = `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(message)}`;
+                const waUrl = `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(message)}`;
 
-            closeModal();
-            resetForm();
+                closeModal();
+                resetForm();
 
-            // Open WhatsApp
-            window.open(waUrl, '_blank');
-        });
-
-        // Live clear errors on input
-        [
-            ['wa-bill',     'wa-field-bill',     'change'],
-            ['wa-roof',     'wa-field-roof',     'input'],
-            ['wa-name',     'wa-field-name',     'input'],
-            ['wa-phone',    'wa-field-phone',    'input'],
-            ['wa-location', 'wa-field-location', 'input'],
-            ['wa-email',    'wa-field-email',    'input']
-        ].forEach(([inputId, fieldId, evt]) => {
-            document.getElementById(inputId).addEventListener(evt, function () {
-                if (this.value.trim()) document.getElementById(fieldId).classList.remove('wa-error');
+                window.open(waUrl, '_blank');
             });
-        });
 
-        showStep(0);
+            // Live clear errors on input
+            [
+                ['wa-bill',     'wa-field-bill',     'change'],
+                ['wa-roof',     'wa-field-roof',     'input'],
+                ['wa-name',     'wa-field-name',     'input'],
+                ['wa-phone',    'wa-field-phone',    'input'],
+                ['wa-location', 'wa-field-location', 'input'],
+                ['wa-email',    'wa-field-email',    'input']
+            ].forEach(([inputId, fieldId, evt]) => {
+                document.getElementById(inputId).addEventListener(evt, function () {
+                    if (this.value.trim()) document.getElementById(fieldId).classList.remove('wa-error');
+                });
+            });
+
+            showStep(0);
+            modalController = { openModal, resetForm };
+            return modalController;
+        }
+
+        // ── Intercept wa.me links ──
+        // Links marked data-wa-direct open WhatsApp with their own pre-filled
+        // text (bill, quote and tender uploads), so the pop-up leaves them alone.
+        document.addEventListener('click', function (e) {
+            const link = e.target.closest && e.target.closest('a[href*="wa.me"]');
+            if (!link || link.hasAttribute('data-wa-direct')) return;
+            e.preventDefault();
+            const ctrl = ensureModal();
+            ctrl.resetForm();
+            ctrl.openModal();
+        });
+    })();
+
+    // ──────────────────────────────────────────────────────────
+    // 12. Instant Same-Origin Link Prefetching & Speculation Rules
+    // ──────────────────────────────────────────────────────────
+    (function initLinkPrefetch() {
+        if (navigator.connection && (navigator.connection.saveData || /2g/.test(navigator.connection.effectiveType || ''))) {
+            return;
+        }
+        if (typeof HTMLScriptElement !== 'undefined' &&
+            typeof HTMLScriptElement.supports === 'function' &&
+            HTMLScriptElement.supports('speculationrules')) {
+            try {
+                const specScript = document.createElement('script');
+                specScript.type = 'speculationrules';
+                specScript.textContent = JSON.stringify({
+                    prefetch: [{
+                        source: 'document',
+                        where: {
+                            and: [
+                                { href_matches: '/*' },
+                                { not: { selector_matches: '[target="_blank"], [download], [data-no-prefetch]' } }
+                            ]
+                        },
+                        eagerness: 'moderate'
+                    }],
+                    prerender: [{
+                        source: 'document',
+                        where: {
+                            and: [
+                                { href_matches: '/*' },
+                                { not: { selector_matches: '[target="_blank"], [download], [data-no-prefetch]' } }
+                            ]
+                        },
+                        eagerness: 'conservative'
+                    }]
+                });
+                document.head.appendChild(specScript);
+                return;
+            } catch (err) {
+                // Fall back to link rel="prefetch" below.
+            }
+        }
+        const prefetched = new Set();
+        function maybePrefetch(e) {
+            const link = e.target.closest && e.target.closest('a[href]');
+            if (!link) return;
+            const rawHref = link.getAttribute('href');
+            if (!rawHref || rawHref.startsWith('#') || /^(?:mailto|tel|javascript):/i.test(rawHref)) return;
+            if (link.target === '_blank' || link.hasAttribute('download')) return;
+            let url;
+            try {
+                url = new URL(link.href, window.location.href);
+            } catch (err) {
+                return;
+            }
+            if (url.origin !== window.location.origin) return;
+            if (url.pathname === window.location.pathname && url.search === window.location.search) return;
+            const key = url.pathname + url.search;
+            if (prefetched.has(key)) return;
+            prefetched.add(key);
+
+            const hint = document.createElement('link');
+            hint.rel = 'prefetch';
+            hint.href = key;
+            hint.as = 'document';
+            document.head.appendChild(hint);
+        }
+        document.addEventListener('pointerover', maybePrefetch, { passive: true });
+        document.addEventListener('touchstart', maybePrefetch, { passive: true });
     })();
 
 });
+

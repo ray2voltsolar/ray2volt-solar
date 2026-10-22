@@ -2,6 +2,8 @@
 <html lang="en" data-theme="light" data-theme-fixed>
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -16,8 +18,6 @@
         gtag('config', 'G-WZJ1CXHSG9');
     </script>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Blog pages are always light: the theme is fixed on <html> and has no toggle -->
     <meta name="description" content="How MPPT works: the calculus of dP/dV = 0, buck and boost derivations, inductor sizing, perturb and observe, incremental conductance and partial shading.">
     <meta name="keywords" content="MPPT explained, maximum power point tracking, perturb and observe, incremental conductance, boost converter inductor, solar DC-DC converter, partial shading MPPT">
@@ -27,6 +27,8 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap"
         rel="stylesheet" media="print" onload="this.media='all'">
     <noscript>
@@ -34,6 +36,7 @@
     </noscript>
 
     <!-- Styles -->
+    <link rel="preload" as="image" type="image/webp" imagesrcset="../images/blog/mppt-and-dc-dc-converters-explained-800w.webp 800w, ../images/blog/mppt-and-dc-dc-converters-explained-1600w.webp 1600w" imagesizes="(max-width: 900px) 100vw, 800px" fetchpriority="high">
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../blog.css">
     <link rel="stylesheet" href="../theme.css">
@@ -126,7 +129,7 @@
     <header class="header">
         <nav class="nav container">
             <a href="/" class="logo">
-                <img src="../images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'">
+                <img src="../images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'" decoding="async">
                 <div class="logo-text">
                     Ray2Volt Solar
                     <span>Private Limited</span>
@@ -225,7 +228,7 @@
             <figure class="post-hero">
                 <picture>
                     <source type="image/webp" srcset="../images/blog/mppt-and-dc-dc-converters-explained-800w.webp 800w, ../images/blog/mppt-and-dc-dc-converters-explained-1600w.webp 1600w" sizes="(max-width: 900px) 100vw, 800px">
-                    <img src="../images/blog/mppt-and-dc-dc-converters-explained.jpg" alt="Rows of solar modules on a flat industrial roof with a wall-mounted inverter enclosure beside a plant room" width="1600" height="900" fetchpriority="high">
+                    <img src="../images/blog/mppt-and-dc-dc-converters-explained.jpg" alt="Rows of solar modules on a flat industrial roof with a wall-mounted inverter enclosure beside a plant room" width="1600" height="900" fetchpriority="high" decoding="async">
                 </picture>
                 <figcaption>The inverter's MPPT stage keeps the array at its maximum power point as light and temperature change.</figcaption>
             </figure>
@@ -385,7 +388,7 @@
                     <p>The last step substitutes <math><semantics><mrow><msub><mi>V</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mo>=</mo><msub><mi>V</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>D</mi><mo form="postfix" stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">V_{in} = V_{out}(1-D)</annotation></semantics></math>. The same steps for a buck give <math><semantics><mrow><msub><mi>R</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mo>=</mo><msub><mi>R</mi><mrow><mi>l</mi><mi>o</mi><mi>a</mi><mi>d</mi></mrow></msub><mi>/</mi><msup><mi>D</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">R_{in} = R_{load}/D^2</annotation></semantics></math>. A boost can only lower the resistance the array sees, and a buck can only raise it. With a real efficiency <math><semantics><mi>η</mi><annotation encoding="application/x-tex">\eta</annotation></semantics></math> near 98% to 99%, the boost result becomes <math><semantics><mrow><mi>η</mi><mo form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>D</mi><msup><mo form="postfix" stretchy="false">)</mo><mn>2</mn></msup><msub><mi>R</mi><mrow><mi>l</mi><mi>o</mi><mi>a</mi><mi>d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\eta(1-D)^2 R_{load}</annotation></semantics></math>, a shift of 1% to 2%.</p>
 
                     <figure>
-                        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200&amp;h=675&amp;fit=crop&amp;auto=format" alt="Electrical equipment and monitoring hardware for a solar inverter installation" loading="lazy" width="1200" height="675">
+                        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200&amp;h=675&amp;fit=crop&amp;auto=format&amp;q=75" alt="Electrical equipment and monitoring hardware for a solar inverter installation" loading="lazy" width="1200" height="675" decoding="async">
                         <figcaption>The MPPT stage of an inverter is a DC-DC converter plus a control loop that adjusts the duty ratio.</figcaption>
                     </figure>
 
@@ -618,7 +621,7 @@
 
                     <!-- Author box -->
                     <div class="author-box">
-                        <img src="../images/logo.png" alt="Ray2Volt Solar" width="52" height="52" loading="lazy">
+                        <img src="../images/logo.png" alt="Ray2Volt Solar" width="52" height="52" loading="lazy" decoding="async">
                         <div>
                             <h2>Ray2Volt Solar Private Limited</h2>
                             <p>We design, install, and service rooftop solar for homes and businesses across Tirupati district and Andhra Pradesh, from PM Surya Ghar residential systems to commercial and industrial plants. Every enquiry starts with a free power audit.</p>
@@ -669,7 +672,7 @@
                     <a href="how-a-solar-cell-works-physics.html" class="related-card">
                         <picture>
                             <source type="image/webp" srcset="../images/blog/how-a-solar-cell-works-physics-800w.webp 800w, ../images/blog/how-a-solar-cell-works-physics-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="../images/blog/how-a-solar-cell-works-physics.jpg" alt="How a solar cell works" loading="lazy" width="600" height="338">
+                            <img src="../images/blog/how-a-solar-cell-works-physics.jpg" alt="How a solar cell works" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                         <div class="related-card-body">
                             <h3>How a Solar Cell Works: The Physics from Photons to Current</h3>
@@ -679,7 +682,7 @@
                     <a href="how-inverters-make-ac-pwm.html" class="related-card">
                         <picture>
                             <source type="image/webp" srcset="../images/blog/how-inverters-make-ac-pwm-800w.webp 800w, ../images/blog/how-inverters-make-ac-pwm-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="../images/blog/how-inverters-make-ac-pwm.jpg" alt="How a solar inverter makes AC" loading="lazy" width="600" height="338">
+                            <img src="../images/blog/how-inverters-make-ac-pwm.jpg" alt="How a solar inverter makes AC" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                         <div class="related-card-body">
                             <h3>How a Solar Inverter Makes AC: H-Bridges, PWM, Harmonics and Grid Synchronisation</h3>
@@ -689,7 +692,7 @@
                     <a href="what-is-a-solar-inverter.html" class="related-card">
                         <picture>
                             <source type="image/webp" srcset="../images/blog/what-is-a-solar-inverter-800w.webp 800w, ../images/blog/what-is-a-solar-inverter-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="../images/blog/what-is-a-solar-inverter.jpg" alt="What is a solar inverter" loading="lazy" width="600" height="338">
+                            <img src="../images/blog/what-is-a-solar-inverter.jpg" alt="What is a solar inverter" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                         <div class="related-card-body">
                             <h3>What Is a Solar Inverter? String, Micro, and Hybrid Inverters Compared</h3>
@@ -779,8 +782,8 @@
         </svg>
     </button>
 
-    <script src="../script.js"></script>
-    <script src="../blog.js"></script>
+    <script src="../script.js" defer></script>
+    <script src="../blog.js" defer></script>
 </body>
 
 </html>

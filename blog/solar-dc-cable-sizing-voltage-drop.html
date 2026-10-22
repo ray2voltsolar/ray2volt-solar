@@ -2,6 +2,8 @@
 <html lang="en" data-theme="light" data-theme-fixed>
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -16,8 +18,6 @@
         gtag('config', 'G-WZJ1CXHSG9');
     </script>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Blog pages are always light: the theme is fixed on <html> and has no toggle -->
     <meta name="description" content="Derive solar cable sizing from Ohm's law: resistance, temperature, voltage drop, annual energy loss, ampacity, connectors, AC runs and economic cable size.">
     <meta name="keywords" content="solar cable sizing, DC voltage drop solar, solar string cable, voltage drop formula, copper vs aluminium cable, cable ampacity derating, Kelvin's law, MC4 connector resistance">
@@ -27,6 +27,8 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap"
         rel="stylesheet" media="print" onload="this.media='all'">
     <noscript>
@@ -34,6 +36,7 @@
     </noscript>
 
     <!-- Styles -->
+    <link rel="preload" as="image" type="image/webp" imagesrcset="../images/blog/solar-dc-cable-sizing-voltage-drop-800w.webp 800w, ../images/blog/solar-dc-cable-sizing-voltage-drop-1600w.webp 1600w" imagesizes="(max-width: 900px) 100vw, 800px" fetchpriority="high">
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../blog.css">
     <link rel="stylesheet" href="../theme.css">
@@ -134,7 +137,7 @@
     <header class="header">
         <nav class="nav container">
             <a href="/" class="logo">
-                <img src="../images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'">
+                <img src="../images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'" decoding="async">
                 <div class="logo-text">
                     Ray2Volt Solar
                     <span>Private Limited</span>
@@ -233,7 +236,7 @@
             <figure class="post-hero">
                 <picture>
                     <source type="image/webp" srcset="../images/blog/solar-dc-cable-sizing-voltage-drop-800w.webp 800w, ../images/blog/solar-dc-cable-sizing-voltage-drop-1600w.webp 1600w" sizes="(max-width: 900px) 100vw, 800px">
-                    <img src="../images/blog/solar-dc-cable-sizing-voltage-drop.jpg" alt="Solar module strings on a flat rooftop with DC cables and connectors routed along the mounting rails" width="1600" height="900" fetchpriority="high">
+                    <img src="../images/blog/solar-dc-cable-sizing-voltage-drop.jpg" alt="Solar module strings on a flat rooftop with DC cables and connectors routed along the mounting rails" width="1600" height="900" fetchpriority="high" decoding="async">
                 </picture>
                 <figcaption>Every string conductor on a roof is a resistor: its size, temperature and terminations decide how much energy is lost as heat.</figcaption>
             </figure>
@@ -409,7 +412,7 @@
                     <p>The danger is feedback. A hot, poor contact oxidises, its resistance rises and so does the heat. At 50 mΩ the same current would dissipate 8.7 W. A DC arc also has no natural zero crossing, so once struck it does not stop by itself.</p>
 
                     <figure>
-                        <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1200&h=675&fit=crop&auto=format" alt="Electrical technician testing equipment" loading="lazy" width="1200" height="675">
+                        <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1200&h=675&fit=crop&auto=format&q=75" alt="Electrical technician testing equipment" loading="lazy" width="1200" height="675" decoding="async">
                         <figcaption>Terminations are inspected and tested because contact heating is invisible until it has already done damage.</figcaption>
                     </figure>
 
@@ -545,7 +548,7 @@
 
                     <!-- Author box -->
                     <div class="author-box">
-                        <img src="../images/logo.png" alt="Ray2Volt Solar" width="52" height="52" loading="lazy">
+                        <img src="../images/logo.png" alt="Ray2Volt Solar" width="52" height="52" loading="lazy" decoding="async">
                         <div>
                             <h2>Ray2Volt Solar Private Limited</h2>
                             <p>We design, install, and service rooftop solar for homes and businesses across Tirupati
@@ -600,7 +603,7 @@
                     <a href="solar-string-sizing-temperature.html" class="related-card">
                         <picture>
                             <source type="image/webp" srcset="../images/blog/solar-string-sizing-temperature-800w.webp 800w, ../images/blog/solar-string-sizing-temperature-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="../images/blog/solar-string-sizing-temperature.jpg" alt="String sizing and temperature" loading="lazy" width="600" height="338">
+                            <img src="../images/blog/solar-string-sizing-temperature.jpg" alt="String sizing and temperature" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                         <div class="related-card-body">
                             <h3>String Sizing for Solar Inverters: The Temperature Mathematics of Voc, Vmp and MPPT Windows</h3>
@@ -610,7 +613,7 @@
                     <a href="solar-earthing-surge-protection.html" class="related-card">
                         <picture>
                             <source type="image/webp" srcset="../images/blog/solar-earthing-surge-protection-800w.webp 800w, ../images/blog/solar-earthing-surge-protection-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="../images/blog/solar-earthing-surge-protection.jpg" alt="Earthing and surge protection" loading="lazy" width="600" height="338">
+                            <img src="../images/blog/solar-earthing-surge-protection.jpg" alt="Earthing and surge protection" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                         <div class="related-card-body">
                             <h3>Earthing and Surge Protection for Solar Plants: The Physics of Fault Currents and Lightning</h3>
@@ -620,7 +623,7 @@
                     <a href="what-is-a-solar-inverter.html" class="related-card">
                         <picture>
                             <source type="image/webp" srcset="../images/blog/what-is-a-solar-inverter-800w.webp 800w, ../images/blog/what-is-a-solar-inverter-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="../images/blog/what-is-a-solar-inverter.jpg" alt="What is a solar inverter" loading="lazy" width="600" height="338">
+                            <img src="../images/blog/what-is-a-solar-inverter.jpg" alt="What is a solar inverter" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                         <div class="related-card-body">
                             <h3>What Is a Solar Inverter? String, Micro, and Hybrid Inverters Compared</h3>
@@ -710,8 +713,8 @@
         </svg>
     </button>
 
-    <script src="../script.js"></script>
-    <script src="../blog.js"></script>
+    <script src="../script.js" defer></script>
+    <script src="../blog.js" defer></script>
 </body>
 
 </html>

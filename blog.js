@@ -46,9 +46,16 @@
         const sections = [];
         links.forEach(function (link) {
             const target = document.getElementById(link.getAttribute('href').slice(1));
-            if (target) sections.push({ link: link, target: target });
+            if (target) sections.push({ link: link, target: target, top: 0 });
         });
         if (!sections.length) return;
+
+        function measure() {
+            const scrollY = window.scrollY;
+            for (const section of sections) {
+                section.top = section.target.getBoundingClientRect().top + scrollY;
+            }
+        }
 
         // Highlight the last heading scrolled past, so a link stays active for the
         // whole section rather than only while its heading is on screen.
@@ -58,7 +65,7 @@
             const line = window.scrollY + 140;
             let found = sections[0];
             for (const section of sections) {
-                if (section.target.getBoundingClientRect().top + window.scrollY <= line) {
+                if (section.top <= line) {
                     found = section;
                 } else {
                     break;
@@ -89,8 +96,15 @@
             }, 100);
         }
 
+        function onResize() {
+            measure();
+            onScroll();
+        }
+
+        measure();
         window.addEventListener('scroll', onScroll, { passive: true });
-        window.addEventListener('resize', onScroll, { passive: true });
+        window.addEventListener('resize', onResize, { passive: true });
+        window.addEventListener('load', onResize, { passive: true, once: true });
         sync();
     }
 

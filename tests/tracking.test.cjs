@@ -116,3 +116,17 @@ test('secondary events go to GA4 only', () => {
     const [event] = page.events('click_to_call');
     assert.equal(event[2].send_to, 'G-WZJ1CXHSG9');
 });
+
+// The C&I estimate form copies window.ray2voltCampaign into its hidden fields
+// while the page parses, so script.js has to run first there: no defer.
+test('pages that read the stored campaign load script.js before their own script', () => {
+    const pages = fs.readdirSync('.').filter(name => name.endsWith('.html'))
+        .filter(name => fs.readFileSync(name, 'utf8').includes('window.ray2voltCampaign'));
+    assert.ok(pages.includes('commercial-solar-estimate.html'));
+    for (const name of pages) {
+        const html = fs.readFileSync(name, 'utf8');
+        const site = html.indexOf('<script src="script.js"></script>');
+        assert.ok(site !== -1, name + ' loads script.js without defer');
+        assert.ok(site < html.indexOf('window.ray2voltCampaign'), name + ' loads script.js before reading the campaign');
+    }
+});

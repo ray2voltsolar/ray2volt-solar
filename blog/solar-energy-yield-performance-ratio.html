@@ -2,6 +2,8 @@
 <html lang="en" data-theme="light" data-theme-fixed>
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -16,8 +18,6 @@
         gtag('config', 'G-WZJ1CXHSG9');
     </script>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Blog pages are always light: the theme is fixed on <html> and has no toggle -->
     <meta name="description" content="Derive solar energy yield from first principles: irradiance, plane-of-array transposition, the loss chain, performance ratio, CUF and 25-year degradation.">
     <meta name="keywords" content="solar energy yield, performance ratio, peak sun hours, plane of array irradiance, capacity utilisation factor, specific yield kWh/kWp, solar degradation">
@@ -27,6 +27,8 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..800&family=Assistant:wght@400..800&display=swap"
         rel="stylesheet" media="print" onload="this.media='all'">
     <noscript>
@@ -34,6 +36,7 @@
     </noscript>
 
     <!-- Styles -->
+    <link rel="preload" as="image" type="image/webp" imagesrcset="../images/blog/solar-energy-yield-performance-ratio-800w.webp 800w, ../images/blog/solar-energy-yield-performance-ratio-1600w.webp 1600w" imagesizes="(max-width: 900px) 100vw, 800px" fetchpriority="high">
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../blog.css">
     <link rel="stylesheet" href="../theme.css">
@@ -134,7 +137,7 @@
     <header class="header">
         <nav class="nav container">
             <a href="/" class="logo">
-                <img src="../images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'">
+                <img src="../images/logo.png" alt="Ray2Volt Solar Logo" width="1006" height="150" onerror="this.style.display='none'" decoding="async">
                 <div class="logo-text">
                     Ray2Volt Solar
                     <span>Private Limited</span>
@@ -233,7 +236,7 @@
             <figure class="post-hero">
                 <picture>
                     <source type="image/webp" srcset="../images/blog/solar-energy-yield-performance-ratio-800w.webp 800w, ../images/blog/solar-energy-yield-performance-ratio-1600w.webp 1600w" sizes="(max-width: 900px) 100vw, 800px">
-                    <img src="../images/blog/solar-energy-yield-performance-ratio.jpg" alt="Rooftop solar array on a flat Indian roof in clear daylight" width="1600" height="900" fetchpriority="high">
+                    <img src="../images/blog/solar-energy-yield-performance-ratio.jpg" alt="Rooftop solar array on a flat Indian roof in clear daylight" width="1600" height="900" fetchpriority="high" decoding="async">
                 </picture>
                 <figcaption>Annual energy from a roof is the sunlight it receives multiplied by a chain of losses, each of which can be estimated and checked.</figcaption>
             </figure>
@@ -384,7 +387,7 @@
                     <p>The first-order estimate <math><semantics><mrow><mn>1</mn><mo>−</mo><mo movablelimits="false">∑</mo><msub><mi>l</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">1-\sum l_i</annotation></semantics></math> is slightly low because the pair term is positive: a second loss acts on energy already reduced, so it removes a little less than its face value.</p>
 
                     <figure>
-                        <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1200&h=675&fit=crop&auto=format" alt="Clean rooftop solar panels under a clear sky" loading="lazy" width="1200" height="675">
+                        <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1200&h=675&fit=crop&auto=format&q=75" alt="Clean rooftop solar panels under a clear sky" loading="lazy" width="1200" height="675" decoding="async">
                         <figcaption>Dust on the glass, cell heating and wiring each remove a few per cent, and they compound rather than simply add.</figcaption>
                     </figure>
 
@@ -668,7 +671,7 @@
 
                     <!-- Author box -->
                     <div class="author-box">
-                        <img src="../images/logo.png" alt="Ray2Volt Solar" width="52" height="52" loading="lazy">
+                        <img src="../images/logo.png" alt="Ray2Volt Solar" width="52" height="52" loading="lazy" decoding="async">
                         <div>
                             <h2>Ray2Volt Solar Private Limited</h2>
                             <p>We design, install, and service rooftop solar for homes and businesses across Tirupati district and Andhra Pradesh, from PM Surya Ghar residential systems to commercial and industrial plants. Every enquiry starts with a free power audit.</p>
@@ -720,7 +723,7 @@
                     <a href="sun-path-tilt-angle-shading-geometry.html" class="related-card">
                         <picture>
                             <source type="image/webp" srcset="../images/blog/sun-path-tilt-angle-shading-geometry-800w.webp 800w, ../images/blog/sun-path-tilt-angle-shading-geometry-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="../images/blog/sun-path-tilt-angle-shading-geometry.jpg" alt="Sun path, tilt angle and shading geometry" loading="lazy" width="600" height="338">
+                            <img src="../images/blog/sun-path-tilt-angle-shading-geometry.jpg" alt="Sun path, tilt angle and shading geometry" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                         <div class="related-card-body">
                             <h3>Sun Path Geometry for Solar: Tilt, Azimuth and Row Spacing from First Principles</h3>
@@ -730,7 +733,7 @@
                     <a href="how-to-size-a-solar-system.html" class="related-card">
                         <picture>
                             <source type="image/webp" srcset="../images/blog/how-to-size-a-solar-system-800w.webp 800w, ../images/blog/how-to-size-a-solar-system-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="../images/blog/how-to-size-a-solar-system.jpg" alt="How to size a solar system" loading="lazy" width="600" height="338">
+                            <img src="../images/blog/how-to-size-a-solar-system.jpg" alt="How to size a solar system" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                         <div class="related-card-body">
                             <h3>How to Size a Solar System for Your Home: kW, Units, and Roof Space</h3>
@@ -740,7 +743,7 @@
                     <a href="rooftop-solar-roi-payback.html" class="related-card">
                         <picture>
                             <source type="image/webp" srcset="../images/blog/rooftop-solar-roi-payback-800w.webp 800w, ../images/blog/rooftop-solar-roi-payback-1600w.webp 1600w" sizes="(max-width: 600px) 90vw, 400px">
-                            <img src="../images/blog/rooftop-solar-roi-payback.jpg" alt="Rooftop solar ROI and payback" loading="lazy" width="600" height="338">
+                            <img src="../images/blog/rooftop-solar-roi-payback.jpg" alt="Rooftop solar ROI and payback" loading="lazy" width="600" height="338" decoding="async">
                         </picture>
                         <div class="related-card-body">
                             <h3>Rooftop Solar ROI: How Long Until Your System Actually Pays for Itself?</h3>
@@ -830,8 +833,8 @@
         </svg>
     </button>
 
-    <script src="../script.js"></script>
-    <script src="../blog.js"></script>
+    <script src="../script.js" defer></script>
+    <script src="../blog.js" defer></script>
 </body>
 
 </html>

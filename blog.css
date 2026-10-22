@@ -332,6 +332,11 @@ body.blog::after {
     transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
 }
 
+.blog-card:nth-child(n + 7) {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 380px;
+}
+
 .blog-card:hover {
     transform: translateY(-4px);
     box-shadow: var(--b-card-hover-shadow);
@@ -1143,6 +1148,8 @@ body.blog .post-cta p {
     margin: 4.5rem auto 0;
     border-top: 1px solid var(--rule);
     padding-top: 2.75rem;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 380px;
 }
 
 .related-posts> h2 {
