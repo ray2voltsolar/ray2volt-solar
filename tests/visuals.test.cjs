@@ -64,6 +64,20 @@ for (const page of pages) test(`${page} loads what its solar visuals need`, () =
     if (billJs !== -1) assert.ok(billJs > site, 'bill-story.js follows script.js');
 });
 
+// Where a page has both, the bill comes straight after the hero, then the scene
+for (const page of pages.filter(name => /\bdata-bill-story\b/.test(read(name)) && /\bdata-energy-flow\b/.test(read(name)))) {
+    test(`${page} opens with the hero, then the bill, then the energy-flow scene`, () => {
+        const html = read(page);
+        const opens = [...html.matchAll(/<section\b[^>]*>/g)];
+        const at = id => opens.findIndex(match => match[0].includes(`id="${id}"`));
+        const bill = at('bill-savings');
+        const lead = opens.slice(0, bill).map((match, i) => html.slice(match.index, opens[i + 1].index));
+        assert.match(lead[0] ?? '', /^<section class="(home-hero|hero|page-header)"/, 'the hero comes first');
+        assert.ok(lead.slice(1).every(chunk => chunk.includes('class="hero-stats')), 'only the hero stats sit between the hero and the bill');
+        assert.equal(at('how-solar-works'), bill + 1, 'the energy-flow scene follows the bill');
+    });
+}
+
 test('each visual has text for readers without JavaScript and valid settings', () => {
     let seen = 0;
     for (const page of pages) {
