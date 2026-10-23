@@ -1,7 +1,19 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>[hidden]{display:none!important}body{margin:0}</style>
 <meta name="robots" content="noindex, nofollow">
-<title>FDRE &amp; RTC Playbook</title>
+<title>FDRE &amp; RTC Playbook | Ray2Volt Solar</title>
+<meta name="description" content="How firm renewable power works, from the grid up: RTC and FDRE contracts, storage, tariffs and project returns, with live models.">
+<meta name="theme-color" content="#f9f9f9">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<meta property="og:site_name" content="Ray2Volt Solar">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FDRE &amp; RTC: firm renewable power, from first principles">
+<meta property="og:description" content="How firm renewable power works, from the grid up: RTC and FDRE contracts, storage, tariffs and project returns, with live models.">
+<meta property="og:url" content="https://ray2voltsolar.com/share/fdre-rtc-playbook.html">
+<meta property="og:image" content="https://ray2voltsolar.com/images/og-default.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
 /* Noto Sans and Geist Mono (OFL-1.1), weight axis, Latin + rupee sign — embedded */
@@ -125,6 +137,13 @@ html { scroll-behavior: smooth; scroll-padding-top: 4rem; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
 body { background: var(--color-bg); color: var(--color-text); font-family: var(--font-sans); font-size: var(--text-body); line-height: var(--leading-body); -webkit-font-smoothing: antialiased; }
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--color-bg); }
+
+/* Scrollbars: thin rounded thumb, no track */
+* { scrollbar-width: thin; scrollbar-color: var(--color-line-strong) transparent; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-line-strong); border-radius: var(--radius-pill); border: 3px solid transparent; background-clip: padding-box; }
+::-webkit-scrollbar-thumb:hover { background-color: var(--color-text-faint); }
 
 /* ---------- Shell ---------- */
 .shell { display: grid; grid-template-columns: var(--width-side) minmax(0, 1fr); min-height: 100%; }
@@ -269,8 +288,7 @@ details[open] > summary { margin-bottom: var(--space-3); }
 /* Charts */
 .chart { width: 100%; position: relative; min-width: 0; }
 .chart svg { display: block; overflow: visible; }
-.chart text { font-family: var(--font-sans); fill: var(--color-text-muted); font-size: 11px; }
-.chart .t-strong { fill: var(--color-text); font-weight: var(--weight-medium); }
+.chart text { font-family: var(--font-sans); fill: var(--color-text-muted); font-size: 11px; paint-order: stroke; stroke: var(--color-surface); stroke-width: 3px; stroke-linejoin: round; }.chart .t-strong { fill: var(--color-text); font-weight: var(--weight-medium); }
 .chart .grid line { stroke: var(--color-line); stroke-width: 1; }
 .chart .axis line, .chart .axis path { stroke: var(--color-line-strong); }
 .legend { display: flex; flex-wrap: wrap; gap: var(--space-1-5) var(--space-4); font-size: var(--text-small); color: var(--color-text-muted); }
@@ -332,6 +350,7 @@ details[open] > summary { margin-bottom: var(--space-3); }
 
 /* Formula */
 .formula { font-family: var(--font-mono); font-size: var(--text-small); background: var(--color-fill); border-radius: var(--radius-sm); padding: var(--space-3) var(--space-4); overflow-x: auto; line-height: 1.7; white-space: pre; color: var(--color-text); }
+.formula .fl { display: block; padding-left: var(--hang); text-indent: calc(-1 * var(--hang)); }
 
 /* Battery gauge */
 .batt { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-small); }
@@ -382,6 +401,14 @@ details[open] > summary { margin-bottom: var(--space-3); }
 .drawer { display: flex; flex-direction: column; gap: var(--space-5); flex: 1 1 auto; min-height: 0; }
 .menu-btn, .cur-sec, .drawer-head, .backdrop { display: none; }
 input[type="range"] { touch-action: pan-y; }
+/* Touch screens: thumb-sized sliders and links */
+@media (pointer: coarse) {
+  input[type="range"] { height: 1.75rem; }
+  input[type="range"]::-webkit-slider-thumb { width: 22px; height: 22px; margin-top: -9px; }
+  input[type="range"]::-moz-range-thumb { width: 22px; height: 22px; }
+  .link-btn { padding-block: var(--space-1-5); }
+  details > summary { min-height: var(--target-nav); }
+}
 @media (max-width: 860px) {
   :root { --topbar: 3.25rem; }
   .shell { grid-template-columns: minmax(0, 1fr); }
@@ -411,7 +438,14 @@ input[type="range"] { touch-action: pan-y; }
   .section { scroll-margin-top: var(--space-4); }
 }
 @media (max-width: 600px) {
+  :root { --text-body: 0.875rem; --text-small: 0.8125rem; --text-section: 0.9375rem; }
   .grid-2, .grid-3, .grid-4 { grid-template-columns: minmax(0, 1fr); }
+  .grid-3:has(> .kpi:first-child) { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); }
+  .grid-3 > .kpi { padding: var(--space-2); }
+  .grid-3 > .kpi .k-value { font-size: 1.0625rem; }
+  .grid-3 > .kpi .k-label { font-size: var(--text-label); line-height: 1.25; }
+  .formula { white-space: pre-wrap; overflow-wrap: anywhere; }
+  .ctl-top output { min-width: 0; white-space: normal; text-align: right; }
   .wrap { gap: var(--space-10); }
   .section { gap: var(--space-4); }
   .card { padding: var(--space-4); gap: var(--space-3); border-radius: var(--radius-md); }
@@ -441,8 +475,9 @@ input[type="range"] { touch-action: pan-y; }
   .stack-sm table, .stack-sm tbody, .stack-sm tr, .stack-sm td { display: block; width: 100%; }
   .stack-sm thead { display: none; }
   .stack-sm tbody { display: flex; flex-direction: column; gap: var(--space-2); }
-  .stack-sm tr { border: 1px solid var(--color-line); border-radius: var(--radius-md); padding: var(--space-3); background: var(--color-surface); display: flex; flex-direction: column; gap: var(--space-2); }
-  .stack-sm td { border: 0; padding: 0; text-align: left; }
+  .stack-sm tr { border: 1px solid var(--color-line); border-radius: var(--radius-md); padding: var(--space-3); background: var(--color-surface); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2) var(--space-3); }
+  .stack-sm td:first-child, .stack-sm td.wide { grid-column: 1 / -1; }
+  .stack-sm td { border: 0; padding: 0; text-align: left; white-space: normal; min-width: 0; }
   .stack-sm td.n { text-align: left; }
   .stack-sm td::before { content: attr(data-label); display: block; font-size: var(--text-label); text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--color-text-faint); margin-bottom: 2px; font-weight: var(--weight-medium); }
   .stack-sm td:first-child { font-family: var(--font-heading); font-size: var(--text-section); font-weight: var(--weight-heading); }
@@ -454,6 +489,7 @@ input[type="range"] { touch-action: pan-y; }
   #genShapes { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
   #genShapes .chart { min-width: 0; }
 }
+@media (max-width: 360px) { #genShapes { grid-template-columns: minmax(0, 1fr); } }
 </style>
 </head><body>
 
@@ -1137,14 +1173,13 @@ Monthly bill (₹) =
     <div class="card"><span class="card-title">WACC and levellised cost</span><p class="card-text">The blended cost of debt and equity. Discount every year's cost and every year's energy at the WACC, divide one by the other, and you have a levellised cost per unit. That is how the tariff build-up chart is made.</p></div>
     <div class="card"><span class="card-title">How the bid is solved</span><p class="card-text">Fix the plant (from the dispatch model), capex, operating costs, financing terms and the target equity IRR. Then search for the flat tariff that makes the equity IRR land exactly on target. The model below does this in real time, every time a slider moves.</p></div>
   </div>
-
-  Revenue      = energy delivered × tariff + excess sold × excess price
-  Penalties    = shortfall below threshold × tariff × multiple
-  EBITDA       = revenue − penalties − O&amp;M
-  CFADS        = EBITDA − tax                      (cash available for debt service)
-  Debt service = interest + principal
-  DSCR         = CFADS ÷ debt service
-  Equity CF    = CFADS − debt service − augmentation capex
+  <div class="formula">Revenue      = energy delivered × tariff + excess sold × excess price
+Penalties    = shortfall below threshold × tariff × multiple
+EBITDA       = revenue − penalties − O&amp;M
+CFADS        = EBITDA − tax                      (cash available for debt service)
+Debt service = interest + principal
+DSCR         = CFADS ÷ debt service
+Equity CF    = CFADS − debt service − augmentation capex
 
 Solve: tariff such that IRR(equity cash flows over 25 years) = target</div>
 </section>
@@ -1628,8 +1663,11 @@ function drawLoad(){
   el('path', {d: pts.map((p, i) => (i ? 'L' : 'M') + x(p.t) + ',' + y(p.d)).join(''), style: 'fill:none;stroke:var(--color-text);stroke-width:2;stroke-linejoin:round'}, svg);
   let base = 1e9, bT = 0, peak = 0, pT = 0, mp = 0, mT = 0;
   pts.forEach(p => { if (p.d < base){ base = p.d; bT = p.t; } if (p.d > peak){ peak = p.d; pT = p.t; } if (p.t > 7 && p.t < 14 && p.d > mp){ mp = p.d; mT = p.t; } });
-  const mark = (t, v, label, dy) => { el('circle', {cx: x(t), cy: y(v), r: 4.5, style: 'fill:var(--color-accent);stroke:var(--color-surface);stroke-width:2'}, svg); txt(svg, x(t), y(v) + dy, label, {'text-anchor': 'middle', class: 't-strong'}); };
-  mark(bT, base, 'Base ' + Math.round(base) + ' GW', 18); mark(mT, mp, 'Morning peak', -10); mark(pT, peak, 'Evening peak ' + Math.round(peak) + ' GW', -10);
+  const mark = (t, v, label, dy, anchor = 'middle', lx = x(t)) => { el('circle', {cx: x(t), cy: y(v), r: 4.5, style: 'fill:var(--color-accent);stroke:var(--color-surface);stroke-width:2'}, svg); txt(svg, lx, y(v) + dy, label, {'text-anchor': anchor, class: 't-strong'}); };
+  const narrow = w < 520;
+  mark(bT, base, 'Base ' + Math.round(base) + ' GW', 18); mark(mT, mp, narrow ? 'Morning' : 'Morning peak', -10);
+  if (narrow) mark(pT, peak, 'Peak ' + Math.round(peak) + ' GW', -10, 'end', Math.min(x(pT) + 28, w - m.r));
+  else mark(pT, peak, 'Evening peak ' + Math.round(peak) + ' GW', -10);
   $('#ldBase').textContent = Math.round(base) + ' GW'; $('#ldPeak').textContent = Math.round(peak) + ' GW'; $('#ldRatio').textContent = (peak / base).toFixed(2) + '×';
   const cross = el('line', {y1: m.t, y2: h - m.b, style: 'stroke:var(--color-text-faint);stroke-width:1;opacity:0'}, svg);
   const hit = el('rect', {x: m.l, y: m.t, width: w - m.l - m.r, height: h - m.t - m.b, style: 'fill:transparent'}, svg);
@@ -1683,8 +1721,8 @@ function drawPrice(){
   el('path', {d: l, style: 'fill:none;stroke:var(--color-accent);stroke-width:2;stroke-linejoin:round'}, svg);
   el('line', {x1: m.l, x2: w - m.r, y1: y(2.6), y2: y(2.6), style: 'stroke:var(--c-solar);stroke-width:2'}, svg);
   el('line', {x1: m.l, x2: w - m.r, y1: y(4.5), y2: y(4.5), style: 'stroke:var(--c-bess);stroke-width:2'}, svg);
-  txt(svg, w - m.r, y(2.6) - 5, 'Solar PPA ₹2.6', {'text-anchor': 'end', class: 't-strong', style: 'font-size:10px'});
-  txt(svg, w - m.r, y(4.5) - 5, 'FDRE PPA ₹4.5', {'text-anchor': 'end', class: 't-strong', style: 'font-size:10px'});
+  txt(svg, x(12.5), y(2.6) - 5, w < 520 ? 'Solar ₹2.6' : 'Solar PPA ₹2.6', {'text-anchor': 'middle', class: 't-strong', style: 'font-size:10px'});
+  txt(svg, x(12.5), y(4.5) - 5, w < 520 ? 'FDRE ₹4.5' : 'FDRE PPA ₹4.5', {'text-anchor': 'middle', class: 't-strong', style: 'font-size:10px'});
   const cross = el('line', {y1: m.t, y2: h - m.b, style: 'stroke:var(--color-text-faint);stroke-width:1;opacity:0'}, svg);
   const hit = el('rect', {x: m.l, y: m.t, width: w - m.l - m.r, height: h - m.t - m.b, style: 'fill:transparent'}, svg);
   hit.addEventListener('pointermove', e => { const r = svg.getBoundingClientRect(); const t = Math.max(0, Math.min(24, (e.clientX - r.left - m.l) / (w - m.l - m.r) * 24)); const q = Math.round(t * 4) / 4; cross.setAttribute('x1', x(q)); cross.setAttribute('x2', x(q)); cross.style.opacity = 1; showTip(`<div class="tt">${String(Math.floor(q)).padStart(2, '0')}:${String(Math.round((q % 1) * 60)).padStart(2, '0')}</div>${trow('Exchange price', '₹' + pAt(q).toFixed(2) + '/kWh', 'var(--color-accent)', 'line')}${trow('vs FDRE ₹4.5', (pAt(q) >= 4.5 ? 'FDRE cheaper by ₹' + (pAt(q) - 4.5).toFixed(2) : 'Exchange cheaper by ₹' + (4.5 - pAt(q)).toFixed(2)))}`, e); });
@@ -1702,7 +1740,7 @@ function drawShapes(){
     [0, 6, 12, 18, 24].forEach(t => txt(svg, x(t), h - 5, String(t).padStart(2, '0'), {'text-anchor': 'middle'}));
     const bw = (w - m.l - m.r) / 24;
     for (let hr = 0; hr < 24; hr++){ const v = demandFrac(mode, 4, hr, 0.5); const r = colRect(svg, x(hr) + 1, y(0), y(v), bw - 2, 'fill:var(--color-accent);fill-opacity:' + ((mode === 'peak' && hr >= 18 && hr < 22) ? '0.95' : '0.55'), 'up'); if (r) hoverable(r, `<div class="tt">${hh(hr)}–${hh(hr + 1)}</div>${trow('Required', pct(v))}`); }
-    if (mode === 'peak') txt(svg, (x(18) + x(22)) / 2, m.t + 12, 'Peak', {'text-anchor': 'middle', class: 't-strong'});
+    if (mode === 'peak') txt(svg, x(18) - 6, m.t + 10, 'Peak hours', {'text-anchor': 'end', class: 't-strong'});
   });
 }
 
@@ -2487,7 +2525,7 @@ function drawExample(){
     html += `<tr${r.star ? ' class="ex-star"' : ''}><td><div class="ex-name">${r.name}${r.star ? ' <span class="pill acc">Worked example</span>' : ''}${r.k ? `<button class="link-btn" type="button" data-load="${r.k}">Load in model →</button>` : ''}</div></td><td class="n">${r.c.contract} MW</td><td>${r.plant}</td><td class="n">₹${fmt(r.fr.total)} cr</td><td>${exTest(r.sim, r.c)}</td><td class="n">₹${r.fr.T.toFixed(2)}/kWh</td><td class="n">${r.market ? `${pct(r.irr, 1)} at ₹${r.market.toFixed(2)}` : 'No recent benchmark'}</td></tr>`;
   });
   $('#exTable').innerHTML = html + '</tbody>';
-  const ths = Array.from($$('#exTable thead th')).map(th => th.textContent); $$('#exTable tbody tr').forEach(tr => Array.from(tr.children).forEach((td, i) => td.setAttribute('data-label', ths[i] || '')));
+  const ths = Array.from($$('#exTable thead th')).map(th => th.textContent); $$('#exTable tbody tr').forEach(tr => Array.from(tr.children).forEach((td, i) => td.setAttribute('data-label', ths[i] || ''))); markWide();
   $$('#exTable [data-load]').forEach(b => b.addEventListener('click', () => { Object.assign(S, PRESETS.find(p => p.k === b.dataset.load).c); syncControls(); recompute(); $('#simulator').scrollIntoView({behavior: REDUCED ? 'auto' : 'smooth'}); }));
   const [pl, sb, ex] = rows;
   $('#exNote').textContent = `Market tariffs: ₹2.60 for plain solar and ₹4.90 for FDRE, in line with recent auctions. Capex and financing follow the assumptions in Part 4 and update when you change them.`;
@@ -2583,10 +2621,21 @@ document.addEventListener('click', e => {
 });
 window.addEventListener('scroll', () => { if (lastPtr === 'touch' && tip.classList.contains('on')){ hideTip(); if (tapTarget){ tapTarget.dispatchEvent(new PointerEvent('pointerleave', {pointerType: 'mouse'})); tapTarget = null; } } }, {passive: true});
 
+/* Stacked table cards pair short values two to a row; long ones take the full width */
+function markWide(){ $$('.stack-sm td').forEach(td => td.classList.toggle('wide', td.textContent.trim().length > 30)); }
+/* Formula lines that wrap on phones hang under their "=" instead of restarting at the margin */
+function hangFormulas(){
+  $$('.formula').forEach(f => {
+    const lines = f.textContent.split('\n'); f.textContent = '';
+    lines.forEach(line => { const s = document.createElement('span'); s.className = 'fl'; s.textContent = line || ' '; const eq = line.indexOf('= '), lead = line.length - line.trimStart().length; s.style.setProperty('--hang', (eq > -1 && eq < 18 ? eq + 2 : lead + 2) + 'ch'); f.appendChild(s); });
+  });
+}
+
 /* ================= Boot ================= */
 function boot(){
   buildControls(); syncControls(); syncFin(); glossary(); escLevellised();
   $$('table').forEach(t => { const ths = Array.from(t.querySelectorAll('thead th')).map(th => th.textContent); if (!ths.length) return; t.querySelectorAll('tbody tr').forEach(tr => Array.from(tr.children).forEach((td, i) => td.setAttribute('data-label', ths[i] || ''))); });
+  markWide(); hangFormulas();
   $$('input[type="range"]').forEach(setRangeFill);
   SIM = simulate(simCfg());
   heroShapes(); drawLoad(); drawGenShapes(); drawMerit(); drawPrice(); drawDuck(); drawShapes(); drawFlow(); drawGantt(); drawHeatmaps(); drawSld(); drawIsts(); drawDeg(); drawPen();
