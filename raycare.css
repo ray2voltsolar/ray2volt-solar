@@ -151,6 +151,47 @@
 .rc-scope-note h2 { font-size: 1.1rem; margin: 0 0 .65rem; }
 .rc-scope-note p { font-size: .9375rem; color: var(--h-muted); margin: 0; max-width: 110ch; }
 .rc-faq-section { padding-top: 0; }
+.rc-from-line { display: flex; flex-wrap: wrap; gap: .3rem 1.25rem; margin: 1rem 0 0; font-size: .9375rem; }
+.rc-from-line strong { color: var(--h-ink); font-weight: 600; }
+.rc-from-line span { color: var(--h-muted); }
+.rc-plan__minimum { margin: -.9rem 0 1.2rem; color: var(--h-muted); font-size: .8125rem; }
+.rc-plan-preview > strong { margin-bottom: .35rem; }
+.rc-plan-preview__min { display: block; margin-bottom: 1.4rem; color: var(--h-muted); font-size: .8125rem; }
+.rc-price-rules { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; margin-top: 1.5rem; }
+.rc-price-rule { position: relative; padding: 1.5rem; border: 1px solid var(--h-line); border-radius: 18px; background: var(--h-surface); }
+.rc-price-rule .rc-index { top: 1.5rem; right: 1.5rem; }
+.rc-price-rule h3 { font-size: 1.05rem; margin: 0 2rem .55rem 0; }
+.rc-price-rule p { margin: 0; font-size: .875rem; color: var(--h-muted); }
+.rc-slabs { list-style: none; margin: 0 0 .8rem; }
+.rc-slabs li { display: flex; justify-content: space-between; gap: 1rem; padding: .4rem 0; border-bottom: 1px solid var(--h-line); font-size: .875rem; }
+.rc-slabs li:last-child { border-bottom: 0; }
+.rc-slabs span { color: var(--h-muted); }
+.rc-slabs strong { color: var(--h-ink); font-weight: 600; white-space: nowrap; }
+.rc-custom-note { margin: 0 0 .75rem; padding: .75rem 1rem; border: 1px solid var(--h-gold-tile-line); border-radius: 12px; background: var(--h-note-bg); color: var(--h-ink); font-size: .875rem; }
+.rc-custom-note[hidden] { display: none; }
+.rc-health-strip { display: flex; align-items: center; gap: 1.25rem; margin-top: 1.25rem; padding: 1.5rem 1.75rem; background: var(--h-note-bg); border: 1px solid var(--h-gold-tile-line); border-radius: 18px; }
+.rc-health-strip h2 { font-size: 1.1rem; margin: 0 0 .4rem; }
+.rc-health-strip p { margin: 0; font-size: .9375rem; color: var(--h-muted); max-width: 80ch; }
+.rc-health-strip p strong { color: var(--h-ink); font-weight: 600; }
+.rc-health-strip > .btn { flex: none; margin-left: auto; }
+.rc-health-section { padding-top: 0; }
+.rc-health { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; padding: 2.5rem; border-radius: 24px; border: 1px solid var(--h-gold-tile-line); background: linear-gradient(150deg, var(--h-gold-tile-bg), transparent 55%), var(--h-surface); }
+.rc-health__offer h2 { margin-bottom: 1rem; }
+.rc-health__offer .lead { max-width: 44ch; margin-bottom: 1.5rem; }
+.rc-health-prices { list-style: none; margin: 0 0 1.25rem; border-top: 1px solid var(--h-line-strong); }
+.rc-health-prices li { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding: .8rem 0; border-bottom: 1px solid var(--h-line-strong); font-size: .9375rem; }
+.rc-health-prices span { color: var(--h-body); }
+.rc-health-prices strong { flex: none; color: var(--h-ink); font-family: var(--font-heading); font-size: 1.2rem; letter-spacing: -.02em; }
+.rc-health-prices small { font-family: var(--font-body); font-size: .75rem; font-weight: 400; color: var(--h-muted); letter-spacing: 0; }
+.rc-health-prices__free strong { color: var(--h-green); }
+.rc-health__credit { display: flex; align-items: flex-start; gap: .6rem; margin: 0; font-size: .9rem; color: var(--h-muted); }
+.rc-health__credit .rc-icon { width: 18px; height: 18px; margin-top: 3px; color: var(--h-green); }
+.rc-health__credit strong { color: var(--h-ink); font-weight: 600; }
+.rc-health__scope { align-self: start; padding: 1.75rem; border: 1px solid var(--h-line); border-radius: 18px; background: var(--h-surface-strong); }
+.rc-health__scope h3 { font-size: 1.1rem; margin: 0; }
+.rc-health__scope .rc-checks { padding: 1.2rem 0 1.1rem; }
+.rc-health__scope .fine-print { margin: 0 0 1.25rem; font-size: .8125rem; }
+.rc-health__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; }
 @media (max-width: 1100px) {
     .rc-plan { padding: 1.4rem; }
     .rc-estimator { gap: 1.75rem; padding: 2rem; grid-template-columns: .8fr 1.2fr; }
@@ -175,11 +216,14 @@
     .rc-estimate-values strong { font-size: 1.6rem; }
     .rc-faq-layout { gap: 2.5rem; grid-template-columns: .65fr 1fr; }
     .rc-addons { gap: 2.5rem; }
+    .rc-health { grid-template-columns: 1fr; gap: 2rem; padding: 2rem; }
+    .rc-price-rules { gap: .9rem; }
+    .rc-price-rule { padding: 1.3rem; }
 }
 /* Phones centre every hero (theme.css), so centre the RayCare pieces with it */
 @media (max-width: 768px) {
     .rc-hero h1, .rc-hero .hero-text, .rc-hero .rc-hero__image { margin-left: auto; margin-right: auto; }
-    .rc-hero__note, .rc-jump-links { justify-content: center; }
+    .rc-hero__note, .rc-jump-links, .rc-from-line { justify-content: center; }
 }
 @media (max-width: 760px) {
     .rc-section-heading, .rc-plans-hero .rc-section-heading { grid-template-columns: 1fr; gap: 1rem; }
@@ -189,7 +233,11 @@
     .rc-service-grid, .rc-plan-grid, .rc-preview-grid { grid-template-columns: 1fr; }
     .rc-service, .rc-plan-preview { padding: 1.5rem; }
     .rc-service .rc-tile { margin-bottom: 1rem; }
-    .rc-plan-preview > strong { margin-bottom: 1rem; }
+    .rc-plan-preview__min { margin-bottom: 1rem; }
+    .rc-price-rules { grid-template-columns: 1fr; }
+    .rc-health-strip { flex-direction: column; align-items: flex-start; gap: 1rem; padding: 1.4rem; }
+    .rc-health-strip > .btn { margin-left: 0; }
+    .rc-health h2 br { display: none; }
     .rc-plan-preview h3 { font-size: 1.15rem; }
     .rc-plan { padding: 1.6rem; }
     .rc-plan h2 { font-size: 1.5rem; }
@@ -240,6 +288,10 @@
     .rc-estimate-values .rc-estimate-enquire { grid-column: 1 / -1; justify-self: start; margin-top: 0; }
     .rc-result-label { font-size: .85rem; }
     .rc-scope-note { padding: 1.25rem; gap: 1rem; flex-direction: column; }
+    .rc-health { padding: 1.4rem; border-radius: 18px; }
+    .rc-health__scope { padding: 1.25rem; }
+    .rc-health-prices li { font-size: .875rem; }
+    .rc-health__actions .btn { width: 100%; white-space: normal; }
     .rc-faq summary { padding: 1.15rem 0; }
     .raycare-page .cta .btn { white-space: normal; }
 }

@@ -35,6 +35,7 @@ function estimator(search = '', restoredCapacity) {
     const estimateContext = element();
     const totals = ['essential', 'plus', 'pro'].map(plan => element('', { 'data-raycare-total': plan }));
     const links = ['essential', 'plus', 'pro'].map(plan => element('', { 'data-raycare-plan': plan }));
+    const customNote = Object.assign(element(), { hidden: true });
     const document = {
         readyState: 'complete',
         getElementById: id => ({ 'raycare-capacity': capacity, 'raycare-capacity-error': error }[id]),
@@ -43,16 +44,17 @@ function estimator(search = '', restoredCapacity) {
             '[data-raycare-total]': totals,
             '[data-raycare-capacity-label]': [label],
             '[data-raycare-estimate-context]': [estimateContext],
-            '[data-raycare-plan]': links
+            '[data-raycare-plan]': links,
+            '[data-raycare-custom-note]': [customNote]
         }[selector] || [])
     };
     load(document, search);
-    return { capacity, error, label, estimateContext, totals, links };
+    return { capacity, error, label, estimateContext, totals, links, customNote };
 }
 
 function enquiry(search = '', restored = {}) {
     const fields = Object.fromEntries([
-        'sr-issue', 'sr-size', 'sr-raycare-plan', 'sr-raycare-fields', 'sr-raycare-note', 'sr-message'
+        'sr-issue', 'sr-size', 'sr-raycare-plan', 'sr-raycare-fields', 'sr-raycare-note', 'sr-health-check-note', 'sr-message'
     ].map(id => [id, element(restored[id] || '')]));
     const subject = element('Service Request - Ray2Volt Solar');
     const sourcePage = element('Request a Service Visit');
@@ -71,11 +73,43 @@ function enquiry(search = '', restored = {}) {
 
 const raycare = load();
 
-test('all three annual prices scale by installed DC capacity, including decimals', () => {
-    assert.deepEqual({ ...raycare.annualCosts('100') }, { essential: 40000, plus: 55000, pro: 60000 });
+test('annual prices match the owner-approved quote sheet (29 Oct 2026), all + GST', () => {
+    for (const [kwp, essential, plus, pro] of [
+        ['3', 4000, 10000, 10000], ['5', 4000, 10000, 10000], ['10', 4000, 10000, 10000],
+        ['20', 8000, 11000, 12000], ['50', 20000, 27500, 30000], ['100', 40000, 55000, 60000],
+        ['250', 100000, 137500, 150000], ['500', 190000, 261250, 285000], ['750', 270000, 371250, 405000],
+        ['1000', 350000, 481250, 525000]
+    ]) {
+        assert.deepEqual({ ...raycare.annualCosts(kwp) }, { essential, plus, pro }, kwp + ' kWp');
+    }
     assert.deepEqual({ ...raycare.annualCosts('37.5') }, { essential: 15000, plus: 20625, pro: 22500 });
-    assert.deepEqual({ ...raycare.annualCosts('.125') }, { essential: 50, plus: 68.75, pro: 75 });
-    assert.deepEqual({ ...raycare.annualCosts('0.01') }, { essential: 4, plus: 5.5, pro: 6 });
+});
+
+test('every site pays at least the plan minimum: Essential 4,000, Plus and Pro 10,000', () => {
+    assert.deepEqual({ ...raycare.annualCosts('.125') }, { essential: 4000, plus: 10000, pro: 10000 });
+    assert.deepEqual({ ...raycare.annualCosts('0.01') }, { essential: 4000, plus: 10000, pro: 10000 });
+    // The per-kWp price takes over once it passes the minimum.
+    assert.deepEqual({ ...raycare.annualCosts('10.5') }, { essential: 4200, plus: 10000, pro: 10000 });
+    assert.deepEqual({ ...raycare.annualCosts('18.5') }, { essential: 7400, plus: 10175, pro: 11100 });
+});
+
+test('large-plant discount steps like tax slabs, so a bigger plant never pays less in total', () => {
+    assert.deepEqual({ ...raycare.annualCosts('251') }, { essential: 100360, plus: 137995, pro: 150540 });
+    assert.deepEqual({ ...raycare.annualCosts('501') }, { essential: 190320, plus: 261690, pro: 285480 });
+    let previous = raycare.annualCosts('1');
+    for (let kwp = 2; kwp <= 1000; kwp++) {
+        const costs = raycare.annualCosts(String(kwp));
+        for (const plan of ['essential', 'plus', 'pro']) assert.ok(costs[plan] >= previous[plan], plan + ' at ' + kwp);
+        previous = costs;
+    }
+});
+
+test('plants above 1 MW get a custom quote instead of a number', () => {
+    for (const kwp of ['1000.01', '1200', '100000']) {
+        const costs = raycare.annualCosts(kwp);
+        assert.equal(costs.customQuote, true, kwp);
+        assert.equal(costs.essential, undefined, kwp);
+    }
 });
 
 test('empty, non-finite, malformed and out-of-range capacities never produce estimates', () => {
@@ -112,11 +146,12 @@ test('query context requires RayCare service and rejects arbitrary values', () =
 });
 
 test('estimator renders Indian currency, updates every plan and passes enquiry context', () => {
-    const page = estimator('?capacity=1250.5');
-    assert.equal(page.capacity.value, '1250.5');
-    assert.equal(page.label.textContent, '1,250.5 kWp');
-    assert.deepEqual(page.totals.map(el => el.textContent), ['₹5,00,200', '₹6,87,775', '₹7,50,300']);
+    const page = estimator('?capacity=500');
+    assert.equal(page.capacity.value, '500');
+    assert.equal(page.label.textContent, '500 kWp');
+    assert.deepEqual(page.totals.map(el => el.textContent), ['₹1,90,000', '₹2,61,250', '₹2,85,000']);
     assert.equal(page.error.hidden, true);
+    assert.equal(page.customNote.hidden, true);
     page.capacity.value = '37.5';
     page.capacity.emit('input');
     assert.deepEqual(page.totals.map(el => el.textContent), ['₹15,000', '₹20,625', '₹22,500']);
@@ -136,7 +171,19 @@ test('invalid input removes stale estimates and capacities; correcting it restor
     page.capacity.emit('input');
     assert.equal(page.capacity.getAttribute('aria-invalid'), null);
     assert.equal(page.error.hidden, true);
-    assert.deepEqual(page.totals.map(el => el.textContent), ['₹50', '₹68.75', '₹75']);
+    assert.deepEqual(page.totals.map(el => el.textContent), ['₹4,000', '₹10,000', '₹10,000']);
+});
+
+test('above 1 MW the estimator says custom quote, shows the note and still passes plant size', () => {
+    const page = estimator('?capacity=1200');
+    assert.deepEqual(page.totals.map(el => el.textContent), ['Custom quote', 'Custom quote', 'Custom quote']);
+    assert.equal(page.customNote.hidden, false);
+    assert.equal(page.label.textContent, '1,200 kWp');
+    assert.equal(page.links[2].getAttribute('href'), 'service-request.html?service=raycare&plan=pro&capacity=1200');
+    page.capacity.value = '1000';
+    page.capacity.emit('input');
+    assert.deepEqual(page.totals.map(el => el.textContent), ['₹3,50,000', '₹4,81,250', '₹5,25,000']);
+    assert.equal(page.customNote.hidden, true);
 });
 
 test('malformed incoming estimator capacity keeps the useful default without displaying an initial error', () => {
@@ -173,6 +220,25 @@ test('RayCare handoff prefills actual form controls and maintains the existing b
     assert.equal(page['sr-raycare-note'].hidden, false);
     assert.equal(page.subject.value, 'RayCare Maintenance Enquiry - Ray2Volt Solar');
     assert.equal(page.sourcePage.value, 'RayCare service enquiry');
+});
+
+test('Health Check handoff selects its own request type and backend subject, without a plan', () => {
+    const page = enquiry('?service=health-check&plan=pro&capacity=8');
+    assert.equal(page['sr-issue'].value, 'Solar Health Check');
+    assert.equal(page['sr-size'].value, '8 kWp');
+    assert.equal(page['sr-raycare-plan'].value, '');
+    assert.equal(page['sr-raycare-fields'].hidden, true);
+    assert.equal(page['sr-raycare-plan'].disabled, true);
+    assert.equal(page['sr-health-check-note'].hidden, false);
+    assert.equal(page['sr-raycare-note'].hidden, true);
+    assert.equal(page.subject.value, 'Solar Health Check Request - Ray2Volt Solar');
+    assert.equal(page.sourcePage.value, 'RayCare Solar Health Check');
+    page['sr-issue'].value = 'Warranty question';
+    page['sr-issue'].emit('change');
+    assert.equal(page['sr-health-check-note'].hidden, true);
+    assert.equal(page.subject.value, 'Service Request - Ray2Volt Solar');
+    const restored = enquiry('?service=health-check', { 'sr-issue': 'Warranty question' });
+    assert.equal(restored['sr-issue'].value, 'Warranty question');
 });
 
 test('switching request types keeps customer edits and removes RayCare plan from unrelated submissions', () => {
@@ -290,6 +356,8 @@ test('published pricing markup matches the calculator contract and stays useful 
     ]) {
         const card = html.match(new RegExp('<article\\b[^>]*id="' + plan + '"[\\s\\S]*?<\\/article>'))?.[0] || '';
         assert.ok(card.includes('₹' + rate), plan + ' static annual rate');
+        const minimum = plan === 'essential' ? '₹4,000' : '₹10,000';
+        assert.ok(card.includes('Minimum ' + minimum + ' a year per site + GST'), plan + ' static minimum fee');
         assert.ok(card.includes(visits + ' scheduled visits'), plan + ' static visit count');
         const output = html.match(new RegExp('data-raycare-total="' + plan + '"[^>]*>([^<]+)<'))?.[1];
         assert.equal(output, annual, plan + ' static 100 kWp estimate');
@@ -299,8 +367,12 @@ test('published pricing markup matches the calculator contract and stays useful 
         assert.equal(params.get('service'), 'raycare');
         assert.equal(params.get('plan'), plan, plan + ' no-JavaScript enquiry preserves the plan');
     }
+    assert.match(html, /data-raycare-custom-note hidden/);
     for (const file of ['raycare.html', 'raycare-plans.html']) {
         const page = fs.readFileSync(path.join(root, file), 'utf8');
+        // Ads quote these lines, so the landing pages must show them.
+        assert.ok(page.includes('Plans from ₹400 per kWp a year + GST'), file + ' plan price line');
+        assert.ok(page.includes('Solar Health Check from ₹999 + GST'), file + ' Health Check price line');
         assert.match(page, /<script src="script.js"><\/script>\s*<script src="raycare.js"><\/script>/);
         assert.match(page, /<link rel="stylesheet" href="raycare.css">/);
     }
@@ -448,4 +520,20 @@ test('shared required-field validation prevents incomplete RayCare enquiries fro
     assert.equal(page.fields['sr-name'].getAttribute('aria-invalid'), 'true');
     assert.equal(page.form.hidden, false);
     assert.equal(page.success.hidden, true);
+});
+
+test('Health Check block shows every price + GST, the credit rule and the shared service-request route', () => {
+    const html = fs.readFileSync(path.join(root, 'raycare.html'), 'utf8');
+    const block = html.match(/<section\b[^>]*id="health-check"[\s\S]*?<\/section>/)?.[0] || '';
+    for (const [size, price] of [['Up to 10 kWp', '₹999'], ['10–100 kWp', '₹2,999'], ['100–500 kWp', '₹4,999']]) {
+        assert.match(block, new RegExp(size + '</span><strong>' + price + ' <small>\\+ GST</small>'), size);
+    }
+    assert.match(block, /Above 500 kWp and ground-mounted plants<\/span><strong>Quoted/);
+    assert.match(block, /Existing Ray2Volt customers<\/span><strong>Free/);
+    assert.match(block, /within 30 days/);
+    assert.match(block, /not a guarantee/);
+    assert.match(block, /href="service-request.html\?service=health-check"/);
+    const form = fs.readFileSync(path.join(root, 'service-request.html'), 'utf8');
+    assert.match(form, /<option>Solar Health Check<\/option>/);
+    assert.match(form, /id="sr-health-check-note" hidden/);
 });
