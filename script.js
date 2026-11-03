@@ -86,7 +86,8 @@
 // ──────────────────────────────────────────────────────────
 // 0b. Tracking config and events (C1)
 //     Every ID and label that the site's own scripts send is in CONFIG.
-//     The gtag snippet in each page's <head> loads the same Ads and GA4 tags.
+//     Each page loads GTM-5BX8QZ4R and retains the gtag event queue.
+//     Configure the intended Ads and GA4 destinations inside that container.
 //
 //     - The Google Ads lead conversion fires only on the two campaign
 //       thank-you pages, and only for a form submitted in this session
