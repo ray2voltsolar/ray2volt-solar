@@ -94,6 +94,7 @@
 //       Direct visits and refreshes count nothing.
 //     - Secondary GA4 events: click_to_call, whatsapp_click, form_start
 //       (first interaction with each form) and generate_lead (with form_id).
+//     - A tel: click also sends the "Website call click" Ads conversion.
 //     - Newer forms never redirect to the campaign thank-you pages. They send
 //       an Ads conversion only once their label below is filled in.
 // ──────────────────────────────────────────────────────────
@@ -104,15 +105,20 @@
         leadConversion: 'AW-18014889887/9NtXCImroaYcEJ_PlY5D',
         // The WhatsApp pop-up has always reported to the same label.
         whatsappLeadConversion: 'AW-18014889887/9NtXCImroaYcEJ_PlY5D',
+        // "Website call click" (Contact goal): a tap on any tel: link.
+        // Google forwarding numbers don't exist in India, so "Calls from ads"
+        // can never count; this is the only call signal Google Ads gets.
+        callClickConversion: 'AW-18014889887/IMRuCMvvjrEdEJ_PlY5D',
         // GA4 property installed on every page (T1). '' switches the GA4 events off.
         ga4Id: 'G-WZJ1CXHSG9',
         // Google Ads labels for the newer forms. Empty on purpose: nothing goes to
         // Google Ads for a form until its label is filled in, in the form
         // 'AW-18014889887/AbCdEfGhIjKlMnOp'.
         formConversions: {
-            'business-proposal': '',
-            'bill-upload': '',
-            'power-audit': '',
+            // C&I customer leads: counted as "Website Lead", like the C&I estimate form.
+            'business-proposal': 'AW-18014889887/9NtXCImroaYcEJ_PlY5D',
+            'bill-upload': 'AW-18014889887/9NtXCImroaYcEJ_PlY5D',
+            'power-audit': 'AW-18014889887/9NtXCImroaYcEJ_PlY5D',
             'tender-rfq': '',
             'quote-check': '',
             'service-request': '',
@@ -268,6 +274,7 @@
             const href = link.getAttribute('href') || '';
             if (/^tel:/i.test(href)) {
                 sendEvent('click_to_call', { link_url: href, link_text: (link.textContent || '').trim().slice(0, 100) });
+                sendConversion(CONFIG.callClickConversion, newId('call'));
             } else if (/wa\.me\/|api\.whatsapp\.com/i.test(href) && link.hasAttribute('data-wa-direct')) {
                 sendEvent('whatsapp_click', { method: 'direct_link', link_id: link.getAttribute('data-wa-direct') || '' });
             }
