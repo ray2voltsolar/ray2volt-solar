@@ -122,7 +122,8 @@
             'power-audit': 'AW-18014889887/9NtXCImroaYcEJ_PlY5D',
             'tender-rfq': '',
             'quote-check': '',
-            'service-request': '',
+            // RayCare service requests and Health Check bookings: counted as "Website Lead".
+            'service-request': 'AW-18014889887/9NtXCImroaYcEJ_PlY5D',
             // A partner sign-up, not a customer lead: keep it out of Google Ads.
             'channel-partner': ''
         },
